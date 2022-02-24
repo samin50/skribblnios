@@ -1,0 +1,6 @@
+Using the fast processor for nios
+
+Using 8kB for buffer for jtag
+
+
+
