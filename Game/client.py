@@ -31,9 +31,9 @@ background=pygame.image.load("assets/sky_background.png")
 #background=pygame.transform.scale(background,(game.width,game.height))
 
 while run == True:
-    
+    game.display.blit(background,(400,-300))
     for event in game.events:
-        game.display.blit(background,(400,-300))
+        
         if event.type == pygame.QUIT:
             run = False
             pygame.quit()
