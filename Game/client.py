@@ -18,7 +18,7 @@ class Game():
         self.brushes = []
         self.colours = []
         self.timer = 100
-        self.background = pygame.image.load("assets/sky_background.png")
+        self.background = pygame.image.load("Game/assets/sky_background.png")
         self.brush_size = 20
 
     def redraw_window(self):
