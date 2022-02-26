@@ -3,9 +3,13 @@ import player
 import random
 class Game():
     def __init__(self,username):
+        self.run = True
         self.username = username
         self.width = 1300
-        self.height = 700
+        self.height = 800
+        self.pad_width = int(self.width/1.4)
+        self.pad_height = int(self.height/1.3)
+        self.centre = (self.width/2,self.height/2)
         self.display = pygame.display.set_mode((self.width, self.height))
         self.colours = {"black": (0, 0, 0), "white": (255, 255, 255)}
         self.clock = pygame.time.Clock()
@@ -21,37 +25,50 @@ class Game():
         print(self.colours)
         self.display.fill((255, 255, 255))
 
-    def round_start(self, x,y,size):
-        pygame.draw.circle(game.display,(0,0,0),(x,y),size)
+    def return_xy(self):
+        x = random.randint(0,game.width+100)
+        y = random.randint(0, game.height+100)
+        xy =(x,y)
+        return xy
+
+    def round_start(self):
+        game.background=pygame.transform.scale(game.background,(game.width,game.height))
+        game.redraw_window()
+        game.display.blit(game.background,(0,0))
+        canvas = pygame.Rect(self.width/2,self.height/2,self.pad_width,self.pad_height)
+        canvas.center = self.centre
+        pygame.draw.rect(game.display,(255,255,245),(canvas))
+        while self.run == True:
+            game.events = pygame.event.get()
+
+            game.clock.tick(800)
+            game.brush_size = 5 #random.randint(0,50)
+
+            #xy = self.return_xy()
+            xy = pygame.mouse.get_pos()
+            #if (((self.centre[0]-self.pad_width/2)<xy[0]>(self.centre[0]+self.pad_width/2)) or ((self.centre[1]-self.pad_height/2)<xy[1]>(self.centre[1]+self.pad_height/2))):
+            collide = canvas.collidepoint(xy)
+
+            if collide!=True:
+                xy = (-300,0)
+
+            pygame.display.update()
+
+            #pygame.draw.rect(game.display,(0,0,0),(self.height/2,100,self.pad_width,self.pad_height))
+
+            pygame.draw.circle(game.display,(50,200,50),(xy[0],xy[1]),10)
+
+            #self.display.blit(canvas)
+            #pygame.draw(self.display, (255,255,255), canvas)
+            pygame.display.update()
+            for event in game.events:
+                if event.type == pygame.QUIT:
+                    run = False
+                    pygame.quit()
+
+    def load_sprites(self):
+        None
 
 game = Game("shan")
-run = True
 pygame.display.set_caption("player")
-
-def return_x():
-    x = random.randint(0,game.width)
-    return x
-
-def return_y():
-    y = random.randint(0, game.height)
-    return y
-
-game.background=pygame.transform.scale(game.background,(game.width,game.height))
-game.redraw_window()
-game.display.blit(game.background,(0,0))
-y = 0
-x = 0
-while run == True:
-    game.events = pygame.event.get()
-
-    game.clock.tick(144)
-    game.brush_size = 5 #random.randint(0,50)
-    y +=1
-    x +=1
-    game.round_start(x,y,game.brush_size)
-    pygame.display.update()
-
-    for event in game.events:
-        if event.type == pygame.QUIT:
-            run = False
-            pygame.quit()
+game.round_start()
