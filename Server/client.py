@@ -13,8 +13,14 @@ client.connect(ADDR)
 def send(msg):
     message = msg.encode(FORMAT)
     client.send(message)
-    print("Received message: ")
     print(client.recv(2048).decode(FORMAT))
+    while(True):
+        msg = client.recv(2048).decode(FORMAT)
+        print(msg)
+        if(msg == "end"):
+            break
+
+
 
 send("55 55")
 send("100 55")
