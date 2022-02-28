@@ -4,7 +4,7 @@ import pickle
 class Client_side:
    def __init__(self): 
          self.client = socket.socket # type of connection determined by indraneel and ziyad ,# how the serevr string comes in which is also determined by indraneel and ziyad)
-         self.host = #determined by Zi and Ind in the server file.
+         self.host = 0 #determined by Zi and Ind in the server file.
          self.port = 2323
          self.p = self.connect()
          print(self.connect()) # prints that we have connected 
