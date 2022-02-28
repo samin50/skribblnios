@@ -1,6 +1,8 @@
 import pygame
 import player
 import random
+from Client_side import Client_side
+
 class Game():
     def __init__(self,username):
         self.run = True
@@ -21,6 +23,7 @@ class Game():
         self.background = pygame.image.load("Game/assets/sky_background.png")
         self.brush_size = 20
 
+
     def redraw_window(self):
         print(self.colours)
         self.display.fill((255, 255, 255))
@@ -39,16 +42,17 @@ class Game():
         canvas.center = self.centre
         pygame.draw.rect(game.display,(255,255,245),(canvas))
         while self.run == True:
+            position2 = n.sed()
             game.events = pygame.event.get()
-
             game.clock.tick(800)
             game.brush_size = 5 #random.randint(0,50)
-
             #xy = self.return_xy()
             xy = pygame.mouse.get_pos()
             #if (((self.centre[0]-self.pad_width/2)<xy[0]>(self.centre[0]+self.pad_width/2)) or ((self.centre[1]-self.pad_height/2)<xy[1]>(self.centre[1]+self.pad_height/2))):
-            collide = canvas.collidepoint(xy)
-
+            collide = canvas.collidepoint(xy) #ARYAN ADDED
+            client_section = Client_side()    #ARYAN ADDED
+            position = client_section.getposition() #ARYAN ADDED
+            pos_data_reply_from_host = client_section.send(position) #ARYAN ADDED
             if collide!=True:
                 xy = (-300,0)
 
@@ -65,6 +69,8 @@ class Game():
                 if event.type == pygame.QUIT:
                     run = False
                     pygame.quit()
+            
+            position.move() #ARYAN ADDED
 
     def load_sprites(self):
         None
