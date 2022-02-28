@@ -1,7 +1,9 @@
 import socket
-import threading
+#import threading
 import time
 import pickle
+from _thread import *
+import sys
 
 SIZE = 64
 PORT = 5050
@@ -15,9 +17,7 @@ server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server.bind(ADDR)
 
 
-def handle_client(conn, addr, player_id):
-  print(f"[NEW CONNECTION] {addr} connected.")
-
+def handle_client(conn, player):
   connected = True
   runtime = 0
 
@@ -31,7 +31,7 @@ def handle_client(conn, addr, player_id):
     if msg == DISCONNECT_MESSAGE:
       connected = False
 
-    print(f"[{addr}] {msg}")
+    print(f"{msg}")
     conn.send(str.encode("    Time is     "))
     conn.send("Msg received biatch".encode(FORMAT))
 
@@ -40,14 +40,20 @@ def handle_client(conn, addr, player_id):
 
 
 def start(player_id):
-  server.listen(2)
+  server.listen(1)
   print(f"[LISTENING] Server is listening on {SERVER}")
   while True:
     conn, addr = server.accept()
-    thread = threading.Thread(target=handle_client, args=(conn, addr, player_id))
-    thread.start()
+    print(f"[NEW CONNECTION] {addr} connected.")
+    # thread = threading.Thread(target=handle_client, args=(conn, addr, player_id))
+    # thread.start()
+    start_new_thread(handle_client, (conn, player_id))
     player_id += 1
     print(f"[ACTIVE CONNECTIONS] {player_id}")
+    # if(player_id == 1):
+    #   break
+  #server.close()
+
 
 if __name__ == '__main__':
   print("[STARTING] server is starting...")
