@@ -31,17 +31,17 @@ class Game():
         return xy
 
     def round_start(self):
-        game.background=pygame.transform.scale(game.background,(game.width,game.height))
-        game.redraw_window()
-        game.display.blit(game.background,(0,0))
+        self.background=pygame.transform.scale(self.background,(self.width,self.height))
+        self.redraw_window()
+        self.display.blit(self.background,(0,0))
         canvas = pygame.Rect(self.width/2,self.height/2,self.pad_width,self.pad_height)
         canvas.center = self.centre
-        pygame.draw.rect(game.display,(255,255,245),(canvas))
+        pygame.draw.rect(self.display,(255,255,245),(canvas))
         while self.run == True:
-            game.events = pygame.event.get()
+            self.events = pygame.event.get()
 
-            game.clock.tick(800)
-            game.brush_size = 5 #random.randint(0,50)
+            self.clock.tick(800)
+            self.brush_size = 5 #random.randint(0,50)
 
             #xy = self.return_xy()
             xy = pygame.mouse.get_pos()
@@ -54,18 +54,14 @@ class Game():
             pygame.display.update()
             #pygame.draw.rect(game.display,(0,0,0),(self.height/2,100,self.pad_width,self.pad_height))
 
-            pygame.draw.circle(game.display,(50,200,50),(xy[0],xy[1]),10)
+            pygame.draw.circle(self.display,(50,200,50),(xy[0],xy[1]),10)
             #self.display.blit(canvas)
             #pygame.draw(self.display, (255,255,255), canvas)
             pygame.display.update()
-            for event in game.events:
+            for event in self.events:
                 if event.type == pygame.QUIT:
                     run = False
                     pygame.quit()
 
     def load_sprites(self):
         None
-if __name__ == "__main__":
-    game = Game("shan")
-    pygame.display.set_caption("player")
-    game.round_start()

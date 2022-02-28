@@ -1,4 +1,5 @@
 import pygame
+from client import Game
 
 def main_menu(n,display):
     gif_track = 0
@@ -42,6 +43,12 @@ def main_menu(n,display):
                     if selected=="quit":
                         pygame.quit()
                         quit()
+
+                    if selected =="start":
+                        game = Game("shan")
+                        pygame.display.set_caption("player")
+                        game.round_start()
+
 
         font_size=32
         text_start = ""
@@ -95,34 +102,35 @@ def process_text(message, font, size, color):
     edited = new_font.render(message, 0, color)
     return edited
     
-pygame.init()
-clock = pygame.time.Clock()
+if __name__ == "__main__":
+    pygame.init()
+    clock = pygame.time.Clock()
 
-white=(205, 205, 205)
-black=(0, 0, 0)
-brown=(150,75,0)
-red=(255, 0, 0)
-yellow=(255, 255, 0)
-blue=(0, 0, 255)
-green=(0, 255, 0)
-grey=(128, 128, 128)
-turquoise = (0,255,239)
-background = pygame.image.load("Game/assets/sky_background.png")
-width = 900
-height = 550
-background=pygame.transform.scale(background,(width,height))
-display = pygame.display.set_mode((width, height))
-display.fill(white)
-clock = pygame.time.Clock()
-pygame.init()   
-music=pygame.mixer.music.load("Game/assets/music_main.wav")
-pygame.mixer.music.play(-1)
-backgrounds = []
-for i in range(100):
-    dir = f"Game/assets/backgrounds/{i}.gif"
-    img = pygame.image.load(dir)
-    img = pygame.transform.scale(img,(width,height))
-    backgrounds.append(img)
-font = "Game/assets/arcade.TTF"
-menu = True
-main_menu(0,display)
+    white=(205, 205, 205)
+    black=(0, 0, 0)
+    brown=(150,75,0)
+    red=(255, 0, 0)
+    yellow=(255, 255, 0)
+    blue=(0, 0, 255)
+    green=(0, 255, 0)
+    grey=(128, 128, 128)
+    turquoise = (0,255,239)
+    background = pygame.image.load("Game/assets/sky_background.png")
+    width = 900
+    height = 550
+    background=pygame.transform.scale(background,(width,height))
+    display = pygame.display.set_mode((width, height))
+    display.fill(white)
+    clock = pygame.time.Clock()
+    pygame.init()   
+    music=pygame.mixer.music.load("Game/assets/music_main.wav")
+    pygame.mixer.music.play(-1)
+    backgrounds = []
+    for i in range(100):
+        dir = f"Game/assets/backgrounds/{i}.gif"
+        img = pygame.image.load(dir)
+        img = pygame.transform.scale(img,(width,height))
+        backgrounds.append(img)
+    font = "Game/assets/arcade.TTF"
+    menu = True
+    main_menu(0,display)
