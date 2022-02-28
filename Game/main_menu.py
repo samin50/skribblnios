@@ -1,16 +1,22 @@
 import pygame
 
 def main_menu(n,display):
+    gif_track = 0
     menu = True
 
-    tracker=["start","Create Server","instructions","highscores","quit"]
+    tracker=["start","create_char","instructions","highscores","quit"]
     pointer=0
 
     selected="start"
     while menu:
+        if gif_track>20:
+            gif_track = 0
+        else:
+            gif_track+=1
+        
         pygame.display.update()
         display.fill(white)
-        display.blit(background,(0,0))
+        display.blit(backgrounds[gif_track],(0,0))
 
         if n>6:
             n=0
@@ -59,7 +65,7 @@ def main_menu(n,display):
         else:
             text_instructions = process_text("INSTRUCTIONS",font,font_size,black)
 
-        if selected == "Create Server":
+        if selected == "create_char":
             text_createserver = process_text("CREATE CHARACTER",font,font_size,white)
         else:
             text_createserver = process_text("CREATE CHARACTER",font,font_size,black)
@@ -79,7 +85,7 @@ def main_menu(n,display):
         display.blit(text_highscores, (pos - (highscores_rect[2]/2),200))
         display.blit(text_quit, (pos -(quit_rect[2]/2),240))
         pygame.display.update()
-        clock.tick(5)
+        clock.tick(10)
         pygame.display.set_caption("Main Menu")
     
     
@@ -92,7 +98,7 @@ def process_text(message, font, size, color):
 pygame.init()
 clock = pygame.time.Clock()
 
-white=(255, 255, 255)
+white=(205, 205, 205)
 black=(0, 0, 0)
 brown=(150,75,0)
 red=(255, 0, 0)
@@ -108,11 +114,15 @@ background=pygame.transform.scale(background,(width,height))
 display = pygame.display.set_mode((width, height))
 display.fill(white)
 clock = pygame.time.Clock()
-pygame.init()
+pygame.init()   
 music=pygame.mixer.music.load("Game/assets/music_main.wav")
 pygame.mixer.music.play(-1)
-
-n=0
+backgrounds = []
+for i in range(100):
+    dir = f"Game/assets/backgrounds/{i}.gif"
+    img = pygame.image.load(dir)
+    img = pygame.transform.scale(img,(width,height))
+    backgrounds.append(img)
 font = "Game/assets/arcade.TTF"
 menu = True
-main_menu(n,display)
+main_menu(0,display)
