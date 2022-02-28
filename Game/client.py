@@ -41,7 +41,7 @@ class Game():
         while self.run == True:
             game.events = pygame.event.get()
 
-            game.clock.tick(800)
+            game.clock.tick(15)
             game.brush_size = 5 #random.randint(0,50)
 
             #xy = self.return_xy()

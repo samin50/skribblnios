@@ -1,0 +1,172 @@
+18:07:59 **** Build of configuration Nios II for project skribblnios_sw ****
+make all 
+Info: Building ../skribblnios_sw_bsp/
+C:/intelFPGA_lite/18.0/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../skribblnios_sw_bsp/
+[BSP build complete]
+Info: Compiling skribblmain.c to obj/default/skribblmain.o
+nios2-elf-gcc -xc -MP -MMD -c -I../skribblnios_sw_bsp//HAL/inc -I../skribblnios_sw_bsp/ -I../skribblnios_sw_bsp//drivers/inc  -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall   -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global  -o obj/default/skribblmain.o skribblmain.c
+skribblmain.c: In function 'main':
+skribblmain.c:58:11: warning: passing argument 1 of 'printf' makes pointer from integer without a cast [-Wint-conversion]
+    printf(dataIn);
+           ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\stdio.h:215:5: note: expected 'const char * restrict' but argument is of type 'char'
+ int _EXFUN(printf, (const char *__restrict, ...)
+     ^
+skribblmain.c:73:47: warning: suggest parentheses around '-' inside '>>' [-Wparentheses]
+    if ((stopTime-startTime) > (INTERVALSECOND >> SAMPLING_TIME-1)) {
+                                               ^
+skribblmain.c:77:12: warning: format '%d' expects argument of type 'int', but argument 2 has type 'alt_32 {aka long int}' [-Wformat=]
+     printf("%d %d %d\n", x_read, y_read, z_read);
+            ^
+skribblmain.c:77:12: warning: format '%d' expects argument of type 'int', but argument 3 has type 'alt_32 {aka long int}' [-Wformat=]
+skribblmain.c:77:12: warning: format '%d' expects argument of type 'int', but argument 4 has type 'alt_32 {aka long int}' [-Wformat=]
+skribblmain.c:77:12: warning: format '%d' expects argument of type 'int', but argument 2 has type 'alt_32 {aka long int}' [-Wformat=]
+skribblmain.c:77:12: warning: format '%d' expects argument of type 'int', but argument 3 has type 'alt_32 {aka long int}' [-Wformat=]
+skribblmain.c:77:12: warning: format '%d' expects argument of type 'int', but argument 4 has type 'alt_32 {aka long int}' [-Wformat=]
+Info: Linking skribblnios_sw.elf
+nios2-elf-g++  -T'../skribblnios_sw_bsp//linker.x' -msys-crt0='../skribblnios_sw_bsp//obj/HAL/src/crt0.o' -msys-lib=hal_bsp -L../skribblnios_sw_bsp/   -Wl,-Map=skribblnios_sw.map   -O0 -g -Wall   -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global  -o skribblnios_sw.elf obj/default/skribblmain.o -lm -msys-lib=m
+nios2-elf-insert skribblnios_sw.elf --thread_model hal --cpu_name cpu --qsys true --simulation_enabled false --stderr_dev jtag_uart --stdin_dev jtag_uart --stdout_dev jtag_uart --sopc_system_name NIOSSystem --quartus_project_dir "C:/Users/Shaheen/Documents/InformationProcessing/PROJECT/skribblnios/FPGA" --jdi ../..//output_files/skribblnios.jdi --sopcinfo C:/Users/Shaheen/Documents/InformationProcessing/PROJECT/skribblnios/FPGA/software/skribblnios_sw_bsp/../../NIOSSystem.sopcinfo
+Info: (skribblnios_sw.elf) 72 KBytes program size (code + initialized data).
+Info:                      49 KBytes free for stack + heap.
+Info: Creating skribblnios_sw.objdump
+nios2-elf-objdump --disassemble --syms --all-header --source skribblnios_sw.elf >skribblnios_sw.objdump
+[skribblnios_sw build complete]
+18:08:20 **** Build of configuration Nios II for project skribblnios_sw ****
+make all 
+Info: Building ../skribblnios_sw_bsp/
+C:/intelFPGA_lite/18.0/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../skribblnios_sw_bsp/
+[BSP build complete]
+[skribblnios_sw build complete]
+18:08:22 **** Incremental Build of configuration Nios II for project skribblnios_sw ****
+make all 
+Info: Building ../skribblnios_sw_bsp/
+C:/intelFPGA_lite/18.0/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../skribblnios_sw_bsp/
+[BSP build complete]
+[skribblnios_sw build complete]
+18:09:56 **** Build of configuration Nios II for project skribblnios_sw ****
+make all 
+Info: Building ../skribblnios_sw_bsp/
+C:/intelFPGA_lite/18.0/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../skribblnios_sw_bsp/
+[BSP build complete]
+Info: Compiling skribblmain.c to obj/default/skribblmain.o
+nios2-elf-gcc -xc -MP -MMD -c -I../skribblnios_sw_bsp//HAL/inc -I../skribblnios_sw_bsp/ -I../skribblnios_sw_bsp//drivers/inc  -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall   -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global  -o obj/default/skribblmain.o skribblmain.c
+skribblmain.c: In function 'main':
+skribblmain.c:58:11: warning: passing argument 1 of 'printf' makes pointer from integer without a cast [-Wint-conversion]
+    printf(dataIn);
+           ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\stdio.h:215:5: note: expected 'const char * restrict' but argument is of type 'char'
+ int _EXFUN(printf, (const char *__restrict, ...)
+     ^
+skribblmain.c:73:47: warning: suggest parentheses around '-' inside '>>' [-Wparentheses]
+    if ((stopTime-startTime) > (INTERVALSECOND >> SAMPLING_TIME-1)) {
+                                               ^
+skribblmain.c:77:12: warning: format '%d' expects argument of type 'int', but argument 2 has type 'alt_32 {aka long int}' [-Wformat=]
+     printf("%d %d %d\n", x_read, y_read, z_read);
+            ^
+skribblmain.c:77:12: warning: format '%d' expects argument of type 'int', but argument 3 has type 'alt_32 {aka long int}' [-Wformat=]
+skribblmain.c:77:12: warning: format '%d' expects argument of type 'int', but argument 4 has type 'alt_32 {aka long int}' [-Wformat=]
+skribblmain.c:77:12: warning: format '%d' expects argument of type 'int', but argument 2 has type 'alt_32 {aka long int}' [-Wformat=]
+skribblmain.c:77:12: warning: format '%d' expects argument of type 'int', but argument 3 has type 'alt_32 {aka long int}' [-Wformat=]
+skribblmain.c:77:12: warning: format '%d' expects argument of type 'int', but argument 4 has type 'alt_32 {aka long int}' [-Wformat=]
+Info: Linking skribblnios_sw.elf
+nios2-elf-g++  -T'../skribblnios_sw_bsp//linker.x' -msys-crt0='../skribblnios_sw_bsp//obj/HAL/src/crt0.o' -msys-lib=hal_bsp -L../skribblnios_sw_bsp/   -Wl,-Map=skribblnios_sw.map   -O0 -g -Wall   -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global  -o skribblnios_sw.elf obj/default/skribblmain.o -lm -msys-lib=m
+nios2-elf-insert skribblnios_sw.elf --thread_model hal --cpu_name cpu --qsys true --simulation_enabled false --stderr_dev jtag_uart --stdin_dev jtag_uart --stdout_dev jtag_uart --sopc_system_name NIOSSystem --quartus_project_dir "C:/Users/Shaheen/Documents/InformationProcessing/PROJECT/skribblnios/FPGA" --jdi ../..//output_files/skribblnios.jdi --sopcinfo C:/Users/Shaheen/Documents/InformationProcessing/PROJECT/skribblnios/FPGA/software/skribblnios_sw_bsp/../../NIOSSystem.sopcinfo
+Info: (skribblnios_sw.elf) 72 KBytes program size (code + initialized data).
+Info:                      49 KBytes free for stack + heap.
+Info: Creating skribblnios_sw.objdump
+nios2-elf-objdump --disassemble --syms --all-header --source skribblnios_sw.elf >skribblnios_sw.objdump
+[skribblnios_sw build complete]
+18:10:02 **** Incremental Build of configuration Nios II for project skribblnios_sw ****
+make all 
+Info: Building ../skribblnios_sw_bsp/
+C:/intelFPGA_lite/18.0/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../skribblnios_sw_bsp/
+[BSP build complete]
+[skribblnios_sw build complete]
+18:11:14 **** Build of configuration Nios II for project skribblnios_sw ****
+make all 
+Info: Building ../skribblnios_sw_bsp/
+C:/intelFPGA_lite/18.0/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../skribblnios_sw_bsp/
+[BSP build complete]
+Info: Compiling skribblmain.c to obj/default/skribblmain.o
+nios2-elf-gcc -xc -MP -MMD -c -I../skribblnios_sw_bsp//HAL/inc -I../skribblnios_sw_bsp/ -I../skribblnios_sw_bsp//drivers/inc  -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall   -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global  -o obj/default/skribblmain.o skribblmain.c
+skribblmain.c: In function 'main':
+skribblmain.c:73:47: warning: suggest parentheses around '-' inside '>>' [-Wparentheses]
+    if ((stopTime-startTime) > (INTERVALSECOND >> SAMPLING_TIME-1)) {
+                                               ^
+skribblmain.c:77:12: warning: format '%d' expects argument of type 'int', but argument 2 has type 'alt_32 {aka long int}' [-Wformat=]
+     printf("%d %d %d\n", x_read, y_read, z_read);
+            ^
+skribblmain.c:77:12: warning: format '%d' expects argument of type 'int', but argument 3 has type 'alt_32 {aka long int}' [-Wformat=]
+skribblmain.c:77:12: warning: format '%d' expects argument of type 'int', but argument 4 has type 'alt_32 {aka long int}' [-Wformat=]
+skribblmain.c:77:12: warning: format '%d' expects argument of type 'int', but argument 2 has type 'alt_32 {aka long int}' [-Wformat=]
+skribblmain.c:77:12: warning: format '%d' expects argument of type 'int', but argument 3 has type 'alt_32 {aka long int}' [-Wformat=]
+skribblmain.c:77:12: warning: format '%d' expects argument of type 'int', but argument 4 has type 'alt_32 {aka long int}' [-Wformat=]
+Info: Linking skribblnios_sw.elf
+nios2-elf-g++  -T'../skribblnios_sw_bsp//linker.x' -msys-crt0='../skribblnios_sw_bsp//obj/HAL/src/crt0.o' -msys-lib=hal_bsp -L../skribblnios_sw_bsp/   -Wl,-Map=skribblnios_sw.map   -O0 -g -Wall   -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global  -o skribblnios_sw.elf obj/default/skribblmain.o -lm -msys-lib=m
+nios2-elf-insert skribblnios_sw.elf --thread_model hal --cpu_name cpu --qsys true --simulation_enabled false --stderr_dev jtag_uart --stdin_dev jtag_uart --stdout_dev jtag_uart --sopc_system_name NIOSSystem --quartus_project_dir "C:/Users/Shaheen/Documents/InformationProcessing/PROJECT/skribblnios/FPGA" --jdi ../..//output_files/skribblnios.jdi --sopcinfo C:/Users/Shaheen/Documents/InformationProcessing/PROJECT/skribblnios/FPGA/software/skribblnios_sw_bsp/../../NIOSSystem.sopcinfo
+Info: (skribblnios_sw.elf) 72 KBytes program size (code + initialized data).
+Info:                      49 KBytes free for stack + heap.
+Info: Creating skribblnios_sw.objdump
+nios2-elf-objdump --disassemble --syms --all-header --source skribblnios_sw.elf >skribblnios_sw.objdump
+[skribblnios_sw build complete]
+18:11:17 **** Incremental Build of configuration Nios II for project skribblnios_sw ****
+make all 
+Info: Building ../skribblnios_sw_bsp/
+C:/intelFPGA_lite/18.0/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../skribblnios_sw_bsp/
+[BSP build complete]
+[skribblnios_sw build complete]
+18:11:42 **** Build of configuration Nios II for project skribblnios_sw ****
+make all 
+Info: Building ../skribblnios_sw_bsp/
+C:/intelFPGA_lite/18.0/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../skribblnios_sw_bsp/
+[BSP build complete]
+Info: Compiling skribblmain.c to obj/default/skribblmain.o
+nios2-elf-gcc -xc -MP -MMD -c -I../skribblnios_sw_bsp//HAL/inc -I../skribblnios_sw_bsp/ -I../skribblnios_sw_bsp//drivers/inc  -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall   -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global  -o obj/default/skribblmain.o skribblmain.c
+skribblmain.c: In function 'main':
+skribblmain.c:73:47: warning: suggest parentheses around '-' inside '>>' [-Wparentheses]
+    if ((stopTime-startTime) > (INTERVALSECOND >> SAMPLING_TIME-1)) {
+                                               ^
+skribblmain.c:77:12: warning: format '%d' expects argument of type 'int', but argument 2 has type 'alt_32 {aka long int}' [-Wformat=]
+     printf("%d %d %d\n", x_read, y_read, z_read);
+            ^
+skribblmain.c:77:12: warning: format '%d' expects argument of type 'int', but argument 3 has type 'alt_32 {aka long int}' [-Wformat=]
+skribblmain.c:77:12: warning: format '%d' expects argument of type 'int', but argument 4 has type 'alt_32 {aka long int}' [-Wformat=]
+skribblmain.c:77:12: warning: format '%d' expects argument of type 'int', but argument 2 has type 'alt_32 {aka long int}' [-Wformat=]
+skribblmain.c:77:12: warning: format '%d' expects argument of type 'int', but argument 3 has type 'alt_32 {aka long int}' [-Wformat=]
+skribblmain.c:77:12: warning: format '%d' expects argument of type 'int', but argument 4 has type 'alt_32 {aka long int}' [-Wformat=]
+Info: Linking skribblnios_sw.elf
+nios2-elf-g++  -T'../skribblnios_sw_bsp//linker.x' -msys-crt0='../skribblnios_sw_bsp//obj/HAL/src/crt0.o' -msys-lib=hal_bsp -L../skribblnios_sw_bsp/   -Wl,-Map=skribblnios_sw.map   -O0 -g -Wall   -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global  -o skribblnios_sw.elf obj/default/skribblmain.o -lm -msys-lib=m
+nios2-elf-insert skribblnios_sw.elf --thread_model hal --cpu_name cpu --qsys true --simulation_enabled false --stderr_dev jtag_uart --stdin_dev jtag_uart --stdout_dev jtag_uart --sopc_system_name NIOSSystem --quartus_project_dir "C:/Users/Shaheen/Documents/InformationProcessing/PROJECT/skribblnios/FPGA" --jdi ../..//output_files/skribblnios.jdi --sopcinfo C:/Users/Shaheen/Documents/InformationProcessing/PROJECT/skribblnios/FPGA/software/skribblnios_sw_bsp/../../NIOSSystem.sopcinfo
+Info: (skribblnios_sw.elf) 72 KBytes program size (code + initialized data).
+Info:                      49 KBytes free for stack + heap.
+Info: Creating skribblnios_sw.objdump
+nios2-elf-objdump --disassemble --syms --all-header --source skribblnios_sw.elf >skribblnios_sw.objdump
+[skribblnios_sw build complete]
+18:11:45 **** Incremental Build of configuration Nios II for project skribblnios_sw ****
+make all 
+Info: Building ../skribblnios_sw_bsp/
+C:/intelFPGA_lite/18.0/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../skribblnios_sw_bsp/
+[BSP build complete]
+[skribblnios_sw build complete]
+18:13:54 **** Build of configuration Nios II for project skribblnios_sw ****
+make all 
+Info: Building ../skribblnios_sw_bsp/
+C:/intelFPGA_lite/18.0/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../skribblnios_sw_bsp/
+[BSP build complete]
+[skribblnios_sw build complete]
+18:13:55 **** Incremental Build of configuration Nios II for project skribblnios_sw ****
+make all 
+Info: Building ../skribblnios_sw_bsp/
+C:/intelFPGA_lite/18.0/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../skribblnios_sw_bsp/
+[BSP build complete]
+[skribblnios_sw build complete]
