@@ -10,7 +10,7 @@ module NIOSSystem_cpu (
 		input  wire        clk,                                 //                       clk.clk
 		input  wire        reset_n,                             //                     reset.reset_n
 		input  wire        reset_req,                           //                          .reset_req
-		output wire [17:0] d_address,                           //               data_master.address
+		output wire [18:0] d_address,                           //               data_master.address
 		output wire [3:0]  d_byteenable,                        //                          .byteenable
 		output wire        d_read,                              //                          .read
 		input  wire [31:0] d_readdata,                          //                          .readdata
@@ -19,7 +19,7 @@ module NIOSSystem_cpu (
 		output wire [31:0] d_writedata,                         //                          .writedata
 		input  wire        d_readdatavalid,                     //                          .readdatavalid
 		output wire        debug_mem_slave_debugaccess_to_roms, //                          .debugaccess
-		output wire [17:0] i_address,                           //        instruction_master.address
+		output wire [18:0] i_address,                           //        instruction_master.address
 		output wire        i_read,                              //                          .read
 		input  wire [31:0] i_readdata,                          //                          .readdata
 		input  wire        i_waitrequest,                       //                          .waitrequest

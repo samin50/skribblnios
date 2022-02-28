@@ -28,7 +28,7 @@
 // ------------------------------------------
 // Generation parameters:
 //   output_name:         NIOSSystem_mm_interconnect_0_cmd_demux_001
-//   ST_DATA_W:           96
+//   ST_DATA_W:           97
 //   ST_CHANNEL_W:        14
 //   NUM_OUTPUTS:         2
 //   VALID_WIDTH:         14
@@ -46,7 +46,7 @@ module NIOSSystem_mm_interconnect_0_cmd_demux_001
     // Sink
     // -------------------
     input  [14-1      : 0]   sink_valid,
-    input  [96-1    : 0]   sink_data, // ST_DATA_W=96
+    input  [97-1    : 0]   sink_data, // ST_DATA_W=97
     input  [14-1 : 0]   sink_channel, // ST_CHANNEL_W=14
     input                         sink_startofpacket,
     input                         sink_endofpacket,
@@ -56,14 +56,14 @@ module NIOSSystem_mm_interconnect_0_cmd_demux_001
     // Sources 
     // -------------------
     output reg                      src0_valid,
-    output reg [96-1    : 0] src0_data, // ST_DATA_W=96
+    output reg [97-1    : 0] src0_data, // ST_DATA_W=97
     output reg [14-1 : 0] src0_channel, // ST_CHANNEL_W=14
     output reg                      src0_startofpacket,
     output reg                      src0_endofpacket,
     input                           src0_ready,
 
     output reg                      src1_valid,
-    output reg [96-1    : 0] src1_data, // ST_DATA_W=96
+    output reg [97-1    : 0] src1_data, // ST_DATA_W=97
     output reg [14-1 : 0] src1_channel, // ST_CHANNEL_W=14
     output reg                      src1_startofpacket,
     output reg                      src1_endofpacket,

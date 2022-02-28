@@ -24,7 +24,7 @@ module NIOSSystem (
 	wire  [31:0] cpu_data_master_readdata;                                                            // mm_interconnect_0:cpu_data_master_readdata -> cpu:d_readdata
 	wire         cpu_data_master_waitrequest;                                                         // mm_interconnect_0:cpu_data_master_waitrequest -> cpu:d_waitrequest
 	wire         cpu_data_master_debugaccess;                                                         // cpu:debug_mem_slave_debugaccess_to_roms -> mm_interconnect_0:cpu_data_master_debugaccess
-	wire  [17:0] cpu_data_master_address;                                                             // cpu:d_address -> mm_interconnect_0:cpu_data_master_address
+	wire  [18:0] cpu_data_master_address;                                                             // cpu:d_address -> mm_interconnect_0:cpu_data_master_address
 	wire   [3:0] cpu_data_master_byteenable;                                                          // cpu:d_byteenable -> mm_interconnect_0:cpu_data_master_byteenable
 	wire         cpu_data_master_read;                                                                // cpu:d_read -> mm_interconnect_0:cpu_data_master_read
 	wire         cpu_data_master_readdatavalid;                                                       // mm_interconnect_0:cpu_data_master_readdatavalid -> cpu:d_readdatavalid
@@ -32,7 +32,7 @@ module NIOSSystem (
 	wire  [31:0] cpu_data_master_writedata;                                                           // cpu:d_writedata -> mm_interconnect_0:cpu_data_master_writedata
 	wire  [31:0] cpu_instruction_master_readdata;                                                     // mm_interconnect_0:cpu_instruction_master_readdata -> cpu:i_readdata
 	wire         cpu_instruction_master_waitrequest;                                                  // mm_interconnect_0:cpu_instruction_master_waitrequest -> cpu:i_waitrequest
-	wire  [17:0] cpu_instruction_master_address;                                                      // cpu:i_address -> mm_interconnect_0:cpu_instruction_master_address
+	wire  [18:0] cpu_instruction_master_address;                                                      // cpu:i_address -> mm_interconnect_0:cpu_instruction_master_address
 	wire         cpu_instruction_master_read;                                                         // cpu:i_read -> mm_interconnect_0:cpu_instruction_master_read
 	wire         cpu_instruction_master_readdatavalid;                                                // mm_interconnect_0:cpu_instruction_master_readdatavalid -> cpu:i_readdatavalid
 	wire   [7:0] mm_interconnect_0_accelerometer_spi_avalon_accelerometer_spi_mode_slave_readdata;    // accelerometer_spi:readdata -> mm_interconnect_0:accelerometer_spi_avalon_accelerometer_spi_mode_slave_readdata
@@ -57,13 +57,6 @@ module NIOSSystem (
 	wire   [3:0] mm_interconnect_0_cpu_debug_mem_slave_byteenable;                                    // mm_interconnect_0:cpu_debug_mem_slave_byteenable -> cpu:debug_mem_slave_byteenable
 	wire         mm_interconnect_0_cpu_debug_mem_slave_write;                                         // mm_interconnect_0:cpu_debug_mem_slave_write -> cpu:debug_mem_slave_write
 	wire  [31:0] mm_interconnect_0_cpu_debug_mem_slave_writedata;                                     // mm_interconnect_0:cpu_debug_mem_slave_writedata -> cpu:debug_mem_slave_writedata
-	wire         mm_interconnect_0_onchip_memory_s1_chipselect;                                       // mm_interconnect_0:onchip_memory_s1_chipselect -> onchip_memory:chipselect
-	wire  [31:0] mm_interconnect_0_onchip_memory_s1_readdata;                                         // onchip_memory:readdata -> mm_interconnect_0:onchip_memory_s1_readdata
-	wire  [13:0] mm_interconnect_0_onchip_memory_s1_address;                                          // mm_interconnect_0:onchip_memory_s1_address -> onchip_memory:address
-	wire   [3:0] mm_interconnect_0_onchip_memory_s1_byteenable;                                       // mm_interconnect_0:onchip_memory_s1_byteenable -> onchip_memory:byteenable
-	wire         mm_interconnect_0_onchip_memory_s1_write;                                            // mm_interconnect_0:onchip_memory_s1_write -> onchip_memory:write
-	wire  [31:0] mm_interconnect_0_onchip_memory_s1_writedata;                                        // mm_interconnect_0:onchip_memory_s1_writedata -> onchip_memory:writedata
-	wire         mm_interconnect_0_onchip_memory_s1_clken;                                            // mm_interconnect_0:onchip_memory_s1_clken -> onchip_memory:clken
 	wire         mm_interconnect_0_led_s1_chipselect;                                                 // mm_interconnect_0:led_s1_chipselect -> led:chipselect
 	wire  [31:0] mm_interconnect_0_led_s1_readdata;                                                   // led:readdata -> mm_interconnect_0:led_s1_readdata
 	wire   [1:0] mm_interconnect_0_led_s1_address;                                                    // mm_interconnect_0:led_s1_address -> led:address
@@ -108,6 +101,13 @@ module NIOSSystem (
 	wire   [1:0] mm_interconnect_0_button_s1_address;                                                 // mm_interconnect_0:button_s1_address -> button:address
 	wire  [31:0] mm_interconnect_0_switch_s1_readdata;                                                // switch:readdata -> mm_interconnect_0:switch_s1_readdata
 	wire   [1:0] mm_interconnect_0_switch_s1_address;                                                 // mm_interconnect_0:switch_s1_address -> switch:address
+	wire         mm_interconnect_0_onchip_memory_s1_chipselect;                                       // mm_interconnect_0:onchip_memory_s1_chipselect -> onchip_memory:chipselect
+	wire  [31:0] mm_interconnect_0_onchip_memory_s1_readdata;                                         // onchip_memory:readdata -> mm_interconnect_0:onchip_memory_s1_readdata
+	wire  [14:0] mm_interconnect_0_onchip_memory_s1_address;                                          // mm_interconnect_0:onchip_memory_s1_address -> onchip_memory:address
+	wire   [3:0] mm_interconnect_0_onchip_memory_s1_byteenable;                                       // mm_interconnect_0:onchip_memory_s1_byteenable -> onchip_memory:byteenable
+	wire         mm_interconnect_0_onchip_memory_s1_write;                                            // mm_interconnect_0:onchip_memory_s1_write -> onchip_memory:write
+	wire  [31:0] mm_interconnect_0_onchip_memory_s1_writedata;                                        // mm_interconnect_0:onchip_memory_s1_writedata -> onchip_memory:writedata
+	wire         mm_interconnect_0_onchip_memory_s1_clken;                                            // mm_interconnect_0:onchip_memory_s1_clken -> onchip_memory:clken
 	wire         irq_mapper_receiver0_irq;                                                            // accelerometer_spi:irq -> irq_mapper:receiver0_irq
 	wire         irq_mapper_receiver1_irq;                                                            // jtag_uart:av_irq -> irq_mapper:receiver1_irq
 	wire         irq_mapper_receiver2_irq;                                                            // timer:irq -> irq_mapper:receiver2_irq
