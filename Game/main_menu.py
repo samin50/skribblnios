@@ -1,128 +1,71 @@
 import pygame
 
-def menu(start):
+def main_menu(n,display):
+    menu = True
 
-    pygame.init()
+    tracker=["start","Create Server","instructions","highscores","quit"]
+    pointer=0
 
-    width = 900
-    height = 550
-    display = pygame.display.set_mode((width, height))
-    clock = pygame.time.Clock()
-    background = pygame.image.load("Game/assets/sky_background.png")
+    selected="start"
+    while menu:
+        pygame.display.update()
+        display.fill(white)
+        display.blit(background,(0,0))
 
-    white=(255, 255, 255)
-    black=(0, 0, 0)
-    brown=(150,75,0)
-    red=(255, 0, 0)
-    yellow=(255, 255, 0)
-    blue=(0, 0, 255)
-    green=(0, 255, 0)
-    grey=(128, 128, 128)
-    turquoise = (0,255,239)
+        if n>6:
+            n=0
+        else:
+            n+=1
+        for event in pygame.event.get():
+            if event.type==pygame.QUIT:
+                pygame.quit()
+                quit()
+            if event.type==pygame.KEYDOWN:
+                if event.key==pygame.K_UP:
+                    selected="start"
+                    if pointer>0:
+                        pointer-=1
+                    selected=tracker[pointer]
 
-    music=pygame.mixer.music.load("Game/assets/music_main.wav")
-    pygame.mixer.music.play(-1)
+                if event.key==pygame.K_DOWN:
+                    if pointer<4:
+                        pointer+=1
+                    selected=tracker[pointer]
 
-    n=0
-    font = "Game/assets/arcade.TTF"
-    
+                if event.key==pygame.K_RETURN:
+                    if selected=="quit":
+                        pygame.quit()
+                        quit()
 
-    def main_menu(n,start):
+        font_size=32
+        text_start = ""
 
+        if selected=="start":
+            text_start=process_text("JOIN GAME", font, font_size, white)
+        else:
+            text_start = process_text("JOIN GAME", font, font_size, black)
+        if selected=="quit":
+            text_quit=process_text("QUIT", font, font_size, white)
+        else:
+            text_quit = process_text("QUIT", font, font_size, black)
+        if selected == "highscores":
+            text_highscores=process_text("HIGHSCORES", font, font_size, white)
 
-        tracker=["start","Create Server","instructions","highscores","quit"]
-        pointer=0
+        else:
+            text_highscores =process_text("HIGHSCORES", font, font_size, black)
 
-        menu=True
-        selected="start"
-        while menu:
-            if n>6:
-                n=0
-            else:
-                n+=1
-            for event in pygame.event.get():
-                if event.type==pygame.QUIT:
-                    pygame.quit()
-                    quit()
-                if event.type==pygame.KEYDOWN:
-                    if event.key==pygame.K_UP:
-                        selected="start"
-                        if pointer>0:
-                            pointer-=1
-                        selected=tracker[pointer]
+        if selected =="instructions":
+            text_instructions = process_text("INSTRUCTIONS",font,font_size,white)
+        else:
+            text_instructions = process_text("INSTRUCTIONS",font,font_size,black)
 
-                    if event.key==pygame.K_DOWN:
-                        if pointer<4:
-                            pointer+=1
-                        selected=tracker[pointer]
-
-                    if event.key==pygame.K_RETURN:
-                        if selected=="quit":
-                            pygame.quit()
-                            quit()
-                        #if selected =="start":
-                            #result=server_screen(server_address)
-                            #if result != None:
-                                #return [True,result]
-
-                        #if selected == "highscores":
-                            #start_new_thread(run_table,())
-
-                        '''if selected =="Create Server":
-                            name = run_textbox(display,"ENTER  SERVER  NAME")
-                            time_limit = run_textbox(display, "ENTER  MATCH  TIME ")
-                            while True:
-                                try:
-                                    print(int(time_limit))
-                                except:
-                                    time_limit = run_textbox(display, "ENTER  INTEGERS  ONLY ")
-                                else:
-                                    break
-
-                            if server_started == False:
-                                server_started = True
-                                start_new_thread(run,(name,int(time_limit)))
-                            else:
-                                text_font = pygame.font.Font(font, 50)
-                                message = "SERVER  ALREADY  STARTED"
-                                text = text_font.render(message, 0, white)
-                                display.fill(black)
-                                display.blit(text,(200,275))
-                                pygame.display.update()
-                                time.sleep(2)
-                                print("Server already started")'''
-
-            display.fill(white)
-            display.blit(background,(0,0))
-            
-            font_size=32
-
-            if selected=="start":
-                text_start=process_text("JOIN GAME", font, font_size, white)
-            else:
-                text_start = process_text("JOIN GAME", font, font_size, yellow)
-            if selected=="quit":
-                text_quit=process_text("QUIT", font, font_size, white)
-            else:
-                text_quit = process_text("QUIT", font, font_size, yellow)
-            if selected == "highscores":
-                text_highscores=process_text("HIGHSCORES", font, font_size, white)
-
-            else:
-                text_highscores =process_text("HIGHSCORES", font, font_size, yellow)
-
-            if selected =="instructions":
-                text_instructions = process_text("INSTRUCTIONS",font,font_size,white)
-            else:
-                text_instructions = process_text("INSTRUCTIONS",font,font_size,yellow)
-
-            if selected == "Create Server":
-                text_createserver = process_text("HOST MATCH",font,font_size,white)
-            else:
-                text_createserver = process_text("HOST MATCH",font,font_size,yellow)
+        if selected == "Create Server":
+            text_createserver = process_text("CREATE CHARACTER",font,font_size,white)
+        else:
+            text_createserver = process_text("CREATE CHARACTER",font,font_size,black)
 
 
-        #title_rect=title.get_rect()
+    #title_rect=title.get_rect()
         start_rect=text_start.get_rect()
         quit_rect=text_quit.get_rect()
         highscores_rect=text_highscores.get_rect()
@@ -138,15 +81,38 @@ def menu(start):
         pygame.display.update()
         clock.tick(5)
         pygame.display.set_caption("Main Menu")
-        
-    def process_text(message, font, size, color):
-        new_font = pygame.font.Font(font, size)
-        edited = new_font.render(message, 0, color)
-        return edited
+    
+    
 
+def process_text(message, font, size, color):
+    new_font = pygame.font.Font(font, size)
+    edited = new_font.render(message, 0, color)
+    return edited
+    
+pygame.init()
+clock = pygame.time.Clock()
 
+white=(255, 255, 255)
+black=(0, 0, 0)
+brown=(150,75,0)
+red=(255, 0, 0)
+yellow=(255, 255, 0)
+blue=(0, 0, 255)
+green=(0, 255, 0)
+grey=(128, 128, 128)
+turquoise = (0,255,239)
+background = pygame.image.load("Game/assets/sky_background.png")
+width = 900
+height = 550
+background=pygame.transform.scale(background,(width,height))
+display = pygame.display.set_mode((width, height))
+display.fill(white)
+clock = pygame.time.Clock()
+pygame.init()
+music=pygame.mixer.music.load("Game/assets/music_main.wav")
+pygame.mixer.music.play(-1)
 
-
-    main_menu(n,start)
-    pygame.quit()
-menu(True)
+n=0
+font = "Game/assets/arcade.TTF"
+menu = True
+main_menu(n,display)
