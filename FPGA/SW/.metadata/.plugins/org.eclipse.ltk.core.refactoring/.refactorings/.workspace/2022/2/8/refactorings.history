@@ -1,0 +1,3 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">&#x0A;<refactoring comment="Delete resource &apos;skribblnios_sw/skribblnios_sw.elf&apos;" deleteContents="false" description="Delete resource &apos;skribblnios_sw/skribblnios_sw.elf&apos;" element1="/skribblnios_sw/skribblnios_sw.elf" flags="7" id="org.eclipse.ltk.core.refactoring.delete.resources" resources="1" stamp="1645842032864"/>&#x0A;<refactoring comment="Delete resource &apos;skribblnios_sw/oldaccel.c&apos;" deleteContents="false" description="Delete resource &apos;skribblnios_sw/oldaccel.c&apos;" element1="/skribblnios_sw/oldaccel.c" flags="7" id="org.eclipse.ltk.core.refactoring.delete.resources" resources="1" stamp="1645844546688"/>
+</session>
