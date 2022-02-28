@@ -54,3 +54,17 @@ if __name__ == '__main__':
 
 # To select player, randomly choose a number from 1-5 and put in the code to 
 # match with the player id
+
+
+# Code for broadcasting message to all clients
+my_clients = [] 
+def addclientsthread(sock): 
+    global my_clients
+    conn, addr = sock.accept()
+    my_clients += [conn]
+    print('Client connected on ' + addr[0])
+    start_new_thread(clientthread, (conn,))
+
+def sendallclients(message): 
+    for client in my_clients : 
+        client.send(message)
