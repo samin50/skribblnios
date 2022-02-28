@@ -1,6 +1,7 @@
 import socket
 import threading
 import time
+import pickle
 
 SIZE = 64
 PORT = 5050
@@ -43,7 +44,7 @@ def start(player_id):
   print(f"[LISTENING] Server is listening on {SERVER}")
   while True:
     conn, addr = server.accept()
-    thread = threading.Thread(target=handle_client, args=(conn, addr))
+    thread = threading.Thread(target=handle_client, args=(conn, addr, player_id))
     thread.start()
     player_id += 1
     print(f"[ACTIVE CONNECTIONS] {player_id}")
@@ -56,15 +57,16 @@ if __name__ == '__main__':
 # match with the player id
 
 
-# Code for broadcasting message to all clients
-my_clients = [] 
-def addclientsthread(sock): 
-    global my_clients
-    conn, addr = sock.accept()
-    my_clients += [conn]
-    print('Client connected on ' + addr[0])
-    start_new_thread(clientthread, (conn,))
 
-def sendallclients(message): 
-    for client in my_clients : 
-        client.send(message)
+# Code for broadcasting message to all clients
+# my_clients = [] 
+# def addclientsthread(sock): 
+#     global my_clients
+#     conn, addr = sock.accept()
+#     my_clients += [conn]
+#     print('Client connected on ' + addr[0])
+#     start_new_thread(clientthread, (conn,))
+
+# def sendallclients(message): 
+#     for client in my_clients : 
+#         client.send(message)
