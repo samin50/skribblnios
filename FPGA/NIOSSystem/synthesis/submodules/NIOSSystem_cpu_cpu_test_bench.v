@@ -21,7 +21,7 @@
 module NIOSSystem_cpu_cpu_test_bench (
                                        // inputs:
                                         A_cmp_result,
-                                        A_ctrl_ld_non_bypass,
+                                        A_ctrl_ld_non_io,
                                         A_en,
                                         A_exc_active_no_break_no_crst,
                                         A_exc_allowed,
@@ -44,6 +44,7 @@ module NIOSSystem_cpu_cpu_test_bench (
                                         W_badaddr_reg,
                                         W_bstatus_reg,
                                         W_dst_regnum,
+                                        W_dst_regset,
                                         W_estatus_reg,
                                         W_exception_reg,
                                         W_iw,
@@ -58,7 +59,6 @@ module NIOSSystem_cpu_cpu_test_bench (
                                         d_address,
                                         d_byteenable,
                                         d_read,
-                                        d_readdatavalid,
                                         d_write,
                                         i_address,
                                         i_read,
@@ -82,7 +82,7 @@ module NIOSSystem_cpu_cpu_test_bench (
   output           M_bht_wr_en_filtered;
   output           test_has_ended;
   input            A_cmp_result;
-  input            A_ctrl_ld_non_bypass;
+  input            A_ctrl_ld_non_io;
   input            A_en;
   input            A_exc_active_no_break_no_crst;
   input            A_exc_allowed;
@@ -99,37 +99,37 @@ module NIOSSystem_cpu_cpu_test_bench (
   input   [  7: 0] M_bht_ptr_unfiltered;
   input   [  1: 0] M_bht_wr_data_unfiltered;
   input            M_bht_wr_en_unfiltered;
-  input   [ 18: 0] M_mem_baddr;
-  input   [ 18: 0] M_target_pcb;
+  input   [ 27: 0] M_mem_baddr;
+  input   [ 27: 0] M_target_pcb;
   input            M_valid;
   input   [ 31: 0] W_badaddr_reg;
   input   [ 31: 0] W_bstatus_reg;
   input   [  4: 0] W_dst_regnum;
+  input   [  5: 0] W_dst_regset;
   input   [ 31: 0] W_estatus_reg;
   input   [ 31: 0] W_exception_reg;
   input   [ 31: 0] W_iw;
   input   [  5: 0] W_iw_op;
   input   [  5: 0] W_iw_opx;
-  input   [ 18: 0] W_pcb;
+  input   [ 27: 0] W_pcb;
   input   [ 31: 0] W_status_reg;
   input            W_valid;
   input   [ 71: 0] W_vinst;
   input            W_wr_dst_reg;
   input            clk;
-  input   [ 18: 0] d_address;
+  input   [ 27: 0] d_address;
   input   [  3: 0] d_byteenable;
   input            d_read;
-  input            d_readdatavalid;
   input            d_write;
-  input   [ 18: 0] i_address;
+  input   [ 27: 0] i_address;
   input            i_read;
   input            i_readdatavalid;
   input            reset_n;
 
 
 wire             A_iw_invalid;
-reg     [ 18: 0] A_mem_baddr;
-reg     [ 18: 0] A_target_pcb;
+reg     [ 27: 0] A_mem_baddr;
+reg     [ 27: 0] A_target_pcb;
 wire    [ 31: 0] A_wr_data_filtered;
 wire             A_wr_data_unfiltered_0_is_x;
 wire             A_wr_data_unfiltered_10_is_x;
@@ -312,7 +312,7 @@ wire             W_op_xor;
 wire             W_op_xorhi;
 wire             W_op_xori;
 reg     [ 31: 0] W_st_data;
-reg     [ 18: 0] W_target_pcb;
+reg     [ 27: 0] W_target_pcb;
 reg              W_valid_crst;
 reg              W_valid_hbreak;
 reg              W_valid_intr;
@@ -562,69 +562,69 @@ wire             test_has_ended;
   //Clearing 'X' data bits
   assign A_wr_data_unfiltered_0_is_x = ^(A_wr_data_unfiltered[0]) === 1'bx;
 
-  assign A_wr_data_filtered[0] = (A_wr_data_unfiltered_0_is_x & (A_ctrl_ld_non_bypass)) ? 1'b0 : A_wr_data_unfiltered[0];
+  assign A_wr_data_filtered[0] = (A_wr_data_unfiltered_0_is_x & (A_ctrl_ld_non_io)) ? 1'b0 : A_wr_data_unfiltered[0];
   assign A_wr_data_unfiltered_1_is_x = ^(A_wr_data_unfiltered[1]) === 1'bx;
-  assign A_wr_data_filtered[1] = (A_wr_data_unfiltered_1_is_x & (A_ctrl_ld_non_bypass)) ? 1'b0 : A_wr_data_unfiltered[1];
+  assign A_wr_data_filtered[1] = (A_wr_data_unfiltered_1_is_x & (A_ctrl_ld_non_io)) ? 1'b0 : A_wr_data_unfiltered[1];
   assign A_wr_data_unfiltered_2_is_x = ^(A_wr_data_unfiltered[2]) === 1'bx;
-  assign A_wr_data_filtered[2] = (A_wr_data_unfiltered_2_is_x & (A_ctrl_ld_non_bypass)) ? 1'b0 : A_wr_data_unfiltered[2];
+  assign A_wr_data_filtered[2] = (A_wr_data_unfiltered_2_is_x & (A_ctrl_ld_non_io)) ? 1'b0 : A_wr_data_unfiltered[2];
   assign A_wr_data_unfiltered_3_is_x = ^(A_wr_data_unfiltered[3]) === 1'bx;
-  assign A_wr_data_filtered[3] = (A_wr_data_unfiltered_3_is_x & (A_ctrl_ld_non_bypass)) ? 1'b0 : A_wr_data_unfiltered[3];
+  assign A_wr_data_filtered[3] = (A_wr_data_unfiltered_3_is_x & (A_ctrl_ld_non_io)) ? 1'b0 : A_wr_data_unfiltered[3];
   assign A_wr_data_unfiltered_4_is_x = ^(A_wr_data_unfiltered[4]) === 1'bx;
-  assign A_wr_data_filtered[4] = (A_wr_data_unfiltered_4_is_x & (A_ctrl_ld_non_bypass)) ? 1'b0 : A_wr_data_unfiltered[4];
+  assign A_wr_data_filtered[4] = (A_wr_data_unfiltered_4_is_x & (A_ctrl_ld_non_io)) ? 1'b0 : A_wr_data_unfiltered[4];
   assign A_wr_data_unfiltered_5_is_x = ^(A_wr_data_unfiltered[5]) === 1'bx;
-  assign A_wr_data_filtered[5] = (A_wr_data_unfiltered_5_is_x & (A_ctrl_ld_non_bypass)) ? 1'b0 : A_wr_data_unfiltered[5];
+  assign A_wr_data_filtered[5] = (A_wr_data_unfiltered_5_is_x & (A_ctrl_ld_non_io)) ? 1'b0 : A_wr_data_unfiltered[5];
   assign A_wr_data_unfiltered_6_is_x = ^(A_wr_data_unfiltered[6]) === 1'bx;
-  assign A_wr_data_filtered[6] = (A_wr_data_unfiltered_6_is_x & (A_ctrl_ld_non_bypass)) ? 1'b0 : A_wr_data_unfiltered[6];
+  assign A_wr_data_filtered[6] = (A_wr_data_unfiltered_6_is_x & (A_ctrl_ld_non_io)) ? 1'b0 : A_wr_data_unfiltered[6];
   assign A_wr_data_unfiltered_7_is_x = ^(A_wr_data_unfiltered[7]) === 1'bx;
-  assign A_wr_data_filtered[7] = (A_wr_data_unfiltered_7_is_x & (A_ctrl_ld_non_bypass)) ? 1'b0 : A_wr_data_unfiltered[7];
+  assign A_wr_data_filtered[7] = (A_wr_data_unfiltered_7_is_x & (A_ctrl_ld_non_io)) ? 1'b0 : A_wr_data_unfiltered[7];
   assign A_wr_data_unfiltered_8_is_x = ^(A_wr_data_unfiltered[8]) === 1'bx;
-  assign A_wr_data_filtered[8] = (A_wr_data_unfiltered_8_is_x & (A_ctrl_ld_non_bypass)) ? 1'b0 : A_wr_data_unfiltered[8];
+  assign A_wr_data_filtered[8] = (A_wr_data_unfiltered_8_is_x & (A_ctrl_ld_non_io)) ? 1'b0 : A_wr_data_unfiltered[8];
   assign A_wr_data_unfiltered_9_is_x = ^(A_wr_data_unfiltered[9]) === 1'bx;
-  assign A_wr_data_filtered[9] = (A_wr_data_unfiltered_9_is_x & (A_ctrl_ld_non_bypass)) ? 1'b0 : A_wr_data_unfiltered[9];
+  assign A_wr_data_filtered[9] = (A_wr_data_unfiltered_9_is_x & (A_ctrl_ld_non_io)) ? 1'b0 : A_wr_data_unfiltered[9];
   assign A_wr_data_unfiltered_10_is_x = ^(A_wr_data_unfiltered[10]) === 1'bx;
-  assign A_wr_data_filtered[10] = (A_wr_data_unfiltered_10_is_x & (A_ctrl_ld_non_bypass)) ? 1'b0 : A_wr_data_unfiltered[10];
+  assign A_wr_data_filtered[10] = (A_wr_data_unfiltered_10_is_x & (A_ctrl_ld_non_io)) ? 1'b0 : A_wr_data_unfiltered[10];
   assign A_wr_data_unfiltered_11_is_x = ^(A_wr_data_unfiltered[11]) === 1'bx;
-  assign A_wr_data_filtered[11] = (A_wr_data_unfiltered_11_is_x & (A_ctrl_ld_non_bypass)) ? 1'b0 : A_wr_data_unfiltered[11];
+  assign A_wr_data_filtered[11] = (A_wr_data_unfiltered_11_is_x & (A_ctrl_ld_non_io)) ? 1'b0 : A_wr_data_unfiltered[11];
   assign A_wr_data_unfiltered_12_is_x = ^(A_wr_data_unfiltered[12]) === 1'bx;
-  assign A_wr_data_filtered[12] = (A_wr_data_unfiltered_12_is_x & (A_ctrl_ld_non_bypass)) ? 1'b0 : A_wr_data_unfiltered[12];
+  assign A_wr_data_filtered[12] = (A_wr_data_unfiltered_12_is_x & (A_ctrl_ld_non_io)) ? 1'b0 : A_wr_data_unfiltered[12];
   assign A_wr_data_unfiltered_13_is_x = ^(A_wr_data_unfiltered[13]) === 1'bx;
-  assign A_wr_data_filtered[13] = (A_wr_data_unfiltered_13_is_x & (A_ctrl_ld_non_bypass)) ? 1'b0 : A_wr_data_unfiltered[13];
+  assign A_wr_data_filtered[13] = (A_wr_data_unfiltered_13_is_x & (A_ctrl_ld_non_io)) ? 1'b0 : A_wr_data_unfiltered[13];
   assign A_wr_data_unfiltered_14_is_x = ^(A_wr_data_unfiltered[14]) === 1'bx;
-  assign A_wr_data_filtered[14] = (A_wr_data_unfiltered_14_is_x & (A_ctrl_ld_non_bypass)) ? 1'b0 : A_wr_data_unfiltered[14];
+  assign A_wr_data_filtered[14] = (A_wr_data_unfiltered_14_is_x & (A_ctrl_ld_non_io)) ? 1'b0 : A_wr_data_unfiltered[14];
   assign A_wr_data_unfiltered_15_is_x = ^(A_wr_data_unfiltered[15]) === 1'bx;
-  assign A_wr_data_filtered[15] = (A_wr_data_unfiltered_15_is_x & (A_ctrl_ld_non_bypass)) ? 1'b0 : A_wr_data_unfiltered[15];
+  assign A_wr_data_filtered[15] = (A_wr_data_unfiltered_15_is_x & (A_ctrl_ld_non_io)) ? 1'b0 : A_wr_data_unfiltered[15];
   assign A_wr_data_unfiltered_16_is_x = ^(A_wr_data_unfiltered[16]) === 1'bx;
-  assign A_wr_data_filtered[16] = (A_wr_data_unfiltered_16_is_x & (A_ctrl_ld_non_bypass)) ? 1'b0 : A_wr_data_unfiltered[16];
+  assign A_wr_data_filtered[16] = (A_wr_data_unfiltered_16_is_x & (A_ctrl_ld_non_io)) ? 1'b0 : A_wr_data_unfiltered[16];
   assign A_wr_data_unfiltered_17_is_x = ^(A_wr_data_unfiltered[17]) === 1'bx;
-  assign A_wr_data_filtered[17] = (A_wr_data_unfiltered_17_is_x & (A_ctrl_ld_non_bypass)) ? 1'b0 : A_wr_data_unfiltered[17];
+  assign A_wr_data_filtered[17] = (A_wr_data_unfiltered_17_is_x & (A_ctrl_ld_non_io)) ? 1'b0 : A_wr_data_unfiltered[17];
   assign A_wr_data_unfiltered_18_is_x = ^(A_wr_data_unfiltered[18]) === 1'bx;
-  assign A_wr_data_filtered[18] = (A_wr_data_unfiltered_18_is_x & (A_ctrl_ld_non_bypass)) ? 1'b0 : A_wr_data_unfiltered[18];
+  assign A_wr_data_filtered[18] = (A_wr_data_unfiltered_18_is_x & (A_ctrl_ld_non_io)) ? 1'b0 : A_wr_data_unfiltered[18];
   assign A_wr_data_unfiltered_19_is_x = ^(A_wr_data_unfiltered[19]) === 1'bx;
-  assign A_wr_data_filtered[19] = (A_wr_data_unfiltered_19_is_x & (A_ctrl_ld_non_bypass)) ? 1'b0 : A_wr_data_unfiltered[19];
+  assign A_wr_data_filtered[19] = (A_wr_data_unfiltered_19_is_x & (A_ctrl_ld_non_io)) ? 1'b0 : A_wr_data_unfiltered[19];
   assign A_wr_data_unfiltered_20_is_x = ^(A_wr_data_unfiltered[20]) === 1'bx;
-  assign A_wr_data_filtered[20] = (A_wr_data_unfiltered_20_is_x & (A_ctrl_ld_non_bypass)) ? 1'b0 : A_wr_data_unfiltered[20];
+  assign A_wr_data_filtered[20] = (A_wr_data_unfiltered_20_is_x & (A_ctrl_ld_non_io)) ? 1'b0 : A_wr_data_unfiltered[20];
   assign A_wr_data_unfiltered_21_is_x = ^(A_wr_data_unfiltered[21]) === 1'bx;
-  assign A_wr_data_filtered[21] = (A_wr_data_unfiltered_21_is_x & (A_ctrl_ld_non_bypass)) ? 1'b0 : A_wr_data_unfiltered[21];
+  assign A_wr_data_filtered[21] = (A_wr_data_unfiltered_21_is_x & (A_ctrl_ld_non_io)) ? 1'b0 : A_wr_data_unfiltered[21];
   assign A_wr_data_unfiltered_22_is_x = ^(A_wr_data_unfiltered[22]) === 1'bx;
-  assign A_wr_data_filtered[22] = (A_wr_data_unfiltered_22_is_x & (A_ctrl_ld_non_bypass)) ? 1'b0 : A_wr_data_unfiltered[22];
+  assign A_wr_data_filtered[22] = (A_wr_data_unfiltered_22_is_x & (A_ctrl_ld_non_io)) ? 1'b0 : A_wr_data_unfiltered[22];
   assign A_wr_data_unfiltered_23_is_x = ^(A_wr_data_unfiltered[23]) === 1'bx;
-  assign A_wr_data_filtered[23] = (A_wr_data_unfiltered_23_is_x & (A_ctrl_ld_non_bypass)) ? 1'b0 : A_wr_data_unfiltered[23];
+  assign A_wr_data_filtered[23] = (A_wr_data_unfiltered_23_is_x & (A_ctrl_ld_non_io)) ? 1'b0 : A_wr_data_unfiltered[23];
   assign A_wr_data_unfiltered_24_is_x = ^(A_wr_data_unfiltered[24]) === 1'bx;
-  assign A_wr_data_filtered[24] = (A_wr_data_unfiltered_24_is_x & (A_ctrl_ld_non_bypass)) ? 1'b0 : A_wr_data_unfiltered[24];
+  assign A_wr_data_filtered[24] = (A_wr_data_unfiltered_24_is_x & (A_ctrl_ld_non_io)) ? 1'b0 : A_wr_data_unfiltered[24];
   assign A_wr_data_unfiltered_25_is_x = ^(A_wr_data_unfiltered[25]) === 1'bx;
-  assign A_wr_data_filtered[25] = (A_wr_data_unfiltered_25_is_x & (A_ctrl_ld_non_bypass)) ? 1'b0 : A_wr_data_unfiltered[25];
+  assign A_wr_data_filtered[25] = (A_wr_data_unfiltered_25_is_x & (A_ctrl_ld_non_io)) ? 1'b0 : A_wr_data_unfiltered[25];
   assign A_wr_data_unfiltered_26_is_x = ^(A_wr_data_unfiltered[26]) === 1'bx;
-  assign A_wr_data_filtered[26] = (A_wr_data_unfiltered_26_is_x & (A_ctrl_ld_non_bypass)) ? 1'b0 : A_wr_data_unfiltered[26];
+  assign A_wr_data_filtered[26] = (A_wr_data_unfiltered_26_is_x & (A_ctrl_ld_non_io)) ? 1'b0 : A_wr_data_unfiltered[26];
   assign A_wr_data_unfiltered_27_is_x = ^(A_wr_data_unfiltered[27]) === 1'bx;
-  assign A_wr_data_filtered[27] = (A_wr_data_unfiltered_27_is_x & (A_ctrl_ld_non_bypass)) ? 1'b0 : A_wr_data_unfiltered[27];
+  assign A_wr_data_filtered[27] = (A_wr_data_unfiltered_27_is_x & (A_ctrl_ld_non_io)) ? 1'b0 : A_wr_data_unfiltered[27];
   assign A_wr_data_unfiltered_28_is_x = ^(A_wr_data_unfiltered[28]) === 1'bx;
-  assign A_wr_data_filtered[28] = (A_wr_data_unfiltered_28_is_x & (A_ctrl_ld_non_bypass)) ? 1'b0 : A_wr_data_unfiltered[28];
+  assign A_wr_data_filtered[28] = (A_wr_data_unfiltered_28_is_x & (A_ctrl_ld_non_io)) ? 1'b0 : A_wr_data_unfiltered[28];
   assign A_wr_data_unfiltered_29_is_x = ^(A_wr_data_unfiltered[29]) === 1'bx;
-  assign A_wr_data_filtered[29] = (A_wr_data_unfiltered_29_is_x & (A_ctrl_ld_non_bypass)) ? 1'b0 : A_wr_data_unfiltered[29];
+  assign A_wr_data_filtered[29] = (A_wr_data_unfiltered_29_is_x & (A_ctrl_ld_non_io)) ? 1'b0 : A_wr_data_unfiltered[29];
   assign A_wr_data_unfiltered_30_is_x = ^(A_wr_data_unfiltered[30]) === 1'bx;
-  assign A_wr_data_filtered[30] = (A_wr_data_unfiltered_30_is_x & (A_ctrl_ld_non_bypass)) ? 1'b0 : A_wr_data_unfiltered[30];
+  assign A_wr_data_filtered[30] = (A_wr_data_unfiltered_30_is_x & (A_ctrl_ld_non_io)) ? 1'b0 : A_wr_data_unfiltered[30];
   assign A_wr_data_unfiltered_31_is_x = ^(A_wr_data_unfiltered[31]) === 1'bx;
-  assign A_wr_data_filtered[31] = (A_wr_data_unfiltered_31_is_x & (A_ctrl_ld_non_bypass)) ? 1'b0 : A_wr_data_unfiltered[31];
+  assign A_wr_data_filtered[31] = (A_wr_data_unfiltered_31_is_x & (A_ctrl_ld_non_io)) ? 1'b0 : A_wr_data_unfiltered[31];
   //Clearing 'X' data bits
   assign E_add_br_to_taken_history_unfiltered_is_x = ^(E_add_br_to_taken_history_unfiltered) === 1'bx;
 
@@ -727,6 +727,20 @@ wire             test_has_ended;
           if (^(A_en) === 1'bx)
             begin
               $write("%0d ns: ERROR: NIOSSystem_cpu_cpu_test_bench/A_en is 'x'\n", $time);
+              $stop;
+            end
+    end
+
+
+  always @(posedge clk or negedge reset_n)
+    begin
+      if (reset_n == 0)
+        begin
+        end
+      else if (W_wr_dst_reg)
+          if (^(W_dst_regset) === 1'bx)
+            begin
+              $write("%0d ns: ERROR: NIOSSystem_cpu_cpu_test_bench/W_dst_regset is 'x'\n", $time);
               $stop;
             end
     end
@@ -914,17 +928,6 @@ wire             test_has_ended;
           if (^(i_readdatavalid) === 1'bx)
             begin
               $write("%0d ns: ERROR: NIOSSystem_cpu_cpu_test_bench/i_readdatavalid is 'x'\n", $time);
-              $stop;
-            end
-    end
-
-
-  always @(posedge clk)
-    begin
-      if (reset_n)
-          if (^(d_readdatavalid) === 1'bx)
-            begin
-              $write("%0d ns: ERROR: NIOSSystem_cpu_cpu_test_bench/d_readdatavalid is 'x'\n", $time);
               $stop;
             end
     end

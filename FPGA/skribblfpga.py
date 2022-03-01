@@ -1,4 +1,3 @@
-#import concurrent.futures
 import threading
 import intel_jtag_uart
 

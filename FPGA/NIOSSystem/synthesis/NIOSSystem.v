@@ -4,35 +4,45 @@
 
 `timescale 1 ps / 1 ps
 module NIOSSystem (
-		inout  wire       accelerometer_spi_external_interface_I2C_SDAT,      // accelerometer_spi_external_interface.I2C_SDAT
-		output wire       accelerometer_spi_external_interface_I2C_SCLK,      //                                     .I2C_SCLK
-		output wire       accelerometer_spi_external_interface_G_SENSOR_CS_N, //                                     .G_SENSOR_CS_N
-		input  wire       accelerometer_spi_external_interface_G_SENSOR_INT,  //                                     .G_SENSOR_INT
-		input  wire [3:0] button_external_connection_export,                  //           button_external_connection.export
-		input  wire       clk_clk,                                            //                                  clk.clk
-		output wire [6:0] hex0_external_connection_export,                    //             hex0_external_connection.export
-		output wire [6:0] hex1_external_connection_export,                    //             hex1_external_connection.export
-		output wire [6:0] hex2_external_connection_export,                    //             hex2_external_connection.export
-		output wire [6:0] hex3_external_connection_export,                    //             hex3_external_connection.export
-		output wire [6:0] hex4_external_connection_export,                    //             hex4_external_connection.export
-		output wire [6:0] hex5_external_connection_export,                    //             hex5_external_connection.export
-		output wire [9:0] led_external_connection_export,                     //              led_external_connection.export
-		input  wire [9:0] switch_external_connection_export                   //           switch_external_connection.export
+		inout  wire        accelerometer_spi_external_interface_I2C_SDAT,      // accelerometer_spi_external_interface.I2C_SDAT
+		output wire        accelerometer_spi_external_interface_I2C_SCLK,      //                                     .I2C_SCLK
+		output wire        accelerometer_spi_external_interface_G_SENSOR_CS_N, //                                     .G_SENSOR_CS_N
+		input  wire        accelerometer_spi_external_interface_G_SENSOR_INT,  //                                     .G_SENSOR_INT
+		input  wire [1:0]  button_external_connection_export,                  //           button_external_connection.export
+		input  wire        clk_clk,                                            //                                  clk.clk
+		output wire        clk_sdram_clk,                                      //                            clk_sdram.clk
+		output wire [6:0]  hex0_external_connection_export,                    //             hex0_external_connection.export
+		output wire [6:0]  hex1_external_connection_export,                    //             hex1_external_connection.export
+		output wire [6:0]  hex2_external_connection_export,                    //             hex2_external_connection.export
+		output wire [6:0]  hex3_external_connection_export,                    //             hex3_external_connection.export
+		output wire [6:0]  hex4_external_connection_export,                    //             hex4_external_connection.export
+		output wire [6:0]  hex5_external_connection_export,                    //             hex5_external_connection.export
+		output wire [9:0]  led_external_connection_export,                     //              led_external_connection.export
+		input  wire        reset_reset_n,                                      //                                reset.reset_n
+		output wire [12:0] sdram_wire_addr,                                    //                           sdram_wire.addr
+		output wire [1:0]  sdram_wire_ba,                                      //                                     .ba
+		output wire        sdram_wire_cas_n,                                   //                                     .cas_n
+		output wire        sdram_wire_cke,                                     //                                     .cke
+		output wire        sdram_wire_cs_n,                                    //                                     .cs_n
+		inout  wire [15:0] sdram_wire_dq,                                      //                                     .dq
+		output wire [1:0]  sdram_wire_dqm,                                     //                                     .dqm
+		output wire        sdram_wire_ras_n,                                   //                                     .ras_n
+		output wire        sdram_wire_we_n,                                    //                                     .we_n
+		input  wire [9:0]  switch_external_connection_export                   //           switch_external_connection.export
 	);
 
-	wire         cpu_debug_reset_request_reset;                                                       // cpu:debug_reset_request -> [rst_controller:reset_in0, rst_controller_001:reset_in0, rst_controller_001:reset_in1]
+	wire         altpll_0_c0_clk;                                                                     // altpll_0:c0 -> [accelerometer_spi:clk, button:clk, cpu:clk, hex0:clk, hex1:clk, hex2:clk, hex3:clk, hex4:clk, hex5:clk, irq_mapper:clk, jtag_uart:clk, led:clk, mm_interconnect_0:altpll_0_c0_clk, rst_controller:clk, sdram:clk, switch:clk, timer:clk]
 	wire  [31:0] cpu_data_master_readdata;                                                            // mm_interconnect_0:cpu_data_master_readdata -> cpu:d_readdata
 	wire         cpu_data_master_waitrequest;                                                         // mm_interconnect_0:cpu_data_master_waitrequest -> cpu:d_waitrequest
 	wire         cpu_data_master_debugaccess;                                                         // cpu:debug_mem_slave_debugaccess_to_roms -> mm_interconnect_0:cpu_data_master_debugaccess
-	wire  [18:0] cpu_data_master_address;                                                             // cpu:d_address -> mm_interconnect_0:cpu_data_master_address
+	wire  [27:0] cpu_data_master_address;                                                             // cpu:d_address -> mm_interconnect_0:cpu_data_master_address
 	wire   [3:0] cpu_data_master_byteenable;                                                          // cpu:d_byteenable -> mm_interconnect_0:cpu_data_master_byteenable
 	wire         cpu_data_master_read;                                                                // cpu:d_read -> mm_interconnect_0:cpu_data_master_read
-	wire         cpu_data_master_readdatavalid;                                                       // mm_interconnect_0:cpu_data_master_readdatavalid -> cpu:d_readdatavalid
 	wire         cpu_data_master_write;                                                               // cpu:d_write -> mm_interconnect_0:cpu_data_master_write
 	wire  [31:0] cpu_data_master_writedata;                                                           // cpu:d_writedata -> mm_interconnect_0:cpu_data_master_writedata
 	wire  [31:0] cpu_instruction_master_readdata;                                                     // mm_interconnect_0:cpu_instruction_master_readdata -> cpu:i_readdata
 	wire         cpu_instruction_master_waitrequest;                                                  // mm_interconnect_0:cpu_instruction_master_waitrequest -> cpu:i_waitrequest
-	wire  [18:0] cpu_instruction_master_address;                                                      // cpu:i_address -> mm_interconnect_0:cpu_instruction_master_address
+	wire  [27:0] cpu_instruction_master_address;                                                      // cpu:i_address -> mm_interconnect_0:cpu_instruction_master_address
 	wire         cpu_instruction_master_read;                                                         // cpu:i_read -> mm_interconnect_0:cpu_instruction_master_read
 	wire         cpu_instruction_master_readdatavalid;                                                // mm_interconnect_0:cpu_instruction_master_readdatavalid -> cpu:i_readdatavalid
 	wire   [7:0] mm_interconnect_0_accelerometer_spi_avalon_accelerometer_spi_mode_slave_readdata;    // accelerometer_spi:readdata -> mm_interconnect_0:accelerometer_spi_avalon_accelerometer_spi_mode_slave_readdata
@@ -57,11 +67,25 @@ module NIOSSystem (
 	wire   [3:0] mm_interconnect_0_cpu_debug_mem_slave_byteenable;                                    // mm_interconnect_0:cpu_debug_mem_slave_byteenable -> cpu:debug_mem_slave_byteenable
 	wire         mm_interconnect_0_cpu_debug_mem_slave_write;                                         // mm_interconnect_0:cpu_debug_mem_slave_write -> cpu:debug_mem_slave_write
 	wire  [31:0] mm_interconnect_0_cpu_debug_mem_slave_writedata;                                     // mm_interconnect_0:cpu_debug_mem_slave_writedata -> cpu:debug_mem_slave_writedata
+	wire  [31:0] mm_interconnect_0_altpll_0_pll_slave_readdata;                                       // altpll_0:readdata -> mm_interconnect_0:altpll_0_pll_slave_readdata
+	wire   [1:0] mm_interconnect_0_altpll_0_pll_slave_address;                                        // mm_interconnect_0:altpll_0_pll_slave_address -> altpll_0:address
+	wire         mm_interconnect_0_altpll_0_pll_slave_read;                                           // mm_interconnect_0:altpll_0_pll_slave_read -> altpll_0:read
+	wire         mm_interconnect_0_altpll_0_pll_slave_write;                                          // mm_interconnect_0:altpll_0_pll_slave_write -> altpll_0:write
+	wire  [31:0] mm_interconnect_0_altpll_0_pll_slave_writedata;                                      // mm_interconnect_0:altpll_0_pll_slave_writedata -> altpll_0:writedata
 	wire         mm_interconnect_0_led_s1_chipselect;                                                 // mm_interconnect_0:led_s1_chipselect -> led:chipselect
 	wire  [31:0] mm_interconnect_0_led_s1_readdata;                                                   // led:readdata -> mm_interconnect_0:led_s1_readdata
 	wire   [1:0] mm_interconnect_0_led_s1_address;                                                    // mm_interconnect_0:led_s1_address -> led:address
 	wire         mm_interconnect_0_led_s1_write;                                                      // mm_interconnect_0:led_s1_write -> led:write_n
 	wire  [31:0] mm_interconnect_0_led_s1_writedata;                                                  // mm_interconnect_0:led_s1_writedata -> led:writedata
+	wire         mm_interconnect_0_sdram_s1_chipselect;                                               // mm_interconnect_0:sdram_s1_chipselect -> sdram:az_cs
+	wire  [15:0] mm_interconnect_0_sdram_s1_readdata;                                                 // sdram:za_data -> mm_interconnect_0:sdram_s1_readdata
+	wire         mm_interconnect_0_sdram_s1_waitrequest;                                              // sdram:za_waitrequest -> mm_interconnect_0:sdram_s1_waitrequest
+	wire  [24:0] mm_interconnect_0_sdram_s1_address;                                                  // mm_interconnect_0:sdram_s1_address -> sdram:az_addr
+	wire         mm_interconnect_0_sdram_s1_read;                                                     // mm_interconnect_0:sdram_s1_read -> sdram:az_rd_n
+	wire   [1:0] mm_interconnect_0_sdram_s1_byteenable;                                               // mm_interconnect_0:sdram_s1_byteenable -> sdram:az_be_n
+	wire         mm_interconnect_0_sdram_s1_readdatavalid;                                            // sdram:za_valid -> mm_interconnect_0:sdram_s1_readdatavalid
+	wire         mm_interconnect_0_sdram_s1_write;                                                    // mm_interconnect_0:sdram_s1_write -> sdram:az_wr_n
+	wire  [15:0] mm_interconnect_0_sdram_s1_writedata;                                                // mm_interconnect_0:sdram_s1_writedata -> sdram:az_data
 	wire         mm_interconnect_0_timer_s1_chipselect;                                               // mm_interconnect_0:timer_s1_chipselect -> timer:chipselect
 	wire  [15:0] mm_interconnect_0_timer_s1_readdata;                                                 // timer:readdata -> mm_interconnect_0:timer_s1_readdata
 	wire   [2:0] mm_interconnect_0_timer_s1_address;                                                  // mm_interconnect_0:timer_s1_address -> timer:address
@@ -101,24 +125,16 @@ module NIOSSystem (
 	wire   [1:0] mm_interconnect_0_button_s1_address;                                                 // mm_interconnect_0:button_s1_address -> button:address
 	wire  [31:0] mm_interconnect_0_switch_s1_readdata;                                                // switch:readdata -> mm_interconnect_0:switch_s1_readdata
 	wire   [1:0] mm_interconnect_0_switch_s1_address;                                                 // mm_interconnect_0:switch_s1_address -> switch:address
-	wire         mm_interconnect_0_onchip_memory_s1_chipselect;                                       // mm_interconnect_0:onchip_memory_s1_chipselect -> onchip_memory:chipselect
-	wire  [31:0] mm_interconnect_0_onchip_memory_s1_readdata;                                         // onchip_memory:readdata -> mm_interconnect_0:onchip_memory_s1_readdata
-	wire  [14:0] mm_interconnect_0_onchip_memory_s1_address;                                          // mm_interconnect_0:onchip_memory_s1_address -> onchip_memory:address
-	wire   [3:0] mm_interconnect_0_onchip_memory_s1_byteenable;                                       // mm_interconnect_0:onchip_memory_s1_byteenable -> onchip_memory:byteenable
-	wire         mm_interconnect_0_onchip_memory_s1_write;                                            // mm_interconnect_0:onchip_memory_s1_write -> onchip_memory:write
-	wire  [31:0] mm_interconnect_0_onchip_memory_s1_writedata;                                        // mm_interconnect_0:onchip_memory_s1_writedata -> onchip_memory:writedata
-	wire         mm_interconnect_0_onchip_memory_s1_clken;                                            // mm_interconnect_0:onchip_memory_s1_clken -> onchip_memory:clken
 	wire         irq_mapper_receiver0_irq;                                                            // accelerometer_spi:irq -> irq_mapper:receiver0_irq
-	wire         irq_mapper_receiver1_irq;                                                            // jtag_uart:av_irq -> irq_mapper:receiver1_irq
-	wire         irq_mapper_receiver2_irq;                                                            // timer:irq -> irq_mapper:receiver2_irq
+	wire         irq_mapper_receiver1_irq;                                                            // timer:irq -> irq_mapper:receiver1_irq
+	wire         irq_mapper_receiver2_irq;                                                            // jtag_uart:av_irq -> irq_mapper:receiver2_irq
 	wire  [31:0] cpu_irq_irq;                                                                         // irq_mapper:sender_irq -> cpu:irq
-	wire         rst_controller_reset_out_reset;                                                      // rst_controller:reset_out -> [accelerometer_spi:reset, button:reset_n, hex0:reset_n, hex1:reset_n, hex2:reset_n, hex3:reset_n, hex4:reset_n, hex5:reset_n, jtag_uart:rst_n, led:reset_n, mm_interconnect_0:accelerometer_spi_reset_reset_bridge_in_reset_reset, onchip_memory:reset, rst_translator:in_reset, switch:reset_n, timer:reset_n]
-	wire         rst_controller_reset_out_reset_req;                                                  // rst_controller:reset_req -> [onchip_memory:reset_req, rst_translator:reset_req_in]
-	wire         rst_controller_001_reset_out_reset;                                                  // rst_controller_001:reset_out -> [cpu:reset_n, irq_mapper:reset, mm_interconnect_0:cpu_reset_reset_bridge_in_reset_reset]
-	wire         rst_controller_001_reset_out_reset_req;                                              // rst_controller_001:reset_req -> [cpu:reset_req, rst_translator_001:reset_req_in]
+	wire         rst_controller_reset_out_reset;                                                      // rst_controller:reset_out -> [accelerometer_spi:reset, button:reset_n, cpu:reset_n, hex0:reset_n, hex1:reset_n, hex2:reset_n, hex3:reset_n, hex4:reset_n, hex5:reset_n, irq_mapper:reset, jtag_uart:rst_n, led:reset_n, mm_interconnect_0:cpu_reset_reset_bridge_in_reset_reset, rst_translator:in_reset, sdram:reset_n, switch:reset_n, timer:reset_n]
+	wire         rst_controller_reset_out_reset_req;                                                  // rst_controller:reset_req -> [cpu:reset_req, rst_translator:reset_req_in]
+	wire         rst_controller_001_reset_out_reset;                                                  // rst_controller_001:reset_out -> [altpll_0:reset, mm_interconnect_0:altpll_0_inclk_interface_reset_reset_bridge_in_reset_reset]
 
 	NIOSSystem_accelerometer_spi accelerometer_spi (
-		.clk           (clk_clk),                                                                             //                                 clk.clk
+		.clk           (altpll_0_c0_clk),                                                                     //                                 clk.clk
 		.reset         (rst_controller_reset_out_reset),                                                      //                               reset.reset
 		.address       (mm_interconnect_0_accelerometer_spi_avalon_accelerometer_spi_mode_slave_address),     // avalon_accelerometer_spi_mode_slave.address
 		.byteenable    (mm_interconnect_0_accelerometer_spi_avalon_accelerometer_spi_mode_slave_byteenable),  //                                    .byteenable
@@ -134,8 +150,35 @@ module NIOSSystem (
 		.G_SENSOR_INT  (accelerometer_spi_external_interface_G_SENSOR_INT)                                    //                                    .export
 	);
 
+	NIOSSystem_altpll_0 altpll_0 (
+		.clk                (clk_clk),                                        //       inclk_interface.clk
+		.reset              (rst_controller_001_reset_out_reset),             // inclk_interface_reset.reset
+		.read               (mm_interconnect_0_altpll_0_pll_slave_read),      //             pll_slave.read
+		.write              (mm_interconnect_0_altpll_0_pll_slave_write),     //                      .write
+		.address            (mm_interconnect_0_altpll_0_pll_slave_address),   //                      .address
+		.readdata           (mm_interconnect_0_altpll_0_pll_slave_readdata),  //                      .readdata
+		.writedata          (mm_interconnect_0_altpll_0_pll_slave_writedata), //                      .writedata
+		.c0                 (altpll_0_c0_clk),                                //                    c0.clk
+		.c1                 (clk_sdram_clk),                                  //                    c1.clk
+		.scandone           (),                                               //           (terminated)
+		.scandataout        (),                                               //           (terminated)
+		.c2                 (),                                               //           (terminated)
+		.c3                 (),                                               //           (terminated)
+		.c4                 (),                                               //           (terminated)
+		.areset             (1'b0),                                           //           (terminated)
+		.locked             (),                                               //           (terminated)
+		.phasedone          (),                                               //           (terminated)
+		.phasecounterselect (3'b000),                                         //           (terminated)
+		.phaseupdown        (1'b0),                                           //           (terminated)
+		.phasestep          (1'b0),                                           //           (terminated)
+		.scanclk            (1'b0),                                           //           (terminated)
+		.scanclkena         (1'b0),                                           //           (terminated)
+		.scandata           (1'b0),                                           //           (terminated)
+		.configupdate       (1'b0)                                            //           (terminated)
+	);
+
 	NIOSSystem_button button (
-		.clk      (clk_clk),                              //                 clk.clk
+		.clk      (altpll_0_c0_clk),                      //                 clk.clk
 		.reset_n  (~rst_controller_reset_out_reset),      //               reset.reset_n
 		.address  (mm_interconnect_0_button_s1_address),  //                  s1.address
 		.readdata (mm_interconnect_0_button_s1_readdata), //                    .readdata
@@ -143,9 +186,9 @@ module NIOSSystem (
 	);
 
 	NIOSSystem_cpu cpu (
-		.clk                                 (clk_clk),                                           //                       clk.clk
-		.reset_n                             (~rst_controller_001_reset_out_reset),               //                     reset.reset_n
-		.reset_req                           (rst_controller_001_reset_out_reset_req),            //                          .reset_req
+		.clk                                 (altpll_0_c0_clk),                                   //                       clk.clk
+		.reset_n                             (~rst_controller_reset_out_reset),                   //                     reset.reset_n
+		.reset_req                           (rst_controller_reset_out_reset_req),                //                          .reset_req
 		.d_address                           (cpu_data_master_address),                           //               data_master.address
 		.d_byteenable                        (cpu_data_master_byteenable),                        //                          .byteenable
 		.d_read                              (cpu_data_master_read),                              //                          .read
@@ -153,7 +196,6 @@ module NIOSSystem (
 		.d_waitrequest                       (cpu_data_master_waitrequest),                       //                          .waitrequest
 		.d_write                             (cpu_data_master_write),                             //                          .write
 		.d_writedata                         (cpu_data_master_writedata),                         //                          .writedata
-		.d_readdatavalid                     (cpu_data_master_readdatavalid),                     //                          .readdatavalid
 		.debug_mem_slave_debugaccess_to_roms (cpu_data_master_debugaccess),                       //                          .debugaccess
 		.i_address                           (cpu_instruction_master_address),                    //        instruction_master.address
 		.i_read                              (cpu_instruction_master_read),                       //                          .read
@@ -161,7 +203,7 @@ module NIOSSystem (
 		.i_waitrequest                       (cpu_instruction_master_waitrequest),                //                          .waitrequest
 		.i_readdatavalid                     (cpu_instruction_master_readdatavalid),              //                          .readdatavalid
 		.irq                                 (cpu_irq_irq),                                       //                       irq.irq
-		.debug_reset_request                 (cpu_debug_reset_request_reset),                     //       debug_reset_request.reset
+		.debug_reset_request                 (),                                                  //       debug_reset_request.reset
 		.debug_mem_slave_address             (mm_interconnect_0_cpu_debug_mem_slave_address),     //           debug_mem_slave.address
 		.debug_mem_slave_byteenable          (mm_interconnect_0_cpu_debug_mem_slave_byteenable),  //                          .byteenable
 		.debug_mem_slave_debugaccess         (mm_interconnect_0_cpu_debug_mem_slave_debugaccess), //                          .debugaccess
@@ -174,7 +216,7 @@ module NIOSSystem (
 	);
 
 	NIOSSystem_hex0 hex0 (
-		.clk        (clk_clk),                              //                 clk.clk
+		.clk        (altpll_0_c0_clk),                      //                 clk.clk
 		.reset_n    (~rst_controller_reset_out_reset),      //               reset.reset_n
 		.address    (mm_interconnect_0_hex0_s1_address),    //                  s1.address
 		.write_n    (~mm_interconnect_0_hex0_s1_write),     //                    .write_n
@@ -185,7 +227,7 @@ module NIOSSystem (
 	);
 
 	NIOSSystem_hex0 hex1 (
-		.clk        (clk_clk),                              //                 clk.clk
+		.clk        (altpll_0_c0_clk),                      //                 clk.clk
 		.reset_n    (~rst_controller_reset_out_reset),      //               reset.reset_n
 		.address    (mm_interconnect_0_hex1_s1_address),    //                  s1.address
 		.write_n    (~mm_interconnect_0_hex1_s1_write),     //                    .write_n
@@ -196,7 +238,7 @@ module NIOSSystem (
 	);
 
 	NIOSSystem_hex0 hex2 (
-		.clk        (clk_clk),                              //                 clk.clk
+		.clk        (altpll_0_c0_clk),                      //                 clk.clk
 		.reset_n    (~rst_controller_reset_out_reset),      //               reset.reset_n
 		.address    (mm_interconnect_0_hex2_s1_address),    //                  s1.address
 		.write_n    (~mm_interconnect_0_hex2_s1_write),     //                    .write_n
@@ -207,7 +249,7 @@ module NIOSSystem (
 	);
 
 	NIOSSystem_hex0 hex3 (
-		.clk        (clk_clk),                              //                 clk.clk
+		.clk        (altpll_0_c0_clk),                      //                 clk.clk
 		.reset_n    (~rst_controller_reset_out_reset),      //               reset.reset_n
 		.address    (mm_interconnect_0_hex3_s1_address),    //                  s1.address
 		.write_n    (~mm_interconnect_0_hex3_s1_write),     //                    .write_n
@@ -218,7 +260,7 @@ module NIOSSystem (
 	);
 
 	NIOSSystem_hex0 hex4 (
-		.clk        (clk_clk),                              //                 clk.clk
+		.clk        (altpll_0_c0_clk),                      //                 clk.clk
 		.reset_n    (~rst_controller_reset_out_reset),      //               reset.reset_n
 		.address    (mm_interconnect_0_hex4_s1_address),    //                  s1.address
 		.write_n    (~mm_interconnect_0_hex4_s1_write),     //                    .write_n
@@ -229,7 +271,7 @@ module NIOSSystem (
 	);
 
 	NIOSSystem_hex0 hex5 (
-		.clk        (clk_clk),                              //                 clk.clk
+		.clk        (altpll_0_c0_clk),                      //                 clk.clk
 		.reset_n    (~rst_controller_reset_out_reset),      //               reset.reset_n
 		.address    (mm_interconnect_0_hex5_s1_address),    //                  s1.address
 		.write_n    (~mm_interconnect_0_hex5_s1_write),     //                    .write_n
@@ -240,7 +282,7 @@ module NIOSSystem (
 	);
 
 	NIOSSystem_jtag_uart jtag_uart (
-		.clk            (clk_clk),                                                   //               clk.clk
+		.clk            (altpll_0_c0_clk),                                           //               clk.clk
 		.rst_n          (~rst_controller_reset_out_reset),                           //             reset.reset_n
 		.av_chipselect  (mm_interconnect_0_jtag_uart_avalon_jtag_slave_chipselect),  // avalon_jtag_slave.chipselect
 		.av_address     (mm_interconnect_0_jtag_uart_avalon_jtag_slave_address),     //                  .address
@@ -249,11 +291,11 @@ module NIOSSystem (
 		.av_write_n     (~mm_interconnect_0_jtag_uart_avalon_jtag_slave_write),      //                  .write_n
 		.av_writedata   (mm_interconnect_0_jtag_uart_avalon_jtag_slave_writedata),   //                  .writedata
 		.av_waitrequest (mm_interconnect_0_jtag_uart_avalon_jtag_slave_waitrequest), //                  .waitrequest
-		.av_irq         (irq_mapper_receiver1_irq)                                   //               irq.irq
+		.av_irq         (irq_mapper_receiver2_irq)                                   //               irq.irq
 	);
 
 	NIOSSystem_led led (
-		.clk        (clk_clk),                             //                 clk.clk
+		.clk        (altpll_0_c0_clk),                     //                 clk.clk
 		.reset_n    (~rst_controller_reset_out_reset),     //               reset.reset_n
 		.address    (mm_interconnect_0_led_s1_address),    //                  s1.address
 		.write_n    (~mm_interconnect_0_led_s1_write),     //                    .write_n
@@ -263,22 +305,31 @@ module NIOSSystem (
 		.out_port   (led_external_connection_export)       // external_connection.export
 	);
 
-	NIOSSystem_onchip_memory onchip_memory (
-		.clk        (clk_clk),                                       //   clk1.clk
-		.address    (mm_interconnect_0_onchip_memory_s1_address),    //     s1.address
-		.clken      (mm_interconnect_0_onchip_memory_s1_clken),      //       .clken
-		.chipselect (mm_interconnect_0_onchip_memory_s1_chipselect), //       .chipselect
-		.write      (mm_interconnect_0_onchip_memory_s1_write),      //       .write
-		.readdata   (mm_interconnect_0_onchip_memory_s1_readdata),   //       .readdata
-		.writedata  (mm_interconnect_0_onchip_memory_s1_writedata),  //       .writedata
-		.byteenable (mm_interconnect_0_onchip_memory_s1_byteenable), //       .byteenable
-		.reset      (rst_controller_reset_out_reset),                // reset1.reset
-		.reset_req  (rst_controller_reset_out_reset_req),            //       .reset_req
-		.freeze     (1'b0)                                           // (terminated)
+	NIOSSystem_sdram sdram (
+		.clk            (altpll_0_c0_clk),                          //   clk.clk
+		.reset_n        (~rst_controller_reset_out_reset),          // reset.reset_n
+		.az_addr        (mm_interconnect_0_sdram_s1_address),       //    s1.address
+		.az_be_n        (~mm_interconnect_0_sdram_s1_byteenable),   //      .byteenable_n
+		.az_cs          (mm_interconnect_0_sdram_s1_chipselect),    //      .chipselect
+		.az_data        (mm_interconnect_0_sdram_s1_writedata),     //      .writedata
+		.az_rd_n        (~mm_interconnect_0_sdram_s1_read),         //      .read_n
+		.az_wr_n        (~mm_interconnect_0_sdram_s1_write),        //      .write_n
+		.za_data        (mm_interconnect_0_sdram_s1_readdata),      //      .readdata
+		.za_valid       (mm_interconnect_0_sdram_s1_readdatavalid), //      .readdatavalid
+		.za_waitrequest (mm_interconnect_0_sdram_s1_waitrequest),   //      .waitrequest
+		.zs_addr        (sdram_wire_addr),                          //  wire.export
+		.zs_ba          (sdram_wire_ba),                            //      .export
+		.zs_cas_n       (sdram_wire_cas_n),                         //      .export
+		.zs_cke         (sdram_wire_cke),                           //      .export
+		.zs_cs_n        (sdram_wire_cs_n),                          //      .export
+		.zs_dq          (sdram_wire_dq),                            //      .export
+		.zs_dqm         (sdram_wire_dqm),                           //      .export
+		.zs_ras_n       (sdram_wire_ras_n),                         //      .export
+		.zs_we_n        (sdram_wire_we_n)                           //      .export
 	);
 
 	NIOSSystem_switch switch (
-		.clk      (clk_clk),                              //                 clk.clk
+		.clk      (altpll_0_c0_clk),                      //                 clk.clk
 		.reset_n  (~rst_controller_reset_out_reset),      //               reset.reset_n
 		.address  (mm_interconnect_0_switch_s1_address),  //                  s1.address
 		.readdata (mm_interconnect_0_switch_s1_readdata), //                    .readdata
@@ -286,26 +337,26 @@ module NIOSSystem (
 	);
 
 	NIOSSystem_timer timer (
-		.clk        (clk_clk),                               //   clk.clk
+		.clk        (altpll_0_c0_clk),                       //   clk.clk
 		.reset_n    (~rst_controller_reset_out_reset),       // reset.reset_n
 		.address    (mm_interconnect_0_timer_s1_address),    //    s1.address
 		.writedata  (mm_interconnect_0_timer_s1_writedata),  //      .writedata
 		.readdata   (mm_interconnect_0_timer_s1_readdata),   //      .readdata
 		.chipselect (mm_interconnect_0_timer_s1_chipselect), //      .chipselect
 		.write_n    (~mm_interconnect_0_timer_s1_write),     //      .write_n
-		.irq        (irq_mapper_receiver2_irq)               //   irq.irq
+		.irq        (irq_mapper_receiver1_irq)               //   irq.irq
 	);
 
 	NIOSSystem_mm_interconnect_0 mm_interconnect_0 (
-		.clk_clk_clk                                                       (clk_clk),                                                                             //                                               clk_clk.clk
-		.accelerometer_spi_reset_reset_bridge_in_reset_reset               (rst_controller_reset_out_reset),                                                      //         accelerometer_spi_reset_reset_bridge_in_reset.reset
-		.cpu_reset_reset_bridge_in_reset_reset                             (rst_controller_001_reset_out_reset),                                                  //                       cpu_reset_reset_bridge_in_reset.reset
+		.altpll_0_c0_clk                                                   (altpll_0_c0_clk),                                                                     //                                           altpll_0_c0.clk
+		.clk_50_clk_clk                                                    (clk_clk),                                                                             //                                            clk_50_clk.clk
+		.altpll_0_inclk_interface_reset_reset_bridge_in_reset_reset        (rst_controller_001_reset_out_reset),                                                  //  altpll_0_inclk_interface_reset_reset_bridge_in_reset.reset
+		.cpu_reset_reset_bridge_in_reset_reset                             (rst_controller_reset_out_reset),                                                      //                       cpu_reset_reset_bridge_in_reset.reset
 		.cpu_data_master_address                                           (cpu_data_master_address),                                                             //                                       cpu_data_master.address
 		.cpu_data_master_waitrequest                                       (cpu_data_master_waitrequest),                                                         //                                                      .waitrequest
 		.cpu_data_master_byteenable                                        (cpu_data_master_byteenable),                                                          //                                                      .byteenable
 		.cpu_data_master_read                                              (cpu_data_master_read),                                                                //                                                      .read
 		.cpu_data_master_readdata                                          (cpu_data_master_readdata),                                                            //                                                      .readdata
-		.cpu_data_master_readdatavalid                                     (cpu_data_master_readdatavalid),                                                       //                                                      .readdatavalid
 		.cpu_data_master_write                                             (cpu_data_master_write),                                                               //                                                      .write
 		.cpu_data_master_writedata                                         (cpu_data_master_writedata),                                                           //                                                      .writedata
 		.cpu_data_master_debugaccess                                       (cpu_data_master_debugaccess),                                                         //                                                      .debugaccess
@@ -321,6 +372,11 @@ module NIOSSystem (
 		.accelerometer_spi_avalon_accelerometer_spi_mode_slave_writedata   (mm_interconnect_0_accelerometer_spi_avalon_accelerometer_spi_mode_slave_writedata),   //                                                      .writedata
 		.accelerometer_spi_avalon_accelerometer_spi_mode_slave_byteenable  (mm_interconnect_0_accelerometer_spi_avalon_accelerometer_spi_mode_slave_byteenable),  //                                                      .byteenable
 		.accelerometer_spi_avalon_accelerometer_spi_mode_slave_waitrequest (mm_interconnect_0_accelerometer_spi_avalon_accelerometer_spi_mode_slave_waitrequest), //                                                      .waitrequest
+		.altpll_0_pll_slave_address                                        (mm_interconnect_0_altpll_0_pll_slave_address),                                        //                                    altpll_0_pll_slave.address
+		.altpll_0_pll_slave_write                                          (mm_interconnect_0_altpll_0_pll_slave_write),                                          //                                                      .write
+		.altpll_0_pll_slave_read                                           (mm_interconnect_0_altpll_0_pll_slave_read),                                           //                                                      .read
+		.altpll_0_pll_slave_readdata                                       (mm_interconnect_0_altpll_0_pll_slave_readdata),                                       //                                                      .readdata
+		.altpll_0_pll_slave_writedata                                      (mm_interconnect_0_altpll_0_pll_slave_writedata),                                      //                                                      .writedata
 		.button_s1_address                                                 (mm_interconnect_0_button_s1_address),                                                 //                                             button_s1.address
 		.button_s1_readdata                                                (mm_interconnect_0_button_s1_readdata),                                                //                                                      .readdata
 		.cpu_debug_mem_slave_address                                       (mm_interconnect_0_cpu_debug_mem_slave_address),                                       //                                   cpu_debug_mem_slave.address
@@ -373,13 +429,15 @@ module NIOSSystem (
 		.led_s1_readdata                                                   (mm_interconnect_0_led_s1_readdata),                                                   //                                                      .readdata
 		.led_s1_writedata                                                  (mm_interconnect_0_led_s1_writedata),                                                  //                                                      .writedata
 		.led_s1_chipselect                                                 (mm_interconnect_0_led_s1_chipselect),                                                 //                                                      .chipselect
-		.onchip_memory_s1_address                                          (mm_interconnect_0_onchip_memory_s1_address),                                          //                                      onchip_memory_s1.address
-		.onchip_memory_s1_write                                            (mm_interconnect_0_onchip_memory_s1_write),                                            //                                                      .write
-		.onchip_memory_s1_readdata                                         (mm_interconnect_0_onchip_memory_s1_readdata),                                         //                                                      .readdata
-		.onchip_memory_s1_writedata                                        (mm_interconnect_0_onchip_memory_s1_writedata),                                        //                                                      .writedata
-		.onchip_memory_s1_byteenable                                       (mm_interconnect_0_onchip_memory_s1_byteenable),                                       //                                                      .byteenable
-		.onchip_memory_s1_chipselect                                       (mm_interconnect_0_onchip_memory_s1_chipselect),                                       //                                                      .chipselect
-		.onchip_memory_s1_clken                                            (mm_interconnect_0_onchip_memory_s1_clken),                                            //                                                      .clken
+		.sdram_s1_address                                                  (mm_interconnect_0_sdram_s1_address),                                                  //                                              sdram_s1.address
+		.sdram_s1_write                                                    (mm_interconnect_0_sdram_s1_write),                                                    //                                                      .write
+		.sdram_s1_read                                                     (mm_interconnect_0_sdram_s1_read),                                                     //                                                      .read
+		.sdram_s1_readdata                                                 (mm_interconnect_0_sdram_s1_readdata),                                                 //                                                      .readdata
+		.sdram_s1_writedata                                                (mm_interconnect_0_sdram_s1_writedata),                                                //                                                      .writedata
+		.sdram_s1_byteenable                                               (mm_interconnect_0_sdram_s1_byteenable),                                               //                                                      .byteenable
+		.sdram_s1_readdatavalid                                            (mm_interconnect_0_sdram_s1_readdatavalid),                                            //                                                      .readdatavalid
+		.sdram_s1_waitrequest                                              (mm_interconnect_0_sdram_s1_waitrequest),                                              //                                                      .waitrequest
+		.sdram_s1_chipselect                                               (mm_interconnect_0_sdram_s1_chipselect),                                               //                                                      .chipselect
 		.switch_s1_address                                                 (mm_interconnect_0_switch_s1_address),                                                 //                                             switch_s1.address
 		.switch_s1_readdata                                                (mm_interconnect_0_switch_s1_readdata),                                                //                                                      .readdata
 		.timer_s1_address                                                  (mm_interconnect_0_timer_s1_address),                                                  //                                              timer_s1.address
@@ -390,12 +448,12 @@ module NIOSSystem (
 	);
 
 	NIOSSystem_irq_mapper irq_mapper (
-		.clk           (clk_clk),                            //       clk.clk
-		.reset         (rst_controller_001_reset_out_reset), // clk_reset.reset
-		.receiver0_irq (irq_mapper_receiver0_irq),           // receiver0.irq
-		.receiver1_irq (irq_mapper_receiver1_irq),           // receiver1.irq
-		.receiver2_irq (irq_mapper_receiver2_irq),           // receiver2.irq
-		.sender_irq    (cpu_irq_irq)                         //    sender.irq
+		.clk           (altpll_0_c0_clk),                //       clk.clk
+		.reset         (rst_controller_reset_out_reset), // clk_reset.reset
+		.receiver0_irq (irq_mapper_receiver0_irq),       // receiver0.irq
+		.receiver1_irq (irq_mapper_receiver1_irq),       // receiver1.irq
+		.receiver2_irq (irq_mapper_receiver2_irq),       // receiver2.irq
+		.sender_irq    (cpu_irq_irq)                     //    sender.irq
 	);
 
 	altera_reset_controller #(
@@ -424,8 +482,8 @@ module NIOSSystem (
 		.USE_RESET_REQUEST_IN15    (0),
 		.ADAPT_RESET_REQUEST       (0)
 	) rst_controller (
-		.reset_in0      (cpu_debug_reset_request_reset),      // reset_in0.reset
-		.clk            (clk_clk),                            //       clk.clk
+		.reset_in0      (~reset_reset_n),                     // reset_in0.reset
+		.clk            (altpll_0_c0_clk),                    //       clk.clk
 		.reset_out      (rst_controller_reset_out_reset),     // reset_out.reset
 		.reset_req      (rst_controller_reset_out_reset_req), //          .reset_req
 		.reset_req_in0  (1'b0),                               // (terminated)
@@ -462,10 +520,10 @@ module NIOSSystem (
 	);
 
 	altera_reset_controller #(
-		.NUM_RESET_INPUTS          (2),
+		.NUM_RESET_INPUTS          (1),
 		.OUTPUT_RESET_SYNC_EDGES   ("deassert"),
 		.SYNC_DEPTH                (2),
-		.RESET_REQUEST_PRESENT     (1),
+		.RESET_REQUEST_PRESENT     (0),
 		.RESET_REQ_WAIT_TIME       (1),
 		.MIN_RST_ASSERTION_TIME    (3),
 		.RESET_REQ_EARLY_DSRT_TIME (1),
@@ -487,41 +545,41 @@ module NIOSSystem (
 		.USE_RESET_REQUEST_IN15    (0),
 		.ADAPT_RESET_REQUEST       (0)
 	) rst_controller_001 (
-		.reset_in0      (cpu_debug_reset_request_reset),          // reset_in0.reset
-		.reset_in1      (cpu_debug_reset_request_reset),          // reset_in1.reset
-		.clk            (clk_clk),                                //       clk.clk
-		.reset_out      (rst_controller_001_reset_out_reset),     // reset_out.reset
-		.reset_req      (rst_controller_001_reset_out_reset_req), //          .reset_req
-		.reset_req_in0  (1'b0),                                   // (terminated)
-		.reset_req_in1  (1'b0),                                   // (terminated)
-		.reset_in2      (1'b0),                                   // (terminated)
-		.reset_req_in2  (1'b0),                                   // (terminated)
-		.reset_in3      (1'b0),                                   // (terminated)
-		.reset_req_in3  (1'b0),                                   // (terminated)
-		.reset_in4      (1'b0),                                   // (terminated)
-		.reset_req_in4  (1'b0),                                   // (terminated)
-		.reset_in5      (1'b0),                                   // (terminated)
-		.reset_req_in5  (1'b0),                                   // (terminated)
-		.reset_in6      (1'b0),                                   // (terminated)
-		.reset_req_in6  (1'b0),                                   // (terminated)
-		.reset_in7      (1'b0),                                   // (terminated)
-		.reset_req_in7  (1'b0),                                   // (terminated)
-		.reset_in8      (1'b0),                                   // (terminated)
-		.reset_req_in8  (1'b0),                                   // (terminated)
-		.reset_in9      (1'b0),                                   // (terminated)
-		.reset_req_in9  (1'b0),                                   // (terminated)
-		.reset_in10     (1'b0),                                   // (terminated)
-		.reset_req_in10 (1'b0),                                   // (terminated)
-		.reset_in11     (1'b0),                                   // (terminated)
-		.reset_req_in11 (1'b0),                                   // (terminated)
-		.reset_in12     (1'b0),                                   // (terminated)
-		.reset_req_in12 (1'b0),                                   // (terminated)
-		.reset_in13     (1'b0),                                   // (terminated)
-		.reset_req_in13 (1'b0),                                   // (terminated)
-		.reset_in14     (1'b0),                                   // (terminated)
-		.reset_req_in14 (1'b0),                                   // (terminated)
-		.reset_in15     (1'b0),                                   // (terminated)
-		.reset_req_in15 (1'b0)                                    // (terminated)
+		.reset_in0      (~reset_reset_n),                     // reset_in0.reset
+		.clk            (clk_clk),                            //       clk.clk
+		.reset_out      (rst_controller_001_reset_out_reset), // reset_out.reset
+		.reset_req      (),                                   // (terminated)
+		.reset_req_in0  (1'b0),                               // (terminated)
+		.reset_in1      (1'b0),                               // (terminated)
+		.reset_req_in1  (1'b0),                               // (terminated)
+		.reset_in2      (1'b0),                               // (terminated)
+		.reset_req_in2  (1'b0),                               // (terminated)
+		.reset_in3      (1'b0),                               // (terminated)
+		.reset_req_in3  (1'b0),                               // (terminated)
+		.reset_in4      (1'b0),                               // (terminated)
+		.reset_req_in4  (1'b0),                               // (terminated)
+		.reset_in5      (1'b0),                               // (terminated)
+		.reset_req_in5  (1'b0),                               // (terminated)
+		.reset_in6      (1'b0),                               // (terminated)
+		.reset_req_in6  (1'b0),                               // (terminated)
+		.reset_in7      (1'b0),                               // (terminated)
+		.reset_req_in7  (1'b0),                               // (terminated)
+		.reset_in8      (1'b0),                               // (terminated)
+		.reset_req_in8  (1'b0),                               // (terminated)
+		.reset_in9      (1'b0),                               // (terminated)
+		.reset_req_in9  (1'b0),                               // (terminated)
+		.reset_in10     (1'b0),                               // (terminated)
+		.reset_req_in10 (1'b0),                               // (terminated)
+		.reset_in11     (1'b0),                               // (terminated)
+		.reset_req_in11 (1'b0),                               // (terminated)
+		.reset_in12     (1'b0),                               // (terminated)
+		.reset_req_in12 (1'b0),                               // (terminated)
+		.reset_in13     (1'b0),                               // (terminated)
+		.reset_req_in13 (1'b0),                               // (terminated)
+		.reset_in14     (1'b0),                               // (terminated)
+		.reset_req_in14 (1'b0),                               // (terminated)
+		.reset_in15     (1'b0),                               // (terminated)
+		.reset_req_in15 (1'b0)                                // (terminated)
 	);
 
 endmodule

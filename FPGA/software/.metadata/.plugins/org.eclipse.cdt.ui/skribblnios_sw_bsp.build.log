@@ -1,6 +1,6 @@
-02:17:39 **** Clean-only build of configuration Nios II for project skribblnios_sw_bsp ****
+03:23:22 **** Clean-only build of configuration Nios II for project skribblnios_sw_bsp ****
 make clean 
 [BSP clean complete]
 
-02:17:39 Build Finished (took 438ms)
+03:23:23 Build Finished (took 449ms)
 

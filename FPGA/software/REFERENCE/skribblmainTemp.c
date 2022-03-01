@@ -8,14 +8,13 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-
-//Threading Import
-#include <pthread.h>
+#include <fcntl.h>
 
 //Time Import
 #include "sys/alt_timestamp.h"
 #define SAMPLING_TIME 3
 #define INTERVALSECOND 100000000
+
 
 //Variable Declerations
 //UART
@@ -32,11 +31,10 @@ void led_write(alt_u8 led_pattern) {
     IOWR(LED_BASE, 0, led_pattern);
 }
 
-void* getInput(void* str) {
-	while(strcmp(str,"KILL\n") != 0) {
-		fgets(str, strlen(str)-1, fp);
-	}
+void processData(char* data) {
+	printf("Data recieved: %s\n", data);
 }
+
 
 int main () {
 	//Accelerometer setup
@@ -50,29 +48,22 @@ int main () {
 		return 1;
 	}
 	//Open file for reading and writing
-	char dataIn[50];
-	fp = fopen ("/dev/jtag_uart", "r+");
-
+	char dataIn;
+	//fp = fopen ("/dev/jtag_uart", "r+");
+	fp = open("/dev/jtag_uart", O_RDWR|O_NONBLOCK|O_NOCTTY|O_SYNC);
 	if (fp)	{
 		//Begin
 		led_write(0x7);
 		alt_timestamp_start();
 		startTime = alt_timestamp();
-		pthread_t receiveThread;
-		pthread_create(&receiveThread, NULL, getInput, &dataIn);
 		// Loop until KILL command
-		//Comparing strings in the usual way compares the pointers.
-		while (strcmp(dataIn,"KILL\n") != 0) {
+		while (dataIn != 'k') {
 			// Get data/command from Python interface
 			led_write(0x60);
-			printf(dataIn);
-			// Print a message if character is 't'.
-			/*
-			if (dataIn == 't') {
-				fwrite (msg, strlen (msg), 1, fp);
-				alt_printf("Got t\n");
+			//dataIn = getc(fp);
+			if(read(fp, &dataIn, 1) > 0) {
+				processData(dataIn);
 			}
-			*/
 			//If file write fails
 			if (ferror(fp)) {// Check if an error occurred with the file
 				clearerr(fp);// If so, clear it.

@@ -1,6 +1,6 @@
 <sld_project_info>
   <project>
-    <hash md5_digest_80b="224d424d128e4b9cffb8"/>
+    <hash md5_digest_80b="8a78d29c7964acda1d2d"/>
   </project>
   <file_info>
     <file device="10M50DAF484C7G" path="skribblnios_time_limited.sof" usercode="0xFFFFFFFF"/>
@@ -86,7 +86,7 @@
         <parameter name="INSTANCE_ID" type="dec" value="0"/>
         <parameter name="SLD_NODE_INFO" type="ubin" value="00001100000000000110111000000000"/>
         <parameter name="SLD_AUTO_INSTANCE_INDEX" type="string" value="YES"/>
-        <parameter name="LOG2_TXFIFO_DEPTH" type="dec" value="13"/>
+        <parameter name="LOG2_TXFIFO_DEPTH" type="dec" value="6"/>
         <parameter name="LOG2_RXFIFO_DEPTH" type="dec" value="13"/>
         <parameter name="RESERVED" type="dec" value="0"/>
         <parameter name="DATA_WIDTH" type="dec" value="8"/>
@@ -140,7 +140,7 @@
   <sld_infos>
     <sld_info hpath="NIOSSystem:u0" name="u0">
       <assignment_values>
-        <assignment_value text="QSYS_NAME NIOSSystem HAS_SOPCINFO 1 GENERATION_ID 1645979125"/>
+        <assignment_value text="QSYS_NAME NIOSSystem HAS_SOPCINFO 1 GENERATION_ID 1646104315"/>
       </assignment_values>
       <parameters/>
     </sld_info>

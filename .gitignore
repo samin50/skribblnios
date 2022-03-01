@@ -3,3 +3,4 @@ __pycache__
 db
 .qsys_edit
 .plugins
+.metadata
