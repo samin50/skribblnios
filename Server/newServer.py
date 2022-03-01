@@ -113,3 +113,21 @@ server = Server(PORT)
 
     
 
+"""
+HOW IT WORKS:
+When the server object detects a new client connecting to it, it creates a server-side object called client
+that contains data that allows communication with that specific client, ie IP address and name. It appends this new client
+to the list of existing clients to allow other functions to iterate through this list to send data.
+
+Each client begins its own thread and listens for data on their channel, whenever a client recieves data,
+it performs the processData command with the data it received, which currently to just printing the data it obtained back
+to the client. 
+
+If a client sends data that is prefixed with 'SERVERCMD:', the 'processServerSide' function in the Server object will run
+the command instead of the client, and an implemented function is '!DISCONNECT' which will disconnect the client and remove it 
+from the client list in the server object.
+
+Add more functionality as you wish, and server wide commands can easily be implemented with 'processServerSide' by any client sending
+the correct command, need to do stuff like determining the current drawer and managing the XY coords etc (refer to the diagram)
+
+"""
