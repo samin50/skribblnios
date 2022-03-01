@@ -30,8 +30,8 @@ class Game():
         self.display.fill((255, 255, 255))
 
     def return_xy(self):
-        x = random.randint(0,game.width+100)
-        y = random.randint(0, game.height+100)
+        x = random.randint(0,self.width+100)
+        y = random.randint(0, self.height+100)
         xy =(x,y)
         return xy
 

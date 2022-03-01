@@ -178,7 +178,7 @@ module NIOSSystem_jtag_uart_sim_scfifo_r (
   output           fifo_EF;
   output  [  7: 0] fifo_rdata;
   output           rfifo_full;
-  output  [ 12: 0] rfifo_used;
+  output  [  5: 0] rfifo_used;
   input            clk;
   input            fifo_rd;
   input            rst_n;
@@ -190,9 +190,9 @@ reg              fifo_rd_d;
 wire    [  7: 0] fifo_rdata;
 wire             new_rom;
 wire    [ 31: 0] num_bytes;
-wire    [ 13: 0] rfifo_entries;
+wire    [  6: 0] rfifo_entries;
 wire             rfifo_full;
-wire    [ 12: 0] rfifo_used;
+wire    [  5: 0] rfifo_used;
 
 //synthesis translate_off
 //////////////// SIMULATION-ONLY CONTENTS
@@ -218,9 +218,9 @@ wire    [ 12: 0] rfifo_used;
 
 
   assign fifo_EF = bytes_left == 32'b0;
-  assign rfifo_full = bytes_left > 14'h2000;
-  assign rfifo_entries = (rfifo_full) ? 14'h2000 : bytes_left;
-  assign rfifo_used = rfifo_entries[12 : 0];
+  assign rfifo_full = bytes_left > 7'h40;
+  assign rfifo_entries = (rfifo_full) ? 7'h40 : bytes_left;
+  assign rfifo_used = rfifo_entries[5 : 0];
   assign new_rom = 1'b0;
   assign num_bytes = 32'b0;
   assign fifo_rdata = 8'b0;
@@ -260,7 +260,7 @@ module NIOSSystem_jtag_uart_scfifo_r (
   output           fifo_EF;
   output  [  7: 0] fifo_rdata;
   output           rfifo_full;
-  output  [ 12: 0] rfifo_used;
+  output  [  5: 0] rfifo_used;
   input            clk;
   input            fifo_clear;
   input            fifo_rd;
@@ -272,7 +272,7 @@ module NIOSSystem_jtag_uart_scfifo_r (
 wire             fifo_EF;
 wire    [  7: 0] fifo_rdata;
 wire             rfifo_full;
-wire    [ 12: 0] rfifo_used;
+wire    [  5: 0] rfifo_used;
 
 //synthesis translate_off
 //////////////// SIMULATION-ONLY CONTENTS
@@ -306,11 +306,11 @@ wire    [ 12: 0] rfifo_used;
 //    );
 //
 //  defparam rfifo.lpm_hint = "RAM_BLOCK_TYPE=AUTO",
-//           rfifo.lpm_numwords = 8192,
+//           rfifo.lpm_numwords = 64,
 //           rfifo.lpm_showahead = "OFF",
 //           rfifo.lpm_type = "scfifo",
 //           rfifo.lpm_width = 8,
-//           rfifo.lpm_widthu = 13,
+//           rfifo.lpm_widthu = 6,
 //           rfifo.overflow_checking = "OFF",
 //           rfifo.underflow_checking = "OFF",
 //           rfifo.use_eab = "ON";
@@ -388,7 +388,7 @@ wire             rd_wfifo;
 reg              read_0;
 reg              readyfordata;
 wire             rfifo_full;
-wire    [ 12: 0] rfifo_used;
+wire    [  5: 0] rfifo_used;
 reg              rvalid;
 reg              sim_r_ena;
 reg              sim_t_dat;
@@ -482,7 +482,7 @@ wire             wr_rfifo;
       else 
         begin
           fifo_AE <= {fifo_FF,wfifo_used} <= 8;
-          fifo_AF <= (14'h2000 - {rfifo_full,rfifo_used}) <= 8;
+          fifo_AF <= (7'h40 - {rfifo_full,rfifo_used}) <= 8;
           fifo_wr <= 1'b0;
           read_0 <= 1'b0;
           av_waitrequest <= ~(av_chipselect & (~av_write_n | ~av_read_n) & av_waitrequest);
@@ -517,7 +517,7 @@ wire             wr_rfifo;
 
   assign fifo_wdata = av_writedata[7 : 0];
   assign fifo_rd = (av_chipselect & ~av_read_n & av_waitrequest & ~av_address) ? ~fifo_EF : 1'b0;
-  assign av_readdata = read_0 ? { {2{1'b0}},rfifo_full,rfifo_used,rvalid,woverflow,~fifo_FF,~fifo_EF,1'b0,ac,ipen_AE,ipen_AF,fifo_rdata } : { {2{1'b0}},(14'h2000 - {fifo_FF,wfifo_used}),rvalid,woverflow,~fifo_FF,~fifo_EF,1'b0,ac,ipen_AE,ipen_AF,{6{1'b0}},ien_AE,ien_AF };
+  assign av_readdata = read_0 ? { {9{1'b0}},rfifo_full,rfifo_used,rvalid,woverflow,~fifo_FF,~fifo_EF,1'b0,ac,ipen_AE,ipen_AF,fifo_rdata } : { {2{1'b0}},(14'h2000 - {fifo_FF,wfifo_used}),rvalid,woverflow,~fifo_FF,~fifo_EF,1'b0,ac,ipen_AE,ipen_AF,{6{1'b0}},ien_AE,ien_AF };
   always @(posedge clk or negedge rst_n)
     begin
       if (rst_n == 0)
@@ -570,7 +570,7 @@ wire             wr_rfifo;
 //
 //  defparam NIOSSystem_jtag_uart_alt_jtag_atlantic.INSTANCE_ID = 0,
 //           NIOSSystem_jtag_uart_alt_jtag_atlantic.LOG2_RXFIFO_DEPTH = 13,
-//           NIOSSystem_jtag_uart_alt_jtag_atlantic.LOG2_TXFIFO_DEPTH = 13,
+//           NIOSSystem_jtag_uart_alt_jtag_atlantic.LOG2_TXFIFO_DEPTH = 6,
 //           NIOSSystem_jtag_uart_alt_jtag_atlantic.SLD_AUTO_INSTANCE_INDEX = "YES";
 //
 //  always @(posedge clk or negedge rst_n)

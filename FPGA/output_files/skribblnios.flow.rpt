@@ -1,5 +1,5 @@
 Flow report for skribblnios
-Sat Feb 26 02:14:50 2022
+Tue Mar 01 03:19:16 2022
 Quartus Prime Version 18.0.0 Build 614 04/24/2018 SJ Lite Edition
 
 
@@ -40,22 +40,22 @@ refer to the applicable agreement for further details.
 +----------------------------------------------------------------------------------+
 ; Flow Summary                                                                     ;
 +------------------------------------+---------------------------------------------+
-; Flow Status                        ; Successful - Sat Feb 26 02:14:40 2022       ;
+; Flow Status                        ; Successful - Tue Mar 01 03:18:59 2022       ;
 ; Quartus Prime Version              ; 18.0.0 Build 614 04/24/2018 SJ Lite Edition ;
 ; Revision Name                      ; skribblnios                                 ;
 ; Top-level Entity Name              ; DE10_LITE_Golden_Top                        ;
 ; Family                             ; MAX 10                                      ;
 ; Device                             ; 10M50DAF484C7G                              ;
 ; Timing Models                      ; Final                                       ;
-; Total logic elements               ; 4,157 / 49,760 ( 8 % )                      ;
-;     Total combinational functions  ; 3,714 / 49,760 ( 7 % )                      ;
-;     Dedicated logic registers      ; 2,495 / 49,760 ( 5 % )                      ;
-; Total registers                    ; 2495                                        ;
+; Total logic elements               ; 4,633 / 49,760 ( 9 % )                      ;
+;     Total combinational functions  ; 3,974 / 49,760 ( 8 % )                      ;
+;     Dedicated logic registers      ; 2,941 / 49,760 ( 6 % )                      ;
+; Total registers                    ; 3010                                        ;
 ; Total pins                         ; 185 / 360 ( 51 % )                          ;
 ; Total virtual pins                 ; 0                                           ;
-; Total memory bits                  ; 717,888 / 1,677,312 ( 43 % )                ;
+; Total memory bits                  ; 284,672 / 1,677,312 ( 17 % )                ;
 ; Embedded Multiplier 9-bit elements ; 6 / 288 ( 2 % )                             ;
-; Total PLLs                         ; 0 / 4 ( 0 % )                               ;
+; Total PLLs                         ; 1 / 4 ( 25 % )                              ;
 ; UFM blocks                         ; 0 / 1 ( 0 % )                               ;
 ; ADC blocks                         ; 0 / 2 ( 0 % )                               ;
 +------------------------------------+---------------------------------------------+
@@ -66,7 +66,7 @@ refer to the applicable agreement for further details.
 +-------------------+---------------------+
 ; Option            ; Setting             ;
 +-------------------+---------------------+
-; Start date & time ; 02/26/2022 02:11:28 ;
+; Start date & time ; 03/01/2022 03:11:14 ;
 ; Main task         ; Compilation         ;
 ; Revision Name     ; skribblnios         ;
 +-------------------+---------------------+
@@ -77,7 +77,7 @@ refer to the applicable agreement for further details.
 +-------------------------------------+----------------------------------------+---------------+----------------------+------------+
 ; Assignment Name                     ; Value                                  ; Default Value ; Entity Name          ; Section Id ;
 +-------------------------------------+----------------------------------------+---------------+----------------------+------------+
-; COMPILER_SIGNATURE_ID               ; 2545054224242.164584148748248          ; --            ; --                   ; --         ;
+; COMPILER_SIGNATURE_ID               ; 2545054224242.164610427224756          ; --            ; --                   ; --         ;
 ; MAX_CORE_JUNCTION_TEMP              ; 85                                     ; --            ; --                   ; --         ;
 ; MIN_CORE_JUNCTION_TEMP              ; 0                                      ; --            ; --                   ; --         ;
 ; PARTITION_COLOR                     ; -- (Not supported for targeted family) ; --            ; DE10_LITE_Golden_Top ; Top        ;
@@ -95,11 +95,11 @@ refer to the applicable agreement for further details.
 +----------------------+--------------+-------------------------+---------------------+------------------------------------+
 ; Module Name          ; Elapsed Time ; Average Processors Used ; Peak Virtual Memory ; Total CPU Time (on all processors) ;
 +----------------------+--------------+-------------------------+---------------------+------------------------------------+
-; Analysis & Synthesis ; 00:02:27     ; 1.0                     ; 5021 MB             ; 00:02:47                           ;
-; Fitter               ; 00:00:32     ; 1.7                     ; 6291 MB             ; 00:01:01                           ;
-; Assembler            ; 00:00:04     ; 1.0                     ; 4704 MB             ; 00:00:04                           ;
-; Timing Analyzer      ; 00:00:09     ; 2.4                     ; 4977 MB             ; 00:00:18                           ;
-; Total                ; 00:03:12     ; --                      ; --                  ; 00:04:10                           ;
+; Analysis & Synthesis ; 00:05:06     ; 1.0                     ; 5035 MB             ; 00:05:54                           ;
+; Fitter               ; 00:01:07     ; 1.5                     ; 6367 MB             ; 00:02:17                           ;
+; Assembler            ; 00:00:07     ; 1.0                     ; 4704 MB             ; 00:00:08                           ;
+; Timing Analyzer      ; 00:00:15     ; 2.5                     ; 4990 MB             ; 00:00:31                           ;
+; Total                ; 00:06:35     ; --                      ; --                  ; 00:08:50                           ;
 +----------------------+--------------+-------------------------+---------------------+------------------------------------+
 
 
