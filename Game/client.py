@@ -12,13 +12,18 @@ class Game():
         self.centre = (self.width/2,self.height/2)
         self.display = pygame.display.set_mode((self.width, self.height))
         self.colours = {"black": (0, 0, 0), "white": (255, 255, 255)}
+
         self.clock = pygame.time.Clock()
-        self.fps = 60
+        self.fps = 800
+
         self.events = pygame.event.get()
         self.colour_string = "" 
         self.timer = 100
         self.background = pygame.image.load("Game/assets/sky_background.png")
         self.brush_size = 20
+        self.game_music = pygame.mixer.music.load("Game/assets/menu_music.mp3")
+        self.draw_timer = 0
+        self.frame_counter = 0
 
     def redraw_window(self):
         print(self.colours)
@@ -30,17 +35,31 @@ class Game():
         xy =(x,y)
         return xy
 
+    def music_change(self):
+            pygame.mixer.music.stop()
+            self.game_music = pygame.mixer.music.load("Game/assets/drawing_music.mp3")
+            pygame.mixer.music.play(-1)
+
+
+
     def round_start(self):
+        pygame.mixer.music.play(-1)
         self.background=pygame.transform.scale(self.background,(self.width,self.height))
         self.redraw_window()
         self.display.blit(self.background,(0,0))
         canvas = pygame.Rect(self.width/2,self.height/2,self.pad_width,self.pad_height)
         canvas.center = self.centre
         pygame.draw.rect(self.display,(255,255,245),(canvas))
+
         while self.run == True:
+            self.frame_counter+=1
+            if (self.frame_counter % self.fps): #counts number of seconds player is drawing using the frame rate of the game
+                self.draw_timer+=1
+            if self.draw_timer == 1:
+                self.music_change()
             self.events = pygame.event.get()
 
-            self.clock.tick(800)
+            self.clock.tick(self.fps)
             self.brush_size = 5 #random.randint(0,50)
 
             #xy = self.return_xy()

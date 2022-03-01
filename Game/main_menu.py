@@ -47,6 +47,7 @@ def main_menu(n,display):
                     if selected =="start":
                         game = Game("shan")
                         pygame.display.set_caption("player")
+                        pygame.mixer.music.stop()
                         game.round_start()
 
 
@@ -123,7 +124,7 @@ if __name__ == "__main__":
     display.fill(white)
     clock = pygame.time.Clock()
     pygame.init()   
-    music=pygame.mixer.music.load("Game/assets/music_main.wav")
+    music=pygame.mixer.music.load("Game/assets/menu_music.mp3")
     pygame.mixer.music.play(-1)
     backgrounds = []
     for i in range(100):
