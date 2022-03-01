@@ -92,16 +92,18 @@ class Server():
                     self.clientList.remove(player)
                     break
             print(f"Server: Disconnected Player {playerNameToRemove}")
-
+        if "!BROADCAST" in data:
+            message = data.split("!BROADCAST")[1]
+            self.sendData(message, True)
         return
 
     #Send data
-    def sendData(self, data, all=False, player=0):
+    def sendData(self, data, all=False, playernum=0):
         if all == False:
-            self.clientList[player][0].send(str.encode(f"Server response: {data}"))
+            self.clientList[playernum].sendClientData(f"{data}")
         else:
-            for i in range(len(self.clientList)):
-                self.clientList[i][0].send(str.encode(f"Server response: {data}"))
+            for player in self.clientList:
+                player.sendClientData(f"{data}")
     
     #Close server
     def closeServer(self):
