@@ -1,4 +1,0 @@
-### skribblnios
-# SkrabbleMax
-# SkrabbleIO
-
