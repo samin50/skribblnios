@@ -6,7 +6,7 @@ from _thread import *
 import sys
 
 SIZE = 64
-PORT = 5050
+PORT = 9999
 SERVER = socket.gethostbyname(socket.gethostname())
 ADDR = (SERVER, PORT)
 FORMAT = 'utf-8'
