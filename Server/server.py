@@ -1,4 +1,5 @@
 import socket
+<<<<<<< HEAD
 #import threading
 import time
 import pickle
@@ -76,3 +77,6 @@ if __name__ == '__main__':
 # def sendallclients(message): 
 #     for client in my_clients : 
 #         client.send(message)
+=======
+import random
+>>>>>>> clientgame
