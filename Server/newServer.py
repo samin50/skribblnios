@@ -2,10 +2,8 @@ import socket
 import threading
 
 #Client on the server sides that holds their attributes and waits for data
-class Client():
-    def __init__(self, name, index, conn, addr, server):
-        self.name = name
-        self.index = index
+class ClientData():
+    def __init__(self, conn, addr, server):
         self.isActive = True
         self.serverProperties = (conn, addr)
         self.serverObj = server
@@ -19,24 +17,29 @@ class Client():
                 data = self.serverProperties[0].recv(1024).decode('utf-8')
             #If player disconnects
             except ConnectionResetError:
-                print(f"Player {self.name} disconnected.")
                 self.isActive = False
-                self.serverObj.processServerSide("SERVERCMD: !DISCONNECT " + self.index)
+                self.serverObj.processServerSide("SERVERCMD: !DISCONNECT " + self.name)
+                print(f"Player {self.name} disconnected.")
                 return
             if data:
-                print(f"Player {self.name} got data!")
                 self.processData(data)
+                print(f"Player {self.name} got data!")
         return
 
     #Process client side data
     def processData(self, data):
+        #Server wide command
         if "SERVERCMD:" in data:
             self.serverObj.processServerSide(data)
+        #Set player name
+        if "!SETNAME" in data:
+            self.name = data.split(" ")[1]
+        #Disconnect player
         if data == "!DISCONNECT":
             print(f"Player {self.name} disconnected.")
             self.isActive = False
             self.serverObj.processServerSide("SERVERCMD: !DISCONNECT " + str(self.name))
-        #Data processing for each client
+        #Default send data back to client as well
         self.sendClientData(data)
         return
 
@@ -59,12 +62,11 @@ class Server():
     #Add new clients as they connect
     def addClients(self):
         while self.isActive:
-            index = len(self.clientList)
-            Name = index
             conn, addr = self.server.accept()
-            Player = Client(Name, index, conn, addr, self)
+            Player = ClientData(conn, addr, self)
             self.clientList.append(Player)
             conn.send(b"Welcome to the server!\n")
+            print("\nNew Player Joined!")
             
             
     #Process individual clients for data
@@ -87,7 +89,7 @@ class Server():
             playerNameToRemove = data.split(" ")[1]
             for player in self.clientList:
                 if player.name == playerNameToRemove:
-                    self.clientList.remove(playerNameToRemove)
+                    self.clientList.remove(player)
                     break
             print(f"Server: Disconnected Player {playerNameToRemove}")
 
