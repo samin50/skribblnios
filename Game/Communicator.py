@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import socket
 import pickle
 
@@ -26,6 +25,3 @@ class Client_side:
             return pickle.loads(self.client.recv())
         except socket.error as error:
             print(error)
-=======
-print("Communicator started.")
->>>>>>> clientgame
