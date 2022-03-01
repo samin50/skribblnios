@@ -13,7 +13,6 @@ client.connect(ADDR)
 def send(msg):
     message = msg.encode(FORMAT)
     client.send(message)
-    print(client.recv(2048).decode(FORMAT))
     while(True):
         msg = client.recv(2048).decode(FORMAT)
         print(msg)
