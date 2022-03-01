@@ -55,4 +55,10 @@ Data is processed by the processData method, current just printing the data to c
 
 Sending !DISCONNECT will disconnect the current client, and will no longer have responses from the server
 
+command examples:
+
+x -> Server Response: x
+!DISCONNECT -> diconnects player
+SERVERCMD: !BROADCAST x -> sends message x to all currently connected players
+
 """

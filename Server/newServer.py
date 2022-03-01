@@ -92,6 +92,7 @@ class Server():
                     self.clientList.remove(player)
                     break
             print(f"Server: Disconnected Player {playerNameToRemove}")
+        #Broadcast to all players
         if "!BROADCAST" in data:
             message = data.split("!BROADCAST")[1]
             self.sendData(message, True)
