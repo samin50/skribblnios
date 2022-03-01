@@ -3,7 +3,7 @@
 # Machine generated for CPU 'cpu' in SOPC Builder design 'NIOSSystem'
 # SOPC Builder design path: ../../NIOSSystem.sopcinfo
 #
-# Generated: Sun Feb 27 16:30:15 GMT 2022
+# Generated: Tue Mar 01 03:23:21 GMT 2022
 
 # DO NOT MODIFY THIS FILE
 #
@@ -46,5 +46,5 @@
 # The cache attribute is specified which improves GDB performance
 # by allowing GDB to cache memory contents on the host.
 
-# onchip_memory
-memory 0x20000 0x40000 cache
+# sdram
+memory 0x4000000 0x8000000 cache

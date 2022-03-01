@@ -8,15 +8,18 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <fcntl.h>
 
 //Time Import
 #include "sys/alt_timestamp.h"
 #define SAMPLING_TIME 3
 #define INTERVALSECOND 100000000
 
+
 //Variable Declerations
 //UART
 FILE* fp;
+char dataIn[];
 
 //LED
 alt_u8 led;
@@ -29,8 +32,14 @@ void led_write(alt_u8 led_pattern) {
     IOWR(LED_BASE, 0, led_pattern);
 }
 
+void processData(char* data) {
+	printf("Data recieved: %s\n", data);
+}
+
+
 int main () {
 	//Accelerometer setup
+	alt_32 x_read;
 	alt_32 y_read;
 	alt_32 z_read;
 	alt_up_accelerometer_spi_dev * acc_dev;
@@ -40,28 +49,21 @@ int main () {
 		return 1;
 	}
 	//Open file for reading and writing
-	char dataIn = 0;
-	fp = fopen ("/dev/jtag_uart", "r+");
-
+	//fp = fopen ("/dev/jtag_uart", "r+");
+	fp = open("/dev/jtag_uart", O_RDWR|O_NONBLOCK|O_NOCTTY|O_SYNC);
 	if (fp)	{
 		//Begin
 		led_write(0x7);
 		alt_timestamp_start();
 		startTime = alt_timestamp();
 		// Loop until KILL command
-		//Comparing strings in the usual way compares the pointers.
 		while (dataIn != 'k') {
 			// Get data/command from Python interface
 			led_write(0x60);
 			//dataIn = getc(fp);
-			//printf(dataIn);
-			// Print a message if character is 't'.
-			/*
-			if (dataIn == 't') {
-				fwrite (msg, strlen (msg), 1, fp);
-				alt_printf("Got t\n");
+			if(read(fp, &dataIn, 1) > 0) {
+				processData(dataIn);
 			}
-			*/
 			//If file write fails
 			if (ferror(fp)) {// Check if an error occurred with the file
 				clearerr(fp);// If so, clear it.
@@ -70,10 +72,10 @@ int main () {
 			stopTime = alt_timestamp();
 			//Frequency of accelerometer is 2^SAMPLING_TIME Hz, with 6, 64Hz
 			if ((stopTime-startTime) > (INTERVALSECOND >> SAMPLING_TIME-1)) {
-				//Y is up, Z is left and right
+				alt_up_accelerometer_spi_read_x_axis(acc_dev, & x_read);
 				alt_up_accelerometer_spi_read_y_axis(acc_dev, & y_read);
 				alt_up_accelerometer_spi_read_z_axis(acc_dev, & z_read);
-				printf("%d %d\n", y_read, z_read);
+				printf("%d %d %d\n", x_read, y_read, z_read);
 				startTime = alt_timestamp();
 			}
 		}
