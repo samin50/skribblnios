@@ -12,37 +12,55 @@ class Game():
         self.centre = (self.width/2,self.height/2)
         self.display = pygame.display.set_mode((self.width, self.height))
         self.colours = {"black": (0, 0, 0), "white": (255, 255, 255)}
+
         self.clock = pygame.time.Clock()
-        self.fps = 60
+        self.fps = 800
+
         self.events = pygame.event.get()
-        self.brushes = []
-        self.colours = []
+        self.colour_string = "" 
         self.timer = 100
         self.background = pygame.image.load("Game/assets/sky_background.png")
         self.brush_size = 20
+        self.game_music = pygame.mixer.music.load("Game/assets/menu_music.mp3")
+        self.draw_timer = 0
+        self.frame_counter = 0
 
     def redraw_window(self):
         print(self.colours)
         self.display.fill((255, 255, 255))
 
     def return_xy(self):
-        x = random.randint(0,game.width+100)
-        y = random.randint(0, game.height+100)
+        x = random.randint(0,self.width+100)
+        y = random.randint(0, self.height+100)
         xy =(x,y)
         return xy
 
+    def music_change(self):
+            pygame.mixer.music.stop()
+            self.game_music = pygame.mixer.music.load("Game/assets/drawing_music.mp3")
+            pygame.mixer.music.play(-1)
+
+
+
     def round_start(self):
-        game.background=pygame.transform.scale(game.background,(game.width,game.height))
-        game.redraw_window()
-        game.display.blit(game.background,(0,0))
+        pygame.mixer.music.play(-1)
+        self.background=pygame.transform.scale(self.background,(self.width,self.height))
+        self.redraw_window()
+        self.display.blit(self.background,(0,0))
         canvas = pygame.Rect(self.width/2,self.height/2,self.pad_width,self.pad_height)
         canvas.center = self.centre
-        pygame.draw.rect(game.display,(255,255,245),(canvas))
-        while self.run == True:
-            game.events = pygame.event.get()
+        pygame.draw.rect(self.display,(255,255,245),(canvas))
 
-            game.clock.tick(15)
-            game.brush_size = 5 #random.randint(0,50)
+        while self.run == True:
+            self.frame_counter+=1
+            if (self.frame_counter % self.fps): #counts number of seconds player is drawing using the frame rate of the game
+                self.draw_timer+=1
+            if self.draw_timer == 1:
+                self.music_change()
+            self.events = pygame.event.get()
+
+            self.clock.tick(self.fps)
+            self.brush_size = 5 #random.randint(0,50)
 
             #xy = self.return_xy()
             xy = pygame.mouse.get_pos()
@@ -53,22 +71,16 @@ class Game():
                 xy = (-300,0)
 
             pygame.display.update()
-
             #pygame.draw.rect(game.display,(0,0,0),(self.height/2,100,self.pad_width,self.pad_height))
 
-            pygame.draw.circle(game.display,(50,200,50),(xy[0],xy[1]),10)
-
+            pygame.draw.circle(self.display,(50,200,50),(xy[0],xy[1]),10)
             #self.display.blit(canvas)
             #pygame.draw(self.display, (255,255,255), canvas)
             pygame.display.update()
-            for event in game.events:
+            for event in self.events:
                 if event.type == pygame.QUIT:
                     run = False
                     pygame.quit()
 
     def load_sprites(self):
         None
-
-game = Game("shan")
-pygame.display.set_caption("player")
-game.round_start()
