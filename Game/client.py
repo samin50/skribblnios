@@ -24,6 +24,14 @@ class Game():
         self.game_music = pygame.mixer.music.load("Game/assets/menu_music.mp3")
         self.draw_timer = 0
         self.frame_counter = 0
+        
+        self.colours= [[0,0,0],[0,0,0],[0,0,0]] # 3-bit binary value representing colour switch state
+        #each bit represents the rgb value 64 
+        self.switches = [0,0,0,0,0,0,0,0,0]
+        self.brush_colour = (0,0,0)
+        self.colour_change = False
+        
+
 
     def redraw_window(self):
         print(self.colours)
@@ -36,11 +44,23 @@ class Game():
         return xy
 
     def music_change(self):
-            pygame.mixer.music.stop()
-            self.game_music = pygame.mixer.music.load("Game/assets/drawing_music.mp3")
-            pygame.mixer.music.play(-1)
+        pygame.mixer.music.stop()
+        self.game_music = pygame.mixer.music.load("Game/assets/drawing_music.mp3")
+        pygame.mixer.music.play(-1)
+
+    def blti(self,binlist): #binary list to int
+        return int(''.join(map(str, binlist)), 2)
 
 
+    def colour_update(self):
+        self.brush_colour = ((self.blti(self.colours[0])<<5),(self.blti(self.colours[1])<<5),(self.blti(self.colours[2])<<5)) #RGB
+        print(self.brush_colour)
+
+    def switch_update(self):
+        for i in range(len(self.colours)):
+            for j in range(len(self.colours[i])):
+                self.colours[i][j] = random.randint(0,1)
+               
 
     def round_start(self):
         pygame.mixer.music.play(-1)
@@ -60,9 +80,10 @@ class Game():
             self.events = pygame.event.get()
 
             self.clock.tick(self.fps)
-            self.brush_size = 5 #random.randint(0,50)
+            self.brush_size = 5
+            self.colour_update()
+            self.switch_update()
 
-            #xy = self.return_xy()
             xy = pygame.mouse.get_pos()
             #if (((self.centre[0]-self.pad_width/2)<xy[0]>(self.centre[0]+self.pad_width/2)) or ((self.centre[1]-self.pad_height/2)<xy[1]>(self.centre[1]+self.pad_height/2))):
             collide = canvas.collidepoint(xy)
@@ -73,7 +94,7 @@ class Game():
             pygame.display.update()
             #pygame.draw.rect(game.display,(0,0,0),(self.height/2,100,self.pad_width,self.pad_height))
 
-            pygame.draw.circle(self.display,(50,200,50),(xy[0],xy[1]),10)
+            pygame.draw.circle(self.display,(self.brush_colour),(xy[0],xy[1]),10)
             #self.display.blit(canvas)
             #pygame.draw(self.display, (255,255,255), canvas)
             pygame.display.update()
