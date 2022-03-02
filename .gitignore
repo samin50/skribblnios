@@ -1,6 +1,7 @@
 __pycache__
 .vscode
-db
-.qsys_edit
-.plugins
+FPGA/*/
+!FPGA/software
 .metadata
+!*.py
+!*.s
