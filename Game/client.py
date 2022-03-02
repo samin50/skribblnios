@@ -5,8 +5,8 @@ class Game():
     def __init__(self,username):
         self.run = True
         self.username = username
-        self.width = 1300
-        self.height = 800
+        self.width = 1000
+        self.height = 600
         self.pad_width = int(self.width/1.4)
         self.pad_height = int(self.height/1.3)
         self.centre = (self.width/2,self.height/2)
@@ -30,11 +30,11 @@ class Game():
         self.switches = [0,0,0,0,0,0,0,0,0]
         self.brush_colour = (0,0,0)
         self.colour_change = False
+        self.draw_blit = False
         
 
 
     def redraw_window(self):
-        print(self.colours)
         self.display.fill((255, 255, 255))
 
     def return_xy(self):
@@ -54,13 +54,20 @@ class Game():
 
     def colour_update(self):
         self.brush_colour = ((self.blti(self.colours[0])<<5),(self.blti(self.colours[1])<<5),(self.blti(self.colours[2])<<5)) #RGB
-        print(self.brush_colour)
 
     def switch_update(self):
         for i in range(len(self.colours)):
             for j in range(len(self.colours[i])):
                 self.colours[i][j] = random.randint(0,1)
                
+    def mouse_down(self):
+        for event in self.events:
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                self.draw_blit = True
+                print("DOWN")
+            elif event.type == pygame.MOUSEBUTTONUP:
+                self.draw_blit = False
+                print("UP")
 
     def round_start(self):
         pygame.mixer.music.play(-1)
@@ -86,15 +93,14 @@ class Game():
 
             xy = pygame.mouse.get_pos()
             #if (((self.centre[0]-self.pad_width/2)<xy[0]>(self.centre[0]+self.pad_width/2)) or ((self.centre[1]-self.pad_height/2)<xy[1]>(self.centre[1]+self.pad_height/2))):
+            
             collide = canvas.collidepoint(xy)
-
-            if collide!=True:
-                xy = (-300,0)
 
             pygame.display.update()
             #pygame.draw.rect(game.display,(0,0,0),(self.height/2,100,self.pad_width,self.pad_height))
-
-            pygame.draw.circle(self.display,(self.brush_colour),(xy[0],xy[1]),10)
+            self.mouse_down()
+            if self.draw_blit:
+                pygame.draw.circle(self.display,(self.brush_colour),(xy[0],xy[1]),10)
             #self.display.blit(canvas)
             #pygame.draw(self.display, (255,255,255), canvas)
             pygame.display.update()
