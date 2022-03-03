@@ -93,12 +93,14 @@ class Game():
 
             xy = pygame.mouse.get_pos()
             #if (((self.centre[0]-self.pad_width/2)<xy[0]>(self.centre[0]+self.pad_width/2)) or ((self.centre[1]-self.pad_height/2)<xy[1]>(self.centre[1]+self.pad_height/2))):
-            
+            self.mouse_down()
             collide = canvas.collidepoint(xy)
+            if collide == False:
+                self.draw_blit =False #Disable draw if pointer isn't on the canvas
 
             pygame.display.update()
             #pygame.draw.rect(game.display,(0,0,0),(self.height/2,100,self.pad_width,self.pad_height))
-            self.mouse_down()
+            
             if self.draw_blit:
                 pygame.draw.circle(self.display,(self.brush_colour),(xy[0],xy[1]),10)
             #self.display.blit(canvas)
