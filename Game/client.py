@@ -1,16 +1,20 @@
 import pygame
 import player
 import random
+from text_input import *
 class Game():
     def __init__(self,username):
         self.run = True
         self.username = username
-        self.width = 1000
+        self.width = 1200
         self.height = 600
-        self.pad_width = int(self.width/1.4)
-        self.pad_height = int(self.height/1.3)
-        self.centre = (self.width/2,self.height/2)
         self.display = pygame.display.set_mode((self.width, self.height))
+
+        self.canvas_width = int(self.width/1.6)
+        self.canvas_height = int(self.height/1.3)
+        self.canvas = pygame.Rect(self.width/2,self.height/2,self.canvas_width,self.canvas_height)
+        self.centre = (self.width/2,self.height/2)
+        
         self.colours = {"black": (0, 0, 0), "white": (255, 255, 255)}
 
         self.clock = pygame.time.Clock()
@@ -31,6 +35,10 @@ class Game():
         self.brush_colour = (0,0,0)
         self.colour_change = False
         self.draw_blit = False
+       
+        
+        self.chatbox = pygame.Rect(self.width/5,self.height/2,self.canvas_width/2.5,self.canvas_height)
+        self.is_typing = False
         
 
 
@@ -60,25 +68,46 @@ class Game():
             for j in range(len(self.colours[i])):
                 self.colours[i][j] = random.randint(0,1)
                
-    def mouse_down(self):
+    def mouse_down(self,draw):
         for event in self.events:
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                self.draw_blit = True
-                print("DOWN")
-            elif event.type == pygame.MOUSEBUTTONUP:
-                self.draw_blit = False
-                print("UP")
+            if draw == True:
+                self.typing = False
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    #return True
+                    self.draw_blit = True
+                    print("DOWN")
+                elif event.type == pygame.MOUSEBUTTONUP:
+                    #return False
+                    self.draw_blit = False
+                    print("UP")
+            else:
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    print("TYPING")
+                    self.typing = True
+                else:
+                    self.typing = False
+
+    def typing(self):
+        text= run_textbox(self.display,"enter text",(self.width/1.16,self.height/2))
+        print(text)
+
+
+
 
     def round_start(self):
         pygame.mixer.music.play(-1)
         self.background=pygame.transform.scale(self.background,(self.width,self.height))
         self.redraw_window()
         self.display.blit(self.background,(0,0))
-        canvas = pygame.Rect(self.width/2,self.height/2,self.pad_width,self.pad_height)
-        canvas.center = self.centre
-        pygame.draw.rect(self.display,(255,255,245),(canvas))
+
+        #canvas = pygame.Rect(self.width/2,self.height/2,self.canvas_width,self.canvas_height)
+        self.canvas.center = (self.width/2.5,self.height/2)
+        self.chatbox.center = (self.width/1.16,self.height/2)
+        pygame.draw.rect(self.display,(255,255,245),(self.canvas))
+        pygame.draw.rect(self.display,(230,230,220),(self.chatbox))
 
         while self.run == True:
+            
             self.frame_counter+=1
             if (self.frame_counter % self.fps): #counts number of seconds player is drawing using the frame rate of the game
                 self.draw_timer+=1
@@ -92,16 +121,30 @@ class Game():
             self.switch_update()
 
             xy = pygame.mouse.get_pos()
-            #if (((self.centre[0]-self.pad_width/2)<xy[0]>(self.centre[0]+self.pad_width/2)) or ((self.centre[1]-self.pad_height/2)<xy[1]>(self.centre[1]+self.pad_height/2))):
+            #if (((self.centre[0]-self.canvas_width/2)<xy[0]>(self.centre[0]+self.canvas_width/2)) or ((self.centre[1]-self.canvas_height/2)<xy[1]>(self.centre[1]+self.canvas_height/2))):
             
-            collide = canvas.collidepoint(xy)
 
-            pygame.display.update()
-            #pygame.draw.rect(game.display,(0,0,0),(self.height/2,100,self.pad_width,self.pad_height))
-            self.mouse_down()
+
+             # returns true if mouse is being held down which enables draw
+            
+
+            collide = self.canvas.collidepoint(xy)
+            chat_collide = self.chatbox.collidepoint(xy)
+            if collide==False:
+                self.draw_blit = False
+                if chat_collide:
+                    self.mouse_down(False)
+            else:
+                self.mouse_down(True)
+            
             if self.draw_blit:
                 pygame.draw.circle(self.display,(self.brush_colour),(xy[0],xy[1]),10)
-            #self.display.blit(canvas)
+            
+            if self.is_typing == True:
+                self.typing()
+            
+
+            #self.display.blit(self.canvas)
             #pygame.draw(self.display, (255,255,255), canvas)
             pygame.display.update()
             for event in self.events:
