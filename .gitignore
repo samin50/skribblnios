@@ -1,6 +1,6 @@
 __pycache__
 .vscode
-FPGA/*
+FPGA/*/
 !.py
 !*.sopinfo
 !*.qsys
