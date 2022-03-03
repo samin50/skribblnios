@@ -19,6 +19,7 @@
 //Variable Declerations
 //UART
 FILE* fp;
+char dataIn[];
 
 //LED
 alt_u8 led;
@@ -26,6 +27,70 @@ int level;
 
 //Timer
 alt_u32 startTime, stopTime;
+
+//Accelerometer setup
+alt_32 x_read;
+alt_32 y_read;
+alt_32 z_read;
+alt_up_accelerometer_spi_dev * acc_dev;
+
+void writeScore(char* scoreStr) {
+	IOWR_ALTERA_AVALON_PIO_DATA(HEX5_BASE, convertDisplay(scoreStr[0]));
+	IOWR_ALTERA_AVALON_PIO_DATA(HEX4_BASE, convertDisplay('-'));
+	switch (strlen(scoreStr)){
+	case 3:
+		IOWR_ALTERA_AVALON_PIO_DATA(HEX0_BASE, convertDisplay(scoreStr[2]));
+		IOWR_ALTERA_AVALON_PIO_DATA(HEX1_BASE, convertDisplay(''));
+		IOWR_ALTERA_AVALON_PIO_DATA(HEX2_BASE, convertDisplay(''));
+		IOWR_ALTERA_AVALON_PIO_DATA(HEX3_BASE, convertDisplay(''));
+	case 4:
+		IOWR_ALTERA_AVALON_PIO_DATA(HEX0_BASE, convertDisplay(scoreStr[3]));
+		IOWR_ALTERA_AVALON_PIO_DATA(HEX1_BASE, convertDisplay(scoreStr[2]));
+		IOWR_ALTERA_AVALON_PIO_DATA(HEX2_BASE, convertDisplay(''));
+		IOWR_ALTERA_AVALON_PIO_DATA(HEX3_BASE, convertDisplay(''));
+	case 5:
+		IOWR_ALTERA_AVALON_PIO_DATA(HEX0_BASE, convertDisplay(scoreStr[4]));
+		IOWR_ALTERA_AVALON_PIO_DATA(HEX1_BASE, convertDisplay(scoreStr[3]));
+		IOWR_ALTERA_AVALON_PIO_DATA(HEX2_BASE, convertDisplay(scoreStr[2]));
+		IOWR_ALTERA_AVALON_PIO_DATA(HEX3_BASE, convertDisplay(''));
+	case 4:
+		IOWR_ALTERA_AVALON_PIO_DATA(HEX0_BASE, convertDisplay(scoreStr[5]));
+		IOWR_ALTERA_AVALON_PIO_DATA(HEX1_BASE, convertDisplay(scoreStr[4]));
+		IOWR_ALTERA_AVALON_PIO_DATA(HEX2_BASE, convertDisplay(scoreStr[3]));
+		IOWR_ALTERA_AVALON_PIO_DATA(HEX3_BASE, convertDisplay(scoreStr[2]));
+	}
+	return;
+}
+
+//Letters will be upside down
+int convertDisplay(char digit) {
+	switch(digit) {
+	case '0':
+		return 0b1000000;
+	case '1':
+		return 0b1001111;
+	case '2':
+		return 0b0100100;
+	case '3':
+		return 0b0000110;
+	case '4':
+		return 0b0001011;
+	case '5':
+		return 0b0010010;
+	case '6':
+		return 0b0010000;
+	case '7':
+		return 0b1000111;
+	case '8':
+		return 0b0000000;
+	case '9':
+		return 0b0000010;
+	case '-':
+		return 0b0111111;
+	default:
+		return 0b1111111;
+	}
+}
 
 void led_write(alt_u8 led_pattern) {
     IOWR(LED_BASE, 0, led_pattern);
@@ -37,19 +102,12 @@ void processData(char* data) {
 
 
 int main () {
-	//Accelerometer setup
-	alt_32 x_read;
-	alt_32 y_read;
-	alt_32 z_read;
-	alt_up_accelerometer_spi_dev * acc_dev;
 	acc_dev = alt_up_accelerometer_spi_open_dev("/dev/accelerometer_spi");
 	if (acc_dev == NULL) {
 		// if return 1, check if the spi ip name is "accelerometer_spi"
 		return 1;
 	}
-	//Open file for reading and writing
-	char dataIn;
-	//fp = fopen ("/dev/jtag_uart", "r+");
+	//Open file for reading and writing, non blocking
 	fp = open("/dev/jtag_uart", O_RDWR|O_NONBLOCK|O_NOCTTY|O_SYNC);
 	if (fp)	{
 		//Begin
