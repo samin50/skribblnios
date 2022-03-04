@@ -1,5 +1,6 @@
 import socket
 import threading
+import random 
 
 #Client on the server sides that holds their attributes and waits for data
 class ClientData():
@@ -57,6 +58,9 @@ class Server():
         self.server.listen()
         self.listenThread = threading.Thread(target=self.addClients)
         self.listenThread.start()
+        self.turn = False #turn hasnt started till drawer is chosen
+        self.next_drawer = 0 
+        
         print(f"Server bind success @{self.address}")
     
     #Add new clients as they connect
@@ -78,6 +82,7 @@ class Server():
                 self.clientList[player].processData(data)
         return
 
+    
     #Process data on server side
     def processServerSide(self, data):
         data = data.split("SERVERCMD: ")[1]
@@ -86,18 +91,25 @@ class Server():
             self.closeServer()
         if "!DISCONNECT" in data:
             #Remove player from list based on name
-            playerNameToRemove = data.split("!DISCONNECT")[1]
+            playerNameToRemove = data.split(" ")[1]
             for player in self.clientList:
                 if player.name == playerNameToRemove:
                     self.clientList.remove(player)
-                    self.clientList.processData("!DISCONNECT")
                     break
             print(f"Server: Disconnected Player {playerNameToRemove}")
         #Broadcast to all players
         if "!BROADCAST" in data:
             message = data.split("!BROADCAST")[1]
             self.sendData(message, True)
-        return
+
+        #choose who is drawing 
+        if "!DRAWERSELECT" in data:
+            self.turn = True
+            randomize_drawer = random.randint(1, len(self.clientList))
+            self.next_drawer = self.clientList[randomize_drawer-1]
+            whosdrawing = self.next_drawer.name + " is now drawing! "
+            self.sendData(whosdrawing, True)
+            print(self.next_drawer.name + " is now drawing!")
 
     #Send data
     def sendData(self, data, all=False, playernum=0):
@@ -109,9 +121,8 @@ class Server():
     
     #Close server
     def closeServer(self):
-        tempList = self.clientList
-        for player in tempList:
-            player.processData("!DISCONNECT")
+        for i in range(len(self.clientList)):
+            self.clientList[i].processData("!DISCONNECT")
         self.isActive = False
         self.server.close()
 
@@ -125,16 +136,12 @@ HOW IT WORKS:
 When the server object detects a new client connecting to it, it creates a server-side object called client
 that contains data that allows communication with that specific client, ie IP address and name. It appends this new client
 to the list of existing clients to allow other functions to iterate through this list to send data.
-
 Each client begins its own thread and listens for data on their channel, whenever a client recieves data,
 it performs the processData command with the data it received, which currently to just printing the data it obtained back
 to the client. 
-
 If a client sends data that is prefixed with 'SERVERCMD:', the 'processServerSide' function in the Server object will run
 the command instead of the client, and an implemented function is '!DISCONNECT' which will disconnect the client and remove it 
 from the client list in the server object.
-
 Add more functionality as you wish, and server wide commands can easily be implemented with 'processServerSide' by any client sending
 the correct command, need to do stuff like determining the current drawer and managing the XY coords etc (refer to the diagram)
-
 """
