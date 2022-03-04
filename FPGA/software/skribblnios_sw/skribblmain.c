@@ -181,7 +181,7 @@ int main () {
 	while (strcmp(dataIn, "ENDGAME") != 0) {
 		fp = open("/dev/jtag_uart", O_RDWR|O_NONBLOCK|O_NOCTTY|O_SYNC);
 		roundLoop(fp);
-		strcpy(dataIn, waitForData(fp, "STARTGAME", "ENDGAME"));
+		strcpy(dataIn, waitForData(fp, "STARTROUND", "ENDGAME"));
 		fclose(fp);
 	}
 	return 0;
