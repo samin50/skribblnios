@@ -23,84 +23,87 @@ alt_32 x_read;
 alt_32 y_read;
 alt_32 z_read;
 alt_up_accelerometer_spi_dev * acc_dev;
+
+//Convert letters - will be upside down
+alt_u8 convertDisplay(char digit) {
+	switch(digit) {
+	case '0':
+		return 0b11000000;
+	case '1':
+		return 0b11001111;
+	case '2':
+		return 0b10100100;
+	case '3':
+		return 0b10000110;
+	case '4':
+		return 0b10001011;
+	case '5':
+		return 0b10010010;
+	case '6':
+		return 0b10010000;
+	case '7':
+		return 0b11000111;
+	case '8':
+		return 0b10000000;
+	case '9':
+		return 0b10000010;
+	case '-':
+		return 0b10111111;
+	case 's':
+		return 0b10010010;
+	case 't':
+		return 0b10111000;
+	case 'a':
+		return 0b10000001;
+	case 'r':
+		return 0b10111101; //0b11110001 Capital
+	default:
+		return 0b11111111;
+	}
+}
 //Write to hex
 void writeScore(char* scoreStr) {
-	IOWR_ALTERA_AVALON_PIO_DATA(HEX5_BASE, convertDisplay(scoreStr[0]));
-	IOWR_ALTERA_AVALON_PIO_DATA(HEX4_BASE, convertDisplay(scoreStr[1]));
+	IOWR_ALTERA_AVALON_PIO_DATA(HEX0_BASE, convertDisplay(scoreStr[0]));
+	IOWR_ALTERA_AVALON_PIO_DATA(HEX1_BASE, convertDisplay(scoreStr[1]));
 	switch (strlen(scoreStr)){
 	case 3:
-		IOWR_ALTERA_AVALON_PIO_DATA(HEX0_BASE, convertDisplay(scoreStr[2]));
-		IOWR_ALTERA_AVALON_PIO_DATA(HEX1_BASE, convertDisplay(''));
-		IOWR_ALTERA_AVALON_PIO_DATA(HEX2_BASE, convertDisplay(''));
-		IOWR_ALTERA_AVALON_PIO_DATA(HEX3_BASE, convertDisplay(''));
+		IOWR_ALTERA_AVALON_PIO_DATA(HEX2_BASE, convertDisplay('.'));
+		IOWR_ALTERA_AVALON_PIO_DATA(HEX3_BASE, convertDisplay('.'));
+		IOWR_ALTERA_AVALON_PIO_DATA(HEX4_BASE, convertDisplay('.'));
+		IOWR_ALTERA_AVALON_PIO_DATA(HEX5_BASE, convertDisplay(scoreStr[2]));
 	case 4:
-		IOWR_ALTERA_AVALON_PIO_DATA(HEX0_BASE, convertDisplay(scoreStr[3]));
-		IOWR_ALTERA_AVALON_PIO_DATA(HEX1_BASE, convertDisplay(scoreStr[2]));
-		IOWR_ALTERA_AVALON_PIO_DATA(HEX2_BASE, convertDisplay(''));
-		IOWR_ALTERA_AVALON_PIO_DATA(HEX3_BASE, convertDisplay(''));
+		IOWR_ALTERA_AVALON_PIO_DATA(HEX2_BASE, convertDisplay('.'));
+		IOWR_ALTERA_AVALON_PIO_DATA(HEX3_BASE, convertDisplay('.'));
+		IOWR_ALTERA_AVALON_PIO_DATA(HEX4_BASE, convertDisplay(scoreStr[2]));
+		IOWR_ALTERA_AVALON_PIO_DATA(HEX5_BASE, convertDisplay(scoreStr[3]));
 	case 5:
-		IOWR_ALTERA_AVALON_PIO_DATA(HEX0_BASE, convertDisplay(scoreStr[4]));
-		IOWR_ALTERA_AVALON_PIO_DATA(HEX1_BASE, convertDisplay(scoreStr[3]));
-		IOWR_ALTERA_AVALON_PIO_DATA(HEX2_BASE, convertDisplay(scoreStr[2]));
-		IOWR_ALTERA_AVALON_PIO_DATA(HEX3_BASE, convertDisplay(''));
-	case 4:
-		IOWR_ALTERA_AVALON_PIO_DATA(HEX0_BASE, convertDisplay(scoreStr[5]));
-		IOWR_ALTERA_AVALON_PIO_DATA(HEX1_BASE, convertDisplay(scoreStr[4]));
-		IOWR_ALTERA_AVALON_PIO_DATA(HEX2_BASE, convertDisplay(scoreStr[3]));
+		IOWR_ALTERA_AVALON_PIO_DATA(HEX2_BASE, convertDisplay('.'));
 		IOWR_ALTERA_AVALON_PIO_DATA(HEX3_BASE, convertDisplay(scoreStr[2]));
+		IOWR_ALTERA_AVALON_PIO_DATA(HEX4_BASE, convertDisplay(scoreStr[3]));
+		IOWR_ALTERA_AVALON_PIO_DATA(HEX5_BASE, convertDisplay(scoreStr[4]));
+	case 6:
+		IOWR_ALTERA_AVALON_PIO_DATA(HEX2_BASE, convertDisplay(scoreStr[2]));
+		IOWR_ALTERA_AVALON_PIO_DATA(HEX3_BASE, convertDisplay(scoreStr[3]));
+		IOWR_ALTERA_AVALON_PIO_DATA(HEX4_BASE, convertDisplay(scoreStr[4]));
+		IOWR_ALTERA_AVALON_PIO_DATA(HEX5_BASE, convertDisplay(scoreStr[5]));
 	}
 	return;
 }
 
-//Convert letters - will be upside down
-int convertDisplay(char digit) {
-	switch(digit) {
-	case '0':
-		return 0b1000000;
-	case '1':
-		return 0b1001111;
-	case '2':
-		return 0b0100100;
-	case '3':
-		return 0b0000110;
-	case '4':
-		return 0b0001011;
-	case '5':
-		return 0b0010010;
-	case '6':
-		return 0b0010000;
-	case '7':
-		return 0b1000111;
-	case '8':
-		return 0b0000000;
-	case '9':
-		return 0b0000010;
-	case '-':
-		return 0b0111111;
-	case 's':
-		return 0b0010010;
-	case 't':
-		return 0b0111000;
-	case 'a':
-		return 0b0000001;
-	case 'r':
-		return 0b0111101;
-	default:
-		return 0b1111111;
-	}
-}
+
 
 //Write to leds
-void ledWrite(alt_u8 led_pattern) {
+void ledWrite(unsigned int led_pattern) {
     IOWR(LED_BASE, 0, led_pattern);
 }
 
 //Function that halts till certain data is received
 char* waitForData(FILE* fp, char* compare1, char* compare2) {
 	char* waitIn[BUFFERSIZE];
-	while ((strcmp(waitIn, compare1) != 0 || strcmp(waitIn, compare2) != 0 )) {
-		read(fp, &waitIn, 1);
+	while ((strcmp(waitIn, compare1) != 0) && (strcmp(waitIn, compare2) != 0 )) {
+		read(fp, &waitIn, BUFFERSIZE);
 	}
+	printf("BREAK");
 	if ((strcmp(waitIn, compare1)) != 0) {
 		return compare1;
 	} else {
@@ -142,6 +145,7 @@ void roundLoop(FILE* fp) {
 		}
 		//Send  accelerometer and input values
 		//Obtain values at a certain frequency
+		/*
 		stopTime = alt_timestamp();
 		//Frequency of accelerometer is 2^SAMPLING_TIME Hz, with 6, 64Hz
 		if ((stopTime-startTime) > (INTERVALSECOND >> SAMPLING_TIME-1)) {
@@ -150,7 +154,9 @@ void roundLoop(FILE* fp) {
 			alt_up_accelerometer_spi_read_z_axis(acc_dev, & z_read);
 			printf("%d %d %d\n", x_read, y_read, z_read);
 			startTime = alt_timestamp();
+
 		}
+		*/
 	}
 }
 
@@ -162,19 +168,20 @@ int main () {
 	}
 	char* dataIn[BUFFERSIZE];
 	FILE* fp = open("/dev/jtag_uart", O_RDWR|O_NONBLOCK|O_NOCTTY|O_SYNC);
-	writeScore("start-");
-	led_write(0b1111111111);
+	writeScore("start");
+	ledWrite(0b1111111111);
 	//Wait for start
-	dataIn = waitForData(fp, "STARTGAME", "STARTGAME");
+	strcpy(dataIn, waitForData(fp, "STARTGAME", "STARTGAME"));
+	writeScore("------");
 	//Wait for round start
-	dataIn = waitForData(fp, "STARTROUND", "STARTROUND");
+	strcpy(dataIn, waitForData(fp, "STARTROUND", "STARTROUND"));
 	fclose(fp);
 
 	//MAIN LOOP - Terminate loop when game end
 	while (strcmp(dataIn, "ENDGAME") != 0) {
 		fp = open("/dev/jtag_uart", O_RDWR|O_NONBLOCK|O_NOCTTY|O_SYNC);
 		roundLoop(fp);
-		dataIn = waitForData(fp, "STARTGAME", "ENDGAME");
+		strcpy(dataIn, waitForData(fp, "STARTGAME", "ENDGAME"));
 		fclose(fp);
 	}
 	return 0;

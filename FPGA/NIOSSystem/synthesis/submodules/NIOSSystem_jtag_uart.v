@@ -35,7 +35,7 @@ module NIOSSystem_jtag_uart_sim_scfifo_w (
   output           fifo_FF;
   output  [  7: 0] r_dat;
   output           wfifo_empty;
-  output  [ 12: 0] wfifo_used;
+  output  [ 14: 0] wfifo_used;
   input            clk;
   input   [  7: 0] fifo_wdata;
   input            fifo_wr;
@@ -44,7 +44,7 @@ module NIOSSystem_jtag_uart_sim_scfifo_w (
 wire             fifo_FF;
 wire    [  7: 0] r_dat;
 wire             wfifo_empty;
-wire    [ 12: 0] wfifo_used;
+wire    [ 14: 0] wfifo_used;
 
 //synthesis translate_off
 //////////////// SIMULATION-ONLY CONTENTS
@@ -55,7 +55,7 @@ wire    [ 12: 0] wfifo_used;
     end
 
 
-  assign wfifo_used = {13{1'b0}};
+  assign wfifo_used = {15{1'b0}};
   assign r_dat = {8{1'b0}};
   assign fifo_FF = 1'b0;
   assign wfifo_empty = 1'b1;
@@ -94,7 +94,7 @@ module NIOSSystem_jtag_uart_scfifo_w (
   output           fifo_FF;
   output  [  7: 0] r_dat;
   output           wfifo_empty;
-  output  [ 12: 0] wfifo_used;
+  output  [ 14: 0] wfifo_used;
   input            clk;
   input            fifo_clear;
   input   [  7: 0] fifo_wdata;
@@ -105,7 +105,7 @@ module NIOSSystem_jtag_uart_scfifo_w (
 wire             fifo_FF;
 wire    [  7: 0] r_dat;
 wire             wfifo_empty;
-wire    [ 12: 0] wfifo_used;
+wire    [ 14: 0] wfifo_used;
 
 //synthesis translate_off
 //////////////// SIMULATION-ONLY CONTENTS
@@ -139,11 +139,11 @@ wire    [ 12: 0] wfifo_used;
 //    );
 //
 //  defparam wfifo.lpm_hint = "RAM_BLOCK_TYPE=AUTO",
-//           wfifo.lpm_numwords = 8192,
+//           wfifo.lpm_numwords = 32768,
 //           wfifo.lpm_showahead = "OFF",
 //           wfifo.lpm_type = "scfifo",
 //           wfifo.lpm_width = 8,
-//           wfifo.lpm_widthu = 13,
+//           wfifo.lpm_widthu = 15,
 //           wfifo.overflow_checking = "OFF",
 //           wfifo.underflow_checking = "OFF",
 //           wfifo.use_eab = "ON";
@@ -399,7 +399,7 @@ reg              t_dav;
 wire             t_ena;
 wire             t_pause;
 wire             wfifo_empty;
-wire    [ 12: 0] wfifo_used;
+wire    [ 14: 0] wfifo_used;
 reg              woverflow;
 wire             wr_rfifo;
   //avalon_jtag_slave, which is an e_avalon_slave
@@ -517,7 +517,7 @@ wire             wr_rfifo;
 
   assign fifo_wdata = av_writedata[7 : 0];
   assign fifo_rd = (av_chipselect & ~av_read_n & av_waitrequest & ~av_address) ? ~fifo_EF : 1'b0;
-  assign av_readdata = read_0 ? { {9{1'b0}},rfifo_full,rfifo_used,rvalid,woverflow,~fifo_FF,~fifo_EF,1'b0,ac,ipen_AE,ipen_AF,fifo_rdata } : { {2{1'b0}},(14'h2000 - {fifo_FF,wfifo_used}),rvalid,woverflow,~fifo_FF,~fifo_EF,1'b0,ac,ipen_AE,ipen_AF,{6{1'b0}},ien_AE,ien_AF };
+  assign av_readdata = read_0 ? { {9{1'b0}},rfifo_full,rfifo_used,rvalid,woverflow,~fifo_FF,~fifo_EF,1'b0,ac,ipen_AE,ipen_AF,fifo_rdata } : { {0{1'b0}},(16'h8000 - {fifo_FF,wfifo_used}),rvalid,woverflow,~fifo_FF,~fifo_EF,1'b0,ac,ipen_AE,ipen_AF,{6{1'b0}},ien_AE,ien_AF };
   always @(posedge clk or negedge rst_n)
     begin
       if (rst_n == 0)
@@ -569,7 +569,7 @@ wire             wr_rfifo;
 //    );
 //
 //  defparam NIOSSystem_jtag_uart_alt_jtag_atlantic.INSTANCE_ID = 0,
-//           NIOSSystem_jtag_uart_alt_jtag_atlantic.LOG2_RXFIFO_DEPTH = 13,
+//           NIOSSystem_jtag_uart_alt_jtag_atlantic.LOG2_RXFIFO_DEPTH = 15,
 //           NIOSSystem_jtag_uart_alt_jtag_atlantic.LOG2_TXFIFO_DEPTH = 6,
 //           NIOSSystem_jtag_uart_alt_jtag_atlantic.SLD_AUTO_INSTANCE_INDEX = "YES";
 //

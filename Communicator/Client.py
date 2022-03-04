@@ -3,7 +3,7 @@ import socket
 import threading
 
 PORT = 9999
-SERVER = "26.168.146.5"
+SERVER = "10.5.0.2"
 
 class Client():
     def __init__(self, name, ip, port):

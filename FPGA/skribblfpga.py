@@ -40,11 +40,10 @@ class SkribblNIOS():
     #Dont use, handled by start
     def getXY(self):
         while self.isActive:
-            XYData = self.UART.read()
+            XYData = self.UART.read().decode('utf-8')
             if self.gameInstance is None:
                 if len(XYData) > 0:
-                    print(XYData.decode("utf-8"))
-                return
+                    print(XYData)
             else:
                 #Use parameters here
                 self.gameInstance.Draw(XYData) #Game drawing function
@@ -56,7 +55,7 @@ class SkribblNIOS():
             self.stop()
             return
         sendStr = bytes(outputStr+'\n', 'utf-8')
-        target=self.UART.write(sendStr)
+        self.UART.write(sendStr)
 
     #Disable XY gathering, used for when the player isnt drawing
     def disable(self):

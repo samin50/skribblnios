@@ -7,12 +7,12 @@
 			button_external_connection_export                  : in    std_logic_vector(1 downto 0)  := (others => 'X'); -- export
 			clk_clk                                            : in    std_logic                     := 'X';             -- clk
 			clk_sdram_clk                                      : out   std_logic;                                        -- clk
-			hex0_external_connection_export                    : out   std_logic_vector(6 downto 0);                     -- export
-			hex1_external_connection_export                    : out   std_logic_vector(6 downto 0);                     -- export
-			hex2_external_connection_export                    : out   std_logic_vector(6 downto 0);                     -- export
-			hex3_external_connection_export                    : out   std_logic_vector(6 downto 0);                     -- export
-			hex4_external_connection_export                    : out   std_logic_vector(6 downto 0);                     -- export
-			hex5_external_connection_export                    : out   std_logic_vector(6 downto 0);                     -- export
+			hex0_external_connection_export                    : out   std_logic_vector(7 downto 0);                     -- export
+			hex1_external_connection_export                    : out   std_logic_vector(7 downto 0);                     -- export
+			hex2_external_connection_export                    : out   std_logic_vector(7 downto 0);                     -- export
+			hex3_external_connection_export                    : out   std_logic_vector(7 downto 0);                     -- export
+			hex4_external_connection_export                    : out   std_logic_vector(7 downto 0);                     -- export
+			hex5_external_connection_export                    : out   std_logic_vector(7 downto 0);                     -- export
 			led_external_connection_export                     : out   std_logic_vector(9 downto 0);                     -- export
 			reset_reset_n                                      : in    std_logic                     := 'X';             -- reset_n
 			sdram_wire_addr                                    : out   std_logic_vector(12 downto 0);                    -- addr

@@ -86,10 +86,11 @@ class Server():
             self.closeServer()
         if "!DISCONNECT" in data:
             #Remove player from list based on name
-            playerNameToRemove = data.split(" ")[1]
+            playerNameToRemove = data.split("!DISCONNECT")[1]
             for player in self.clientList:
                 if player.name == playerNameToRemove:
                     self.clientList.remove(player)
+                    self.clientList.processData("!DISCONNECT")
                     break
             print(f"Server: Disconnected Player {playerNameToRemove}")
         #Broadcast to all players
@@ -108,8 +109,9 @@ class Server():
     
     #Close server
     def closeServer(self):
-        for i in range(len(self.clientList)):
-            self.clientList[i].processData("!DISCONNECT")
+        tempList = self.clientList
+        for player in tempList:
+            player.processData("!DISCONNECT")
         self.isActive = False
         self.server.close()
 

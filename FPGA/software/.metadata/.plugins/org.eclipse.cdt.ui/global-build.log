@@ -1,4 +1,1143 @@
-17:23:29 **** Incremental Build of configuration Nios II for project skribblnios_sw ****
+22:18:16 **** Incremental Build of configuration Nios II for project skribblnios_sw ****
+make all 
+Info: Building ../skribblnios_sw_bsp/
+C:/intelFPGA_lite/18.0/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../skribblnios_sw_bsp/
+[BSP build complete]
+Info: Compiling skribblmain.c to obj/default/skribblmain.o
+nios2-elf-gcc -xc -MP -MMD -c -I../skribblnios_sw_bsp//HAL/inc -I../skribblnios_sw_bsp/ -I../skribblnios_sw_bsp//drivers/inc  -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall   -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global  -o obj/default/skribblmain.o skribblmain.c
+skribblmain.c: In function 'waitForData':
+skribblmain.c:103:17: warning: passing argument 1 of 'strcmp' from incompatible pointer type [-Wincompatible-pointer-types]
+  while ((strcmp(waitIn, compare1) != 0 || strcmp(waitIn, compare2) != 0 )) {
+                 ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\string.h:28:6: note: expected 'const char *' but argument is of type 'char **'
+ int  _EXFUN(strcmp,(const char *, const char *));
+      ^
+skribblmain.c:103:50: warning: passing argument 1 of 'strcmp' from incompatible pointer type [-Wincompatible-pointer-types]
+  while ((strcmp(waitIn, compare1) != 0 || strcmp(waitIn, compare2) != 0 )) {
+                                                  ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\string.h:28:6: note: expected 'const char *' but argument is of type 'char **'
+ int  _EXFUN(strcmp,(const char *, const char *));
+      ^
+skribblmain.c:104:6: warning: implicit declaration of function 'read' [-Wimplicit-function-declaration]
+   if(read(fp, &waitIn, BUFFERSIZE) > 0) {
+      ^
+skribblmain.c:105:11: warning: format '%s' expects argument of type 'char *', but argument 2 has type 'char **' [-Wformat=]
+    printf("%s ", waitIn);
+           ^
+skribblmain.c:105:11: warning: format '%s' expects argument of type 'char *', but argument 2 has type 'char **' [-Wformat=]
+skribblmain.c:106:25: warning: passing argument 1 of 'strcmp' from incompatible pointer type [-Wincompatible-pointer-types]
+    printf("d\n", strcmp(waitIn, compare1));
+                         ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\string.h:28:6: note: expected 'const char *' but argument is of type 'char **'
+ int  _EXFUN(strcmp,(const char *, const char *));
+      ^
+skribblmain.c:106:11: warning: too many arguments for format [-Wformat-extra-args]
+    printf("d\n", strcmp(waitIn, compare1));
+           ^
+skribblmain.c:106:11: warning: too many arguments for format [-Wformat-extra-args]
+skribblmain.c:109:14: warning: passing argument 1 of 'strcmp' from incompatible pointer type [-Wincompatible-pointer-types]
+  if ((strcmp(waitIn, compare1)) != 0) {
+              ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\string.h:28:6: note: expected 'const char *' but argument is of type 'char **'
+ int  _EXFUN(strcmp,(const char *, const char *));
+      ^
+skribblmain.c: In function 'roundLoop':
+skribblmain.c:124:16: warning: passing argument 1 of 'strcmp' from incompatible pointer type [-Wincompatible-pointer-types]
+  while (strcmp(timeRatio, "100") != 0) {
+                ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\string.h:28:6: note: expected 'const char *' but argument is of type 'char **'
+ int  _EXFUN(strcmp,(const char *, const char *));
+      ^
+skribblmain.c:127:17: warning: passing argument 1 of 'atoi' from incompatible pointer type [-Wincompatible-pointer-types]
+    ratio = atoi(timeRatio);
+                 ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\stdlib.h:84:5: note: expected 'const char *' but argument is of type 'char **'
+ int _EXFUN(atoi,(const char *__nptr));
+     ^
+skribblmain.c:122:9: warning: unused variable 'stopTime' [-Wunused-variable]
+  alt_32 stopTime;
+         ^
+skribblmain.c:121:9: warning: unused variable 'startTime' [-Wunused-variable]
+  alt_32 startTime = alt_timestamp();
+         ^
+skribblmain.c: In function 'main':
+skribblmain.c:172:13: warning: initialization makes pointer from integer without a cast [-Wint-conversion]
+  FILE* fp = open("/dev/jtag_uart", O_RDWR|O_NONBLOCK|O_NOCTTY|O_SYNC);
+             ^
+skribblmain.c:176:9: warning: passing argument 1 of 'strcpy' from incompatible pointer type [-Wincompatible-pointer-types]
+  strcpy(dataIn, waitForData(fp, "STARTGAME", "STARTGAME"));
+         ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\string.h:30:8: note: expected 'char * restrict' but argument is of type 'char **'
+ char  *_EXFUN(strcpy,(char *__restrict, const char *__restrict));
+        ^
+skribblmain.c:179:9: warning: passing argument 1 of 'strcpy' from incompatible pointer type [-Wincompatible-pointer-types]
+  strcpy(dataIn, waitForData(fp, "STARTROUND", "STARTROUND"));
+         ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\string.h:30:8: note: expected 'char * restrict' but argument is of type 'char **'
+ char  *_EXFUN(strcpy,(char *__restrict, const char *__restrict));
+        ^
+skribblmain.c:183:16: warning: passing argument 1 of 'strcmp' from incompatible pointer type [-Wincompatible-pointer-types]
+  while (strcmp(dataIn, "ENDGAME") != 0) {
+                ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\string.h:28:6: note: expected 'const char *' but argument is of type 'char **'
+ int  _EXFUN(strcmp,(const char *, const char *));
+      ^
+skribblmain.c:184:6: warning: assignment makes pointer from integer without a cast [-Wint-conversion]
+   fp = open("/dev/jtag_uart", O_RDWR|O_NONBLOCK|O_NOCTTY|O_SYNC);
+      ^
+skribblmain.c:186:10: warning: passing argument 1 of 'strcpy' from incompatible pointer type [-Wincompatible-pointer-types]
+   strcpy(dataIn, waitForData(fp, "STARTGAME", "ENDGAME"));
+          ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\string.h:30:8: note: expected 'char * restrict' but argument is of type 'char **'
+ char  *_EXFUN(strcpy,(char *__restrict, const char *__restrict));
+        ^
+Info: Linking skribblnios_sw.elf
+nios2-elf-g++  -T'../skribblnios_sw_bsp//linker.x' -msys-crt0='../skribblnios_sw_bsp//obj/HAL/src/crt0.o' -msys-lib=hal_bsp -L../skribblnios_sw_bsp/   -Wl,-Map=skribblnios_sw.map   -O0 -g -Wall   -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global  -o skribblnios_sw.elf obj/default/skribblmain.o -lm -msys-lib=m
+nios2-elf-insert skribblnios_sw.elf --thread_model hal --cpu_name cpu --qsys true --simulation_enabled false --stderr_dev jtag_uart --stdin_dev jtag_uart --stdout_dev jtag_uart --sopc_system_name NIOSSystem --quartus_project_dir "C:/Users/Shaheen/Documents/InformationProcessing/PROJECT/skribblnios/FPGA" --jdi ../..//output_files/skribblnios.jdi --sopcinfo C:/Users/Shaheen/Documents/InformationProcessing/PROJECT/skribblnios/FPGA/software/skribblnios_sw_bsp/../../NIOSSystem.sopcinfo
+Info: (skribblnios_sw.elf) 73 KBytes program size (code + initialized data).
+Info:                      65455 KBytes free for stack + heap.
+Info: Creating skribblnios_sw.objdump
+nios2-elf-objdump --disassemble --syms --all-header --source skribblnios_sw.elf >skribblnios_sw.objdump
+[skribblnios_sw build complete]
+22:19:09 **** Build of configuration Nios II for project skribblnios_sw ****
+make all 
+Info: Building ../skribblnios_sw_bsp/
+C:/intelFPGA_lite/18.0/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../skribblnios_sw_bsp/
+[BSP build complete]
+[skribblnios_sw build complete]
+22:19:10 **** Incremental Build of configuration Nios II for project skribblnios_sw ****
+make all 
+Info: Building ../skribblnios_sw_bsp/
+C:/intelFPGA_lite/18.0/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../skribblnios_sw_bsp/
+[BSP build complete]
+[skribblnios_sw build complete]
+22:21:52 **** Build of configuration Nios II for project skribblnios_sw ****
+make all 
+Info: Building ../skribblnios_sw_bsp/
+C:/intelFPGA_lite/18.0/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../skribblnios_sw_bsp/
+[BSP build complete]
+Info: Compiling skribblmain.c to obj/default/skribblmain.o
+nios2-elf-gcc -xc -MP -MMD -c -I../skribblnios_sw_bsp//HAL/inc -I../skribblnios_sw_bsp/ -I../skribblnios_sw_bsp//drivers/inc  -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall   -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global  -o obj/default/skribblmain.o skribblmain.c
+skribblmain.c: In function 'waitForData':
+skribblmain.c:103:17: warning: passing argument 1 of 'strcmp' from incompatible pointer type [-Wincompatible-pointer-types]
+  while ((strcmp(waitIn, compare1) != 0 && strcmp(waitIn, compare2) != 0 )) {
+                 ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\string.h:28:6: note: expected 'const char *' but argument is of type 'char **'
+ int  _EXFUN(strcmp,(const char *, const char *));
+      ^
+skribblmain.c:103:50: warning: passing argument 1 of 'strcmp' from incompatible pointer type [-Wincompatible-pointer-types]
+  while ((strcmp(waitIn, compare1) != 0 && strcmp(waitIn, compare2) != 0 )) {
+                                                  ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\string.h:28:6: note: expected 'const char *' but argument is of type 'char **'
+ int  _EXFUN(strcmp,(const char *, const char *));
+      ^
+skribblmain.c:104:6: warning: implicit declaration of function 'read' [-Wimplicit-function-declaration]
+   if(read(fp, &waitIn, BUFFERSIZE) > 0) {
+      ^
+skribblmain.c:105:11: warning: format '%s' expects argument of type 'char *', but argument 2 has type 'char **' [-Wformat=]
+    printf("%s ", waitIn);
+           ^
+skribblmain.c:105:11: warning: format '%s' expects argument of type 'char *', but argument 2 has type 'char **' [-Wformat=]
+skribblmain.c:108:14: warning: passing argument 1 of 'strcmp' from incompatible pointer type [-Wincompatible-pointer-types]
+  if ((strcmp(waitIn, compare1)) != 0) {
+              ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\string.h:28:6: note: expected 'const char *' but argument is of type 'char **'
+ int  _EXFUN(strcmp,(const char *, const char *));
+      ^
+skribblmain.c: In function 'roundLoop':
+skribblmain.c:123:16: warning: passing argument 1 of 'strcmp' from incompatible pointer type [-Wincompatible-pointer-types]
+  while (strcmp(timeRatio, "100") != 0) {
+                ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\string.h:28:6: note: expected 'const char *' but argument is of type 'char **'
+ int  _EXFUN(strcmp,(const char *, const char *));
+      ^
+skribblmain.c:126:17: warning: passing argument 1 of 'atoi' from incompatible pointer type [-Wincompatible-pointer-types]
+    ratio = atoi(timeRatio);
+                 ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\stdlib.h:84:5: note: expected 'const char *' but argument is of type 'char **'
+ int _EXFUN(atoi,(const char *__nptr));
+     ^
+skribblmain.c:121:9: warning: unused variable 'stopTime' [-Wunused-variable]
+  alt_32 stopTime;
+         ^
+skribblmain.c:120:9: warning: unused variable 'startTime' [-Wunused-variable]
+  alt_32 startTime = alt_timestamp();
+         ^
+skribblmain.c: In function 'main':
+skribblmain.c:171:13: warning: initialization makes pointer from integer without a cast [-Wint-conversion]
+  FILE* fp = open("/dev/jtag_uart", O_RDWR|O_NONBLOCK|O_NOCTTY|O_SYNC);
+             ^
+skribblmain.c:175:9: warning: passing argument 1 of 'strcpy' from incompatible pointer type [-Wincompatible-pointer-types]
+  strcpy(dataIn, waitForData(fp, "STARTGAME", "STARTGAME"));
+         ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\string.h:30:8: note: expected 'char * restrict' but argument is of type 'char **'
+ char  *_EXFUN(strcpy,(char *__restrict, const char *__restrict));
+        ^
+skribblmain.c:178:9: warning: passing argument 1 of 'strcpy' from incompatible pointer type [-Wincompatible-pointer-types]
+  strcpy(dataIn, waitForData(fp, "STARTROUND", "STARTROUND"));
+         ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\string.h:30:8: note: expected 'char * restrict' but argument is of type 'char **'
+ char  *_EXFUN(strcpy,(char *__restrict, const char *__restrict));
+        ^
+skribblmain.c:182:16: warning: passing argument 1 of 'strcmp' from incompatible pointer type [-Wincompatible-pointer-types]
+  while (strcmp(dataIn, "ENDGAME") != 0) {
+                ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\string.h:28:6: note: expected 'const char *' but argument is of type 'char **'
+ int  _EXFUN(strcmp,(const char *, const char *));
+      ^
+skribblmain.c:183:6: warning: assignment makes pointer from integer without a cast [-Wint-conversion]
+   fp = open("/dev/jtag_uart", O_RDWR|O_NONBLOCK|O_NOCTTY|O_SYNC);
+      ^
+skribblmain.c:185:10: warning: passing argument 1 of 'strcpy' from incompatible pointer type [-Wincompatible-pointer-types]
+   strcpy(dataIn, waitForData(fp, "STARTGAME", "ENDGAME"));
+          ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\string.h:30:8: note: expected 'char * restrict' but argument is of type 'char **'
+ char  *_EXFUN(strcpy,(char *__restrict, const char *__restrict));
+        ^
+Info: Linking skribblnios_sw.elf
+nios2-elf-g++  -T'../skribblnios_sw_bsp//linker.x' -msys-crt0='../skribblnios_sw_bsp//obj/HAL/src/crt0.o' -msys-lib=hal_bsp -L../skribblnios_sw_bsp/   -Wl,-Map=skribblnios_sw.map   -O0 -g -Wall   -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global  -o skribblnios_sw.elf obj/default/skribblmain.o -lm -msys-lib=m
+nios2-elf-insert skribblnios_sw.elf --thread_model hal --cpu_name cpu --qsys true --simulation_enabled false --stderr_dev jtag_uart --stdin_dev jtag_uart --stdout_dev jtag_uart --sopc_system_name NIOSSystem --quartus_project_dir "C:/Users/Shaheen/Documents/InformationProcessing/PROJECT/skribblnios/FPGA" --jdi ../..//output_files/skribblnios.jdi --sopcinfo C:/Users/Shaheen/Documents/InformationProcessing/PROJECT/skribblnios/FPGA/software/skribblnios_sw_bsp/../../NIOSSystem.sopcinfo
+Info: (skribblnios_sw.elf) 73 KBytes program size (code + initialized data).
+Info:                      65456 KBytes free for stack + heap.
+Info: Creating skribblnios_sw.objdump
+nios2-elf-objdump --disassemble --syms --all-header --source skribblnios_sw.elf >skribblnios_sw.objdump
+[skribblnios_sw build complete]
+22:21:54 **** Incremental Build of configuration Nios II for project skribblnios_sw ****
+make all 
+Info: Building ../skribblnios_sw_bsp/
+C:/intelFPGA_lite/18.0/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../skribblnios_sw_bsp/
+[BSP build complete]
+[skribblnios_sw build complete]
+22:24:13 **** Build of configuration Nios II for project skribblnios_sw ****
+make all 
+Info: Building ../skribblnios_sw_bsp/
+C:/intelFPGA_lite/18.0/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../skribblnios_sw_bsp/
+[BSP build complete]
+Info: Compiling skribblmain.c to obj/default/skribblmain.o
+nios2-elf-gcc -xc -MP -MMD -c -I../skribblnios_sw_bsp//HAL/inc -I../skribblnios_sw_bsp/ -I../skribblnios_sw_bsp//drivers/inc  -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall   -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global  -o obj/default/skribblmain.o skribblmain.c
+skribblmain.c: In function 'waitForData':
+skribblmain.c:103:17: warning: passing argument 1 of 'strcmp' from incompatible pointer type [-Wincompatible-pointer-types]
+  while ((strcmp(waitIn, compare1) != 0 && strcmp(waitIn, compare2) != 0 )) {
+                 ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\string.h:28:6: note: expected 'const char *' but argument is of type 'char **'
+ int  _EXFUN(strcmp,(const char *, const char *));
+      ^
+skribblmain.c:103:50: warning: passing argument 1 of 'strcmp' from incompatible pointer type [-Wincompatible-pointer-types]
+  while ((strcmp(waitIn, compare1) != 0 && strcmp(waitIn, compare2) != 0 )) {
+                                                  ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\string.h:28:6: note: expected 'const char *' but argument is of type 'char **'
+ int  _EXFUN(strcmp,(const char *, const char *));
+      ^
+skribblmain.c:104:3: warning: implicit declaration of function 'read' [-Wimplicit-function-declaration]
+   read(fp, &waitIn, BUFFERSIZE);
+   ^
+skribblmain.c:106:14: warning: passing argument 1 of 'strcmp' from incompatible pointer type [-Wincompatible-pointer-types]
+  if ((strcmp(waitIn, compare1)) != 0) {
+              ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\string.h:28:6: note: expected 'const char *' but argument is of type 'char **'
+ int  _EXFUN(strcmp,(const char *, const char *));
+      ^
+skribblmain.c: In function 'roundLoop':
+skribblmain.c:121:16: warning: passing argument 1 of 'strcmp' from incompatible pointer type [-Wincompatible-pointer-types]
+  while (strcmp(timeRatio, "100") != 0) {
+                ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\string.h:28:6: note: expected 'const char *' but argument is of type 'char **'
+ int  _EXFUN(strcmp,(const char *, const char *));
+      ^
+skribblmain.c:124:17: warning: passing argument 1 of 'atoi' from incompatible pointer type [-Wincompatible-pointer-types]
+    ratio = atoi(timeRatio);
+                 ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\stdlib.h:84:5: note: expected 'const char *' but argument is of type 'char **'
+ int _EXFUN(atoi,(const char *__nptr));
+     ^
+skribblmain.c:119:9: warning: unused variable 'stopTime' [-Wunused-variable]
+  alt_32 stopTime;
+         ^
+skribblmain.c:118:9: warning: unused variable 'startTime' [-Wunused-variable]
+  alt_32 startTime = alt_timestamp();
+         ^
+skribblmain.c: In function 'main':
+skribblmain.c:169:13: warning: initialization makes pointer from integer without a cast [-Wint-conversion]
+  FILE* fp = open("/dev/jtag_uart", O_RDWR|O_NONBLOCK|O_NOCTTY|O_SYNC);
+             ^
+skribblmain.c:173:9: warning: passing argument 1 of 'strcpy' from incompatible pointer type [-Wincompatible-pointer-types]
+  strcpy(dataIn, waitForData(fp, "STARTGAME", "STARTGAME"));
+         ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\string.h:30:8: note: expected 'char * restrict' but argument is of type 'char **'
+ char  *_EXFUN(strcpy,(char *__restrict, const char *__restrict));
+        ^
+skribblmain.c:176:9: warning: passing argument 1 of 'strcpy' from incompatible pointer type [-Wincompatible-pointer-types]
+  strcpy(dataIn, waitForData(fp, "STARTROUND", "STARTROUND"));
+         ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\string.h:30:8: note: expected 'char * restrict' but argument is of type 'char **'
+ char  *_EXFUN(strcpy,(char *__restrict, const char *__restrict));
+        ^
+skribblmain.c:180:16: warning: passing argument 1 of 'strcmp' from incompatible pointer type [-Wincompatible-pointer-types]
+  while (strcmp(dataIn, "ENDGAME") != 0) {
+                ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\string.h:28:6: note: expected 'const char *' but argument is of type 'char **'
+ int  _EXFUN(strcmp,(const char *, const char *));
+      ^
+skribblmain.c:181:6: warning: assignment makes pointer from integer without a cast [-Wint-conversion]
+   fp = open("/dev/jtag_uart", O_RDWR|O_NONBLOCK|O_NOCTTY|O_SYNC);
+      ^
+skribblmain.c:183:10: warning: passing argument 1 of 'strcpy' from incompatible pointer type [-Wincompatible-pointer-types]
+   strcpy(dataIn, waitForData(fp, "STARTGAME", "ENDGAME"));
+          ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\string.h:30:8: note: expected 'char * restrict' but argument is of type 'char **'
+ char  *_EXFUN(strcpy,(char *__restrict, const char *__restrict));
+        ^
+Info: Linking skribblnios_sw.elf
+nios2-elf-g++  -T'../skribblnios_sw_bsp//linker.x' -msys-crt0='../skribblnios_sw_bsp//obj/HAL/src/crt0.o' -msys-lib=hal_bsp -L../skribblnios_sw_bsp/   -Wl,-Map=skribblnios_sw.map   -O0 -g -Wall   -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global  -o skribblnios_sw.elf obj/default/skribblmain.o -lm -msys-lib=m
+nios2-elf-insert skribblnios_sw.elf --thread_model hal --cpu_name cpu --qsys true --simulation_enabled false --stderr_dev jtag_uart --stdin_dev jtag_uart --stdout_dev jtag_uart --sopc_system_name NIOSSystem --quartus_project_dir "C:/Users/Shaheen/Documents/InformationProcessing/PROJECT/skribblnios/FPGA" --jdi ../..//output_files/skribblnios.jdi --sopcinfo C:/Users/Shaheen/Documents/InformationProcessing/PROJECT/skribblnios/FPGA/software/skribblnios_sw_bsp/../../NIOSSystem.sopcinfo
+Info: (skribblnios_sw.elf) 29 KBytes program size (code + initialized data).
+Info:                      65500 KBytes free for stack + heap.
+Info: Creating skribblnios_sw.objdump
+nios2-elf-objdump --disassemble --syms --all-header --source skribblnios_sw.elf >skribblnios_sw.objdump
+[skribblnios_sw build complete]
+22:24:15 **** Incremental Build of configuration Nios II for project skribblnios_sw ****
+make all 
+Info: Building ../skribblnios_sw_bsp/
+C:/intelFPGA_lite/18.0/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../skribblnios_sw_bsp/
+[BSP build complete]
+[skribblnios_sw build complete]
+22:25:57 **** Build of configuration Nios II for project skribblnios_sw ****
+make all 
+Info: Building ../skribblnios_sw_bsp/
+C:/intelFPGA_lite/18.0/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../skribblnios_sw_bsp/
+[BSP build complete]
+Info: Compiling skribblmain.c to obj/default/skribblmain.o
+nios2-elf-gcc -xc -MP -MMD -c -I../skribblnios_sw_bsp//HAL/inc -I../skribblnios_sw_bsp/ -I../skribblnios_sw_bsp//drivers/inc  -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall   -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global  -o obj/default/skribblmain.o skribblmain.c
+skribblmain.c: In function 'waitForData':
+skribblmain.c:103:17: warning: passing argument 1 of 'strcmp' from incompatible pointer type [-Wincompatible-pointer-types]
+  while ((strcmp(waitIn, compare1) != 0) && (strcmp(waitIn, compare2) != 0 )) {
+                 ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\string.h:28:6: note: expected 'const char *' but argument is of type 'char **'
+ int  _EXFUN(strcmp,(const char *, const char *));
+      ^
+skribblmain.c:103:52: warning: passing argument 1 of 'strcmp' from incompatible pointer type [-Wincompatible-pointer-types]
+  while ((strcmp(waitIn, compare1) != 0) && (strcmp(waitIn, compare2) != 0 )) {
+                                                    ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\string.h:28:6: note: expected 'const char *' but argument is of type 'char **'
+ int  _EXFUN(strcmp,(const char *, const char *));
+      ^
+skribblmain.c:104:3: warning: implicit declaration of function 'read' [-Wimplicit-function-declaration]
+   read(fp, &waitIn, BUFFERSIZE);
+   ^
+skribblmain.c:107:14: warning: passing argument 1 of 'strcmp' from incompatible pointer type [-Wincompatible-pointer-types]
+  if ((strcmp(waitIn, compare1)) != 0) {
+              ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\string.h:28:6: note: expected 'const char *' but argument is of type 'char **'
+ int  _EXFUN(strcmp,(const char *, const char *));
+      ^
+skribblmain.c: In function 'roundLoop':
+skribblmain.c:122:16: warning: passing argument 1 of 'strcmp' from incompatible pointer type [-Wincompatible-pointer-types]
+  while (strcmp(timeRatio, "100") != 0) {
+                ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\string.h:28:6: note: expected 'const char *' but argument is of type 'char **'
+ int  _EXFUN(strcmp,(const char *, const char *));
+      ^
+skribblmain.c:125:17: warning: passing argument 1 of 'atoi' from incompatible pointer type [-Wincompatible-pointer-types]
+    ratio = atoi(timeRatio);
+                 ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\stdlib.h:84:5: note: expected 'const char *' but argument is of type 'char **'
+ int _EXFUN(atoi,(const char *__nptr));
+     ^
+skribblmain.c:120:9: warning: unused variable 'stopTime' [-Wunused-variable]
+  alt_32 stopTime;
+         ^
+skribblmain.c:119:9: warning: unused variable 'startTime' [-Wunused-variable]
+  alt_32 startTime = alt_timestamp();
+         ^
+skribblmain.c: In function 'main':
+skribblmain.c:170:13: warning: initialization makes pointer from integer without a cast [-Wint-conversion]
+  FILE* fp = open("/dev/jtag_uart", O_RDWR|O_NONBLOCK|O_NOCTTY|O_SYNC);
+             ^
+skribblmain.c:174:9: warning: passing argument 1 of 'strcpy' from incompatible pointer type [-Wincompatible-pointer-types]
+  strcpy(dataIn, waitForData(fp, "STARTGAME", "STARTGAME"));
+         ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\string.h:30:8: note: expected 'char * restrict' but argument is of type 'char **'
+ char  *_EXFUN(strcpy,(char *__restrict, const char *__restrict));
+        ^
+skribblmain.c:177:9: warning: passing argument 1 of 'strcpy' from incompatible pointer type [-Wincompatible-pointer-types]
+  strcpy(dataIn, waitForData(fp, "STARTROUND", "STARTROUND"));
+         ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\string.h:30:8: note: expected 'char * restrict' but argument is of type 'char **'
+ char  *_EXFUN(strcpy,(char *__restrict, const char *__restrict));
+        ^
+skribblmain.c:181:16: warning: passing argument 1 of 'strcmp' from incompatible pointer type [-Wincompatible-pointer-types]
+  while (strcmp(dataIn, "ENDGAME") != 0) {
+                ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\string.h:28:6: note: expected 'const char *' but argument is of type 'char **'
+ int  _EXFUN(strcmp,(const char *, const char *));
+      ^
+skribblmain.c:182:6: warning: assignment makes pointer from integer without a cast [-Wint-conversion]
+   fp = open("/dev/jtag_uart", O_RDWR|O_NONBLOCK|O_NOCTTY|O_SYNC);
+      ^
+skribblmain.c:184:10: warning: passing argument 1 of 'strcpy' from incompatible pointer type [-Wincompatible-pointer-types]
+   strcpy(dataIn, waitForData(fp, "STARTGAME", "ENDGAME"));
+          ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\string.h:30:8: note: expected 'char * restrict' but argument is of type 'char **'
+ char  *_EXFUN(strcpy,(char *__restrict, const char *__restrict));
+        ^
+Info: Linking skribblnios_sw.elf
+nios2-elf-g++  -T'../skribblnios_sw_bsp//linker.x' -msys-crt0='../skribblnios_sw_bsp//obj/HAL/src/crt0.o' -msys-lib=hal_bsp -L../skribblnios_sw_bsp/   -Wl,-Map=skribblnios_sw.map   -O0 -g -Wall   -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global  -o skribblnios_sw.elf obj/default/skribblmain.o -lm -msys-lib=m
+nios2-elf-insert skribblnios_sw.elf --thread_model hal --cpu_name cpu --qsys true --simulation_enabled false --stderr_dev jtag_uart --stdin_dev jtag_uart --stdout_dev jtag_uart --sopc_system_name NIOSSystem --quartus_project_dir "C:/Users/Shaheen/Documents/InformationProcessing/PROJECT/skribblnios/FPGA" --jdi ../..//output_files/skribblnios.jdi --sopcinfo C:/Users/Shaheen/Documents/InformationProcessing/PROJECT/skribblnios/FPGA/software/skribblnios_sw_bsp/../../NIOSSystem.sopcinfo
+Info: (skribblnios_sw.elf) 73 KBytes program size (code + initialized data).
+Info:                      65456 KBytes free for stack + heap.
+Info: Creating skribblnios_sw.objdump
+nios2-elf-objdump --disassemble --syms --all-header --source skribblnios_sw.elf >skribblnios_sw.objdump
+[skribblnios_sw build complete]
+22:25:59 **** Incremental Build of configuration Nios II for project skribblnios_sw ****
+make all 
+Info: Building ../skribblnios_sw_bsp/
+C:/intelFPGA_lite/18.0/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../skribblnios_sw_bsp/
+[BSP build complete]
+[skribblnios_sw build complete]
+01:43:12 **** Build of configuration Nios II for project skribblnios_sw ****
+make all 
+Info: Building ../skribblnios_sw_bsp/
+C:/intelFPGA_lite/18.0/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../skribblnios_sw_bsp/
+[BSP build complete]
+Info: Compiling skribblmain.c to obj/default/skribblmain.o
+nios2-elf-gcc -xc -MP -MMD -c -I../skribblnios_sw_bsp//HAL/inc -I../skribblnios_sw_bsp/ -I../skribblnios_sw_bsp//drivers/inc  -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall   -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global  -o obj/default/skribblmain.o skribblmain.c
+skribblmain.c: In function 'waitForData':
+skribblmain.c:103:17: warning: passing argument 1 of 'strcmp' from incompatible pointer type [-Wincompatible-pointer-types]
+  while ((strcmp(waitIn, compare1) != 0) && (strcmp(waitIn, compare2) != 0 )) {
+                 ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\string.h:28:6: note: expected 'const char *' but argument is of type 'char **'
+ int  _EXFUN(strcmp,(const char *, const char *));
+      ^
+skribblmain.c:103:52: warning: passing argument 1 of 'strcmp' from incompatible pointer type [-Wincompatible-pointer-types]
+  while ((strcmp(waitIn, compare1) != 0) && (strcmp(waitIn, compare2) != 0 )) {
+                                                    ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\string.h:28:6: note: expected 'const char *' but argument is of type 'char **'
+ int  _EXFUN(strcmp,(const char *, const char *));
+      ^
+skribblmain.c:104:3: warning: implicit declaration of function 'read' [-Wimplicit-function-declaration]
+   read(fp, &waitIn, BUFFERSIZE);
+   ^
+skribblmain.c:107:14: warning: passing argument 1 of 'strcmp' from incompatible pointer type [-Wincompatible-pointer-types]
+  if ((strcmp(waitIn, compare1)) != 0) {
+              ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\string.h:28:6: note: expected 'const char *' but argument is of type 'char **'
+ int  _EXFUN(strcmp,(const char *, const char *));
+      ^
+skribblmain.c: In function 'roundLoop':
+skribblmain.c:122:16: warning: passing argument 1 of 'strcmp' from incompatible pointer type [-Wincompatible-pointer-types]
+  while (strcmp(timeRatio, "100") != 0) {
+                ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\string.h:28:6: note: expected 'const char *' but argument is of type 'char **'
+ int  _EXFUN(strcmp,(const char *, const char *));
+      ^
+skribblmain.c:125:17: warning: passing argument 1 of 'atoi' from incompatible pointer type [-Wincompatible-pointer-types]
+    ratio = atoi(timeRatio);
+                 ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\stdlib.h:84:5: note: expected 'const char *' but argument is of type 'char **'
+ int _EXFUN(atoi,(const char *__nptr));
+     ^
+skribblmain.c:120:9: warning: unused variable 'stopTime' [-Wunused-variable]
+  alt_32 stopTime;
+         ^
+skribblmain.c:119:9: warning: unused variable 'startTime' [-Wunused-variable]
+  alt_32 startTime = alt_timestamp();
+         ^
+skribblmain.c: In function 'main':
+skribblmain.c:170:13: warning: initialization makes pointer from integer without a cast [-Wint-conversion]
+  FILE* fp = open("/dev/jtag_uart", O_RDWR|O_NONBLOCK|O_NOCTTY|O_SYNC);
+             ^
+skribblmain.c:174:9: warning: passing argument 1 of 'strcpy' from incompatible pointer type [-Wincompatible-pointer-types]
+  strcpy(dataIn, waitForData(fp, "STARTGAME", "STARTGAME"));
+         ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\string.h:30:8: note: expected 'char * restrict' but argument is of type 'char **'
+ char  *_EXFUN(strcpy,(char *__restrict, const char *__restrict));
+        ^
+skribblmain.c:177:9: warning: passing argument 1 of 'strcpy' from incompatible pointer type [-Wincompatible-pointer-types]
+  strcpy(dataIn, waitForData(fp, "STARTROUND", "STARTROUND"));
+         ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\string.h:30:8: note: expected 'char * restrict' but argument is of type 'char **'
+ char  *_EXFUN(strcpy,(char *__restrict, const char *__restrict));
+        ^
+skribblmain.c:181:16: warning: passing argument 1 of 'strcmp' from incompatible pointer type [-Wincompatible-pointer-types]
+  while (strcmp(dataIn, "ENDGAME") != 0) {
+                ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\string.h:28:6: note: expected 'const char *' but argument is of type 'char **'
+ int  _EXFUN(strcmp,(const char *, const char *));
+      ^
+skribblmain.c:182:6: warning: assignment makes pointer from integer without a cast [-Wint-conversion]
+   fp = open("/dev/jtag_uart", O_RDWR|O_NONBLOCK|O_NOCTTY|O_SYNC);
+      ^
+skribblmain.c:184:10: warning: passing argument 1 of 'strcpy' from incompatible pointer type [-Wincompatible-pointer-types]
+   strcpy(dataIn, waitForData(fp, "STARTGAME", "ENDGAME"));
+          ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\string.h:30:8: note: expected 'char * restrict' but argument is of type 'char **'
+ char  *_EXFUN(strcpy,(char *__restrict, const char *__restrict));
+        ^
+Info: Linking skribblnios_sw.elf
+nios2-elf-g++  -T'../skribblnios_sw_bsp//linker.x' -msys-crt0='../skribblnios_sw_bsp//obj/HAL/src/crt0.o' -msys-lib=hal_bsp -L../skribblnios_sw_bsp/   -Wl,-Map=skribblnios_sw.map   -O0 -g -Wall   -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global  -o skribblnios_sw.elf obj/default/skribblmain.o -lm -msys-lib=m
+nios2-elf-insert skribblnios_sw.elf --thread_model hal --cpu_name cpu --qsys true --simulation_enabled false --stderr_dev jtag_uart --stdin_dev jtag_uart --stdout_dev jtag_uart --sopc_system_name NIOSSystem --quartus_project_dir "C:/Users/Shaheen/Documents/InformationProcessing/PROJECT/skribblnios/FPGA" --jdi ../..//output_files/skribblnios.jdi --sopcinfo C:/Users/Shaheen/Documents/InformationProcessing/PROJECT/skribblnios/FPGA/software/skribblnios_sw_bsp/../../NIOSSystem.sopcinfo
+Info: (skribblnios_sw.elf) 73 KBytes program size (code + initialized data).
+Info:                      65456 KBytes free for stack + heap.
+Info: Creating skribblnios_sw.objdump
+nios2-elf-objdump --disassemble --syms --all-header --source skribblnios_sw.elf >skribblnios_sw.objdump
+[skribblnios_sw build complete]
+01:43:14 **** Incremental Build of configuration Nios II for project skribblnios_sw ****
+make all 
+Info: Building ../skribblnios_sw_bsp/
+C:/intelFPGA_lite/18.0/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../skribblnios_sw_bsp/
+[BSP build complete]
+[skribblnios_sw build complete]
+01:49:58 **** Build of configuration Nios II for project skribblnios_sw ****
+make all 
+Info: Building ../skribblnios_sw_bsp/
+C:/intelFPGA_lite/18.0/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../skribblnios_sw_bsp/
+[BSP build complete]
+Info: Compiling skribblmain.c to obj/default/skribblmain.o
+nios2-elf-gcc -xc -MP -MMD -c -I../skribblnios_sw_bsp//HAL/inc -I../skribblnios_sw_bsp/ -I../skribblnios_sw_bsp//drivers/inc  -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall   -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global  -o obj/default/skribblmain.o skribblmain.c
+skribblmain.c: In function 'waitForData':
+skribblmain.c:103:17: warning: passing argument 1 of 'strcmp' from incompatible pointer type [-Wincompatible-pointer-types]
+  while ((strcmp(waitIn, compare1) != 0) && (strcmp(waitIn, compare2) != 0 )) {
+                 ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\string.h:28:6: note: expected 'const char *' but argument is of type 'char **'
+ int  _EXFUN(strcmp,(const char *, const char *));
+      ^
+skribblmain.c:103:52: warning: passing argument 1 of 'strcmp' from incompatible pointer type [-Wincompatible-pointer-types]
+  while ((strcmp(waitIn, compare1) != 0) && (strcmp(waitIn, compare2) != 0 )) {
+                                                    ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\string.h:28:6: note: expected 'const char *' but argument is of type 'char **'
+ int  _EXFUN(strcmp,(const char *, const char *));
+      ^
+skribblmain.c:104:3: warning: implicit declaration of function 'read' [-Wimplicit-function-declaration]
+   read(fp, &waitIn, BUFFERSIZE);
+   ^
+skribblmain.c:107:14: warning: passing argument 1 of 'strcmp' from incompatible pointer type [-Wincompatible-pointer-types]
+  if ((strcmp(waitIn, compare1)) != 0) {
+              ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\string.h:28:6: note: expected 'const char *' but argument is of type 'char **'
+ int  _EXFUN(strcmp,(const char *, const char *));
+      ^
+skribblmain.c: In function 'roundLoop':
+skribblmain.c:122:16: warning: passing argument 1 of 'strcmp' from incompatible pointer type [-Wincompatible-pointer-types]
+  while (strcmp(timeRatio, "100") != 0) {
+                ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\string.h:28:6: note: expected 'const char *' but argument is of type 'char **'
+ int  _EXFUN(strcmp,(const char *, const char *));
+      ^
+skribblmain.c:125:17: warning: passing argument 1 of 'atoi' from incompatible pointer type [-Wincompatible-pointer-types]
+    ratio = atoi(timeRatio);
+                 ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\stdlib.h:84:5: note: expected 'const char *' but argument is of type 'char **'
+ int _EXFUN(atoi,(const char *__nptr));
+     ^
+skribblmain.c:120:9: warning: unused variable 'stopTime' [-Wunused-variable]
+  alt_32 stopTime;
+         ^
+skribblmain.c:119:9: warning: unused variable 'startTime' [-Wunused-variable]
+  alt_32 startTime = alt_timestamp();
+         ^
+skribblmain.c: In function 'main':
+skribblmain.c:170:13: warning: initialization makes pointer from integer without a cast [-Wint-conversion]
+  FILE* fp = open("/dev/jtag_uart", O_RDWR|O_NONBLOCK|O_NOCTTY|O_SYNC);
+             ^
+skribblmain.c:174:9: warning: passing argument 1 of 'strcpy' from incompatible pointer type [-Wincompatible-pointer-types]
+  strcpy(dataIn, waitForData(fp, "STARTGAME", "STARTGAME"));
+         ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\string.h:30:8: note: expected 'char * restrict' but argument is of type 'char **'
+ char  *_EXFUN(strcpy,(char *__restrict, const char *__restrict));
+        ^
+skribblmain.c:177:9: warning: passing argument 1 of 'strcpy' from incompatible pointer type [-Wincompatible-pointer-types]
+  strcpy(dataIn, waitForData(fp, "STARTROUND", "STARTROUND"));
+         ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\string.h:30:8: note: expected 'char * restrict' but argument is of type 'char **'
+ char  *_EXFUN(strcpy,(char *__restrict, const char *__restrict));
+        ^
+skribblmain.c:181:16: warning: passing argument 1 of 'strcmp' from incompatible pointer type [-Wincompatible-pointer-types]
+  while (strcmp(dataIn, "ENDGAME") != 0) {
+                ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\string.h:28:6: note: expected 'const char *' but argument is of type 'char **'
+ int  _EXFUN(strcmp,(const char *, const char *));
+      ^
+skribblmain.c:182:6: warning: assignment makes pointer from integer without a cast [-Wint-conversion]
+   fp = open("/dev/jtag_uart", O_RDWR|O_NONBLOCK|O_NOCTTY|O_SYNC);
+      ^
+skribblmain.c:184:10: warning: passing argument 1 of 'strcpy' from incompatible pointer type [-Wincompatible-pointer-types]
+   strcpy(dataIn, waitForData(fp, "STARTGAME", "ENDGAME"));
+          ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\string.h:30:8: note: expected 'char * restrict' but argument is of type 'char **'
+ char  *_EXFUN(strcpy,(char *__restrict, const char *__restrict));
+        ^
+Info: Linking skribblnios_sw.elf
+nios2-elf-g++  -T'../skribblnios_sw_bsp//linker.x' -msys-crt0='../skribblnios_sw_bsp//obj/HAL/src/crt0.o' -msys-lib=hal_bsp -L../skribblnios_sw_bsp/   -Wl,-Map=skribblnios_sw.map   -O0 -g -Wall   -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global  -o skribblnios_sw.elf obj/default/skribblmain.o -lm -msys-lib=m
+nios2-elf-insert skribblnios_sw.elf --thread_model hal --cpu_name cpu --qsys true --simulation_enabled false --stderr_dev jtag_uart --stdin_dev jtag_uart --stdout_dev jtag_uart --sopc_system_name NIOSSystem --quartus_project_dir "C:/Users/Shaheen/Documents/InformationProcessing/PROJECT/skribblnios/FPGA" --jdi ../..//output_files/skribblnios.jdi --sopcinfo C:/Users/Shaheen/Documents/InformationProcessing/PROJECT/skribblnios/FPGA/software/skribblnios_sw_bsp/../../NIOSSystem.sopcinfo
+Info: (skribblnios_sw.elf) 73 KBytes program size (code + initialized data).
+Info:                      65456 KBytes free for stack + heap.
+Info: Creating skribblnios_sw.objdump
+nios2-elf-objdump --disassemble --syms --all-header --source skribblnios_sw.elf >skribblnios_sw.objdump
+[skribblnios_sw build complete]
+01:50:01 **** Incremental Build of configuration Nios II for project skribblnios_sw ****
+make all 
+Info: Building ../skribblnios_sw_bsp/
+C:/intelFPGA_lite/18.0/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../skribblnios_sw_bsp/
+[BSP build complete]
+[skribblnios_sw build complete]
+01:58:25 **** Build of configuration Nios II for project skribblnios_sw ****
+make all 
+Info: Building ../skribblnios_sw_bsp/
+C:/intelFPGA_lite/18.0/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../skribblnios_sw_bsp/
+[BSP build complete]
+Info: Compiling skribblmain.c to obj/default/skribblmain.o
+nios2-elf-gcc -xc -MP -MMD -c -I../skribblnios_sw_bsp//HAL/inc -I../skribblnios_sw_bsp/ -I../skribblnios_sw_bsp//drivers/inc  -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall   -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global  -o obj/default/skribblmain.o skribblmain.c
+skribblmain.c: In function 'waitForData':
+skribblmain.c:103:17: warning: passing argument 1 of 'strcmp' from incompatible pointer type [-Wincompatible-pointer-types]
+  while ((strcmp(waitIn, compare1) != 0) && (strcmp(waitIn, compare2) != 0 )) {
+                 ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\string.h:28:6: note: expected 'const char *' but argument is of type 'char **'
+ int  _EXFUN(strcmp,(const char *, const char *));
+      ^
+skribblmain.c:103:52: warning: passing argument 1 of 'strcmp' from incompatible pointer type [-Wincompatible-pointer-types]
+  while ((strcmp(waitIn, compare1) != 0) && (strcmp(waitIn, compare2) != 0 )) {
+                                                    ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\string.h:28:6: note: expected 'const char *' but argument is of type 'char **'
+ int  _EXFUN(strcmp,(const char *, const char *));
+      ^
+skribblmain.c:104:3: warning: implicit declaration of function 'read' [-Wimplicit-function-declaration]
+   read(fp, &waitIn, BUFFERSIZE);
+   ^
+skribblmain.c:107:14: warning: passing argument 1 of 'strcmp' from incompatible pointer type [-Wincompatible-pointer-types]
+  if ((strcmp(waitIn, compare1)) != 0) {
+              ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\string.h:28:6: note: expected 'const char *' but argument is of type 'char **'
+ int  _EXFUN(strcmp,(const char *, const char *));
+      ^
+skribblmain.c: In function 'roundLoop':
+skribblmain.c:122:16: warning: passing argument 1 of 'strcmp' from incompatible pointer type [-Wincompatible-pointer-types]
+  while (strcmp(timeRatio, "100") != 0) {
+                ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\string.h:28:6: note: expected 'const char *' but argument is of type 'char **'
+ int  _EXFUN(strcmp,(const char *, const char *));
+      ^
+skribblmain.c:125:17: warning: passing argument 1 of 'atoi' from incompatible pointer type [-Wincompatible-pointer-types]
+    ratio = atoi(timeRatio);
+                 ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\stdlib.h:84:5: note: expected 'const char *' but argument is of type 'char **'
+ int _EXFUN(atoi,(const char *__nptr));
+     ^
+skribblmain.c:120:9: warning: unused variable 'stopTime' [-Wunused-variable]
+  alt_32 stopTime;
+         ^
+skribblmain.c:119:9: warning: unused variable 'startTime' [-Wunused-variable]
+  alt_32 startTime = alt_timestamp();
+         ^
+skribblmain.c: In function 'main':
+skribblmain.c:170:13: warning: initialization makes pointer from integer without a cast [-Wint-conversion]
+  FILE* fp = open("/dev/jtag_uart", O_RDWR|O_NONBLOCK|O_NOCTTY|O_SYNC);
+             ^
+skribblmain.c:174:9: warning: passing argument 1 of 'strcpy' from incompatible pointer type [-Wincompatible-pointer-types]
+  strcpy(dataIn, waitForData(fp, "STARTGAME", "STARTGAME"));
+         ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\string.h:30:8: note: expected 'char * restrict' but argument is of type 'char **'
+ char  *_EXFUN(strcpy,(char *__restrict, const char *__restrict));
+        ^
+skribblmain.c:177:9: warning: passing argument 1 of 'strcpy' from incompatible pointer type [-Wincompatible-pointer-types]
+  strcpy(dataIn, waitForData(fp, "STARTROUND", "STARTROUND"));
+         ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\string.h:30:8: note: expected 'char * restrict' but argument is of type 'char **'
+ char  *_EXFUN(strcpy,(char *__restrict, const char *__restrict));
+        ^
+skribblmain.c:181:16: warning: passing argument 1 of 'strcmp' from incompatible pointer type [-Wincompatible-pointer-types]
+  while (strcmp(dataIn, "ENDGAME") != 0) {
+                ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\string.h:28:6: note: expected 'const char *' but argument is of type 'char **'
+ int  _EXFUN(strcmp,(const char *, const char *));
+      ^
+skribblmain.c:182:6: warning: assignment makes pointer from integer without a cast [-Wint-conversion]
+   fp = open("/dev/jtag_uart", O_RDWR|O_NONBLOCK|O_NOCTTY|O_SYNC);
+      ^
+skribblmain.c:184:10: warning: passing argument 1 of 'strcpy' from incompatible pointer type [-Wincompatible-pointer-types]
+   strcpy(dataIn, waitForData(fp, "STARTGAME", "ENDGAME"));
+          ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\string.h:30:8: note: expected 'char * restrict' but argument is of type 'char **'
+ char  *_EXFUN(strcpy,(char *__restrict, const char *__restrict));
+        ^
+Info: Linking skribblnios_sw.elf
+nios2-elf-g++  -T'../skribblnios_sw_bsp//linker.x' -msys-crt0='../skribblnios_sw_bsp//obj/HAL/src/crt0.o' -msys-lib=hal_bsp -L../skribblnios_sw_bsp/   -Wl,-Map=skribblnios_sw.map   -O0 -g -Wall   -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global  -o skribblnios_sw.elf obj/default/skribblmain.o -lm -msys-lib=m
+nios2-elf-insert skribblnios_sw.elf --thread_model hal --cpu_name cpu --qsys true --simulation_enabled false --stderr_dev jtag_uart --stdin_dev jtag_uart --stdout_dev jtag_uart --sopc_system_name NIOSSystem --quartus_project_dir "C:/Users/Shaheen/Documents/InformationProcessing/PROJECT/skribblnios/FPGA" --jdi ../..//output_files/skribblnios.jdi --sopcinfo C:/Users/Shaheen/Documents/InformationProcessing/PROJECT/skribblnios/FPGA/software/skribblnios_sw_bsp/../../NIOSSystem.sopcinfo
+Info: (skribblnios_sw.elf) 73 KBytes program size (code + initialized data).
+Info:                      65456 KBytes free for stack + heap.
+Info: Creating skribblnios_sw.objdump
+nios2-elf-objdump --disassemble --syms --all-header --source skribblnios_sw.elf >skribblnios_sw.objdump
+[skribblnios_sw build complete]
+01:58:27 **** Incremental Build of configuration Nios II for project skribblnios_sw ****
+make all 
+Info: Building ../skribblnios_sw_bsp/
+C:/intelFPGA_lite/18.0/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../skribblnios_sw_bsp/
+[BSP build complete]
+[skribblnios_sw build complete]
+01:59:38 **** Build of configuration Nios II for project skribblnios_sw ****
+make all 
+Info: Building ../skribblnios_sw_bsp/
+C:/intelFPGA_lite/18.0/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../skribblnios_sw_bsp/
+[BSP build complete]
+Info: Compiling skribblmain.c to obj/default/skribblmain.o
+nios2-elf-gcc -xc -MP -MMD -c -I../skribblnios_sw_bsp//HAL/inc -I../skribblnios_sw_bsp/ -I../skribblnios_sw_bsp//drivers/inc  -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall   -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global  -o obj/default/skribblmain.o skribblmain.c
+skribblmain.c: In function 'waitForData':
+skribblmain.c:103:17: warning: passing argument 1 of 'strcmp' from incompatible pointer type [-Wincompatible-pointer-types]
+  while ((strcmp(waitIn, compare1) != 0) && (strcmp(waitIn, compare2) != 0 )) {
+                 ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\string.h:28:6: note: expected 'const char *' but argument is of type 'char **'
+ int  _EXFUN(strcmp,(const char *, const char *));
+      ^
+skribblmain.c:103:52: warning: passing argument 1 of 'strcmp' from incompatible pointer type [-Wincompatible-pointer-types]
+  while ((strcmp(waitIn, compare1) != 0) && (strcmp(waitIn, compare2) != 0 )) {
+                                                    ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\string.h:28:6: note: expected 'const char *' but argument is of type 'char **'
+ int  _EXFUN(strcmp,(const char *, const char *));
+      ^
+skribblmain.c:104:3: warning: implicit declaration of function 'read' [-Wimplicit-function-declaration]
+   read(fp, &waitIn, BUFFERSIZE);
+   ^
+skribblmain.c:107:14: warning: passing argument 1 of 'strcmp' from incompatible pointer type [-Wincompatible-pointer-types]
+  if ((strcmp(waitIn, compare1)) != 0) {
+              ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\string.h:28:6: note: expected 'const char *' but argument is of type 'char **'
+ int  _EXFUN(strcmp,(const char *, const char *));
+      ^
+skribblmain.c: In function 'roundLoop':
+skribblmain.c:122:16: warning: passing argument 1 of 'strcmp' from incompatible pointer type [-Wincompatible-pointer-types]
+  while (strcmp(timeRatio, "100") != 0) {
+                ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\string.h:28:6: note: expected 'const char *' but argument is of type 'char **'
+ int  _EXFUN(strcmp,(const char *, const char *));
+      ^
+skribblmain.c:125:17: warning: passing argument 1 of 'atoi' from incompatible pointer type [-Wincompatible-pointer-types]
+    ratio = atoi(timeRatio);
+                 ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\stdlib.h:84:5: note: expected 'const char *' but argument is of type 'char **'
+ int _EXFUN(atoi,(const char *__nptr));
+     ^
+skribblmain.c:143:14: warning: large integer implicitly truncated to unsigned type [-Woverflow]
+     ledWrite(0b111111111);
+              ^
+skribblmain.c:120:9: warning: unused variable 'stopTime' [-Wunused-variable]
+  alt_32 stopTime;
+         ^
+skribblmain.c:119:9: warning: unused variable 'startTime' [-Wunused-variable]
+  alt_32 startTime = alt_timestamp();
+         ^
+skribblmain.c: In function 'main':
+skribblmain.c:170:13: warning: initialization makes pointer from integer without a cast [-Wint-conversion]
+  FILE* fp = open("/dev/jtag_uart", O_RDWR|O_NONBLOCK|O_NOCTTY|O_SYNC);
+             ^
+skribblmain.c:172:11: warning: large integer implicitly truncated to unsigned type [-Woverflow]
+  ledWrite(0b1111111111);
+           ^
+skribblmain.c:174:9: warning: passing argument 1 of 'strcpy' from incompatible pointer type [-Wincompatible-pointer-types]
+  strcpy(dataIn, waitForData(fp, "STARTGAME", "STARTGAME"));
+         ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\string.h:30:8: note: expected 'char * restrict' but argument is of type 'char **'
+ char  *_EXFUN(strcpy,(char *__restrict, const char *__restrict));
+        ^
+skribblmain.c:177:9: warning: passing argument 1 of 'strcpy' from incompatible pointer type [-Wincompatible-pointer-types]
+  strcpy(dataIn, waitForData(fp, "STARTROUND", "STARTROUND"));
+         ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\string.h:30:8: note: expected 'char * restrict' but argument is of type 'char **'
+ char  *_EXFUN(strcpy,(char *__restrict, const char *__restrict));
+        ^
+skribblmain.c:181:16: warning: passing argument 1 of 'strcmp' from incompatible pointer type [-Wincompatible-pointer-types]
+  while (strcmp(dataIn, "ENDGAME") != 0) {
+                ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\string.h:28:6: note: expected 'const char *' but argument is of type 'char **'
+ int  _EXFUN(strcmp,(const char *, const char *));
+      ^
+skribblmain.c:182:6: warning: assignment makes pointer from integer without a cast [-Wint-conversion]
+   fp = open("/dev/jtag_uart", O_RDWR|O_NONBLOCK|O_NOCTTY|O_SYNC);
+      ^
+skribblmain.c:184:10: warning: passing argument 1 of 'strcpy' from incompatible pointer type [-Wincompatible-pointer-types]
+   strcpy(dataIn, waitForData(fp, "STARTGAME", "ENDGAME"));
+          ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\string.h:30:8: note: expected 'char * restrict' but argument is of type 'char **'
+ char  *_EXFUN(strcpy,(char *__restrict, const char *__restrict));
+        ^
+Info: Linking skribblnios_sw.elf
+nios2-elf-g++  -T'../skribblnios_sw_bsp//linker.x' -msys-crt0='../skribblnios_sw_bsp//obj/HAL/src/crt0.o' -msys-lib=hal_bsp -L../skribblnios_sw_bsp/   -Wl,-Map=skribblnios_sw.map   -O0 -g -Wall   -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global  -o skribblnios_sw.elf obj/default/skribblmain.o -lm -msys-lib=m
+nios2-elf-insert skribblnios_sw.elf --thread_model hal --cpu_name cpu --qsys true --simulation_enabled false --stderr_dev jtag_uart --stdin_dev jtag_uart --stdout_dev jtag_uart --sopc_system_name NIOSSystem --quartus_project_dir "C:/Users/Shaheen/Documents/InformationProcessing/PROJECT/skribblnios/FPGA" --jdi ../..//output_files/skribblnios.jdi --sopcinfo C:/Users/Shaheen/Documents/InformationProcessing/PROJECT/skribblnios/FPGA/software/skribblnios_sw_bsp/../../NIOSSystem.sopcinfo
+Info: (skribblnios_sw.elf) 73 KBytes program size (code + initialized data).
+Info:                      65456 KBytes free for stack + heap.
+Info: Creating skribblnios_sw.objdump
+nios2-elf-objdump --disassemble --syms --all-header --source skribblnios_sw.elf >skribblnios_sw.objdump
+[skribblnios_sw build complete]
+01:59:41 **** Incremental Build of configuration Nios II for project skribblnios_sw ****
+make all 
+Info: Building ../skribblnios_sw_bsp/
+C:/intelFPGA_lite/18.0/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../skribblnios_sw_bsp/
+[BSP build complete]
+[skribblnios_sw build complete]
+02:19:43 **** Build of configuration Nios II for project skribblnios_sw ****
 make all 
 Info: Building ../skribblnios_sw_bsp/
 C:/intelFPGA_lite/18.0/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../skribblnios_sw_bsp/
@@ -128,213 +1267,996 @@ nios2-elf-ar -src libhal_bsp.a obj/HAL/src/alt_alarm_start.o obj/HAL/src/alt_bus
 [BSP build complete]
 Info: Compiling skribblmain.c to obj/default/skribblmain.o
 nios2-elf-gcc -xc -MP -MMD -c -I../skribblnios_sw_bsp//HAL/inc -I../skribblnios_sw_bsp/ -I../skribblnios_sw_bsp//drivers/inc  -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall   -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global  -o obj/default/skribblmain.o skribblmain.c
-skribblmain.c: In function 'main':
-skribblmain.c:58:11: warning: passing argument 1 of 'printf' makes pointer from integer without a cast [-Wint-conversion]
-    printf(dataIn);
-           ^
+skribblmain.c: In function 'waitForData':
+skribblmain.c:103:17: warning: passing argument 1 of 'strcmp' from incompatible pointer type [-Wincompatible-pointer-types]
+  while ((strcmp(waitIn, compare1) != 0) && (strcmp(waitIn, compare2) != 0 )) {
+                 ^
 In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
                  from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
                  from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
                  from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
                  from skribblmain.c:5:
-c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\stdio.h:215:5: note: expected 'const char * restrict' but argument is of type 'char'
- int _EXFUN(printf, (const char *__restrict, ...)
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\string.h:28:6: note: expected 'const char *' but argument is of type 'char **'
+ int  _EXFUN(strcmp,(const char *, const char *));
+      ^
+skribblmain.c:103:52: warning: passing argument 1 of 'strcmp' from incompatible pointer type [-Wincompatible-pointer-types]
+  while ((strcmp(waitIn, compare1) != 0) && (strcmp(waitIn, compare2) != 0 )) {
+                                                    ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\string.h:28:6: note: expected 'const char *' but argument is of type 'char **'
+ int  _EXFUN(strcmp,(const char *, const char *));
+      ^
+skribblmain.c:104:3: warning: implicit declaration of function 'read' [-Wimplicit-function-declaration]
+   read(fp, &waitIn, BUFFERSIZE);
+   ^
+skribblmain.c:107:14: warning: passing argument 1 of 'strcmp' from incompatible pointer type [-Wincompatible-pointer-types]
+  if ((strcmp(waitIn, compare1)) != 0) {
+              ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\string.h:28:6: note: expected 'const char *' but argument is of type 'char **'
+ int  _EXFUN(strcmp,(const char *, const char *));
+      ^
+skribblmain.c: In function 'roundLoop':
+skribblmain.c:122:16: warning: passing argument 1 of 'strcmp' from incompatible pointer type [-Wincompatible-pointer-types]
+  while (strcmp(timeRatio, "100") != 0) {
+                ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\string.h:28:6: note: expected 'const char *' but argument is of type 'char **'
+ int  _EXFUN(strcmp,(const char *, const char *));
+      ^
+skribblmain.c:125:17: warning: passing argument 1 of 'atoi' from incompatible pointer type [-Wincompatible-pointer-types]
+    ratio = atoi(timeRatio);
+                 ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\stdlib.h:84:5: note: expected 'const char *' but argument is of type 'char **'
+ int _EXFUN(atoi,(const char *__nptr));
      ^
-skribblmain.c:73:47: warning: suggest parentheses around '-' inside '>>' [-Wparentheses]
-    if ((stopTime-startTime) > (INTERVALSECOND >> SAMPLING_TIME-1)) {
-                                               ^
-skribblmain.c:77:12: warning: format '%d' expects argument of type 'int', but argument 2 has type 'alt_32 {aka long int}' [-Wformat=]
-     printf("%d %d %d\n", x_read, y_read, z_read);
-            ^
-skribblmain.c:77:12: warning: format '%d' expects argument of type 'int', but argument 3 has type 'alt_32 {aka long int}' [-Wformat=]
-skribblmain.c:77:12: warning: format '%d' expects argument of type 'int', but argument 4 has type 'alt_32 {aka long int}' [-Wformat=]
-skribblmain.c:77:12: warning: format '%d' expects argument of type 'int', but argument 2 has type 'alt_32 {aka long int}' [-Wformat=]
-skribblmain.c:77:12: warning: format '%d' expects argument of type 'int', but argument 3 has type 'alt_32 {aka long int}' [-Wformat=]
-skribblmain.c:77:12: warning: format '%d' expects argument of type 'int', but argument 4 has type 'alt_32 {aka long int}' [-Wformat=]
+skribblmain.c:143:14: warning: large integer implicitly truncated to unsigned type [-Woverflow]
+     ledWrite(0b111111111);
+              ^
+skribblmain.c:120:9: warning: unused variable 'stopTime' [-Wunused-variable]
+  alt_32 stopTime;
+         ^
+skribblmain.c:119:9: warning: unused variable 'startTime' [-Wunused-variable]
+  alt_32 startTime = alt_timestamp();
+         ^
+skribblmain.c: In function 'main':
+skribblmain.c:170:13: warning: initialization makes pointer from integer without a cast [-Wint-conversion]
+  FILE* fp = open("/dev/jtag_uart", O_RDWR|O_NONBLOCK|O_NOCTTY|O_SYNC);
+             ^
+skribblmain.c:172:11: warning: large integer implicitly truncated to unsigned type [-Woverflow]
+  ledWrite(0b1111111111);
+           ^
+skribblmain.c:174:9: warning: passing argument 1 of 'strcpy' from incompatible pointer type [-Wincompatible-pointer-types]
+  strcpy(dataIn, waitForData(fp, "STARTGAME", "STARTGAME"));
+         ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\string.h:30:8: note: expected 'char * restrict' but argument is of type 'char **'
+ char  *_EXFUN(strcpy,(char *__restrict, const char *__restrict));
+        ^
+skribblmain.c:177:9: warning: passing argument 1 of 'strcpy' from incompatible pointer type [-Wincompatible-pointer-types]
+  strcpy(dataIn, waitForData(fp, "STARTROUND", "STARTROUND"));
+         ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\string.h:30:8: note: expected 'char * restrict' but argument is of type 'char **'
+ char  *_EXFUN(strcpy,(char *__restrict, const char *__restrict));
+        ^
+skribblmain.c:181:16: warning: passing argument 1 of 'strcmp' from incompatible pointer type [-Wincompatible-pointer-types]
+  while (strcmp(dataIn, "ENDGAME") != 0) {
+                ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\string.h:28:6: note: expected 'const char *' but argument is of type 'char **'
+ int  _EXFUN(strcmp,(const char *, const char *));
+      ^
+skribblmain.c:182:6: warning: assignment makes pointer from integer without a cast [-Wint-conversion]
+   fp = open("/dev/jtag_uart", O_RDWR|O_NONBLOCK|O_NOCTTY|O_SYNC);
+      ^
+skribblmain.c:184:10: warning: passing argument 1 of 'strcpy' from incompatible pointer type [-Wincompatible-pointer-types]
+   strcpy(dataIn, waitForData(fp, "STARTGAME", "ENDGAME"));
+          ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\string.h:30:8: note: expected 'char * restrict' but argument is of type 'char **'
+ char  *_EXFUN(strcpy,(char *__restrict, const char *__restrict));
+        ^
 Info: Linking skribblnios_sw.elf
 nios2-elf-g++  -T'../skribblnios_sw_bsp//linker.x' -msys-crt0='../skribblnios_sw_bsp//obj/HAL/src/crt0.o' -msys-lib=hal_bsp -L../skribblnios_sw_bsp/   -Wl,-Map=skribblnios_sw.map   -O0 -g -Wall   -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global  -o skribblnios_sw.elf obj/default/skribblmain.o -lm -msys-lib=m
 nios2-elf-insert skribblnios_sw.elf --thread_model hal --cpu_name cpu --qsys true --simulation_enabled false --stderr_dev jtag_uart --stdin_dev jtag_uart --stdout_dev jtag_uart --sopc_system_name NIOSSystem --quartus_project_dir "C:/Users/Shaheen/Documents/InformationProcessing/PROJECT/skribblnios/FPGA" --jdi ../..//output_files/skribblnios.jdi --sopcinfo C:/Users/Shaheen/Documents/InformationProcessing/PROJECT/skribblnios/FPGA/software/skribblnios_sw_bsp/../../NIOSSystem.sopcinfo
-Info: (skribblnios_sw.elf) 72 KBytes program size (code + initialized data).
+Info: (skribblnios_sw.elf) 73 KBytes program size (code + initialized data).
 Info:                      65456 KBytes free for stack + heap.
 Info: Creating skribblnios_sw.objdump
 nios2-elf-objdump --disassemble --syms --all-header --source skribblnios_sw.elf >skribblnios_sw.objdump
 [skribblnios_sw build complete]
-17:24:06 **** Build of configuration Nios II for project skribblnios_sw ****
+02:19:52 **** Incremental Build of configuration Nios II for project skribblnios_sw ****
 make all 
 Info: Building ../skribblnios_sw_bsp/
 C:/intelFPGA_lite/18.0/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../skribblnios_sw_bsp/
 [BSP build complete]
 [skribblnios_sw build complete]
-17:24:36 **** Incremental Build of configuration Nios II for project skribblnios_sw ****
-make all 
-Info: Building ../skribblnios_sw_bsp/
-C:/intelFPGA_lite/18.0/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../skribblnios_sw_bsp/
-[BSP build complete]
-[skribblnios_sw build complete]
-17:26:22 **** Build of configuration Nios II for project skribblnios_sw ****
+02:20:24 **** Build of configuration Nios II for project skribblnios_sw ****
 make all 
 Info: Building ../skribblnios_sw_bsp/
 C:/intelFPGA_lite/18.0/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../skribblnios_sw_bsp/
 [BSP build complete]
 Info: Compiling skribblmain.c to obj/default/skribblmain.o
 nios2-elf-gcc -xc -MP -MMD -c -I../skribblnios_sw_bsp//HAL/inc -I../skribblnios_sw_bsp/ -I../skribblnios_sw_bsp//drivers/inc  -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall   -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global  -o obj/default/skribblmain.o skribblmain.c
-skribblmain.c: In function 'main':
-skribblmain.c:59:11: warning: passing argument 1 of 'printf' makes pointer from integer without a cast [-Wint-conversion]
-    printf(dataIn);
-           ^
+skribblmain.c: In function 'waitForData':
+skribblmain.c:103:17: warning: passing argument 1 of 'strcmp' from incompatible pointer type [-Wincompatible-pointer-types]
+  while ((strcmp(waitIn, compare1) != 0) && (strcmp(waitIn, compare2) != 0 )) {
+                 ^
 In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
                  from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
                  from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
                  from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
                  from skribblmain.c:5:
-c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\stdio.h:215:5: note: expected 'const char * restrict' but argument is of type 'char'
- int _EXFUN(printf, (const char *__restrict, ...)
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\string.h:28:6: note: expected 'const char *' but argument is of type 'char **'
+ int  _EXFUN(strcmp,(const char *, const char *));
+      ^
+skribblmain.c:103:52: warning: passing argument 1 of 'strcmp' from incompatible pointer type [-Wincompatible-pointer-types]
+  while ((strcmp(waitIn, compare1) != 0) && (strcmp(waitIn, compare2) != 0 )) {
+                                                    ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\string.h:28:6: note: expected 'const char *' but argument is of type 'char **'
+ int  _EXFUN(strcmp,(const char *, const char *));
+      ^
+skribblmain.c:104:3: warning: implicit declaration of function 'read' [-Wimplicit-function-declaration]
+   read(fp, &waitIn, BUFFERSIZE);
+   ^
+skribblmain.c:107:14: warning: passing argument 1 of 'strcmp' from incompatible pointer type [-Wincompatible-pointer-types]
+  if ((strcmp(waitIn, compare1)) != 0) {
+              ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\string.h:28:6: note: expected 'const char *' but argument is of type 'char **'
+ int  _EXFUN(strcmp,(const char *, const char *));
+      ^
+skribblmain.c: In function 'roundLoop':
+skribblmain.c:122:16: warning: passing argument 1 of 'strcmp' from incompatible pointer type [-Wincompatible-pointer-types]
+  while (strcmp(timeRatio, "100") != 0) {
+                ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\string.h:28:6: note: expected 'const char *' but argument is of type 'char **'
+ int  _EXFUN(strcmp,(const char *, const char *));
+      ^
+skribblmain.c:125:17: warning: passing argument 1 of 'atoi' from incompatible pointer type [-Wincompatible-pointer-types]
+    ratio = atoi(timeRatio);
+                 ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\stdlib.h:84:5: note: expected 'const char *' but argument is of type 'char **'
+ int _EXFUN(atoi,(const char *__nptr));
      ^
-skribblmain.c:74:47: warning: suggest parentheses around '-' inside '>>' [-Wparentheses]
-    if ((stopTime-startTime) > (INTERVALSECOND >> SAMPLING_TIME-1)) {
-                                               ^
-skribblmain.c:78:12: warning: format '%d' expects argument of type 'int', but argument 2 has type 'alt_32 {aka long int}' [-Wformat=]
-     printf("%d %d %d\n", x_read, y_read, z_read);
-            ^
-skribblmain.c:78:12: warning: format '%d' expects argument of type 'int', but argument 3 has type 'alt_32 {aka long int}' [-Wformat=]
-skribblmain.c:78:12: warning: format '%d' expects argument of type 'int', but argument 4 has type 'alt_32 {aka long int}' [-Wformat=]
-skribblmain.c:78:12: warning: format '%d' expects argument of type 'int', but argument 2 has type 'alt_32 {aka long int}' [-Wformat=]
-skribblmain.c:78:12: warning: format '%d' expects argument of type 'int', but argument 3 has type 'alt_32 {aka long int}' [-Wformat=]
-skribblmain.c:78:12: warning: format '%d' expects argument of type 'int', but argument 4 has type 'alt_32 {aka long int}' [-Wformat=]
+skribblmain.c:143:14: warning: large integer implicitly truncated to unsigned type [-Woverflow]
+     ledWrite(0b111111111);
+              ^
+skribblmain.c:120:9: warning: unused variable 'stopTime' [-Wunused-variable]
+  alt_32 stopTime;
+         ^
+skribblmain.c:119:9: warning: unused variable 'startTime' [-Wunused-variable]
+  alt_32 startTime = alt_timestamp();
+         ^
+skribblmain.c: In function 'main':
+skribblmain.c:170:13: warning: initialization makes pointer from integer without a cast [-Wint-conversion]
+  FILE* fp = open("/dev/jtag_uart", O_RDWR|O_NONBLOCK|O_NOCTTY|O_SYNC);
+             ^
+skribblmain.c:172:11: warning: large integer implicitly truncated to unsigned type [-Woverflow]
+  ledWrite(0b1111111111);
+           ^
+skribblmain.c:174:9: warning: passing argument 1 of 'strcpy' from incompatible pointer type [-Wincompatible-pointer-types]
+  strcpy(dataIn, waitForData(fp, "STARTGAME", "STARTGAME"));
+         ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\string.h:30:8: note: expected 'char * restrict' but argument is of type 'char **'
+ char  *_EXFUN(strcpy,(char *__restrict, const char *__restrict));
+        ^
+skribblmain.c:177:9: warning: passing argument 1 of 'strcpy' from incompatible pointer type [-Wincompatible-pointer-types]
+  strcpy(dataIn, waitForData(fp, "STARTROUND", "STARTROUND"));
+         ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\string.h:30:8: note: expected 'char * restrict' but argument is of type 'char **'
+ char  *_EXFUN(strcpy,(char *__restrict, const char *__restrict));
+        ^
+skribblmain.c:181:16: warning: passing argument 1 of 'strcmp' from incompatible pointer type [-Wincompatible-pointer-types]
+  while (strcmp(dataIn, "ENDGAME") != 0) {
+                ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\string.h:28:6: note: expected 'const char *' but argument is of type 'char **'
+ int  _EXFUN(strcmp,(const char *, const char *));
+      ^
+skribblmain.c:182:6: warning: assignment makes pointer from integer without a cast [-Wint-conversion]
+   fp = open("/dev/jtag_uart", O_RDWR|O_NONBLOCK|O_NOCTTY|O_SYNC);
+      ^
+skribblmain.c:184:10: warning: passing argument 1 of 'strcpy' from incompatible pointer type [-Wincompatible-pointer-types]
+   strcpy(dataIn, waitForData(fp, "STARTGAME", "ENDGAME"));
+          ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\string.h:30:8: note: expected 'char * restrict' but argument is of type 'char **'
+ char  *_EXFUN(strcpy,(char *__restrict, const char *__restrict));
+        ^
 Info: Linking skribblnios_sw.elf
 nios2-elf-g++  -T'../skribblnios_sw_bsp//linker.x' -msys-crt0='../skribblnios_sw_bsp//obj/HAL/src/crt0.o' -msys-lib=hal_bsp -L../skribblnios_sw_bsp/   -Wl,-Map=skribblnios_sw.map   -O0 -g -Wall   -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global  -o skribblnios_sw.elf obj/default/skribblmain.o -lm -msys-lib=m
 nios2-elf-insert skribblnios_sw.elf --thread_model hal --cpu_name cpu --qsys true --simulation_enabled false --stderr_dev jtag_uart --stdin_dev jtag_uart --stdout_dev jtag_uart --sopc_system_name NIOSSystem --quartus_project_dir "C:/Users/Shaheen/Documents/InformationProcessing/PROJECT/skribblnios/FPGA" --jdi ../..//output_files/skribblnios.jdi --sopcinfo C:/Users/Shaheen/Documents/InformationProcessing/PROJECT/skribblnios/FPGA/software/skribblnios_sw_bsp/../../NIOSSystem.sopcinfo
-Info: (skribblnios_sw.elf) 72 KBytes program size (code + initialized data).
+Info: (skribblnios_sw.elf) 73 KBytes program size (code + initialized data).
 Info:                      65456 KBytes free for stack + heap.
 Info: Creating skribblnios_sw.objdump
 nios2-elf-objdump --disassemble --syms --all-header --source skribblnios_sw.elf >skribblnios_sw.objdump
 [skribblnios_sw build complete]
-17:26:27 **** Incremental Build of configuration Nios II for project skribblnios_sw ****
+02:20:26 **** Incremental Build of configuration Nios II for project skribblnios_sw ****
 make all 
 Info: Building ../skribblnios_sw_bsp/
 C:/intelFPGA_lite/18.0/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../skribblnios_sw_bsp/
 [BSP build complete]
 [skribblnios_sw build complete]
-17:57:53 **** Build of configuration Nios II for project skribblnios_sw ****
+02:22:14 **** Build of configuration Nios II for project skribblnios_sw ****
 make all 
 Info: Building ../skribblnios_sw_bsp/
 C:/intelFPGA_lite/18.0/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../skribblnios_sw_bsp/
 [BSP build complete]
 Info: Compiling skribblmain.c to obj/default/skribblmain.o
 nios2-elf-gcc -xc -MP -MMD -c -I../skribblnios_sw_bsp//HAL/inc -I../skribblnios_sw_bsp/ -I../skribblnios_sw_bsp//drivers/inc  -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall   -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global  -o obj/default/skribblmain.o skribblmain.c
-skribblmain.c: In function 'main':
-skribblmain.c:53:5: warning: assignment makes pointer from integer without a cast [-Wint-conversion]
-  fp = open("/dev/jtag_uart", O_RDWR|O_NONBLOCK|O_NOCTTY|O_SYNC);
-     ^
-skribblmain.c:65:7: warning: implicit declaration of function 'read' [-Wimplicit-function-declaration]
-    if(read(fp, &dataIn, 1) > 0) {
-       ^
-skribblmain.c:66:17: warning: passing argument 1 of 'processData' makes pointer from integer without a cast [-Wint-conversion]
-     processData(dataIn);
+skribblmain.c: In function 'waitForData':
+skribblmain.c:103:17: warning: passing argument 1 of 'strcmp' from incompatible pointer type [-Wincompatible-pointer-types]
+  while ((strcmp(waitIn, compare1) != 0) && (strcmp(waitIn, compare2) != 0 )) {
                  ^
-skribblmain.c:34:6: note: expected 'char *' but argument is of type 'char'
- void processData(char* data) {
-      ^
-skribblmain.c:68:11: warning: passing argument 1 of 'printf' makes pointer from integer without a cast [-Wint-conversion]
-    printf(dataIn);
-           ^
 In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
                  from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
                  from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
                  from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
                  from skribblmain.c:5:
-c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\stdio.h:215:5: note: expected 'const char * restrict' but argument is of type 'char'
- int _EXFUN(printf, (const char *__restrict, ...)
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\string.h:28:6: note: expected 'const char *' but argument is of type 'char **'
+ int  _EXFUN(strcmp,(const char *, const char *));
+      ^
+skribblmain.c:103:52: warning: passing argument 1 of 'strcmp' from incompatible pointer type [-Wincompatible-pointer-types]
+  while ((strcmp(waitIn, compare1) != 0) && (strcmp(waitIn, compare2) != 0 )) {
+                                                    ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\string.h:28:6: note: expected 'const char *' but argument is of type 'char **'
+ int  _EXFUN(strcmp,(const char *, const char *));
+      ^
+skribblmain.c:104:3: warning: implicit declaration of function 'read' [-Wimplicit-function-declaration]
+   read(fp, &waitIn, BUFFERSIZE);
+   ^
+skribblmain.c:107:14: warning: passing argument 1 of 'strcmp' from incompatible pointer type [-Wincompatible-pointer-types]
+  if ((strcmp(waitIn, compare1)) != 0) {
+              ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\string.h:28:6: note: expected 'const char *' but argument is of type 'char **'
+ int  _EXFUN(strcmp,(const char *, const char *));
+      ^
+skribblmain.c: In function 'roundLoop':
+skribblmain.c:122:16: warning: passing argument 1 of 'strcmp' from incompatible pointer type [-Wincompatible-pointer-types]
+  while (strcmp(timeRatio, "100") != 0) {
+                ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\string.h:28:6: note: expected 'const char *' but argument is of type 'char **'
+ int  _EXFUN(strcmp,(const char *, const char *));
+      ^
+skribblmain.c:125:17: warning: passing argument 1 of 'atoi' from incompatible pointer type [-Wincompatible-pointer-types]
+    ratio = atoi(timeRatio);
+                 ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\stdlib.h:84:5: note: expected 'const char *' but argument is of type 'char **'
+ int _EXFUN(atoi,(const char *__nptr));
      ^
-skribblmain.c:83:47: warning: suggest parentheses around '-' inside '>>' [-Wparentheses]
-    if ((stopTime-startTime) > (INTERVALSECOND >> SAMPLING_TIME-1)) {
-                                               ^
-skribblmain.c:87:12: warning: format '%d' expects argument of type 'int', but argument 2 has type 'alt_32 {aka long int}' [-Wformat=]
-     printf("%d %d %d\n", x_read, y_read, z_read);
-            ^
-skribblmain.c:87:12: warning: format '%d' expects argument of type 'int', but argument 3 has type 'alt_32 {aka long int}' [-Wformat=]
-skribblmain.c:87:12: warning: format '%d' expects argument of type 'int', but argument 4 has type 'alt_32 {aka long int}' [-Wformat=]
-skribblmain.c:87:12: warning: format '%d' expects argument of type 'int', but argument 2 has type 'alt_32 {aka long int}' [-Wformat=]
-skribblmain.c:87:12: warning: format '%d' expects argument of type 'int', but argument 3 has type 'alt_32 {aka long int}' [-Wformat=]
-skribblmain.c:87:12: warning: format '%d' expects argument of type 'int', but argument 4 has type 'alt_32 {aka long int}' [-Wformat=]
+skribblmain.c:143:14: warning: large integer implicitly truncated to unsigned type [-Woverflow]
+     ledWrite(0b111111111);
+              ^
+skribblmain.c:120:9: warning: unused variable 'stopTime' [-Wunused-variable]
+  alt_32 stopTime;
+         ^
+skribblmain.c:119:9: warning: unused variable 'startTime' [-Wunused-variable]
+  alt_32 startTime = alt_timestamp();
+         ^
+skribblmain.c: In function 'main':
+skribblmain.c:170:13: warning: initialization makes pointer from integer without a cast [-Wint-conversion]
+  FILE* fp = open("/dev/jtag_uart", O_RDWR|O_NONBLOCK|O_NOCTTY|O_SYNC);
+             ^
+skribblmain.c:172:11: warning: large integer implicitly truncated to unsigned type [-Woverflow]
+  ledWrite(0b1111111111);
+           ^
+skribblmain.c:174:9: warning: passing argument 1 of 'strcpy' from incompatible pointer type [-Wincompatible-pointer-types]
+  strcpy(dataIn, waitForData(fp, "STARTGAME", "STARTGAME"));
+         ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\string.h:30:8: note: expected 'char * restrict' but argument is of type 'char **'
+ char  *_EXFUN(strcpy,(char *__restrict, const char *__restrict));
+        ^
+skribblmain.c:177:9: warning: passing argument 1 of 'strcpy' from incompatible pointer type [-Wincompatible-pointer-types]
+  strcpy(dataIn, waitForData(fp, "STARTROUND", "STARTROUND"));
+         ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\string.h:30:8: note: expected 'char * restrict' but argument is of type 'char **'
+ char  *_EXFUN(strcpy,(char *__restrict, const char *__restrict));
+        ^
+skribblmain.c:181:16: warning: passing argument 1 of 'strcmp' from incompatible pointer type [-Wincompatible-pointer-types]
+  while (strcmp(dataIn, "ENDGAME") != 0) {
+                ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\string.h:28:6: note: expected 'const char *' but argument is of type 'char **'
+ int  _EXFUN(strcmp,(const char *, const char *));
+      ^
+skribblmain.c:182:6: warning: assignment makes pointer from integer without a cast [-Wint-conversion]
+   fp = open("/dev/jtag_uart", O_RDWR|O_NONBLOCK|O_NOCTTY|O_SYNC);
+      ^
+skribblmain.c:184:10: warning: passing argument 1 of 'strcpy' from incompatible pointer type [-Wincompatible-pointer-types]
+   strcpy(dataIn, waitForData(fp, "STARTGAME", "ENDGAME"));
+          ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\string.h:30:8: note: expected 'char * restrict' but argument is of type 'char **'
+ char  *_EXFUN(strcpy,(char *__restrict, const char *__restrict));
+        ^
 Info: Linking skribblnios_sw.elf
 nios2-elf-g++  -T'../skribblnios_sw_bsp//linker.x' -msys-crt0='../skribblnios_sw_bsp//obj/HAL/src/crt0.o' -msys-lib=hal_bsp -L../skribblnios_sw_bsp/   -Wl,-Map=skribblnios_sw.map   -O0 -g -Wall   -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global  -o skribblnios_sw.elf obj/default/skribblmain.o -lm -msys-lib=m
 nios2-elf-insert skribblnios_sw.elf --thread_model hal --cpu_name cpu --qsys true --simulation_enabled false --stderr_dev jtag_uart --stdin_dev jtag_uart --stdout_dev jtag_uart --sopc_system_name NIOSSystem --quartus_project_dir "C:/Users/Shaheen/Documents/InformationProcessing/PROJECT/skribblnios/FPGA" --jdi ../..//output_files/skribblnios.jdi --sopcinfo C:/Users/Shaheen/Documents/InformationProcessing/PROJECT/skribblnios/FPGA/software/skribblnios_sw_bsp/../../NIOSSystem.sopcinfo
-Info: (skribblnios_sw.elf) 70 KBytes program size (code + initialized data).
-Info:                      65458 KBytes free for stack + heap.
+Info: (skribblnios_sw.elf) 73 KBytes program size (code + initialized data).
+Info:                      65456 KBytes free for stack + heap.
 Info: Creating skribblnios_sw.objdump
 nios2-elf-objdump --disassemble --syms --all-header --source skribblnios_sw.elf >skribblnios_sw.objdump
 [skribblnios_sw build complete]
-17:57:58 **** Incremental Build of configuration Nios II for project skribblnios_sw ****
+02:22:16 **** Incremental Build of configuration Nios II for project skribblnios_sw ****
 make all 
 Info: Building ../skribblnios_sw_bsp/
 C:/intelFPGA_lite/18.0/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../skribblnios_sw_bsp/
 [BSP build complete]
 [skribblnios_sw build complete]
-17:59:09 **** Build of configuration Nios II for project skribblnios_sw ****
+02:22:42 **** Build of configuration Nios II for project skribblnios_sw ****
 make all 
 Info: Building ../skribblnios_sw_bsp/
 C:/intelFPGA_lite/18.0/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../skribblnios_sw_bsp/
 [BSP build complete]
 Info: Compiling skribblmain.c to obj/default/skribblmain.o
 nios2-elf-gcc -xc -MP -MMD -c -I../skribblnios_sw_bsp//HAL/inc -I../skribblnios_sw_bsp/ -I../skribblnios_sw_bsp//drivers/inc  -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall   -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global  -o obj/default/skribblmain.o skribblmain.c
-skribblmain.c: In function 'main':
-skribblmain.c:53:5: warning: assignment makes pointer from integer without a cast [-Wint-conversion]
-  fp = open("/dev/jtag_uart", O_RDWR|O_NONBLOCK|O_NOCTTY|O_SYNC);
-     ^
-skribblmain.c:65:7: warning: implicit declaration of function 'read' [-Wimplicit-function-declaration]
-    if(read(fp, &dataIn, 1) > 0) {
-       ^
-skribblmain.c:66:17: warning: passing argument 1 of 'processData' makes pointer from integer without a cast [-Wint-conversion]
-     processData(dataIn);
+skribblmain.c: In function 'waitForData':
+skribblmain.c:103:17: warning: passing argument 1 of 'strcmp' from incompatible pointer type [-Wincompatible-pointer-types]
+  while ((strcmp(waitIn, compare1) != 0) && (strcmp(waitIn, compare2) != 0 )) {
                  ^
-skribblmain.c:34:6: note: expected 'char *' but argument is of type 'char'
- void processData(char* data) {
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\string.h:28:6: note: expected 'const char *' but argument is of type 'char **'
+ int  _EXFUN(strcmp,(const char *, const char *));
       ^
-skribblmain.c:82:47: warning: suggest parentheses around '-' inside '>>' [-Wparentheses]
-    if ((stopTime-startTime) > (INTERVALSECOND >> SAMPLING_TIME-1)) {
-                                               ^
-skribblmain.c:86:12: warning: format '%d' expects argument of type 'int', but argument 2 has type 'alt_32 {aka long int}' [-Wformat=]
-     printf("%d %d %d\n", x_read, y_read, z_read);
-            ^
-skribblmain.c:86:12: warning: format '%d' expects argument of type 'int', but argument 3 has type 'alt_32 {aka long int}' [-Wformat=]
-skribblmain.c:86:12: warning: format '%d' expects argument of type 'int', but argument 4 has type 'alt_32 {aka long int}' [-Wformat=]
-skribblmain.c:86:12: warning: format '%d' expects argument of type 'int', but argument 2 has type 'alt_32 {aka long int}' [-Wformat=]
-skribblmain.c:86:12: warning: format '%d' expects argument of type 'int', but argument 3 has type 'alt_32 {aka long int}' [-Wformat=]
-skribblmain.c:86:12: warning: format '%d' expects argument of type 'int', but argument 4 has type 'alt_32 {aka long int}' [-Wformat=]
+skribblmain.c:103:52: warning: passing argument 1 of 'strcmp' from incompatible pointer type [-Wincompatible-pointer-types]
+  while ((strcmp(waitIn, compare1) != 0) && (strcmp(waitIn, compare2) != 0 )) {
+                                                    ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\string.h:28:6: note: expected 'const char *' but argument is of type 'char **'
+ int  _EXFUN(strcmp,(const char *, const char *));
+      ^
+skribblmain.c:104:3: warning: implicit declaration of function 'read' [-Wimplicit-function-declaration]
+   read(fp, &waitIn, BUFFERSIZE);
+   ^
+skribblmain.c:107:14: warning: passing argument 1 of 'strcmp' from incompatible pointer type [-Wincompatible-pointer-types]
+  if ((strcmp(waitIn, compare1)) != 0) {
+              ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\string.h:28:6: note: expected 'const char *' but argument is of type 'char **'
+ int  _EXFUN(strcmp,(const char *, const char *));
+      ^
+skribblmain.c: In function 'roundLoop':
+skribblmain.c:122:16: warning: passing argument 1 of 'strcmp' from incompatible pointer type [-Wincompatible-pointer-types]
+  while (strcmp(timeRatio, "100") != 0) {
+                ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\string.h:28:6: note: expected 'const char *' but argument is of type 'char **'
+ int  _EXFUN(strcmp,(const char *, const char *));
+      ^
+skribblmain.c:125:17: warning: passing argument 1 of 'atoi' from incompatible pointer type [-Wincompatible-pointer-types]
+    ratio = atoi(timeRatio);
+                 ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\stdlib.h:84:5: note: expected 'const char *' but argument is of type 'char **'
+ int _EXFUN(atoi,(const char *__nptr));
+     ^
+skribblmain.c:143:14: warning: large integer implicitly truncated to unsigned type [-Woverflow]
+     ledWrite(0b111111111);
+              ^
+skribblmain.c:120:9: warning: unused variable 'stopTime' [-Wunused-variable]
+  alt_32 stopTime;
+         ^
+skribblmain.c:119:9: warning: unused variable 'startTime' [-Wunused-variable]
+  alt_32 startTime = alt_timestamp();
+         ^
+skribblmain.c: In function 'main':
+skribblmain.c:170:13: warning: initialization makes pointer from integer without a cast [-Wint-conversion]
+  FILE* fp = open("/dev/jtag_uart", O_RDWR|O_NONBLOCK|O_NOCTTY|O_SYNC);
+             ^
+skribblmain.c:172:11: warning: large integer implicitly truncated to unsigned type [-Woverflow]
+  ledWrite(0b1111111111);
+           ^
+skribblmain.c:174:9: warning: passing argument 1 of 'strcpy' from incompatible pointer type [-Wincompatible-pointer-types]
+  strcpy(dataIn, waitForData(fp, "STARTGAME", "STARTGAME"));
+         ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\string.h:30:8: note: expected 'char * restrict' but argument is of type 'char **'
+ char  *_EXFUN(strcpy,(char *__restrict, const char *__restrict));
+        ^
+skribblmain.c:177:9: warning: passing argument 1 of 'strcpy' from incompatible pointer type [-Wincompatible-pointer-types]
+  strcpy(dataIn, waitForData(fp, "STARTROUND", "STARTROUND"));
+         ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\string.h:30:8: note: expected 'char * restrict' but argument is of type 'char **'
+ char  *_EXFUN(strcpy,(char *__restrict, const char *__restrict));
+        ^
+skribblmain.c:181:16: warning: passing argument 1 of 'strcmp' from incompatible pointer type [-Wincompatible-pointer-types]
+  while (strcmp(dataIn, "ENDGAME") != 0) {
+                ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\string.h:28:6: note: expected 'const char *' but argument is of type 'char **'
+ int  _EXFUN(strcmp,(const char *, const char *));
+      ^
+skribblmain.c:182:6: warning: assignment makes pointer from integer without a cast [-Wint-conversion]
+   fp = open("/dev/jtag_uart", O_RDWR|O_NONBLOCK|O_NOCTTY|O_SYNC);
+      ^
+skribblmain.c:184:10: warning: passing argument 1 of 'strcpy' from incompatible pointer type [-Wincompatible-pointer-types]
+   strcpy(dataIn, waitForData(fp, "STARTGAME", "ENDGAME"));
+          ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\string.h:30:8: note: expected 'char * restrict' but argument is of type 'char **'
+ char  *_EXFUN(strcpy,(char *__restrict, const char *__restrict));
+        ^
 Info: Linking skribblnios_sw.elf
 nios2-elf-g++  -T'../skribblnios_sw_bsp//linker.x' -msys-crt0='../skribblnios_sw_bsp//obj/HAL/src/crt0.o' -msys-lib=hal_bsp -L../skribblnios_sw_bsp/   -Wl,-Map=skribblnios_sw.map   -O0 -g -Wall   -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global  -o skribblnios_sw.elf obj/default/skribblmain.o -lm -msys-lib=m
 nios2-elf-insert skribblnios_sw.elf --thread_model hal --cpu_name cpu --qsys true --simulation_enabled false --stderr_dev jtag_uart --stdin_dev jtag_uart --stdout_dev jtag_uart --sopc_system_name NIOSSystem --quartus_project_dir "C:/Users/Shaheen/Documents/InformationProcessing/PROJECT/skribblnios/FPGA" --jdi ../..//output_files/skribblnios.jdi --sopcinfo C:/Users/Shaheen/Documents/InformationProcessing/PROJECT/skribblnios/FPGA/software/skribblnios_sw_bsp/../../NIOSSystem.sopcinfo
-Info: (skribblnios_sw.elf) 70 KBytes program size (code + initialized data).
-Info:                      65458 KBytes free for stack + heap.
+Info: (skribblnios_sw.elf) 73 KBytes program size (code + initialized data).
+Info:                      65456 KBytes free for stack + heap.
 Info: Creating skribblnios_sw.objdump
 nios2-elf-objdump --disassemble --syms --all-header --source skribblnios_sw.elf >skribblnios_sw.objdump
 [skribblnios_sw build complete]
-17:59:14 **** Incremental Build of configuration Nios II for project skribblnios_sw ****
+02:22:45 **** Incremental Build of configuration Nios II for project skribblnios_sw ****
 make all 
 Info: Building ../skribblnios_sw_bsp/
 C:/intelFPGA_lite/18.0/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../skribblnios_sw_bsp/
 [BSP build complete]
 [skribblnios_sw build complete]
-18:00:20 **** Build of configuration Nios II for project skribblnios_sw ****
+02:24:40 **** Build of configuration Nios II for project skribblnios_sw ****
+make all 
+Info: Building ../skribblnios_sw_bsp/
+C:/intelFPGA_lite/18.0/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../skribblnios_sw_bsp/
+[BSP build complete]
+Info: Compiling skribblmain.c to obj/default/skribblmain.o
+nios2-elf-gcc -xc -MP -MMD -c -I../skribblnios_sw_bsp//HAL/inc -I../skribblnios_sw_bsp/ -I../skribblnios_sw_bsp//drivers/inc  -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall   -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global  -o obj/default/skribblmain.o skribblmain.c
+skribblmain.c: In function 'waitForData':
+skribblmain.c:103:17: warning: passing argument 1 of 'strcmp' from incompatible pointer type [-Wincompatible-pointer-types]
+  while ((strcmp(waitIn, compare1) != 0) && (strcmp(waitIn, compare2) != 0 )) {
+                 ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\string.h:28:6: note: expected 'const char *' but argument is of type 'char **'
+ int  _EXFUN(strcmp,(const char *, const char *));
+      ^
+skribblmain.c:103:52: warning: passing argument 1 of 'strcmp' from incompatible pointer type [-Wincompatible-pointer-types]
+  while ((strcmp(waitIn, compare1) != 0) && (strcmp(waitIn, compare2) != 0 )) {
+                                                    ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\string.h:28:6: note: expected 'const char *' but argument is of type 'char **'
+ int  _EXFUN(strcmp,(const char *, const char *));
+      ^
+skribblmain.c:104:3: warning: implicit declaration of function 'read' [-Wimplicit-function-declaration]
+   read(fp, &waitIn, BUFFERSIZE);
+   ^
+skribblmain.c:107:14: warning: passing argument 1 of 'strcmp' from incompatible pointer type [-Wincompatible-pointer-types]
+  if ((strcmp(waitIn, compare1)) != 0) {
+              ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\string.h:28:6: note: expected 'const char *' but argument is of type 'char **'
+ int  _EXFUN(strcmp,(const char *, const char *));
+      ^
+skribblmain.c: In function 'roundLoop':
+skribblmain.c:122:16: warning: passing argument 1 of 'strcmp' from incompatible pointer type [-Wincompatible-pointer-types]
+  while (strcmp(timeRatio, "100") != 0) {
+                ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\string.h:28:6: note: expected 'const char *' but argument is of type 'char **'
+ int  _EXFUN(strcmp,(const char *, const char *));
+      ^
+skribblmain.c:125:17: warning: passing argument 1 of 'atoi' from incompatible pointer type [-Wincompatible-pointer-types]
+    ratio = atoi(timeRatio);
+                 ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\stdlib.h:84:5: note: expected 'const char *' but argument is of type 'char **'
+ int _EXFUN(atoi,(const char *__nptr));
+     ^
+skribblmain.c:143:14: warning: large integer implicitly truncated to unsigned type [-Woverflow]
+     ledWrite(0b111111111);
+              ^
+skribblmain.c:120:9: warning: unused variable 'stopTime' [-Wunused-variable]
+  alt_32 stopTime;
+         ^
+skribblmain.c:119:9: warning: unused variable 'startTime' [-Wunused-variable]
+  alt_32 startTime = alt_timestamp();
+         ^
+skribblmain.c: In function 'main':
+skribblmain.c:170:13: warning: initialization makes pointer from integer without a cast [-Wint-conversion]
+  FILE* fp = open("/dev/jtag_uart", O_RDWR|O_NONBLOCK|O_NOCTTY|O_SYNC);
+             ^
+skribblmain.c:172:11: warning: large integer implicitly truncated to unsigned type [-Woverflow]
+  ledWrite(0b1111111111);
+           ^
+skribblmain.c:174:9: warning: passing argument 1 of 'strcpy' from incompatible pointer type [-Wincompatible-pointer-types]
+  strcpy(dataIn, waitForData(fp, "STARTGAME", "STARTGAME"));
+         ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\string.h:30:8: note: expected 'char * restrict' but argument is of type 'char **'
+ char  *_EXFUN(strcpy,(char *__restrict, const char *__restrict));
+        ^
+skribblmain.c:177:9: warning: passing argument 1 of 'strcpy' from incompatible pointer type [-Wincompatible-pointer-types]
+  strcpy(dataIn, waitForData(fp, "STARTROUND", "STARTROUND"));
+         ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\string.h:30:8: note: expected 'char * restrict' but argument is of type 'char **'
+ char  *_EXFUN(strcpy,(char *__restrict, const char *__restrict));
+        ^
+skribblmain.c:181:16: warning: passing argument 1 of 'strcmp' from incompatible pointer type [-Wincompatible-pointer-types]
+  while (strcmp(dataIn, "ENDGAME") != 0) {
+                ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\string.h:28:6: note: expected 'const char *' but argument is of type 'char **'
+ int  _EXFUN(strcmp,(const char *, const char *));
+      ^
+skribblmain.c:182:6: warning: assignment makes pointer from integer without a cast [-Wint-conversion]
+   fp = open("/dev/jtag_uart", O_RDWR|O_NONBLOCK|O_NOCTTY|O_SYNC);
+      ^
+skribblmain.c:184:10: warning: passing argument 1 of 'strcpy' from incompatible pointer type [-Wincompatible-pointer-types]
+   strcpy(dataIn, waitForData(fp, "STARTGAME", "ENDGAME"));
+          ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\string.h:30:8: note: expected 'char * restrict' but argument is of type 'char **'
+ char  *_EXFUN(strcpy,(char *__restrict, const char *__restrict));
+        ^
+Info: Linking skribblnios_sw.elf
+nios2-elf-g++  -T'../skribblnios_sw_bsp//linker.x' -msys-crt0='../skribblnios_sw_bsp//obj/HAL/src/crt0.o' -msys-lib=hal_bsp -L../skribblnios_sw_bsp/   -Wl,-Map=skribblnios_sw.map   -O0 -g -Wall   -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global  -o skribblnios_sw.elf obj/default/skribblmain.o -lm -msys-lib=m
+nios2-elf-insert skribblnios_sw.elf --thread_model hal --cpu_name cpu --qsys true --simulation_enabled false --stderr_dev jtag_uart --stdin_dev jtag_uart --stdout_dev jtag_uart --sopc_system_name NIOSSystem --quartus_project_dir "C:/Users/Shaheen/Documents/InformationProcessing/PROJECT/skribblnios/FPGA" --jdi ../..//output_files/skribblnios.jdi --sopcinfo C:/Users/Shaheen/Documents/InformationProcessing/PROJECT/skribblnios/FPGA/software/skribblnios_sw_bsp/../../NIOSSystem.sopcinfo
+Info: (skribblnios_sw.elf) 73 KBytes program size (code + initialized data).
+Info:                      65456 KBytes free for stack + heap.
+Info: Creating skribblnios_sw.objdump
+nios2-elf-objdump --disassemble --syms --all-header --source skribblnios_sw.elf >skribblnios_sw.objdump
+[skribblnios_sw build complete]
+02:24:42 **** Incremental Build of configuration Nios II for project skribblnios_sw ****
 make all 
 Info: Building ../skribblnios_sw_bsp/
 C:/intelFPGA_lite/18.0/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../skribblnios_sw_bsp/
 [BSP build complete]
 [skribblnios_sw build complete]
-18:00:22 **** Incremental Build of configuration Nios II for project skribblnios_sw ****
+02:25:08 **** Build of configuration Nios II for project skribblnios_sw ****
+make all 
+Info: Building ../skribblnios_sw_bsp/
+C:/intelFPGA_lite/18.0/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../skribblnios_sw_bsp/
+[BSP build complete]
+Info: Compiling skribblmain.c to obj/default/skribblmain.o
+nios2-elf-gcc -xc -MP -MMD -c -I../skribblnios_sw_bsp//HAL/inc -I../skribblnios_sw_bsp/ -I../skribblnios_sw_bsp//drivers/inc  -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall   -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global  -o obj/default/skribblmain.o skribblmain.c
+skribblmain.c: In function 'waitForData':
+skribblmain.c:103:17: warning: passing argument 1 of 'strcmp' from incompatible pointer type [-Wincompatible-pointer-types]
+  while ((strcmp(waitIn, compare1) != 0) && (strcmp(waitIn, compare2) != 0 )) {
+                 ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\string.h:28:6: note: expected 'const char *' but argument is of type 'char **'
+ int  _EXFUN(strcmp,(const char *, const char *));
+      ^
+skribblmain.c:103:52: warning: passing argument 1 of 'strcmp' from incompatible pointer type [-Wincompatible-pointer-types]
+  while ((strcmp(waitIn, compare1) != 0) && (strcmp(waitIn, compare2) != 0 )) {
+                                                    ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\string.h:28:6: note: expected 'const char *' but argument is of type 'char **'
+ int  _EXFUN(strcmp,(const char *, const char *));
+      ^
+skribblmain.c:104:3: warning: implicit declaration of function 'read' [-Wimplicit-function-declaration]
+   read(fp, &waitIn, BUFFERSIZE);
+   ^
+skribblmain.c:107:14: warning: passing argument 1 of 'strcmp' from incompatible pointer type [-Wincompatible-pointer-types]
+  if ((strcmp(waitIn, compare1)) != 0) {
+              ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\string.h:28:6: note: expected 'const char *' but argument is of type 'char **'
+ int  _EXFUN(strcmp,(const char *, const char *));
+      ^
+skribblmain.c: In function 'roundLoop':
+skribblmain.c:122:16: warning: passing argument 1 of 'strcmp' from incompatible pointer type [-Wincompatible-pointer-types]
+  while (strcmp(timeRatio, "100") != 0) {
+                ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\string.h:28:6: note: expected 'const char *' but argument is of type 'char **'
+ int  _EXFUN(strcmp,(const char *, const char *));
+      ^
+skribblmain.c:125:17: warning: passing argument 1 of 'atoi' from incompatible pointer type [-Wincompatible-pointer-types]
+    ratio = atoi(timeRatio);
+                 ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\stdlib.h:84:5: note: expected 'const char *' but argument is of type 'char **'
+ int _EXFUN(atoi,(const char *__nptr));
+     ^
+skribblmain.c:143:14: warning: large integer implicitly truncated to unsigned type [-Woverflow]
+     ledWrite(0b111111111);
+              ^
+skribblmain.c:120:9: warning: unused variable 'stopTime' [-Wunused-variable]
+  alt_32 stopTime;
+         ^
+skribblmain.c:119:9: warning: unused variable 'startTime' [-Wunused-variable]
+  alt_32 startTime = alt_timestamp();
+         ^
+skribblmain.c: In function 'main':
+skribblmain.c:170:13: warning: initialization makes pointer from integer without a cast [-Wint-conversion]
+  FILE* fp = open("/dev/jtag_uart", O_RDWR|O_NONBLOCK|O_NOCTTY|O_SYNC);
+             ^
+skribblmain.c:172:11: warning: large integer implicitly truncated to unsigned type [-Woverflow]
+  ledWrite(0b1111111111);
+           ^
+skribblmain.c:174:9: warning: passing argument 1 of 'strcpy' from incompatible pointer type [-Wincompatible-pointer-types]
+  strcpy(dataIn, waitForData(fp, "STARTGAME", "STARTGAME"));
+         ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\string.h:30:8: note: expected 'char * restrict' but argument is of type 'char **'
+ char  *_EXFUN(strcpy,(char *__restrict, const char *__restrict));
+        ^
+skribblmain.c:177:9: warning: passing argument 1 of 'strcpy' from incompatible pointer type [-Wincompatible-pointer-types]
+  strcpy(dataIn, waitForData(fp, "STARTROUND", "STARTROUND"));
+         ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\string.h:30:8: note: expected 'char * restrict' but argument is of type 'char **'
+ char  *_EXFUN(strcpy,(char *__restrict, const char *__restrict));
+        ^
+skribblmain.c:181:16: warning: passing argument 1 of 'strcmp' from incompatible pointer type [-Wincompatible-pointer-types]
+  while (strcmp(dataIn, "ENDGAME") != 0) {
+                ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\string.h:28:6: note: expected 'const char *' but argument is of type 'char **'
+ int  _EXFUN(strcmp,(const char *, const char *));
+      ^
+skribblmain.c:182:6: warning: assignment makes pointer from integer without a cast [-Wint-conversion]
+   fp = open("/dev/jtag_uart", O_RDWR|O_NONBLOCK|O_NOCTTY|O_SYNC);
+      ^
+skribblmain.c:184:10: warning: passing argument 1 of 'strcpy' from incompatible pointer type [-Wincompatible-pointer-types]
+   strcpy(dataIn, waitForData(fp, "STARTGAME", "ENDGAME"));
+          ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\string.h:30:8: note: expected 'char * restrict' but argument is of type 'char **'
+ char  *_EXFUN(strcpy,(char *__restrict, const char *__restrict));
+        ^
+Info: Linking skribblnios_sw.elf
+nios2-elf-g++  -T'../skribblnios_sw_bsp//linker.x' -msys-crt0='../skribblnios_sw_bsp//obj/HAL/src/crt0.o' -msys-lib=hal_bsp -L../skribblnios_sw_bsp/   -Wl,-Map=skribblnios_sw.map   -O0 -g -Wall   -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global  -o skribblnios_sw.elf obj/default/skribblmain.o -lm -msys-lib=m
+nios2-elf-insert skribblnios_sw.elf --thread_model hal --cpu_name cpu --qsys true --simulation_enabled false --stderr_dev jtag_uart --stdin_dev jtag_uart --stdout_dev jtag_uart --sopc_system_name NIOSSystem --quartus_project_dir "C:/Users/Shaheen/Documents/InformationProcessing/PROJECT/skribblnios/FPGA" --jdi ../..//output_files/skribblnios.jdi --sopcinfo C:/Users/Shaheen/Documents/InformationProcessing/PROJECT/skribblnios/FPGA/software/skribblnios_sw_bsp/../../NIOSSystem.sopcinfo
+Info: (skribblnios_sw.elf) 73 KBytes program size (code + initialized data).
+Info:                      65456 KBytes free for stack + heap.
+Info: Creating skribblnios_sw.objdump
+nios2-elf-objdump --disassemble --syms --all-header --source skribblnios_sw.elf >skribblnios_sw.objdump
+[skribblnios_sw build complete]
+02:25:11 **** Incremental Build of configuration Nios II for project skribblnios_sw ****
 make all 
 Info: Building ../skribblnios_sw_bsp/
 C:/intelFPGA_lite/18.0/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../skribblnios_sw_bsp/
 [BSP build complete]
 [skribblnios_sw build complete]
-18:01:19 **** Build of configuration Nios II for project skribblnios_sw ****
+02:27:07 **** Build of configuration Nios II for project skribblnios_sw ****
 make all 
 Info: Building ../skribblnios_sw_bsp/
 C:/intelFPGA_lite/18.0/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../skribblnios_sw_bsp/
 [BSP build complete]
+Info: Compiling skribblmain.c to obj/default/skribblmain.o
+nios2-elf-gcc -xc -MP -MMD -c -I../skribblnios_sw_bsp//HAL/inc -I../skribblnios_sw_bsp/ -I../skribblnios_sw_bsp//drivers/inc  -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall   -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global  -o obj/default/skribblmain.o skribblmain.c
+skribblmain.c: In function 'waitForData':
+skribblmain.c:103:17: warning: passing argument 1 of 'strcmp' from incompatible pointer type [-Wincompatible-pointer-types]
+  while ((strcmp(waitIn, compare1) != 0) && (strcmp(waitIn, compare2) != 0 )) {
+                 ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\string.h:28:6: note: expected 'const char *' but argument is of type 'char **'
+ int  _EXFUN(strcmp,(const char *, const char *));
+      ^
+skribblmain.c:103:52: warning: passing argument 1 of 'strcmp' from incompatible pointer type [-Wincompatible-pointer-types]
+  while ((strcmp(waitIn, compare1) != 0) && (strcmp(waitIn, compare2) != 0 )) {
+                                                    ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\string.h:28:6: note: expected 'const char *' but argument is of type 'char **'
+ int  _EXFUN(strcmp,(const char *, const char *));
+      ^
+skribblmain.c:104:3: warning: implicit declaration of function 'read' [-Wimplicit-function-declaration]
+   read(fp, &waitIn, BUFFERSIZE);
+   ^
+skribblmain.c:107:14: warning: passing argument 1 of 'strcmp' from incompatible pointer type [-Wincompatible-pointer-types]
+  if ((strcmp(waitIn, compare1)) != 0) {
+              ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\string.h:28:6: note: expected 'const char *' but argument is of type 'char **'
+ int  _EXFUN(strcmp,(const char *, const char *));
+      ^
+skribblmain.c: In function 'roundLoop':
+skribblmain.c:122:16: warning: passing argument 1 of 'strcmp' from incompatible pointer type [-Wincompatible-pointer-types]
+  while (strcmp(timeRatio, "100") != 0) {
+                ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\string.h:28:6: note: expected 'const char *' but argument is of type 'char **'
+ int  _EXFUN(strcmp,(const char *, const char *));
+      ^
+skribblmain.c:125:17: warning: passing argument 1 of 'atoi' from incompatible pointer type [-Wincompatible-pointer-types]
+    ratio = atoi(timeRatio);
+                 ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\stdlib.h:84:5: note: expected 'const char *' but argument is of type 'char **'
+ int _EXFUN(atoi,(const char *__nptr));
+     ^
+skribblmain.c:120:9: warning: unused variable 'stopTime' [-Wunused-variable]
+  alt_32 stopTime;
+         ^
+skribblmain.c:119:9: warning: unused variable 'startTime' [-Wunused-variable]
+  alt_32 startTime = alt_timestamp();
+         ^
+skribblmain.c: In function 'main':
+skribblmain.c:170:13: warning: initialization makes pointer from integer without a cast [-Wint-conversion]
+  FILE* fp = open("/dev/jtag_uart", O_RDWR|O_NONBLOCK|O_NOCTTY|O_SYNC);
+             ^
+skribblmain.c:174:9: warning: passing argument 1 of 'strcpy' from incompatible pointer type [-Wincompatible-pointer-types]
+  strcpy(dataIn, waitForData(fp, "STARTGAME", "STARTGAME"));
+         ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\string.h:30:8: note: expected 'char * restrict' but argument is of type 'char **'
+ char  *_EXFUN(strcpy,(char *__restrict, const char *__restrict));
+        ^
+skribblmain.c:177:9: warning: passing argument 1 of 'strcpy' from incompatible pointer type [-Wincompatible-pointer-types]
+  strcpy(dataIn, waitForData(fp, "STARTROUND", "STARTROUND"));
+         ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\string.h:30:8: note: expected 'char * restrict' but argument is of type 'char **'
+ char  *_EXFUN(strcpy,(char *__restrict, const char *__restrict));
+        ^
+skribblmain.c:181:16: warning: passing argument 1 of 'strcmp' from incompatible pointer type [-Wincompatible-pointer-types]
+  while (strcmp(dataIn, "ENDGAME") != 0) {
+                ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\string.h:28:6: note: expected 'const char *' but argument is of type 'char **'
+ int  _EXFUN(strcmp,(const char *, const char *));
+      ^
+skribblmain.c:182:6: warning: assignment makes pointer from integer without a cast [-Wint-conversion]
+   fp = open("/dev/jtag_uart", O_RDWR|O_NONBLOCK|O_NOCTTY|O_SYNC);
+      ^
+skribblmain.c:184:10: warning: passing argument 1 of 'strcpy' from incompatible pointer type [-Wincompatible-pointer-types]
+   strcpy(dataIn, waitForData(fp, "STARTGAME", "ENDGAME"));
+          ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\string.h:30:8: note: expected 'char * restrict' but argument is of type 'char **'
+ char  *_EXFUN(strcpy,(char *__restrict, const char *__restrict));
+        ^
+Info: Linking skribblnios_sw.elf
+nios2-elf-g++  -T'../skribblnios_sw_bsp//linker.x' -msys-crt0='../skribblnios_sw_bsp//obj/HAL/src/crt0.o' -msys-lib=hal_bsp -L../skribblnios_sw_bsp/   -Wl,-Map=skribblnios_sw.map   -O0 -g -Wall   -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global  -o skribblnios_sw.elf obj/default/skribblmain.o -lm -msys-lib=m
+nios2-elf-insert skribblnios_sw.elf --thread_model hal --cpu_name cpu --qsys true --simulation_enabled false --stderr_dev jtag_uart --stdin_dev jtag_uart --stdout_dev jtag_uart --sopc_system_name NIOSSystem --quartus_project_dir "C:/Users/Shaheen/Documents/InformationProcessing/PROJECT/skribblnios/FPGA" --jdi ../..//output_files/skribblnios.jdi --sopcinfo C:/Users/Shaheen/Documents/InformationProcessing/PROJECT/skribblnios/FPGA/software/skribblnios_sw_bsp/../../NIOSSystem.sopcinfo
+Info: (skribblnios_sw.elf) 73 KBytes program size (code + initialized data).
+Info:                      65456 KBytes free for stack + heap.
+Info: Creating skribblnios_sw.objdump
+nios2-elf-objdump --disassemble --syms --all-header --source skribblnios_sw.elf >skribblnios_sw.objdump
 [skribblnios_sw build complete]
-18:01:22 **** Incremental Build of configuration Nios II for project skribblnios_sw ****
+02:27:09 **** Incremental Build of configuration Nios II for project skribblnios_sw ****
 make all 
 Info: Building ../skribblnios_sw_bsp/
 C:/intelFPGA_lite/18.0/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../skribblnios_sw_bsp/
