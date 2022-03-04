@@ -1,5 +1,5 @@
 import pygame
-import Game
+import GameUI
 
 class mainMenu():
     def __init__(self, gameInstance=None):
@@ -71,7 +71,7 @@ class mainMenu():
                             quit()
                         if self.tracker[self.pointer] == "START":
                             self.isActive = False
-                            game = Game("shan")
+                            game = GameUI.Game("shan")
                             pygame.mixer.music.stop()
                             game.round_start()
             self.formattedText = [None]*len(self.tracker)
