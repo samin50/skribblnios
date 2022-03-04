@@ -1,0 +1,7 @@
+Using the fast processor for nios
+
+Using 8kB for buffer for jtag
+ 
+
+Initially doubled the memory to 2^17 as original 2^16 covered ~40% of space
+Had to change due to running out of memory

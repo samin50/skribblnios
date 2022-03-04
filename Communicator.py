@@ -1,1 +1,0 @@
-print("Communicator started.")
