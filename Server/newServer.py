@@ -1,6 +1,7 @@
 import socket
 import threading
-import random 
+import random
+from copy import deepcopy
 
 #Client on the server sides that holds their attributes and waits for data
 class ClientData():
@@ -29,23 +30,25 @@ class ClientData():
 
     #Process client side data
     def processData(self, data):
+        #Default server response
+        self.sendClientData(data)
         #Server wide command
         if "SERVERCMD:" in data:
             self.serverObj.processServerSide(data)
+            return
         #Set player name
         if "!SETNAME" in data:
             self.name = data.split(" ")[1]
+            return
         #Disconnect player
         if data == "!DISCONNECT":
-            print(f"Player {self.name} disconnected.")
-            self.isActive = False
+            self.isActive = False #Disable player
             self.serverObj.processServerSide("SERVERCMD: !DISCONNECT " + str(self.name))
-        #Default send data back to client as well
-        self.sendClientData(data)
-        return
+            return
 
     def sendClientData(self, data):
         self.serverProperties[0].send(str.encode(f"Server response: {data}"))
+    
 
 
 class Server():
@@ -66,11 +69,15 @@ class Server():
     #Add new clients as they connect
     def addClients(self):
         while self.isActive:
-            conn, addr = self.server.accept()
-            Player = ClientData(conn, addr, self)
-            self.clientList.append(Player)
-            conn.send(b"Welcome to the server!\n")
-            print("\nNew Player Joined!")
+            try:
+                conn, addr = self.server.accept()
+                Player = ClientData(conn, addr, self)
+                self.clientList.append(Player)
+                conn.send(b"Welcome to the server!\n")
+                print("New Player Joined!\n")
+            except:
+                print("Server closed.")
+                return
             
             
     #Process individual clients for data
@@ -91,16 +98,23 @@ class Server():
             self.closeServer()
         if "!DISCONNECT" in data:
             #Remove player from list based on name
-            playerNameToRemove = data.split(" ")[1]
+            playerNameToRemove = data.split("!DISCONNECT ")[1]
             for player in self.clientList:
-                if player.name == playerNameToRemove:
+                if player.name.strip() == playerNameToRemove.strip():
+                    try:
+                        player.sendClientData("Server: You have been disconnected.\n")
+                    except:
+                        print(player.name + " was forcibly disconnected on their side.")
+                    player.isActive = False
                     self.clientList.remove(player)
+                    print(f"Server: Disconnected Player {playerNameToRemove}")
                     break
-            print(f"Server: Disconnected Player {playerNameToRemove}")
+            return
         #Broadcast to all players
         if "!BROADCAST" in data:
             message = data.split("!BROADCAST")[1]
             self.sendData(message, True)
+            return
 
         #choose who is drawing 
         if "!DRAWERSELECT" in data:
@@ -110,24 +124,30 @@ class Server():
             whosdrawing = self.next_drawer.name + " is now drawing! "
             self.sendData(whosdrawing, True)
             print(self.next_drawer.name + " is now drawing!")
+            return
 
     #Send data
-    def sendData(self, data, all=False, playernum=0):
+    def sendData(self, data, all=False, playerName=0):
         if all == False:
-            self.clientList[playernum].sendClientData(f"{data}")
+            for player in self.clientList:
+                if player.name == playerName:
+                    player.sendClientData(f"{data}")
         else:
             for player in self.clientList:
                 player.sendClientData(f"{data}")
     
     #Close server
     def closeServer(self):
-        for i in range(len(self.clientList)):
-            self.clientList[i].processData("!DISCONNECT")
+        print("Closing server.")
         self.isActive = False
+        while len(self.clientList) > 0:
+            self.clientList[0].processData("!DISCONNECT")
         self.server.close()
+        
 
-PORT = 9999
-server = Server(PORT)
+if __name__ == "__main__":
+    PORT = 9999
+    server = Server(PORT)
 
     
 
