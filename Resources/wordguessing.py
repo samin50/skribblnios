@@ -1,6 +1,9 @@
 import random 
 
-Dictionary = ("football","snake","waves","beach") 
+f = open("dictionary.txt", "r")
+content = f.read()
+Dictionary = content.split(",")
+f.close()
 
 word1 = random.choice(Dictionary)
 
@@ -11,4 +14,3 @@ while word2 == word1:
 word3 = random.choice(Dictionary)
 while word3 == (word1 or word2):
     word3 = random.choice(Dictionary)
-
