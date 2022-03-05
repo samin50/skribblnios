@@ -2,11 +2,9 @@ import random
 import socket
 import threading
 
-PORT = 9999
-SERVER = "10.5.0.2"
-
 class Client():
-    def __init__(self, name, ip, port):
+    def __init__(self, name, ip, port, gameInstance=None):
+        self.gameInstance = gameInstance
         self.name = name            
         self.server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.server.connect((ip, port))
@@ -38,6 +36,9 @@ class Client():
 Player = Client("Player-" + str(random.randint(0, 100)), SERVER, PORT)
 
 if __name__ == "__main__":
+    PORT = 9999
+    SERVER = '10.5.0.2'
+    Player = Client("Player-" + str(random.randint(0, 100)), SERVER, PORT)
     while True:
         data = input("Send data: ")
         Player.sendServer(data)

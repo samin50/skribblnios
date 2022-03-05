@@ -12,7 +12,6 @@ class SkribblNIOS():
             print(e)
             exit(0)
         self.isActive = False
-        self.gameInstance = None
         self.sendThread = None
         self.recieveThread = None
 

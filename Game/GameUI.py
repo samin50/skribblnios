@@ -1,8 +1,9 @@
 import pygame
-import player
 import random
 class Game():
-    def __init__(self,username):
+    def __init__(self, username, ip=None, port=None, fpgaInstance=None, communicatorInstance=None):
+        self.FPGA = fpgaInstance #Allows sending data to FPGA
+        #self.Communicator = Client(username, ip, port, self) #instantiate communicator 
         self.run = True
         self.username = username
         self.width = 1000
