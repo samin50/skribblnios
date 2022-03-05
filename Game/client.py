@@ -1,10 +1,13 @@
 import pygame
 import player
 import random
-from text_input import *
+from text_input import Textbox
+import threading
 class Game():
     def __init__(self,username):
-        self.run = True
+        self.run = False
+        self.round_end = False
+        self.game_end = False
         self.username = username
         self.width = 1200
         self.height = 600
@@ -39,7 +42,6 @@ class Game():
         
         self.chatbox = pygame.Rect(self.width/5,self.height/2,self.canvas_width/2.5,self.canvas_height)
         self.is_typing = False
-        
 
 
     def redraw_window(self):
@@ -67,11 +69,12 @@ class Game():
         for i in range(len(self.colours)):
             for j in range(len(self.colours[i])):
                 self.colours[i][j] = random.randint(0,1)
+
                
     def mouse_down(self,draw):
         for event in self.events:
+            '''
             if draw == True:
-                self.typing = False
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     #return True
                     self.draw_blit = True
@@ -79,22 +82,57 @@ class Game():
                 elif event.type == pygame.MOUSEBUTTONUP:
                     #return False
                     self.draw_blit = False
-                    print("UP")
-            else:
-                if event.type == pygame.MOUSEBUTTONDOWN:
-                    print("TYPING")
-                    self.typing = True
-                else:
-                    self.typing = False
+                    print("UP")'''
+            
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                print("TYPING")
+                self.is_typing = True
+                self.typing()
+                #else:
+                    #self.is_typing = False
+                    #print("NOOOOO")
+
+
 
     def typing(self):
-        text= run_textbox(self.display,"enter text",(self.width/1.16,self.height/2))
-        print(text)
+        print("TYPING SHOULD APPEAR")
+        
+        textbox.upper_case = False
+        textbox.rect.center = (500, 300)
+        self.read_keyboard(textbox)
+        
+    def read_keyboard(self,textbox):
+        pygame.display.update(textbox.rect)
+        for e in pygame.event.get():
+            if e.type == pygame.QUIT:
+                self.run = False
+            if e.type == pygame.KEYUP:
+                if e.key in [pygame.K_RSHIFT, pygame.K_LSHIFT]:
+                    textbox.upper_case = False
+            if e.type == pygame.KEYDOWN:
+                textbox.add_chr(pygame.key.name(e.key))
+                if e.key == pygame.K_SPACE:
+                    textbox.text += " "
+                    textbox.update()
+                if e.key in [pygame.K_RSHIFT, pygame.K_LSHIFT]:
+                    textbox.upper_case = True
+                if e.key == pygame.K_BACKSPACE:
+                    textbox.text = textbox.text[:-1]
+                    textbox.update()
+                if e.key == pygame.K_RETURN:
+                    if len(textbox.text) > 0:
+                        return textbox.text
+                        
 
 
-
+    def random_draw(self):
+        self.x = random.randint(0,500)
+        self.y = random.randint(0,500)
+        self.draw_blit = True
+        return (self.x,self.y)
 
     def round_start(self):
+        self.run = True
         pygame.mixer.music.play(-1)
         self.background=pygame.transform.scale(self.background,(self.width,self.height))
         self.redraw_window()
@@ -105,9 +143,10 @@ class Game():
         self.chatbox.center = (self.width/1.16,self.height/2)
         pygame.draw.rect(self.display,(255,255,245),(self.canvas))
         pygame.draw.rect(self.display,(230,230,220),(self.chatbox))
+        
 
         while self.run == True:
-            
+
             self.frame_counter+=1
             if (self.frame_counter % self.fps): #counts number of seconds player is drawing using the frame rate of the game
                 self.draw_timer+=1
@@ -120,37 +159,43 @@ class Game():
             self.colour_update()
             self.switch_update()
 
-            xy = pygame.mouse.get_pos()
+            xy = self.random_draw()#pygame.mouse.get_pos()
             #if (((self.centre[0]-self.canvas_width/2)<xy[0]>(self.centre[0]+self.canvas_width/2)) or ((self.centre[1]-self.canvas_height/2)<xy[1]>(self.centre[1]+self.canvas_height/2))):
             
-
-
              # returns true if mouse is being held down which enables draw
-            
 
-            collide = self.canvas.collidepoint(xy)
-            chat_collide = self.chatbox.collidepoint(xy)
-            if collide==False:
-                self.draw_blit = False
-                if chat_collide:
-                    self.mouse_down(False)
-            else:
-                self.mouse_down(True)
+            canvas_collide = self.canvas.collidepoint(pygame.mouse.get_pos())
+            chat_collide = self.chatbox.collidepoint(pygame.mouse.get_pos())
+            #if canvas_collide==False:
+                #self.draw_blit = False
+                
+            #else:
+                #self.mouse_down(True)
+            if chat_collide:
+                self.mouse_down(False)
             
+            self.draw_blit = True
             if self.draw_blit:
                 pygame.draw.circle(self.display,(self.brush_colour),(xy[0],xy[1]),10)
             
             if self.is_typing == True:
                 self.typing()
             
-
             #self.display.blit(self.canvas)
             #pygame.draw(self.display, (255,255,255), canvas)
             pygame.display.update()
             for event in self.events:
                 if event.type == pygame.QUIT:
-                    run = False
+                    self.run = False
                     pygame.quit()
 
     def load_sprites(self):
         None
+
+pygame.init()   
+music=pygame.mixer.music.load("Game/assets/menu_music.mp3")
+pygame.mixer.music.play(-1)
+game = Game("shan")
+pygame.display.set_caption("player")
+textbox = Textbox("Type to chat")
+game.round_start()
