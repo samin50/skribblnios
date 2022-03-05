@@ -205,9 +205,10 @@ class Game():
     def load_sprites(self):
         None
 
-pygame.init()
+'''pygame.init()
 music=pygame.mixer.music.load("Game/assets/menu_music.mp3")
 pygame.mixer.music.play(-1)
 game = Game("shan")
 pygame.display.set_caption("player")
 game.round_start()
+'''
