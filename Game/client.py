@@ -100,11 +100,13 @@ class Game():
         textbox.upper_case = False
         textbox.rect.center = (1030,500)
         clock = pygame.time.Clock()
+        pygame.draw.rect(self.display,(230,230,220),(self.chatbox))
         
         while True:
-            
             clock.tick(30)
+            
             self.display.blit(textbox.message, textbox.rect)
+            
             pygame.display.flip()
             for e in self.events:
                 if e.type == pygame.QUIT:
@@ -113,6 +115,7 @@ class Game():
                     if e.key in [pygame.K_RSHIFT, pygame.K_LSHIFT]:
                         textbox.upper_case = False
                 if e.type == pygame.KEYDOWN:
+                    pygame.draw.rect(self.display,(230,230,220),(self.chatbox))
                     textbox.add_chr(pygame.key.name(e.key))
                     if e.key == pygame.K_SPACE:
                         textbox.text += " "
@@ -124,8 +127,10 @@ class Game():
                         textbox.update()
                     if e.key == pygame.K_RETURN:
                         if len(textbox.text) > 0:
-                            self.messages.append(textbox.message)
+                            pygame.display.update(textbox.rect)
+                            self.messages.append(textbox.text)
                             print(self.messages)
+                            pygame.draw.rect(self.display,(230,230,220),(self.chatbox))
                             textbox = Textbox("Type to chat")
                             textbox.rect.center = (1030,500)
 
@@ -149,7 +154,7 @@ class Game():
         self.canvas.center = (self.width/2.5,self.height/2)
         self.chatbox.center = (self.width/1.16,self.height/2)
         pygame.draw.rect(self.display,(255,255,245),(self.canvas))
-        pygame.draw.rect(self.display,(230,230,220),(self.chatbox))
+
 
         start_new_thread(self.typing,(self.display,)) 
 
