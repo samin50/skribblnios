@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <EnsembleReport name="NIOSSystem" kind="system" version="18.0" fabric="QSYS">
  <!-- Format version 18.0 614 (Future versions may contain additional information.) -->
- <!-- 2022.03.01.03:14:21 -->
+ <!-- 2022.03.04.02:13:51 -->
  <!-- A collection of modules and connections -->
  <parameter name="clockCrossingAdapter">
   <type>com.altera.sopcmodel.ensemble.EClockAdapter</type>
@@ -53,7 +53,7 @@
  </parameter>
  <parameter name="generationId">
   <type>int</type>
-  <value>1646104315</value>
+  <value>1646359958</value>
   <derived>false</derived>
   <enabled>true</enabled>
   <visible>true</visible>
@@ -7163,7 +7163,7 @@ the requested settings for a module instance. -->
   </assignment>
   <assignment>
    <name>embeddedsw.CMacro.DATA_WIDTH</name>
-   <value>7</value>
+   <value>8</value>
   </assignment>
   <assignment>
    <name>embeddedsw.CMacro.DO_TEST_BENCH_WIRING</name>
@@ -7215,7 +7215,7 @@ the requested settings for a module instance. -->
   </assignment>
   <assignment>
    <name>embeddedsw.dts.params.altr,gpio-bank-width</name>
-   <value>7</value>
+   <value>8</value>
   </assignment>
   <assignment>
    <name>embeddedsw.dts.params.resetvalue</name>
@@ -7307,7 +7307,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="width">
    <type>int</type>
-   <value>7</value>
+   <value>8</value>
    <derived>false</derived>
    <enabled>true</enabled>
    <visible>true</visible>
@@ -7915,7 +7915,7 @@ parameters are a RESULT of the module parameters. -->
    <port>
     <name>out_port</name>
     <direction>Output</direction>
-    <width>7</width>
+    <width>8</width>
     <role>export</role>
    </port>
   </interface>
@@ -7937,7 +7937,7 @@ the requested settings for a module instance. -->
   </assignment>
   <assignment>
    <name>embeddedsw.CMacro.DATA_WIDTH</name>
-   <value>7</value>
+   <value>8</value>
   </assignment>
   <assignment>
    <name>embeddedsw.CMacro.DO_TEST_BENCH_WIRING</name>
@@ -7989,7 +7989,7 @@ the requested settings for a module instance. -->
   </assignment>
   <assignment>
    <name>embeddedsw.dts.params.altr,gpio-bank-width</name>
-   <value>7</value>
+   <value>8</value>
   </assignment>
   <assignment>
    <name>embeddedsw.dts.params.resetvalue</name>
@@ -8081,7 +8081,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="width">
    <type>int</type>
-   <value>7</value>
+   <value>8</value>
    <derived>false</derived>
    <enabled>true</enabled>
    <visible>true</visible>
@@ -8689,7 +8689,7 @@ parameters are a RESULT of the module parameters. -->
    <port>
     <name>out_port</name>
     <direction>Output</direction>
-    <width>7</width>
+    <width>8</width>
     <role>export</role>
    </port>
   </interface>
@@ -8711,7 +8711,7 @@ the requested settings for a module instance. -->
   </assignment>
   <assignment>
    <name>embeddedsw.CMacro.DATA_WIDTH</name>
-   <value>7</value>
+   <value>8</value>
   </assignment>
   <assignment>
    <name>embeddedsw.CMacro.DO_TEST_BENCH_WIRING</name>
@@ -8763,7 +8763,7 @@ the requested settings for a module instance. -->
   </assignment>
   <assignment>
    <name>embeddedsw.dts.params.altr,gpio-bank-width</name>
-   <value>7</value>
+   <value>8</value>
   </assignment>
   <assignment>
    <name>embeddedsw.dts.params.resetvalue</name>
@@ -8855,7 +8855,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="width">
    <type>int</type>
-   <value>7</value>
+   <value>8</value>
    <derived>false</derived>
    <enabled>true</enabled>
    <visible>true</visible>
@@ -9463,7 +9463,7 @@ parameters are a RESULT of the module parameters. -->
    <port>
     <name>out_port</name>
     <direction>Output</direction>
-    <width>7</width>
+    <width>8</width>
     <role>export</role>
    </port>
   </interface>
@@ -9485,7 +9485,7 @@ the requested settings for a module instance. -->
   </assignment>
   <assignment>
    <name>embeddedsw.CMacro.DATA_WIDTH</name>
-   <value>7</value>
+   <value>8</value>
   </assignment>
   <assignment>
    <name>embeddedsw.CMacro.DO_TEST_BENCH_WIRING</name>
@@ -9537,7 +9537,7 @@ the requested settings for a module instance. -->
   </assignment>
   <assignment>
    <name>embeddedsw.dts.params.altr,gpio-bank-width</name>
-   <value>7</value>
+   <value>8</value>
   </assignment>
   <assignment>
    <name>embeddedsw.dts.params.resetvalue</name>
@@ -9629,7 +9629,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="width">
    <type>int</type>
-   <value>7</value>
+   <value>8</value>
    <derived>false</derived>
    <enabled>true</enabled>
    <visible>true</visible>
@@ -10237,7 +10237,7 @@ parameters are a RESULT of the module parameters. -->
    <port>
     <name>out_port</name>
     <direction>Output</direction>
-    <width>7</width>
+    <width>8</width>
     <role>export</role>
    </port>
   </interface>
@@ -10259,7 +10259,7 @@ the requested settings for a module instance. -->
   </assignment>
   <assignment>
    <name>embeddedsw.CMacro.DATA_WIDTH</name>
-   <value>7</value>
+   <value>8</value>
   </assignment>
   <assignment>
    <name>embeddedsw.CMacro.DO_TEST_BENCH_WIRING</name>
@@ -10311,7 +10311,7 @@ the requested settings for a module instance. -->
   </assignment>
   <assignment>
    <name>embeddedsw.dts.params.altr,gpio-bank-width</name>
-   <value>7</value>
+   <value>8</value>
   </assignment>
   <assignment>
    <name>embeddedsw.dts.params.resetvalue</name>
@@ -10403,7 +10403,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="width">
    <type>int</type>
-   <value>7</value>
+   <value>8</value>
    <derived>false</derived>
    <enabled>true</enabled>
    <visible>true</visible>
@@ -11011,7 +11011,7 @@ parameters are a RESULT of the module parameters. -->
    <port>
     <name>out_port</name>
     <direction>Output</direction>
-    <width>7</width>
+    <width>8</width>
     <role>export</role>
    </port>
   </interface>
@@ -11033,7 +11033,7 @@ the requested settings for a module instance. -->
   </assignment>
   <assignment>
    <name>embeddedsw.CMacro.DATA_WIDTH</name>
-   <value>7</value>
+   <value>8</value>
   </assignment>
   <assignment>
    <name>embeddedsw.CMacro.DO_TEST_BENCH_WIRING</name>
@@ -11085,7 +11085,7 @@ the requested settings for a module instance. -->
   </assignment>
   <assignment>
    <name>embeddedsw.dts.params.altr,gpio-bank-width</name>
-   <value>7</value>
+   <value>8</value>
   </assignment>
   <assignment>
    <name>embeddedsw.dts.params.resetvalue</name>
@@ -11177,7 +11177,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="width">
    <type>int</type>
-   <value>7</value>
+   <value>8</value>
    <derived>false</derived>
    <enabled>true</enabled>
    <visible>true</visible>
@@ -11785,7 +11785,7 @@ parameters are a RESULT of the module parameters. -->
    <port>
     <name>out_port</name>
     <direction>Output</direction>
-    <width>7</width>
+    <width>8</width>
     <role>export</role>
    </port>
   </interface>
@@ -11807,7 +11807,7 @@ the requested settings for a module instance. -->
   </assignment>
   <assignment>
    <name>embeddedsw.CMacro.WRITE_DEPTH</name>
-   <value>8192</value>
+   <value>32768</value>
   </assignment>
   <assignment>
    <name>embeddedsw.CMacro.WRITE_THRESHOLD</name>
@@ -11903,7 +11903,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="writeBufferDepth">
    <type>int</type>
-   <value>8192</value>
+   <value>32768</value>
    <derived>false</derived>
    <enabled>true</enabled>
    <visible>true</visible>
@@ -25760,5 +25760,5 @@ parameters are a RESULT of the module parameters. -->
   <version>18.0</version>
  </plugin>
  <reportVersion>18.0 614</reportVersion>
- <uniqueIdentifier>14F6D8B7E4AD0000017F4376C256</uniqueIdentifier>
+ <uniqueIdentifier>00FF1E62BBCC0000017F52B37266</uniqueIdentifier>
 </EnsembleReport>

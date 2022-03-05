@@ -1,43 +1,43 @@
 # # File gsaved with Nlview version 6.3.8  2013-12-19 bk=1.2992 VDI=34 GEI=35
 # 
-preplace inst NIOSSystem.hex4 -pg 1 -lvl 3 -y 850
-preplace inst NIOSSystem.hex5 -pg 1 -lvl 3 -y 950
+preplace inst NIOSSystem.hex4 -pg 1 -lvl 3 -y 870
+preplace inst NIOSSystem.hex5 -pg 1 -lvl 3 -y 970
 preplace inst NIOSSystem.cpu.cpu -pg 1
 preplace inst NIOSSystem.clk_50 -pg 1 -lvl 1 -y 470
 preplace inst NIOSSystem.accelerometer_spi -pg 1 -lvl 3 -y 230
 preplace inst NIOSSystem.button -pg 1 -lvl 3 -y 350
 preplace inst NIOSSystem.cpu -pg 1 -lvl 2 -y 320
-preplace inst NIOSSystem.sdram -pg 1 -lvl 3 -y 1150
+preplace inst NIOSSystem.sdram -pg 1 -lvl 3 -y 1170
 preplace inst NIOSSystem.cpu.reset_bridge -pg 1
 preplace inst NIOSSystem.cpu.clock_bridge -pg 1
 preplace inst NIOSSystem.altpll_0 -pg 1 -lvl 3 -y 470
-preplace inst NIOSSystem.led -pg 1 -lvl 3 -y 1050
-preplace inst NIOSSystem.switch -pg 1 -lvl 3 -y 1250
+preplace inst NIOSSystem.led -pg 1 -lvl 3 -y 1070
+preplace inst NIOSSystem.switch -pg 1 -lvl 3 -y 1270
 preplace inst NIOSSystem.jtag_uart -pg 1 -lvl 3 -y 30
-preplace inst NIOSSystem.hex0 -pg 1 -lvl 3 -y 550
+preplace inst NIOSSystem.hex0 -pg 1 -lvl 3 -y 570
 preplace inst NIOSSystem.timer -pg 1 -lvl 3 -y 130
-preplace inst NIOSSystem.hex1 -pg 1 -lvl 3 -y 1350
-preplace inst NIOSSystem.hex2 -pg 1 -lvl 3 -y 650
-preplace inst NIOSSystem.hex3 -pg 1 -lvl 3 -y 750
+preplace inst NIOSSystem.hex1 -pg 1 -lvl 3 -y 1370
+preplace inst NIOSSystem.hex2 -pg 1 -lvl 3 -y 670
+preplace inst NIOSSystem.hex3 -pg 1 -lvl 3 -y 770
 preplace inst NIOSSystem -pg 1 -lvl 1 -y 40 -regy -20
-preplace netloc EXPORT<net_container>NIOSSystem</net_container>(SLAVE)NIOSSystem.accelerometer_spi_external_interface,(SLAVE)accelerometer_spi.external_interface) 1 0 3 NJ 240 NJ 240 NJ
-preplace netloc EXPORT<net_container>NIOSSystem</net_container>(SLAVE)hex1.external_connection,(SLAVE)NIOSSystem.hex1_external_connection) 1 0 3 NJ 1380 NJ 1380 NJ
-preplace netloc EXPORT<net_container>NIOSSystem</net_container>(SLAVE)NIOSSystem.clk,(SLAVE)clk_50.clk_in) 1 0 1 NJ
-preplace netloc POINT_TO_POINT<net_container>NIOSSystem</net_container>(SLAVE)altpll_0.inclk_interface,(MASTER)clk_50.clk) 1 1 2 N 480 NJ
-preplace netloc EXPORT<net_container>NIOSSystem</net_container>(SLAVE)NIOSSystem.hex0_external_connection,(SLAVE)hex0.external_connection) 1 0 3 NJ 580 NJ 580 NJ
-preplace netloc FAN_OUT<net_container>NIOSSystem</net_container>(SLAVE)hex4.reset,(SLAVE)switch.reset,(SLAVE)jtag_uart.reset,(SLAVE)cpu.reset,(SLAVE)hex3.reset,(SLAVE)hex2.reset,(SLAVE)timer.reset,(SLAVE)led.reset,(SLAVE)hex1.reset,(SLAVE)hex5.reset,(SLAVE)accelerometer_spi.reset,(SLAVE)sdram.reset,(SLAVE)hex0.reset,(SLAVE)altpll_0.inclk_interface_reset,(SLAVE)button.reset,(MASTER)clk_50.clk_reset) 1 1 2 410 1400 890
-preplace netloc INTERCONNECT<net_container>NIOSSystem</net_container>(SLAVE)hex1.s1,(MASTER)cpu.instruction_master,(SLAVE)hex0.s1,(SLAVE)hex3.s1,(SLAVE)accelerometer_spi.avalon_accelerometer_spi_mode_slave,(SLAVE)timer.s1,(SLAVE)hex2.s1,(SLAVE)led.s1,(SLAVE)hex4.s1,(SLAVE)hex5.s1,(SLAVE)altpll_0.pll_slave,(SLAVE)jtag_uart.avalon_jtag_slave,(MASTER)cpu.data_master,(SLAVE)cpu.debug_mem_slave,(SLAVE)sdram.s1,(SLAVE)button.s1,(SLAVE)switch.s1) 1 1 2 430 280 830
-preplace netloc EXPORT<net_container>NIOSSystem</net_container>(SLAVE)NIOSSystem.sdram_wire,(SLAVE)sdram.wire) 1 0 3 NJ 1220 NJ 1220 NJ
-preplace netloc EXPORT<net_container>NIOSSystem</net_container>(SLAVE)clk_50.clk_in_reset,(SLAVE)NIOSSystem.reset) 1 0 1 NJ
-preplace netloc EXPORT<net_container>NIOSSystem</net_container>(SLAVE)NIOSSystem.hex3_external_connection,(SLAVE)hex3.external_connection) 1 0 3 NJ 780 NJ 780 NJ
-preplace netloc EXPORT<net_container>NIOSSystem</net_container>(SLAVE)hex5.external_connection,(SLAVE)NIOSSystem.hex5_external_connection) 1 0 3 NJ 980 NJ 980 NJ
-preplace netloc EXPORT<net_container>NIOSSystem</net_container>(SLAVE)hex2.external_connection,(SLAVE)NIOSSystem.hex2_external_connection) 1 0 3 NJ 680 NJ 680 NJ
+preplace netloc EXPORT<net_container>NIOSSystem</net_container>(SLAVE)NIOSSystem.reset,(SLAVE)clk_50.clk_in_reset) 1 0 1 NJ
+preplace netloc EXPORT<net_container>NIOSSystem</net_container>(SLAVE)NIOSSystem.hex5_external_connection,(SLAVE)hex5.external_connection) 1 0 3 NJ 1000 NJ 1000 NJ
+preplace netloc EXPORT<net_container>NIOSSystem</net_container>(SLAVE)NIOSSystem.hex0_external_connection,(SLAVE)hex0.external_connection) 1 0 3 NJ 600 NJ 600 NJ
+preplace netloc EXPORT<net_container>NIOSSystem</net_container>(SLAVE)clk_50.clk_in,(SLAVE)NIOSSystem.clk) 1 0 1 NJ
+preplace netloc EXPORT<net_container>NIOSSystem</net_container>(SLAVE)accelerometer_spi.external_interface,(SLAVE)NIOSSystem.accelerometer_spi_external_interface) 1 0 3 NJ 280 NJ 280 NJ
+preplace netloc FAN_OUT<net_container>NIOSSystem</net_container>(SLAVE)switch.reset,(SLAVE)hex2.reset,(SLAVE)jtag_uart.reset,(SLAVE)hex5.reset,(SLAVE)hex4.reset,(MASTER)clk_50.clk_reset,(SLAVE)hex1.reset,(SLAVE)button.reset,(SLAVE)cpu.reset,(SLAVE)led.reset,(SLAVE)altpll_0.inclk_interface_reset,(SLAVE)accelerometer_spi.reset,(SLAVE)timer.reset,(SLAVE)hex3.reset,(SLAVE)sdram.reset,(SLAVE)hex0.reset) 1 1 2 410 1420 870
+preplace netloc EXPORT<net_container>NIOSSystem</net_container>(SLAVE)sdram.wire,(SLAVE)NIOSSystem.sdram_wire) 1 0 3 NJ 1240 NJ 1240 NJ
+preplace netloc EXPORT<net_container>NIOSSystem</net_container>(SLAVE)NIOSSystem.hex4_external_connection,(SLAVE)hex4.external_connection) 1 0 3 NJ 900 NJ 900 NJ
+preplace netloc EXPORT<net_container>NIOSSystem</net_container>(SLAVE)NIOSSystem.hex3_external_connection,(SLAVE)hex3.external_connection) 1 0 3 NJ 800 NJ 800 NJ
+preplace netloc FAN_OUT<net_container>NIOSSystem</net_container>(SLAVE)jtag_uart.irq,(SLAVE)timer.irq,(SLAVE)accelerometer_spi.interrupt,(MASTER)cpu.irq) 1 2 1 810
+preplace netloc EXPORT<net_container>NIOSSystem</net_container>(SLAVE)hex2.external_connection,(SLAVE)NIOSSystem.hex2_external_connection) 1 0 3 NJ 700 NJ 700 NJ
 preplace netloc EXPORT<net_container>NIOSSystem</net_container>(MASTER)altpll_0.c1,(MASTER)NIOSSystem.clk_sdram) 1 3 1 N
+preplace netloc POINT_TO_POINT<net_container>NIOSSystem</net_container>(MASTER)clk_50.clk,(SLAVE)altpll_0.inclk_interface) 1 1 2 N 480 NJ
+preplace netloc FAN_OUT<net_container>NIOSSystem</net_container>(SLAVE)hex5.clk,(SLAVE)led.clk,(SLAVE)accelerometer_spi.clk,(SLAVE)timer.clk,(SLAVE)hex2.clk,(SLAVE)sdram.clk,(SLAVE)button.clk,(SLAVE)hex3.clk,(MASTER)altpll_0.c0,(SLAVE)hex0.clk,(SLAVE)hex1.clk,(SLAVE)hex4.clk,(SLAVE)cpu.clk,(SLAVE)switch.clk,(SLAVE)jtag_uart.clk) 1 1 3 430 1320 850 560 1170
+preplace netloc EXPORT<net_container>NIOSSystem</net_container>(SLAVE)switch.external_connection,(SLAVE)NIOSSystem.switch_external_connection) 1 0 3 NJ 1300 NJ 1300 NJ
 preplace netloc EXPORT<net_container>NIOSSystem</net_container>(SLAVE)NIOSSystem.button_external_connection,(SLAVE)button.external_connection) 1 0 3 NJ 460 NJ 460 NJ
-preplace netloc EXPORT<net_container>NIOSSystem</net_container>(SLAVE)NIOSSystem.switch_external_connection,(SLAVE)switch.external_connection) 1 0 3 NJ 1280 NJ 1280 NJ
-preplace netloc EXPORT<net_container>NIOSSystem</net_container>(SLAVE)hex4.external_connection,(SLAVE)NIOSSystem.hex4_external_connection) 1 0 3 NJ 880 NJ 880 NJ
-preplace netloc FAN_OUT<net_container>NIOSSystem</net_container>(SLAVE)hex0.clk,(MASTER)altpll_0.c0,(SLAVE)cpu.clk,(SLAVE)sdram.clk,(SLAVE)hex2.clk,(SLAVE)hex3.clk,(SLAVE)accelerometer_spi.clk,(SLAVE)hex4.clk,(SLAVE)button.clk,(SLAVE)jtag_uart.clk,(SLAVE)hex1.clk,(SLAVE)timer.clk,(SLAVE)led.clk,(SLAVE)switch.clk,(SLAVE)hex5.clk) 1 1 3 410 260 870 460 1170
-preplace netloc EXPORT<net_container>NIOSSystem</net_container>(SLAVE)led.external_connection,(SLAVE)NIOSSystem.led_external_connection) 1 0 3 NJ 1080 NJ 1080 NJ
-preplace netloc FAN_OUT<net_container>NIOSSystem</net_container>(MASTER)cpu.irq,(SLAVE)accelerometer_spi.interrupt,(SLAVE)jtag_uart.irq,(SLAVE)timer.irq) 1 2 1 790
+preplace netloc EXPORT<net_container>NIOSSystem</net_container>(SLAVE)NIOSSystem.hex1_external_connection,(SLAVE)hex1.external_connection) 1 0 3 NJ 1400 NJ 1400 NJ
+preplace netloc INTERCONNECT<net_container>NIOSSystem</net_container>(SLAVE)jtag_uart.avalon_jtag_slave,(SLAVE)hex5.s1,(SLAVE)led.s1,(SLAVE)timer.s1,(SLAVE)hex0.s1,(SLAVE)switch.s1,(MASTER)cpu.data_master,(SLAVE)hex4.s1,(SLAVE)cpu.debug_mem_slave,(SLAVE)button.s1,(SLAVE)sdram.s1,(SLAVE)altpll_0.pll_slave,(SLAVE)hex1.s1,(MASTER)cpu.instruction_master,(SLAVE)hex2.s1,(SLAVE)hex3.s1,(SLAVE)accelerometer_spi.avalon_accelerometer_spi_mode_slave) 1 1 2 450 1440 830
+preplace netloc EXPORT<net_container>NIOSSystem</net_container>(SLAVE)NIOSSystem.led_external_connection,(SLAVE)led.external_connection) 1 0 3 NJ 1100 NJ 1100 NJ
 levelinfo -pg 1 0 200 1280
-levelinfo -hier NIOSSystem 210 240 550 920 1190
+levelinfo -hier NIOSSystem 210 240 570 920 1190

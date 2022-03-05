@@ -2,7 +2,7 @@ set_global_assignment -entity "NIOSSystem" -library "NIOSSystem" -name IP_TOOL_N
 set_global_assignment -entity "NIOSSystem" -library "NIOSSystem" -name IP_TOOL_VERSION "18.0"
 set_global_assignment -entity "NIOSSystem" -library "NIOSSystem" -name IP_TOOL_ENV "Qsys"
 set_global_assignment -library "NIOSSystem" -name SOPCINFO_FILE [file join $::quartus(qip_path) "../../../NIOSSystem.sopcinfo"]
-set_global_assignment -entity "NIOSSystem" -library "NIOSSystem" -name SLD_INFO "QSYS_NAME NIOSSystem HAS_SOPCINFO 1 GENERATION_ID 1646104315"
+set_global_assignment -entity "NIOSSystem" -library "NIOSSystem" -name SLD_INFO "QSYS_NAME NIOSSystem HAS_SOPCINFO 1 GENERATION_ID 1646359958"
 set_global_assignment -library "NIOSSystem" -name SLD_FILE [file join $::quartus(qip_path) "NIOSSystem.regmap"]
 set_global_assignment -library "NIOSSystem" -name SLD_FILE [file join $::quartus(qip_path) "NIOSSystem.debuginfo"]
 set_global_assignment -entity "NIOSSystem" -library "NIOSSystem" -name IP_TARGETED_DEVICE_FAMILY "MAX 10"
@@ -15,7 +15,7 @@ set_global_assignment -entity "NIOSSystem" -library "NIOSSystem" -name IP_COMPON
 set_global_assignment -entity "NIOSSystem" -library "NIOSSystem" -name IP_COMPONENT_REPORT_HIERARCHY "On"
 set_global_assignment -entity "NIOSSystem" -library "NIOSSystem" -name IP_COMPONENT_INTERNAL "Off"
 set_global_assignment -entity "NIOSSystem" -library "NIOSSystem" -name IP_COMPONENT_VERSION "MS4w"
-set_global_assignment -entity "NIOSSystem" -library "NIOSSystem" -name IP_COMPONENT_PARAMETER "QVVUT19HRU5FUkFUSU9OX0lE::MTY0NjEwNDMxNQ==::QXV0byBHRU5FUkFUSU9OX0lE"
+set_global_assignment -entity "NIOSSystem" -library "NIOSSystem" -name IP_COMPONENT_PARAMETER "QVVUT19HRU5FUkFUSU9OX0lE::MTY0NjM1OTk1OA==::QXV0byBHRU5FUkFUSU9OX0lE"
 set_global_assignment -entity "NIOSSystem" -library "NIOSSystem" -name IP_COMPONENT_PARAMETER "QVVUT19ERVZJQ0VfRkFNSUxZ::TUFYIDEw::QXV0byBERVZJQ0VfRkFNSUxZ"
 set_global_assignment -entity "NIOSSystem" -library "NIOSSystem" -name IP_COMPONENT_PARAMETER "QVVUT19ERVZJQ0U=::MTBNNTBEQUY0ODRDN0c=::QXV0byBERVZJQ0U="
 set_global_assignment -entity "NIOSSystem" -library "NIOSSystem" -name IP_COMPONENT_PARAMETER "QVVUT19ERVZJQ0VfU1BFRURHUkFERQ==::Nw==::QXV0byBERVZJQ0VfU1BFRURHUkFERQ=="
@@ -1044,7 +1044,7 @@ set_global_assignment -entity "NIOSSystem_jtag_uart" -library "NIOSSystem" -name
 set_global_assignment -entity "NIOSSystem_jtag_uart" -library "NIOSSystem" -name IP_COMPONENT_PARAMETER "dXNlUmVnaXN0ZXJzRm9yUmVhZEJ1ZmZlcg==::ZmFsc2U=::Q29uc3RydWN0IHVzaW5nIHJlZ2lzdGVycyBpbnN0ZWFkIG9mIG1lbW9yeSBibG9ja3M="
 set_global_assignment -entity "NIOSSystem_jtag_uart" -library "NIOSSystem" -name IP_COMPONENT_PARAMETER "dXNlUmVnaXN0ZXJzRm9yV3JpdGVCdWZmZXI=::ZmFsc2U=::Q29uc3RydWN0IHVzaW5nIHJlZ2lzdGVycyBpbnN0ZWFkIG9mIG1lbW9yeSBibG9ja3M="
 set_global_assignment -entity "NIOSSystem_jtag_uart" -library "NIOSSystem" -name IP_COMPONENT_PARAMETER "dXNlUmVsYXRpdmVQYXRoRm9yU2ltRmlsZQ==::ZmFsc2U=::dXNlUmVsYXRpdmVQYXRoRm9yU2ltRmlsZQ=="
-set_global_assignment -entity "NIOSSystem_jtag_uart" -library "NIOSSystem" -name IP_COMPONENT_PARAMETER "d3JpdGVCdWZmZXJEZXB0aA==::ODE5Mg==::QnVmZmVyIGRlcHRoIChieXRlcyk="
+set_global_assignment -entity "NIOSSystem_jtag_uart" -library "NIOSSystem" -name IP_COMPONENT_PARAMETER "d3JpdGVCdWZmZXJEZXB0aA==::MzI3Njg=::QnVmZmVyIGRlcHRoIChieXRlcyk="
 set_global_assignment -entity "NIOSSystem_jtag_uart" -library "NIOSSystem" -name IP_COMPONENT_PARAMETER "d3JpdGVJUlFUaHJlc2hvbGQ=::OA==::SVJRIHRocmVzaG9sZA=="
 set_global_assignment -entity "NIOSSystem_jtag_uart" -library "NIOSSystem" -name IP_COMPONENT_PARAMETER "Y2xrRnJlcQ==::MTAwMDAwMDAw::Y2xrRnJlcQ=="
 set_global_assignment -entity "NIOSSystem_jtag_uart" -library "NIOSSystem" -name IP_COMPONENT_PARAMETER "YXZhbG9uU3BlYw==::Mi4w::YXZhbG9uU3BlYw=="
@@ -1060,7 +1060,7 @@ set_global_assignment -entity "NIOSSystem_hex0" -library "NIOSSystem" -name IP_C
 set_global_assignment -entity "NIOSSystem_hex0" -library "NIOSSystem" -name IP_COMPONENT_PARAMETER "Yml0TW9kaWZ5aW5nT3V0UmVn::ZmFsc2U=::RW5hYmxlIGluZGl2aWR1YWwgYml0IHNldHRpbmcvY2xlYXJpbmc="
 set_global_assignment -entity "NIOSSystem_hex0" -library "NIOSSystem" -name IP_COMPONENT_PARAMETER "ZGlyZWN0aW9u::T3V0cHV0::RGlyZWN0aW9u"
 set_global_assignment -entity "NIOSSystem_hex0" -library "NIOSSystem" -name IP_COMPONENT_PARAMETER "cmVzZXRWYWx1ZQ==::MA==::T3V0cHV0IFBvcnQgUmVzZXQgVmFsdWU="
-set_global_assignment -entity "NIOSSystem_hex0" -library "NIOSSystem" -name IP_COMPONENT_PARAMETER "d2lkdGg=::Nw==::V2lkdGggKDEtMzIgYml0cyk="
+set_global_assignment -entity "NIOSSystem_hex0" -library "NIOSSystem" -name IP_COMPONENT_PARAMETER "d2lkdGg=::OA==::V2lkdGggKDEtMzIgYml0cyk="
 set_global_assignment -entity "NIOSSystem_hex0" -library "NIOSSystem" -name IP_COMPONENT_PARAMETER "Y2xvY2tSYXRl::MTAwMDAwMDAw::Y2xvY2tSYXRl"
 set_global_assignment -entity "NIOSSystem_hex0" -library "NIOSSystem" -name IP_COMPONENT_PARAMETER "ZGVyaXZlZF9oYXNfdHJp::ZmFsc2U=::ZGVyaXZlZF9oYXNfdHJp"
 set_global_assignment -entity "NIOSSystem_hex0" -library "NIOSSystem" -name IP_COMPONENT_PARAMETER "ZGVyaXZlZF9oYXNfb3V0::dHJ1ZQ==::ZGVyaXZlZF9oYXNfb3V0"

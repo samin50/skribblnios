@@ -743,7 +743,7 @@
   <parameter name="resetValue" value="0" />
   <parameter name="simDoTestBenchWiring" value="false" />
   <parameter name="simDrivenValue" value="0" />
-  <parameter name="width" value="7" />
+  <parameter name="width" value="8" />
  </module>
  <module name="hex1" kind="altera_avalon_pio" version="18.0" enabled="1">
   <parameter name="bitClearingEdgeCapReg" value="false" />
@@ -757,7 +757,7 @@
   <parameter name="resetValue" value="0" />
   <parameter name="simDoTestBenchWiring" value="false" />
   <parameter name="simDrivenValue" value="0" />
-  <parameter name="width" value="7" />
+  <parameter name="width" value="8" />
  </module>
  <module name="hex2" kind="altera_avalon_pio" version="18.0" enabled="1">
   <parameter name="bitClearingEdgeCapReg" value="false" />
@@ -771,7 +771,7 @@
   <parameter name="resetValue" value="0" />
   <parameter name="simDoTestBenchWiring" value="false" />
   <parameter name="simDrivenValue" value="0" />
-  <parameter name="width" value="7" />
+  <parameter name="width" value="8" />
  </module>
  <module name="hex3" kind="altera_avalon_pio" version="18.0" enabled="1">
   <parameter name="bitClearingEdgeCapReg" value="false" />
@@ -785,7 +785,7 @@
   <parameter name="resetValue" value="0" />
   <parameter name="simDoTestBenchWiring" value="false" />
   <parameter name="simDrivenValue" value="0" />
-  <parameter name="width" value="7" />
+  <parameter name="width" value="8" />
  </module>
  <module name="hex4" kind="altera_avalon_pio" version="18.0" enabled="1">
   <parameter name="bitClearingEdgeCapReg" value="false" />
@@ -799,7 +799,7 @@
   <parameter name="resetValue" value="0" />
   <parameter name="simDoTestBenchWiring" value="false" />
   <parameter name="simDrivenValue" value="0" />
-  <parameter name="width" value="7" />
+  <parameter name="width" value="8" />
  </module>
  <module name="hex5" kind="altera_avalon_pio" version="18.0" enabled="1">
   <parameter name="bitClearingEdgeCapReg" value="false" />
@@ -813,7 +813,7 @@
   <parameter name="resetValue" value="0" />
   <parameter name="simDoTestBenchWiring" value="false" />
   <parameter name="simDrivenValue" value="0" />
-  <parameter name="width" value="7" />
+  <parameter name="width" value="8" />
  </module>
  <module
    name="jtag_uart"
@@ -831,7 +831,7 @@
   <parameter name="useRegistersForReadBuffer" value="false" />
   <parameter name="useRegistersForWriteBuffer" value="false" />
   <parameter name="useRelativePathForSimFile" value="false" />
-  <parameter name="writeBufferDepth" value="8192" />
+  <parameter name="writeBufferDepth" value="32768" />
   <parameter name="writeIRQThreshold" value="8" />
  </module>
  <module name="led" kind="altera_avalon_pio" version="18.0" enabled="1">
