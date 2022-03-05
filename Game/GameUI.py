@@ -100,6 +100,7 @@ class Game():
         textbox.upper_case = False
         textbox.rect.center = (1030,500)
         clock = pygame.time.Clock()
+        self.chatbox.center = (self.width/1.16,self.height/2)
         pygame.draw.rect(self.display,(230,230,220),(self.chatbox))
         
         while True:
@@ -152,7 +153,7 @@ class Game():
 
         #canvas = pygame.Rect(self.width/2,self.height/2,self.canvas_width,self.canvas_height)
         self.canvas.center = (self.width/2.5,self.height/2)
-        self.chatbox.center = (self.width/1.16,self.height/2)
+        
         pygame.draw.rect(self.display,(255,255,245),(self.canvas))
 
 
@@ -210,5 +211,4 @@ music=pygame.mixer.music.load("Game/assets/menu_music.mp3")
 pygame.mixer.music.play(-1)
 game = Game("shan")
 pygame.display.set_caption("player")
-game.round_start()
-'''
+game.round_start()'''
