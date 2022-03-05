@@ -1,6 +1,6 @@
 import random 
 
-f = open("dictionary.txt", "r")
+f = open("Resources/dictionary.txt", "r")
 content = f.read()
 Dictionary = content.split(",")
 f.close()
