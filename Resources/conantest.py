@@ -1,7 +1,7 @@
 import random
 
-actualword = 'mickey mouse' #will receive value
-timeratio = 0.3             #will receive value
+actualword = 'mickey mouse'
+timeratio = 0.45
 space = actualword.find(" ")
 
 wordlength = len(actualword)
@@ -13,6 +13,7 @@ if space != -1:
 
 
 if timeratio == 0.45:
+    timeratio = 0.7
     y = random.randint(0,wordlength-1)
     while y == space:
         y = random.randint(0,wordlength-1)
@@ -21,8 +22,11 @@ if timeratio == 0.45:
 
 
 if timeratio == 0.7 and wordlength > 3 :
+    timeratio = 0
     w = random.randint(0,wordlength-1)
     while w == y or w == space:
         w = random.randint(0,wordlength-1)
     z = actualword[w]
     wordtoguessarray[w] = z
+
+print(wordtoguessarray)
