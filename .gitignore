@@ -4,6 +4,7 @@ FPGA/*
 FPGA/db
 !*.py
 !*.sopinfo
+!*.sof
 !*.qsys
 !*.vscode
 !*.c

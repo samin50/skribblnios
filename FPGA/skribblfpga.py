@@ -40,7 +40,10 @@ class SkribblNIOS():
     #Dont use, handled by start
     def getXY(self):
         while self.isActive:
-            XYData = self.UART.read().decode('utf-8')
+            try:
+                XYData = self.UART.read().decode('utf-8')
+            except:
+                print("Error, connection lost to FPGA.")
             if self.gameInstance is None:
                 if len(XYData) > 0:
                     print(XYData)
