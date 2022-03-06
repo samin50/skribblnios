@@ -25,40 +25,40 @@ alt_32 z_read;
 alt_up_accelerometer_spi_dev * acc_dev;
 
 //Convert letters - will be upside down
-int convertDisplay(char digit) {
+alt_u8 convertDisplay(char digit) {
 	switch(digit) {
 	case '0':
-		return 0b1000000;
+		return 0b11000000;
 	case '1':
-		return 0b1001111;
+		return 0b11001111;
 	case '2':
-		return 0b0100100;
+		return 0b10100100;
 	case '3':
-		return 0b0000110;
+		return 0b10000110;
 	case '4':
-		return 0b0001011;
+		return 0b10001011;
 	case '5':
-		return 0b0010010;
+		return 0b10010010;
 	case '6':
-		return 0b0010000;
+		return 0b10010000;
 	case '7':
-		return 0b1000111;
+		return 0b11000111;
 	case '8':
-		return 0b0000000;
+		return 0b10000000;
 	case '9':
-		return 0b0000010;
+		return 0b10000010;
 	case '-':
-		return 0b0111111;
+		return 0b10111111;
 	case 's':
-		return 0b0010010;
+		return 0b10010010;
 	case 't':
-		return 0b0111000;
+		return 0b10111000;
 	case 'a':
-		return 0b0000001;
+		return 0b10000001;
 	case 'r':
-		return 0b0111101;
+		return 0b10111101; //0b11110001 Capital
 	default:
-		return 0b1111111;
+		return 0b11111111;
 	}
 }
 //Write to hex
@@ -100,12 +100,12 @@ void ledWrite(unsigned int led_pattern) {
 //Function that halts till certain data is received
 char* waitForData(FILE* fp, char* compare1, char* compare2) {
 	char* waitIn[BUFFERSIZE];
-	while ((strcmp(waitIn, compare1) != 0 || strcmp(waitIn, compare2) != 0 )) {
+	while ((strcmp(waitIn, compare1) != 0) && (strcmp(waitIn, compare2) != 0 )) {
 		read(fp, &waitIn, BUFFERSIZE);
-		if (strlen(waitIn) > 0) {
-			printf(waitIn);
-		}
+		usleep(1000000);
+		printf("%s\n", waitIn);
 	}
+	printf("BREAK");
 	if ((strcmp(waitIn, compare1)) != 0) {
 		return compare1;
 	} else {
@@ -147,6 +147,7 @@ void roundLoop(FILE* fp) {
 		}
 		//Send  accelerometer and input values
 		//Obtain values at a certain frequency
+		/*
 		stopTime = alt_timestamp();
 		//Frequency of accelerometer is 2^SAMPLING_TIME Hz, with 6, 64Hz
 		if ((stopTime-startTime) > (INTERVALSECOND >> SAMPLING_TIME-1)) {
@@ -155,7 +156,9 @@ void roundLoop(FILE* fp) {
 			alt_up_accelerometer_spi_read_z_axis(acc_dev, & z_read);
 			printf("%d %d %d\n", x_read, y_read, z_read);
 			startTime = alt_timestamp();
+
 		}
+		*/
 	}
 }
 
@@ -167,7 +170,7 @@ int main () {
 	}
 	char* dataIn[BUFFERSIZE];
 	FILE* fp = open("/dev/jtag_uart", O_RDWR|O_NONBLOCK|O_NOCTTY|O_SYNC);
-	writeScore("start-");
+	writeScore("start");
 	ledWrite(0b1111111111);
 	//Wait for start
 	strcpy(dataIn, waitForData(fp, "STARTGAME", "STARTGAME"));
@@ -180,7 +183,7 @@ int main () {
 	while (strcmp(dataIn, "ENDGAME") != 0) {
 		fp = open("/dev/jtag_uart", O_RDWR|O_NONBLOCK|O_NOCTTY|O_SYNC);
 		roundLoop(fp);
-		strcpy(dataIn, waitForData(fp, "STARTGAME", "ENDGAME"));
+		strcpy(dataIn, waitForData(fp, "STARTROUND", "ENDGAME"));
 		fclose(fp);
 	}
 	return 0;

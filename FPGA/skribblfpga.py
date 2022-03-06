@@ -3,12 +3,13 @@ import intel_jtag_uart
 
 class SkribblNIOS():
     #Instantiate only once
-    def __init__(self):
+    def __init__(self, gameInstance=None):
+        self.gameInstance = gameInstance
         self.Connected = False
         try:
             self.UART = intel_jtag_uart.intel_jtag_uart()
-        except Exception as e:
             self.Connected = True
+        except Exception as e:
             print(e)
             exit(0)
         self.isActive = False
@@ -39,7 +40,7 @@ class SkribblNIOS():
     #Dont use, handled by start
     def getXY(self):
         while self.isActive:
-            XYData = self.UART.read().decode('utf-8')
+            XYData = self.UART.read() #.decode('utf-8')
             if self.gameInstance is None:
                 if len(XYData) > 0:
                     print(XYData)

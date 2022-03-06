@@ -15,8 +15,6 @@
 
 
 #define SAMPLING_TIME 3
-#define INTERVALSECOND 100000000
-#define BUFFERSIZE 50
 
 //Accelerometer setup
 alt_32 x_read;
@@ -65,27 +63,32 @@ alt_u8 convertDisplay(char digit) {
 void writeScore(char* scoreStr) {
 	IOWR_ALTERA_AVALON_PIO_DATA(HEX0_BASE, convertDisplay(scoreStr[0]));
 	IOWR_ALTERA_AVALON_PIO_DATA(HEX1_BASE, convertDisplay(scoreStr[1]));
-	switch (strlen(scoreStr)){
+	switch (strlen(scoreStr))
+	{
 	case 3:
 		IOWR_ALTERA_AVALON_PIO_DATA(HEX2_BASE, convertDisplay('.'));
 		IOWR_ALTERA_AVALON_PIO_DATA(HEX3_BASE, convertDisplay('.'));
 		IOWR_ALTERA_AVALON_PIO_DATA(HEX4_BASE, convertDisplay('.'));
 		IOWR_ALTERA_AVALON_PIO_DATA(HEX5_BASE, convertDisplay(scoreStr[2]));
+		break;
 	case 4:
 		IOWR_ALTERA_AVALON_PIO_DATA(HEX2_BASE, convertDisplay('.'));
 		IOWR_ALTERA_AVALON_PIO_DATA(HEX3_BASE, convertDisplay('.'));
 		IOWR_ALTERA_AVALON_PIO_DATA(HEX4_BASE, convertDisplay(scoreStr[2]));
 		IOWR_ALTERA_AVALON_PIO_DATA(HEX5_BASE, convertDisplay(scoreStr[3]));
+		break;
 	case 5:
 		IOWR_ALTERA_AVALON_PIO_DATA(HEX2_BASE, convertDisplay('.'));
 		IOWR_ALTERA_AVALON_PIO_DATA(HEX3_BASE, convertDisplay(scoreStr[2]));
 		IOWR_ALTERA_AVALON_PIO_DATA(HEX4_BASE, convertDisplay(scoreStr[3]));
 		IOWR_ALTERA_AVALON_PIO_DATA(HEX5_BASE, convertDisplay(scoreStr[4]));
+		break;
 	case 6:
 		IOWR_ALTERA_AVALON_PIO_DATA(HEX2_BASE, convertDisplay(scoreStr[2]));
 		IOWR_ALTERA_AVALON_PIO_DATA(HEX3_BASE, convertDisplay(scoreStr[3]));
 		IOWR_ALTERA_AVALON_PIO_DATA(HEX4_BASE, convertDisplay(scoreStr[4]));
 		IOWR_ALTERA_AVALON_PIO_DATA(HEX5_BASE, convertDisplay(scoreStr[5]));
+
 	}
 	return;
 }
@@ -97,51 +100,44 @@ void ledWrite(unsigned int led_pattern) {
     IOWR(LED_BASE, 0, led_pattern);
 }
 
-//Function that halts till certain data is received
-char* waitForData(FILE* fp, char* compare1, char* compare2) {
-	char* waitIn[BUFFERSIZE];
-	while ((strcmp(waitIn, compare1) != 0) && (strcmp(waitIn, compare2) != 0 )) {
-		read(fp, &waitIn, BUFFERSIZE);
-	}
-	printf("BREAK");
-	if ((strcmp(waitIn, compare1)) != 0) {
-		return compare1;
-	} else {
-		return compare2;
+void waitForCommand(FILE* fp, char mode, char mode2, char *command, int *arg1, int *arg2) {
+	while((*command != mode) && (*command != mode2)) {
+		fscanf(fp, "%c %d %d", command, arg1, arg2);
 	}
 }
 
 //Function that runs during a round
-void roundLoop(FILE* fp) {
-	char* timeRatio[BUFFERSIZE];
-	int ratio = 0;
+void roundLoop(FILE* fp, int roundLength) {
+	//Setup
 	alt_timestamp_start();
-	alt_32 startTime = alt_timestamp();
-	alt_32 stopTime;
+	alt_u32 startTime = alt_timestamp();
+	alt_u32 stopTime;
+	alt_u32 timeRatio = 0;
 	//While time is not up
-	while (strcmp(timeRatio, "100") != 0) {
-		//If received a time ratio
-		if(read(fp, &timeRatio, 1) > 0) {
-			ratio = atoi(timeRatio);
-			if (ratio < 10) {
-				ledWrite(0b1);
-			} else if (ratio < 20) {
-				ledWrite(0b11);
-			} else if (ratio < 30) {
-				ledWrite(0b111);
-			} else if (ratio < 40) {
-				ledWrite(0b1111);
-			} else if (ratio < 50) {
-				ledWrite(0b11111);
-			} else if (ratio < 60) {
-				ledWrite(0b111111);
-			} else if (ratio < 70) {
-				ledWrite(0b1111111);
-			} else if (ratio < 80) {
-				ledWrite(0b11111111);
-			} else if (ratio < 90) {
-				ledWrite(0b111111111);
-			}
+	while (timeRatio < 100) {
+		stopTime = alt_timestamp();
+		//Calculate ratio of time elapsed
+		timeRatio = (((stopTime-startTime)/alt_timestamp_freq())*100)/roundLength;
+		if (timeRatio < 10) {
+			ledWrite(0b1);
+		} else if (timeRatio < 20) {
+			ledWrite(0b11);
+		} else if (timeRatio < 30) {
+			ledWrite(0b111);
+		} else if (timeRatio < 40) {
+			ledWrite(0b1111);
+		} else if (timeRatio < 50) {
+			ledWrite(0b11111);
+		} else if (timeRatio < 60) {
+			ledWrite(0b111111);
+		} else if (timeRatio < 70) {
+			ledWrite(0b1111111);
+		} else if (timeRatio < 80) {
+			ledWrite(0b11111111);
+		} else if (timeRatio < 90) {
+			ledWrite(0b111111111);
+		} else {
+			ledWrite(0b1111111111);
 		}
 		//Send  accelerometer and input values
 		//Obtain values at a certain frequency
@@ -166,23 +162,30 @@ int main () {
 		// if return 1, check if the spi ip name is "accelerometer_spi"
 		return 1;
 	}
-	char* dataIn[BUFFERSIZE];
-	FILE* fp = open("/dev/jtag_uart", O_RDWR|O_NONBLOCK|O_NOCTTY|O_SYNC);
-	writeScore("start");
-	ledWrite(0b1111111111);
+	//Declare variables for accepting commands/data
+	char commandChar = 0;
+	int roundLength, arg1, arg2;;
+	char* scoreStr[6];
+	writeScore("......");
+	FILE* fp = fopen("/dev/jtag_uart", "r+");
 	//Wait for start
-	strcpy(dataIn, waitForData(fp, "STARTGAME", "STARTGAME"));
+	writeScore("start.");
+	ledWrite(0b1111111111);
+	waitForCommand(fp, 'S', 'S', &commandChar, &arg1, &arg2);
+	roundLength = arg1;//Length of round will be stored into arg1
 	writeScore("------");
 	//Wait for round start
-	strcpy(dataIn, waitForData(fp, "STARTROUND", "STARTROUND"));
+	waitForCommand(fp, 'R', 'R', &commandChar, &arg1, &arg2);
 	fclose(fp);
-
-	//MAIN LOOP - Terminate loop when game end
-	while (strcmp(dataIn, "ENDGAME") != 0) {
-		fp = open("/dev/jtag_uart", O_RDWR|O_NONBLOCK|O_NOCTTY|O_SYNC);
-		roundLoop(fp);
-		strcpy(dataIn, waitForData(fp, "STARTROUND", "ENDGAME"));
-		fclose(fp);
+	//MAIN LOOP - Terminate loop when game end - command E
+	while (commandChar != 'E') {
+		sprintf(scoreStr, "%d-%d", arg1, arg2); //Build score str
+		writeScore(scoreStr);
+		fp = fopen("/dev/jtag_uart", "r+");
+		roundLoop(fp, roundLength);
+		commandChar = 'F';
+		waitForCommand(fp, 'R', 'E', &commandChar, &arg1, &arg2);
 	}
+	ledWrite(0b0);
 	return 0;
 }
