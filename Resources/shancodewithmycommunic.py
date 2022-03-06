@@ -9,7 +9,7 @@ class Game():
         self.width = 1200
         self.height = 600
         self.display = pygame.display.set_mode((self.width, self.height))
-        ##self.fpga.send("S " Timelen(s) " 0")
+        ##self.fpga.send('S ', 90, ' 0')
         self.canvas_width = int(self.width/1.6)
         self.canvas_height = int(self.height/1.3)
         self.canvas = pygame.Rect(self.width/2,self.height/2,self.canvas_width,self.canvas_height)
@@ -99,7 +99,9 @@ class Game():
         self.background=pygame.transform.scale(self.background,(self.width,self.height))
         self.redraw_window()
         self.display.blit(self.background,(0,0))
-        ##self.fpga.send("R " Position " " Score)
+        ##self.fpga.send('R ', Position, ' ', Score)
+        #for now use:
+        ##self.fpga.send('R ', 1, ' ', 100)
         
 
         #canvas = pygame.Rect(self.width/2,self.height/2,self.canvas_width,self.canvas_height)
