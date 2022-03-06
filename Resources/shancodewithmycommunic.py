@@ -9,7 +9,7 @@ class Game():
         self.width = 1200
         self.height = 600
         self.display = pygame.display.set_mode((self.width, self.height))
-        ##self.fpga.send("STARTGAME")
+        ##self.fpga.send("S " Timelen(s) " 0")
         self.canvas_width = int(self.width/1.6)
         self.canvas_height = int(self.height/1.3)
         self.canvas = pygame.Rect(self.width/2,self.height/2,self.canvas_width,self.canvas_height)
@@ -99,8 +99,8 @@ class Game():
         self.background=pygame.transform.scale(self.background,(self.width,self.height))
         self.redraw_window()
         self.display.blit(self.background,(0,0))
-        ##self.fpga.send("STARTROUND")
-        ##self.fpga.send(score)
+        ##self.fpga.send("R " Position " " Score)
+        
 
         #canvas = pygame.Rect(self.width/2,self.height/2,self.canvas_width,self.canvas_height)
         self.canvas.center = (self.width/2.5,self.height/2)
@@ -110,7 +110,7 @@ class Game():
 
         while self.run == True:
             
-            ##self.fpga.send(timeratio)
+            ##self.fpga.send(timeratio) (no longer needed)
             self.frame_counter+=1
             if (self.frame_counter % self.fps): #counts number of seconds player is drawing using the frame rate of the game
                 self.draw_timer+=1
@@ -153,7 +153,7 @@ class Game():
             for event in self.events:
                 if event.type == pygame.QUIT:
                     run = False
-                    ##self.fpga.send("ENDGAME")
+                    ##self.fpga.send("E 0 0")
                     pygame.quit()
 
     def load_sprites(self):
