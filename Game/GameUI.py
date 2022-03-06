@@ -43,6 +43,8 @@ class Game():
         self.chatbox = pygame.Rect(self.width/5,self.height/2,self.canvas_width/2.5,self.canvas_height)
         self.is_typing = False
         self.messages = []
+        self.received_msgs = []
+        self.msg_limit = 13
 
 
     def redraw_window(self):
@@ -92,7 +94,19 @@ class Game():
                 #else:
                     #self.is_typing = False
                     #print("NOOOOO")
+    
+    def msg_limiter(self):
+        if len(self.received_msgs)>=self.msg_limit:
+            self.received_msgs.pop(0)
 
+    def refresh_textbox(self,textbox):
+        self.msg_limiter()
+        pygame.draw.rect(self.display,(230,230,220),(self.chatbox))
+        self.display.blit(textbox.message, textbox.rect)
+        for i in range (len(self.received_msgs)):
+            textbox = Textbox(self.received_msgs[i])
+            textbox.rect.center = (1030,100+(30*i))
+            self.display.blit(textbox.message, textbox.rect)
 
 
     def typing(self,display):
@@ -102,13 +116,13 @@ class Game():
         clock = pygame.time.Clock()
         self.chatbox.center = (self.width/1.16,self.height/2)
         pygame.draw.rect(self.display,(230,230,220),(self.chatbox))
-        
+        #self.refresh_textbox(textbox)
         while True:
             clock.tick(30)
+            #pygame.display.flip()
             
-            self.display.blit(textbox.message, textbox.rect)
-            
-            pygame.display.flip()
+            self.refresh_textbox(textbox)
+            #self.display.blit(textbox.message, textbox.rect)
             for e in self.events:
                 if e.type == pygame.QUIT:
                     self.run = False
@@ -116,6 +130,7 @@ class Game():
                     if e.key in [pygame.K_RSHIFT, pygame.K_LSHIFT]:
                         textbox.upper_case = False
                 if e.type == pygame.KEYDOWN:
+                    print("Draw")
                     pygame.draw.rect(self.display,(230,230,220),(self.chatbox))
                     textbox.add_chr(pygame.key.name(e.key))
                     if e.key == pygame.K_SPACE:
@@ -130,10 +145,12 @@ class Game():
                         if len(textbox.text) > 0:
                             pygame.display.update(textbox.rect)
                             self.messages.append(textbox.text)
+                            self.received_msgs.append(textbox.text)
                             print(self.messages)
-                            pygame.draw.rect(self.display,(230,230,220),(self.chatbox))
                             textbox = Textbox("Type to chat")
                             textbox.rect.center = (1030,500)
+                            
+                            self.refresh_textbox(textbox)
 
 
 
@@ -205,10 +222,3 @@ class Game():
 
     def load_sprites(self):
         None
-
-'''pygame.init()
-music=pygame.mixer.music.load("Game/assets/menu_music.mp3")
-pygame.mixer.music.play(-1)
-game = Game("shan")
-pygame.display.set_caption("player")
-game.round_start()'''

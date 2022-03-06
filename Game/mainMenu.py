@@ -3,6 +3,7 @@ import GameUI
 
 class mainMenu():
     def __init__(self, gameInstance=None):
+        pygame.init()
         #Define white colour
         self.white = (205, 205, 205) 
         self.black = (0, 0, 0)
@@ -24,7 +25,7 @@ class mainMenu():
         self.display.fill(self.white)
         
         self.clock = pygame.time.Clock()
-        pygame.init()   
+          
         self.music = pygame.mixer.music.load("Game/assets/menu_music.mp3")
         pygame.mixer.music.play(-1)
         self.backgrounds = []
@@ -39,8 +40,9 @@ class mainMenu():
         pygame.display.update()
         self.display.fill(self.white)
         #self.display.blit(self.backgrounds[gif_track],(0,0))
-        self.font_size=32
-        self.font = "Game/assets/arcade.TTF"
+        #self.font_size=32
+        self.font = pygame.font.Font("Game/assets/arcade.TTF",32)
+
         #While in main menu
         while self.isActive:
             #Update background
@@ -78,18 +80,17 @@ class mainMenu():
             self.rectText = [None]*len(self.tracker)
             pos=self.width/2
             for textIndex in range(len(self.tracker)):
-                self.formattedText[textIndex] = self.highlightText(self.tracker[textIndex], textIndex==self.pointer, self.font, self.font_size)
+                self.formattedText[textIndex] = self.highlightText(self.tracker[textIndex], textIndex==self.pointer)
                 self.rectText[textIndex] =  self.formattedText[textIndex].get_rect()
                 self.display.blit(self.formattedText[textIndex], ((int(pos - (self.rectText[textIndex][2]/2)), 80+textIndex*40)))
             pygame.display.update()
             self.clock.tick(10)
 
-    def highlightText(self, message, highlight, font, size):
-        new_font = pygame.font.Font(font, size)
+    def highlightText(self, message, highlight):
         if highlight:
-            edited = new_font.render(message, 0, self.white)
+            edited = self.font.render(message, 0, self.white)
         else:
-            edited = new_font.render(message, 0, self.black)
+            edited = self.font.render(message, 0, self.black)
         return edited
 
 if __name__ == "__main__":
