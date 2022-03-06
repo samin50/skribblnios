@@ -110,14 +110,21 @@ void waitForCommand(FILE* fp, char mode, char mode2, char *command, int *arg1, i
 void roundLoop(FILE* fp, int roundLength) {
 	//Setup
 	alt_timestamp_start();
-	alt_u32 startTime = alt_timestamp();
-	alt_u32 stopTime;
+	alt_u32 startRoundTime = alt_timestamp();
+	alt_u32 sampleTime = alt_timestamp();
+	alt_u32 secondTimer = alt_timestamp();
+	alt_u32 stopTime, alt_freq;
 	alt_u32 timeRatio = 0;
+	//Inputs on board
+	int buttonIn = 3; //Buttons are active low
+	int switchIn = 0;
+	int tempButtonIn, tempSwitchIn;
 	//While time is not up
 	while (timeRatio < 100) {
 		stopTime = alt_timestamp();
+		alt_freq = alt_timestamp_freq();
 		//Calculate ratio of time elapsed
-		timeRatio = (((stopTime-startTime)/alt_timestamp_freq())*100)/roundLength;
+		timeRatio = (((stopTime-startRoundTime)/alt_freq)*100)/roundLength;
 		if (timeRatio < 10) {
 			ledWrite(0b1);
 		} else if (timeRatio < 20) {
@@ -144,7 +151,7 @@ void roundLoop(FILE* fp, int roundLength) {
 		/*
 		stopTime = alt_timestamp();
 		//Frequency of accelerometer is 2^SAMPLING_TIME Hz, with 6, 64Hz
-		if ((stopTime-startTime) > (INTERVALSECOND >> SAMPLING_TIME-1)) {
+		if ((stopTime-secondTimer)/alt_freq) > (0b1 >> SAMPLING_TIME)) {
 			alt_up_accelerometer_spi_read_x_axis(acc_dev, & x_read);
 			alt_up_accelerometer_spi_read_y_axis(acc_dev, & y_read);
 			alt_up_accelerometer_spi_read_z_axis(acc_dev, & z_read);
@@ -153,6 +160,19 @@ void roundLoop(FILE* fp, int roundLength) {
 
 		}
 		*/
+		//If a second has elapsed, send the state of the buttons and switch if different from before
+		if (((stopTime-secondTimer)/alt_freq) > 1) {
+			tempButtonIn = IORD_ALTERA_AVALON_PIO_DATA(BUTTON_BASE);
+			tempSwitchIn = IORD_ALTERA_AVALON_PIO_DATA(SWITCH_BASE);
+			if (tempButtonIn != buttonIn) {
+				buttonIn = tempButtonIn;
+				printf("B %d\n", buttonIn);
+			}
+			if (tempSwitchIn != switchIn) {
+				switchIn = tempSwitchIn;
+				printf("S %d\n", switchIn);
+			}
+		}
 	}
 }
 
