@@ -40,11 +40,12 @@ class Game():
         self.draw_blit = False
 
 
-        self.chatbox = pygame.Rect(self.width/5,self.height/2,self.canvas_width/2.5,self.canvas_height)
+        self.chatbox = pygame.Rect(self.width/5,self.height/2,self.canvas_width/2.3,self.canvas_height)
         self.is_typing = False
         self.messages = []
         self.received_msgs = []
         self.msg_limit = 13
+        self.max_char_len = 26
 
 
     def redraw_window(self):
@@ -98,15 +99,26 @@ class Game():
     def msg_limiter(self):
         if len(self.received_msgs)>=self.msg_limit:
             self.received_msgs.pop(0)
+    
+    def redraw_chat(self):
+        pygame.draw.rect(self.display,(245,245,240),(self.chatbox))
 
     def refresh_textbox(self,textbox):
         self.msg_limiter()
-        pygame.draw.rect(self.display,(230,230,220),(self.chatbox))
+        self.redraw_chat()
         self.display.blit(textbox.message, textbox.rect)
         for i in range (len(self.received_msgs)):
             textbox = Textbox(self.received_msgs[i])
             textbox.rect.center = (1030,100+(30*i))
             self.display.blit(textbox.message, textbox.rect)
+
+    def addtext(self,textbox):
+        if len(textbox.text)<self.max_char_len:
+            textbox.text += " "
+            textbox.update()
+        else:
+            print("Text too long")
+        return textbox
 
 
     def typing(self,display):
@@ -114,9 +126,10 @@ class Game():
         textbox.upper_case = False
         textbox.rect.center = (1030,500)
         clock = pygame.time.Clock()
-        self.chatbox.center = (self.width/1.16,self.height/2)
-        pygame.draw.rect(self.display,(230,230,220),(self.chatbox))
+        self.chatbox.center = (self.width/1.18,self.height/2)
+        self.redraw_chat()
         #self.refresh_textbox(textbox)
+        
         while True:
             clock.tick(30)
             #pygame.display.flip()
@@ -130,22 +143,26 @@ class Game():
                     if e.key in [pygame.K_RSHIFT, pygame.K_LSHIFT]:
                         textbox.upper_case = False
                 if e.type == pygame.KEYDOWN:
-                    print("Draw")
-                    pygame.draw.rect(self.display,(230,230,220),(self.chatbox))
-                    textbox.add_chr(pygame.key.name(e.key))
-                    if e.key == pygame.K_SPACE:
-                        textbox.text += " "
-                        textbox.update()
-                    if e.key in [pygame.K_RSHIFT, pygame.K_LSHIFT]:
-                        textbox.upper_case = True
-                    if e.key == pygame.K_BACKSPACE:
-                        textbox.text = textbox.text[:-1]
-                        textbox.update()
+                    if len(self.username+textbox.text)<26:
+                        print("Draw")
+                        self.redraw_chat()
+                        textbox.add_chr(pygame.key.name(e.key))
+                        if e.key == pygame.K_SPACE:
+                            if len(textbox.text)<20:
+                                textbox.text += " "
+                                textbox.update()
+                            else:
+                                print("Text too long")
+                        if e.key in [pygame.K_RSHIFT, pygame.K_LSHIFT]:
+                            textbox.upper_case = True
+                        if e.key == pygame.K_BACKSPACE:
+                            textbox.text = textbox.text[:-1]
+                            textbox.update()
                     if e.key == pygame.K_RETURN:
                         if len(textbox.text) > 0:
                             pygame.display.update(textbox.rect)
                             self.messages.append(textbox.text)
-                            self.received_msgs.append(textbox.text)
+                            self.received_msgs.append((self.username+":  "+textbox.text))
                             print(self.messages)
                             textbox = Textbox("Type to chat")
                             textbox.rect.center = (1030,500)
@@ -169,7 +186,7 @@ class Game():
         self.display.blit(self.background,(0,0))
 
         #canvas = pygame.Rect(self.width/2,self.height/2,self.canvas_width,self.canvas_height)
-        self.canvas.center = (self.width/2.5,self.height/2)
+        self.canvas.center = (self.width/2.7,self.height/2)
         
         pygame.draw.rect(self.display,(255,255,245),(self.canvas))
 
