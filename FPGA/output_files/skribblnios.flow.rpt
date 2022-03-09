@@ -1,5 +1,5 @@
 Flow report for skribblnios
-Fri Mar 04 02:15:58 2022
+Wed Mar 09 02:42:03 2022
 Quartus Prime Version 18.0.0 Build 614 04/24/2018 SJ Lite Edition
 
 
@@ -40,15 +40,15 @@ refer to the applicable agreement for further details.
 +----------------------------------------------------------------------------------+
 ; Flow Summary                                                                     ;
 +------------------------------------+---------------------------------------------+
-; Flow Status                        ; Successful - Fri Mar 04 02:15:48 2022       ;
+; Flow Status                        ; Successful - Wed Mar 09 02:41:53 2022       ;
 ; Quartus Prime Version              ; 18.0.0 Build 614 04/24/2018 SJ Lite Edition ;
 ; Revision Name                      ; skribblnios                                 ;
 ; Top-level Entity Name              ; DE10_LITE_Golden_Top                        ;
 ; Family                             ; MAX 10                                      ;
 ; Device                             ; 10M50DAF484C7G                              ;
 ; Timing Models                      ; Final                                       ;
-; Total logic elements               ; 4,639 / 49,760 ( 9 % )                      ;
-;     Total combinational functions  ; 4,009 / 49,760 ( 8 % )                      ;
+; Total logic elements               ; 4,673 / 49,760 ( 9 % )                      ;
+;     Total combinational functions  ; 4,010 / 49,760 ( 8 % )                      ;
 ;     Dedicated logic registers      ; 2,971 / 49,760 ( 6 % )                      ;
 ; Total registers                    ; 3040                                        ;
 ; Total pins                         ; 185 / 360 ( 51 % )                          ;
@@ -66,7 +66,7 @@ refer to the applicable agreement for further details.
 +-------------------+---------------------+
 ; Option            ; Setting             ;
 +-------------------+---------------------+
-; Start date & time ; 03/04/2022 02:12:14 ;
+; Start date & time ; 03/09/2022 02:38:04 ;
 ; Main task         ; Compilation         ;
 ; Revision Name     ; skribblnios         ;
 +-------------------+---------------------+
@@ -77,7 +77,7 @@ refer to the applicable agreement for further details.
 +-------------------------------------+----------------------------------------+---------------+----------------------+------------+
 ; Assignment Name                     ; Value                                  ; Default Value ; Entity Name          ; Section Id ;
 +-------------------------------------+----------------------------------------+---------------+----------------------+------------+
-; COMPILER_SIGNATURE_ID               ; 2545054224242.164635993307832          ; --            ; --                   ; --         ;
+; COMPILER_SIGNATURE_ID               ; 2545054224242.164679348424912          ; --            ; --                   ; --         ;
 ; MAX_CORE_JUNCTION_TEMP              ; 85                                     ; --            ; --                   ; --         ;
 ; MIN_CORE_JUNCTION_TEMP              ; 0                                      ; --            ; --                   ; --         ;
 ; PARTITION_COLOR                     ; -- (Not supported for targeted family) ; --            ; DE10_LITE_Golden_Top ; Top        ;
@@ -95,11 +95,11 @@ refer to the applicable agreement for further details.
 +----------------------+--------------+-------------------------+---------------------+------------------------------------+
 ; Module Name          ; Elapsed Time ; Average Processors Used ; Peak Virtual Memory ; Total CPU Time (on all processors) ;
 +----------------------+--------------+-------------------------+---------------------+------------------------------------+
-; Analysis & Synthesis ; 00:02:43     ; 1.0                     ; 5033 MB             ; 00:03:11                           ;
-; Fitter               ; 00:00:38     ; 1.6                     ; 6307 MB             ; 00:01:13                           ;
+; Analysis & Synthesis ; 00:02:55     ; 1.0                     ; 5031 MB             ; 00:03:22                           ;
+; Fitter               ; 00:00:40     ; 1.6                     ; 6309 MB             ; 00:01:13                           ;
 ; Assembler            ; 00:00:04     ; 1.0                     ; 4707 MB             ; 00:00:04                           ;
-; Timing Analyzer      ; 00:00:09     ; 2.7                     ; 4988 MB             ; 00:00:18                           ;
-; Total                ; 00:03:34     ; --                      ; --                  ; 00:04:46                           ;
+; Timing Analyzer      ; 00:00:09     ; 2.6                     ; 4986 MB             ; 00:00:18                           ;
+; Total                ; 00:03:48     ; --                      ; --                  ; 00:04:57                           ;
 +----------------------+--------------+-------------------------+---------------------+------------------------------------+
 
 
