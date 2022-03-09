@@ -1,4 +1,3 @@
-from tkinter import EventType
 import pygame
 import GameUI
 from text_input import Textbox
@@ -44,10 +43,8 @@ class mainMenu():
         self.font = pygame.font.Font("Game/assets/arcade.TTF",32)
         self.ip_box = Textbox("            ") #creating self.ip_box object for the IP
         self.ip_box.rect.center = (self.width/2,self.height/2) #position of self.ip_box on screen
-        self.events = pygame.event.get()
         #While in main menu
         while self.isActive:
-            self.events = pygame.event.get()
             #Update background
             self.display.fill(self.white)
             self.display.blit(self.backgrounds[self.gifTracker],(0,0))
@@ -62,8 +59,6 @@ class mainMenu():
                 self.gifTracker = 0
             self.ip = ""
             for e in pygame.event.get():
-                if e.type == pygame.QUIT:
-                    self.run = False
                 if e.type == pygame.KEYDOWN:
                     self.ip_box.add_chr(pygame.key.name(e.key))
                     if e.key == pygame.K_SPACE:
@@ -77,14 +72,14 @@ class mainMenu():
                     if e.key == pygame.K_BACKSPACE:
                         self.ip_box.text = self.ip_box.text[:-1]
                         self.ip_box.update()
-                if e.key == pygame.K_RETURN:
-                    if len(self.ip_box.text) > 0:
-                        pygame.display.update(self.ip_box.rect)
-                        print(self.ip_box.text)
-                        #self.received_msgs.append((self.username+":  "+self.ip_box.text))
-                        #print(self.messages)
-                        #self.ip_box = Textbox("Type to chat")
-                        #self.ip_box.rect.center = (1030,500)
+                    if e.key == pygame.K_RETURN:
+                        if len(self.ip_box.text) > 0:
+                            pygame.display.update(self.ip_box.rect)
+                            print(self.ip_box.text)
+                            #self.received_msgs.append((self.username+":  "+self.ip_box.text))
+                            #print(self.messages)
+                            #self.ip_box = Textbox("Type to chat")
+                            #self.ip_box.rect.center = (1030,500)
 
 
             for events in pygame.event.get(): #Checks if ur clicking the exit button
@@ -97,7 +92,7 @@ class mainMenu():
     def run_text(self):
         #pygame.display.flip()
         #self.display.blit(self.ip_box.message, self.ip_box.rect)
-        
+        return
 if __name__ == "__main__":
     menu = mainMenu()
         
