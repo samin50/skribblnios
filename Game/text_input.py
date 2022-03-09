@@ -21,6 +21,7 @@ class Textbox(pygame.sprite.Sprite):
     elif char in self.validChars and self.upper_case:
         self.text += self.shiftChars[self.validChars.index(char)]
     self.update()
+    
 
   def update(self):
     old_rect_pos = self.rect.center

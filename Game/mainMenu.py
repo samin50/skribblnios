@@ -1,5 +1,7 @@
+from tkinter import EventType
 import pygame
 import GameUI
+from text_input import Textbox
 
 class mainMenu():
     def __init__(self, gameInstance=None):
@@ -22,7 +24,7 @@ class mainMenu():
         self.background = pygame.image.load("Game/assets/sky_background.png")
         self.background= pygame.transform.scale(self.background,(self.width,self.height))
         self.display = pygame.display.set_mode((self.width, self.height))
-        self.display.fill(self.white)
+        #self.display.fill(self.white)
         
         self.clock = pygame.time.Clock()
           
@@ -35,64 +37,67 @@ class mainMenu():
             img = pygame.image.load(dir)
             img = pygame.transform.scale(img,(self.width,self.height))
             self.backgrounds.append(img)
-        self.tracker=["START","CREATE CHARACTER","INSTRUCTIONS","HIGHSCORES","QUIT"]
-        self.pointer=0
-        pygame.display.update()
-        self.display.fill(self.white)
+
+        #self.display.fill(self.white)
         #self.display.blit(self.backgrounds[gif_track],(0,0))
         #self.font_size=32
         self.font = pygame.font.Font("Game/assets/arcade.TTF",32)
-
+        self.ip_box = Textbox("            ") #creating self.ip_box object for the IP
+        self.ip_box.rect.center = (self.width/2,self.height/2) #position of self.ip_box on screen
+        self.events = pygame.event.get()
         #While in main menu
         while self.isActive:
+            self.events = pygame.event.get()
             #Update background
             self.display.fill(self.white)
             self.display.blit(self.backgrounds[self.gifTracker],(0,0))
+            pygame.draw.rect(self.display,(0,0,0),(self.ip_box)) #self.ip_box for IP being drawn onto the display
+            print("HALLOOO")
+
+            self.display.blit(self.ip_box.message, self.ip_box.rect)
+            self.run_text()
+            
             self.gifTracker += 1
-            if self.gifTracker == len(self.backgrounds):
+            if self.gifTracker == len(self.backgrounds): #ignore all the gifTrack stuff, it's for the background animation
                 self.gifTracker = 0
-            #For event that occurs
-            for event in pygame.event.get():
-                if event.type==pygame.QUIT:
+            self.ip = ""
+            for e in pygame.event.get():
+                if e.type == pygame.QUIT:
+                    self.run = False
+                if e.type == pygame.KEYDOWN:
+                    self.ip_box.add_chr(pygame.key.name(e.key))
+                    if e.key == pygame.K_SPACE:
+                        if len(self.ip_box.text)<20:
+                            self.ip_box.text += " "
+                            self.ip_box.update()
+                        else:
+                            print("Text too long")
+                    if e.key in [pygame.K_RSHIFT, pygame.K_LSHIFT]:
+                        self.ip_box.upper_case = True
+                    if e.key == pygame.K_BACKSPACE:
+                        self.ip_box.text = self.ip_box.text[:-1]
+                        self.ip_box.update()
+                if e.key == pygame.K_RETURN:
+                    if len(self.ip_box.text) > 0:
+                        pygame.display.update(self.ip_box.rect)
+                        print(self.ip_box.text)
+                        #self.received_msgs.append((self.username+":  "+self.ip_box.text))
+                        #print(self.messages)
+                        #self.ip_box = Textbox("Type to chat")
+                        #self.ip_box.rect.center = (1030,500)
+
+
+            for events in pygame.event.get(): #Checks if ur clicking the exit button
+                if events.type == pygame.QUIT:
                     pygame.quit()
-                    quit()
-                #If key pressed
-                if event.type==pygame.KEYDOWN:
-                    #Key up
-                    if event.key==pygame.K_UP:
-                        if self.pointer > 0:
-                            self.pointer -= 1
-                    #Key down
-                    if event.key==pygame.K_DOWN:
-                        if self.pointer < len(self.tracker):
-                            self.pointer += 1
-                    #Key enter
-                    if event.key==pygame.K_RETURN:
-                        if self.tracker[self.pointer] == "QUIT":
-                            pygame.quit()
-                            quit()
-                        if self.tracker[self.pointer] == "START":
-                            self.isActive = False
-                            game = GameUI.Game("shan")
-                            pygame.mixer.music.stop()
-                            game.round_start()
-            self.formattedText = [None]*len(self.tracker)
-            self.rectText = [None]*len(self.tracker)
-            pos=self.width/2
-            for textIndex in range(len(self.tracker)):
-                self.formattedText[textIndex] = self.highlightText(self.tracker[textIndex], textIndex==self.pointer)
-                self.rectText[textIndex] =  self.formattedText[textIndex].get_rect()
-                self.display.blit(self.formattedText[textIndex], ((int(pos - (self.rectText[textIndex][2]/2)), 80+textIndex*40)))
+
             pygame.display.update()
             self.clock.tick(10)
 
-    def highlightText(self, message, highlight):
-        if highlight:
-            edited = self.font.render(message, 0, self.white)
-        else:
-            edited = self.font.render(message, 0, self.black)
-        return edited
-
+    def run_text(self):
+        #pygame.display.flip()
+        #self.display.blit(self.ip_box.message, self.ip_box.rect)
+        
 if __name__ == "__main__":
     menu = mainMenu()
         
