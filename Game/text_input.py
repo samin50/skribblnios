@@ -15,7 +15,6 @@ class Textbox(pygame.sprite.Sprite):
     self.shiftChars = '~!@#$%^&*()_+QWERTYUIOP{}|ASDFGHJKL:"ZXCVBNM<>?'
 
   def add_chr(self, char):
-
     if char in self.validChars and not self.upper_case:
       self.text += char
     elif char in self.validChars and self.upper_case:

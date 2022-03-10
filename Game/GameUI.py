@@ -5,6 +5,7 @@ from text_input import Textbox
 from _thread import *
 class Game():
     def __init__(self,username):
+        pygame.init()
         self.run = False
         self.round_end = False
         self.game_end = False
@@ -180,7 +181,7 @@ class Game():
 
     def round_start(self):
         self.run = True
-        pygame.mixer.music.play(-1)
+        #pygame.mixer.music.play(-1)
         self.background=pygame.transform.scale(self.background,(self.width,self.height))
         self.redraw_window()
         self.display.blit(self.background,(0,0))
@@ -239,3 +240,7 @@ class Game():
 
     def load_sprites(self):
         None
+
+game = Game("z")
+
+#game.round_start()
