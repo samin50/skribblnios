@@ -2,42 +2,59 @@ import random
 import socket
 import threading
 
+PORT = 9999
+SERVER = '10.5.0.2'
+
 class Client():
     def __init__(self, name, ip, port, gameInstance=None):
         self.gameInstance = gameInstance
         self.name = name            
         self.server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.server.connect((ip, port))
+        try:
+            self.server.connect((ip, port))
+        except:
+            print("Unable to connect to server, check IP or if server is running.")
+            input()
+            exit(0)
         self.isActive = True
+
         #Begin listening for data
         self.listenThread = threading.Thread(target=self.listenData)
         self.listenThread.start()
         self.sendServer("!SETNAME " + name)
     
-    #Disable client
     def sendServer(self, data):
-        self.server.send(data.encode('utf-8'))
-        if data == "!DISCONNECT":
-            self.isActive = False 
-    
+        if self.isActive:
+            self.server.send(data.encode('utf-8'))
+            
+            if data == "!DISCONNECT":
+                self.isActive = False
+                print("you have now disconnected from the server")
+                
+            if data == "SERVERCMD: !KILL":
+                self.isActive = False
+                print("you have now closed the server and no longer connected")
+            
     #Always wait for data
     def listenData(self):
         while self.isActive:
             try:
+                #Causes issues on disconnect from other players as will be waiting for data
                 data = self.server.recv(1024).decode('utf-8')
-                self.processData(data)
+                if len(data) > 0:
+                    self.processData(data)
+            #If connection fails
             except Exception as e:
-                print(e)
+                self.isActive = False
+                print("Error in connection to server, connection lost.")
+                input()
+        return
     
     #Process recieved data
     def processData(self, data):
         print("\n" + data + '\n')
 
-Player = Client("Player-" + str(random.randint(0, 100)), SERVER, PORT)
-
 if __name__ == "__main__":
-    PORT = 9999
-    SERVER = '10.5.0.2'
     Player = Client("Player-" + str(random.randint(0, 100)), SERVER, PORT)
     while True:
         data = input("Send data: ")
