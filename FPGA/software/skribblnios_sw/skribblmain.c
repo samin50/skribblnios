@@ -18,6 +18,7 @@
 //Accelerometer setup and filters
 #define SAMPLING_TIME 6
 #define DEMEAN_DEPTH 64
+#define NTAPSIZE 30
 alt_32 x_read; //Usually not needed
 alt_32 y_read; //Pitch
 alt_32 z_read; //Yaw
@@ -112,6 +113,32 @@ void waitForCommand(FILE* fp, char mode, char mode2, char *command, int *arg1, i
 }
 
 //Filtering/accelerometer converter functions
+//Moving average filter
+void nTapFilter(alt_32 x_read, alt_32 y_read, alt_32 z_read, alt_32* xNew, alt_32* yNew, alt_32* zNew, alt_32* filterMemX, alt_32* filterMemY, alt_32* filterMemZ, int* nTapPtr){
+	int totalX = 0;
+	int totalY = 0;
+	int totalZ = 0;
+	int i;
+	filterMemX[*nTapPtr] = x_read;
+	filterMemY[*nTapPtr] = y_read;
+	filterMemZ[*nTapPtr] = z_read;
+	(*nTapPtr)++;
+	if (*nTapPtr == NTAPSIZE) {
+		*nTapPtr = 0;
+	}
+	for(i = 0; i < NTAPSIZE; i++) {
+		if (filterMemX[i] == 0) {
+			break;
+		}
+		totalX += filterMemX[i];
+		totalY += filterMemY[i];
+		totalZ += filterMemZ[i];
+	}
+	*xNew = totalX/i;
+	*yNew = totalY/i;
+	*zNew = totalZ/i;
+}
+
 //works by removing the mean of previous samples from the current sample to acheive filtering effects
 void demeanValues(alt_32 y_read, alt_32 z_read, alt_32* yNew, alt_32* zNew, int* sampleArrayY, int* sampleArrayZ, int* arrPointer) {
 	int runningSumY = 0;
@@ -158,9 +185,13 @@ void eulerAngles(alt_32 x_read, alt_32 y_read, alt_32 z_read, alt_32* xNew, alt_
 void roundLoop(FILE* fp, int roundLength) {
 	//filter parameters
 	int arrPointer = 0;
+	int nTapPtr = 0;
 	int sampleArrayY[DEMEAN_DEPTH] = {0};
 	int sampleArrayZ[DEMEAN_DEPTH] = {0};
-	alt_32 newX, newY, newZ;
+	alt_32 filterMemX[NTAPSIZE] = {0};
+	alt_32 filterMemY[NTAPSIZE] = {0};
+	alt_32 filterMemZ[NTAPSIZE] = {0};
+	alt_32 xNew, yNew, zNew;
 	//Setup
 	clock_t startRoundTime = times(NULL);
 	clock_t sampleTimer = alt_nticks();
@@ -206,9 +237,11 @@ void roundLoop(FILE* fp, int roundLength) {
 			alt_up_accelerometer_spi_read_x_axis(acc_dev, &x_read);
 			alt_up_accelerometer_spi_read_y_axis(acc_dev, &y_read);
 			alt_up_accelerometer_spi_read_z_axis(acc_dev, &z_read);
+			//Filter values
+			nTapFilter(x_read, y_read, z_read, &xNew, &yNew, &zNew, filterMemX, filterMemY, filterMemZ, nTapPtr);
 			//demeanValues(y_read, z_read, &newY, &newZ, sampleArrayY, sampleArrayZ, &arrPointer); //Demean filter
-			eulerAngles(x_read, y_read, z_read, &newX, &newY, &newZ);
-			printf("%d %d\n", newY, newZ);
+			eulerAngles(x_read, y_read, z_read, &xNew, &yNew, &zNew);
+			printf("%d %d\n", yNew, zNew);
 			//printf("%d %d %d\n", x_read, y_read, z_read);
 			sampleTimer = alt_nticks();
 		}
