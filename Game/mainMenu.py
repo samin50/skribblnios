@@ -18,7 +18,7 @@ class mainMenu():
         turquoise = (0,255,239)"""
         #Declare dimensions and background
         self.ip = ""
-        self.port = ""
+        self.ip_port = ""
         self.fpga_connected = False
         self.fpga_box = pygame.Rect(300,300,70,50)
         self.connect_box = pygame.Rect(500,300,100,50)
@@ -39,12 +39,12 @@ class mainMenu():
         self.backgrounds = []
         self.gifTracker = 0
         self.mouse_pos  = pygame.mouse.get_pos()
-        self.ip_box = Textbox("Enter IP") #creating self.ip_box object for the IP
-        self.ip_box.rect.center = (self.width/2,self.height/2) #position of self.ip_box on screen
+        self.username_box = Textbox("Enter Username") #creating self.username_box object for the IP
+        self.username_box.rect.center = (self.width/2,self.height/2) #position of self.username_box on screen
         self.ip_selected = False
-        self.port_box = Textbox("Enter Port") #creating self.ip_box object for the IP
-        self.port_selected = False
-        self.port_box.rect.center = (self.width/2,self.height/1.5) #position of self.ip_box on screen
+        self.ip_port_box = Textbox("Enter IP:Port") #creating self.ip:port object for the IP
+        self.ip_port_selected = False
+        self.ip_port_box.rect.center = (self.width/2,self.height/1.5) #position of self.username_box on screen
 
 
         for i in range(100):
@@ -65,30 +65,30 @@ class mainMenu():
             
             self.display.fill(self.white)
             self.display.blit(self.backgrounds[self.gifTracker],(0,0))
-            pygame.draw.rect(self.display,(255,255,255),(self.ip_box)) #self.ip_box for IP being drawn onto the display
-            pygame.draw.rect(self.display,(255,255,255),(self.port_box)) #self.ip_box for IP being drawn onto the display
+            pygame.draw.rect(self.display,(255,255,255),(self.username_box)) #self.username_box for IP being drawn onto the display
+            pygame.draw.rect(self.display,(255,255,255),(self.ip_port_box)) #self.username_box for IP being drawn onto the display
             if self.fpga_connected:
                 pygame.draw.rect(self.display,(0,250,0),(self.fpga_box)) #box changes colour if not connected to fpga
             else:
                 pygame.draw.rect(self.display,(250,0,0),(self.fpga_box))
 
             pygame.draw.rect(self.display,(0,200,0),(self.connect_box))
-            self.display.blit(self.ip_box.message, self.ip_box.rect)
-            self.display.blit(self.port_box.message, self.port_box.rect)
+            self.display.blit(self.username_box.message, self.username_box.rect)
+            self.display.blit(self.ip_port_box.message, self.ip_port_box.rect)
 
-            if self.ip_box.rect.collidepoint(self.mouse_pos):
-                self.run_text(self.ip_box)
-            elif self.port_box.rect.collidepoint(self.mouse_pos):
-                self.run_text(self.port_box)
+            if self.username_box.rect.collidepoint(self.mouse_pos):
+                self.run_text(self.username_box)
+            elif self.ip_port_box.rect.collidepoint(self.mouse_pos):
+                self.run_text(self.ip_port_box)
             
             elif self.connect_box.collidepoint(self.mouse_pos):
                 for e in pygame.event.get():
                     if e.type == pygame.MOUSEBUTTONDOWN:
                         self.connect_pressed = True
-                        self.ip =self.ip_box.text 
-                        self.port =self.port_box.text
-                        print(self.ip)
-                        print(self.port)
+                        self.username =self.username_box.text 
+                        self.ip_port =self.ip_port_box.text
+                        print(self.username)
+                        print(self.ip_port)
                         print("CONNECTING")
                         #PUT FUNCTION TO CONNECT HERE
             
@@ -125,12 +125,12 @@ class mainMenu():
                     if (box.text) > 0:
                         pygame.display.update(box.rect)
                         print(box.text)'''
-                        #self.received_msgs.append((self.username+":  "+self.ip_box.text))
+                        #self.received_msgs.append((self.username+":  "+self.username_box.text))
                         #print(self.messages)
-                        #self.ip_box = Textbox("Type to chat")
-                        #self.ip_box.rect.center = (1030,500)
+                        #self.username_box = Textbox("Type to chat")
+                        #self.username_box.rect.center = (1030,500)
     #pygame.display.flip()
-    #self.display.blit(self.ip_box.message, self.ip_box.rect)
+    #self.display.blit(self.username_box.message, self.username_box.rect)
         return
 if __name__ == "__main__":
     menu = mainMenu()
