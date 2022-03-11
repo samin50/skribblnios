@@ -5,13 +5,7 @@ class SkribblNIOS():
     #Instantiate only once
     def __init__(self, gameInstance=None):
         self.gameInstance = gameInstance
-        self.Connected = False
-        try:
-            self.UART = intel_jtag_uart.intel_jtag_uart()
-            self.Connected = True
-        except Exception as e:
-            print(e)
-            exit(0)
+        self.UART = intel_jtag_uart.intel_jtag_uart()
         self.isActive = False
         self.sendThread = None
         self.recieveThread = None
@@ -19,9 +13,6 @@ class SkribblNIOS():
     def setGame(self, game):
         self.gameInstance = game
         return
-    
-    def isConnected(self):
-        return self.Connected
     
     #Will be used to change the parameters that is sent to the draw function
     def changeParams(self):

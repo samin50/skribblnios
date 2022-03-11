@@ -71,7 +71,7 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY
  26 .jdi          00004dde  00000000  00000000  000a73a8  2**0
                   CONTENTS, READONLY
- 27 .sopcinfo     0007f801  00000000  00000000  000ac186  2**0
+ 27 .sopcinfo     0007b230  00000000  00000000  000ac186  2**0
                   CONTENTS, READONLY
 SYMBOL TABLE:
 04000000 l    d  .entry	00000000 .entry

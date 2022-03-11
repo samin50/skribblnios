@@ -1,5 +1,5 @@
 Flow report for skribblnios
-Wed Mar 09 02:42:03 2022
+Fri Mar 11 18:32:45 2022
 Quartus Prime Version 18.0.0 Build 614 04/24/2018 SJ Lite Edition
 
 
@@ -40,24 +40,24 @@ refer to the applicable agreement for further details.
 +----------------------------------------------------------------------------------+
 ; Flow Summary                                                                     ;
 +------------------------------------+---------------------------------------------+
-; Flow Status                        ; Successful - Wed Mar 09 02:41:53 2022       ;
+; Flow Status                        ; Successful - Fri Mar 11 18:32:44 2022       ;
 ; Quartus Prime Version              ; 18.0.0 Build 614 04/24/2018 SJ Lite Edition ;
 ; Revision Name                      ; skribblnios                                 ;
 ; Top-level Entity Name              ; DE10_LITE_Golden_Top                        ;
 ; Family                             ; MAX 10                                      ;
 ; Device                             ; 10M50DAF484C7G                              ;
 ; Timing Models                      ; Final                                       ;
-; Total logic elements               ; 4,673 / 49,760 ( 9 % )                      ;
-;     Total combinational functions  ; 4,010 / 49,760 ( 8 % )                      ;
-;     Dedicated logic registers      ; 2,971 / 49,760 ( 6 % )                      ;
-; Total registers                    ; 3040                                        ;
-; Total pins                         ; 185 / 360 ( 51 % )                          ;
+; Total logic elements               ; 5,023                                       ;
+;     Total combinational functions  ; 4,000                                       ;
+;     Dedicated logic registers      ; 3,071                                       ;
+; Total registers                    ; 3071                                        ;
+; Total pins                         ; 185                                         ;
 ; Total virtual pins                 ; 0                                           ;
-; Total memory bits                  ; 481,280 / 1,677,312 ( 29 % )                ;
-; Embedded Multiplier 9-bit elements ; 6 / 288 ( 2 % )                             ;
-; Total PLLs                         ; 1 / 4 ( 25 % )                              ;
-; UFM blocks                         ; 0 / 1 ( 0 % )                               ;
-; ADC blocks                         ; 0 / 2 ( 0 % )                               ;
+; Total memory bits                  ; 481,280                                     ;
+; Embedded Multiplier 9-bit elements ; 6                                           ;
+; Total PLLs                         ; 1                                           ;
+; UFM blocks                         ; 0                                           ;
+; ADC blocks                         ; 0                                           ;
 +------------------------------------+---------------------------------------------+
 
 
@@ -66,7 +66,7 @@ refer to the applicable agreement for further details.
 +-------------------+---------------------+
 ; Option            ; Setting             ;
 +-------------------+---------------------+
-; Start date & time ; 03/09/2022 02:38:04 ;
+; Start date & time ; 03/11/2022 18:27:12 ;
 ; Main task         ; Compilation         ;
 ; Revision Name     ; skribblnios         ;
 +-------------------+---------------------+
@@ -77,7 +77,7 @@ refer to the applicable agreement for further details.
 +-------------------------------------+----------------------------------------+---------------+----------------------+------------+
 ; Assignment Name                     ; Value                                  ; Default Value ; Entity Name          ; Section Id ;
 +-------------------------------------+----------------------------------------+---------------+----------------------+------------+
-; COMPILER_SIGNATURE_ID               ; 2545054224242.164679348424912          ; --            ; --                   ; --         ;
+; COMPILER_SIGNATURE_ID               ; 2545054224242.164702323125888          ; --            ; --                   ; --         ;
 ; MAX_CORE_JUNCTION_TEMP              ; 85                                     ; --            ; --                   ; --         ;
 ; MIN_CORE_JUNCTION_TEMP              ; 0                                      ; --            ; --                   ; --         ;
 ; PARTITION_COLOR                     ; -- (Not supported for targeted family) ; --            ; DE10_LITE_Golden_Top ; Top        ;
@@ -95,11 +95,8 @@ refer to the applicable agreement for further details.
 +----------------------+--------------+-------------------------+---------------------+------------------------------------+
 ; Module Name          ; Elapsed Time ; Average Processors Used ; Peak Virtual Memory ; Total CPU Time (on all processors) ;
 +----------------------+--------------+-------------------------+---------------------+------------------------------------+
-; Analysis & Synthesis ; 00:02:55     ; 1.0                     ; 5031 MB             ; 00:03:22                           ;
-; Fitter               ; 00:00:40     ; 1.6                     ; 6309 MB             ; 00:01:13                           ;
-; Assembler            ; 00:00:04     ; 1.0                     ; 4707 MB             ; 00:00:04                           ;
-; Timing Analyzer      ; 00:00:09     ; 2.6                     ; 4986 MB             ; 00:00:18                           ;
-; Total                ; 00:03:48     ; --                      ; --                  ; 00:04:57                           ;
+; Analysis & Synthesis ; 00:05:27     ; 1.0                     ; 5043 MB             ; 00:05:59                           ;
+; Total                ; 00:05:27     ; --                      ; --                  ; 00:05:59                           ;
 +----------------------+--------------+-------------------------+---------------------+------------------------------------+
 
 
@@ -109,9 +106,6 @@ refer to the applicable agreement for further details.
 ; Module Name          ; Machine Hostname ; OS Name    ; OS Version ; Processor type ;
 +----------------------+------------------+------------+------------+----------------+
 ; Analysis & Synthesis ; Shaheens-Legion  ; Windows 10 ; 10.0       ; x86_64         ;
-; Fitter               ; Shaheens-Legion  ; Windows 10 ; 10.0       ; x86_64         ;
-; Assembler            ; Shaheens-Legion  ; Windows 10 ; 10.0       ; x86_64         ;
-; Timing Analyzer      ; Shaheens-Legion  ; Windows 10 ; 10.0       ; x86_64         ;
 +----------------------+------------------+------------+------------+----------------+
 
 
@@ -119,9 +113,6 @@ refer to the applicable agreement for further details.
 ; Flow Log ;
 ------------
 quartus_map --read_settings_files=on --write_settings_files=off skribblnios -c skribblnios
-quartus_fit --read_settings_files=off --write_settings_files=off skribblnios -c skribblnios
-quartus_asm --read_settings_files=off --write_settings_files=off skribblnios -c skribblnios
-quartus_sta skribblnios -c skribblnios
 
 
 
