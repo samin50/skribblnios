@@ -1,5 +1,6 @@
 __pycache__
 .vscode
+.DS_STORE
 FPGA/*
 FPGA/db/*
 !*.py
