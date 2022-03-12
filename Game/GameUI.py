@@ -44,6 +44,23 @@ class Game():
         self.draw_blit = False
         self.erase = False
 
+#switches:
+        self.off_switch_imgs = [
+        (pygame.image.load("Game/assets/switches/1.png")),(pygame.image.load("Game/assets/switches/2.png")),
+        (pygame.image.load("Game/assets/switches/3.png")), (pygame.image.load("Game/assets/switches/7.png")),
+        (pygame.image.load("Game/assets/switches/8.png")), (pygame.image.load("Game/assets/switches/9.png")),
+        (pygame.image.load("Game/assets/switches/13.png")), (pygame.image.load("Game/assets/switches/14.png")),
+        (pygame.image.load("Game/assets/switches/15.png"))
+        ]
+
+        self.off_switch_imgs = [
+        (pygame.image.load("Game/assets/switches/4.png")),(pygame.image.load("Game/assets/switches/5.png")),
+        (pygame.image.load("Game/assets/switches/6.png")), (pygame.image.load("Game/assets/switches/10.png")),
+        (pygame.image.load("Game/assets/switches/11.png")), (pygame.image.load("Game/assets/switches/12.png")),
+        (pygame.image.load("Game/assets/switches/16.png")), (pygame.image.load("Game/assets/switches/17.png")),
+        (pygame.image.load("Game/assets/switches/18.png"))
+        ]
+
 #chatbox:
         self.chatbox = pygame.Rect(self.width/5,self.height/2,self.canvas_width/2.3,self.canvas_height)
         self.messages = []
@@ -77,7 +94,6 @@ class Game():
         for i in range(len(self.colours)):
             for j in range(len(self.colours[i])):
                 self.colours[i][j] = random.randint(0,1)
-
 
     def mouse_down(self,draw):
         for event in self.events:
@@ -152,8 +168,9 @@ class Game():
                             print(self.messages)
                             textbox = Textbox("Type to chat")
                             textbox.rect.center = (1030,500)
-                            
                             self.refresh_textbox(textbox)
+                    if e.type == pygame.QUIT:
+                        pygame.quit()
 
 
 
@@ -189,10 +206,14 @@ class Game():
         #pygame.mixer.music.play(-1)
         self.background=pygame.transform.scale(self.background,(self.width,self.height))
         self.display.blit(self.background,(0,0))
+#switches:
+        self. display.blit(self.off_switch_imgs[0],(0,0))
         
         pygame.draw.rect(self.display,(255,255,245),(self.canvas))
-        chat_thread = threading.Thread(target=self.typing, args=(self.display,)) #daemon thread since it's running in the background
+        chat_thread = threading.Thread(target=self.typing, args=(self.display,),daemon=True) #daemon thread so it will terminate when master thread quits
         chat_thread.start() #starts a new thread for the chat window
+        
+        
 
         #start_new_thread(self.typing,(self.display,)) old threading function - outdated
 
