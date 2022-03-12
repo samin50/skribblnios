@@ -75,7 +75,18 @@ module DE10_LITE_Golden_Top(
 //  Structural coding
 //=======================================================
 	NIOSSystem u0 (
-		.clk_clk                                            	(MAX10_CLK2_50),
+		.clk_clk                           							(MAX10_CLK2_50), 
+      .reset_reset_n                    							(1'b1), 
+		.clk_sdram_clk														(DRAM_CLK), 
+	   .sdram_wire_addr													(DRAM_ADDR),         
+		.sdram_wire_ba														(DRAM_BA),               
+		.sdram_wire_cas_n													(DRAM_CAS_N),         
+		.sdram_wire_cke													(DRAM_CKE),          
+		.sdram_wire_cs_n													(DRAM_CS_N),          
+		.sdram_wire_dq														(DRAM_DQ),                
+		.sdram_wire_dqm													({DRAM_UDQM,DRAM_LDQM}),  
+		.sdram_wire_ras_n													(DRAM_RAS_N),              
+		.sdram_wire_we_n													(DRAM_WE_N),           
 		.accelerometer_spi_external_interface_I2C_SDAT      	(GSENSOR_SDI),
 		.accelerometer_spi_external_interface_I2C_SCLK      	(GSENSOR_SCLK),
 		.accelerometer_spi_external_interface_G_SENSOR_CS_N 	(GSENSOR_CS_N),
