@@ -154,7 +154,9 @@ class mainMenu():
             #return
         #Attempt to connect to server
         connectionData = ip.split(":")
+        #username = "name"
         #ConnectionData[0] = "IPHERE"
+        #ConnectionData[1] = "PORT"
         try:
             self.Client = Client.Client(username, connectionData[0], int(connectionData[1]))
         except:
