@@ -31,8 +31,9 @@ class Textbox(pygame.sprite.Sprite):
     self.rect = self.message.get_rect()
     self.rect.center = old_rect_pos
 class Game():
-    def __init__(self,username, FPGAinstance=None):
+    def __init__(self,username, FPGAinstance=None, clientInstance=None):
         self.FPGA = FPGAinstance
+        self.Client = clientInstance
         pygame.init()
         self.run = False
         self.round_end = False
