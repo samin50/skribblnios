@@ -1209,3 +1209,1570 @@ Info: Building ../skribblnios_sw_bsp/
 C:/intelFPGA_lite/18.0/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../skribblnios_sw_bsp/
 [BSP build complete]
 [skribblnios_sw build complete]
+23:42:42 **** Build of configuration Nios II for project skribblnios_sw ****
+make all 
+Info: Building ../skribblnios_sw_bsp/
+C:/intelFPGA_lite/18.0/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../skribblnios_sw_bsp/
+[BSP build complete]
+Info: Compiling skribblmain.c to obj/default/skribblmain.o
+nios2-elf-gcc -xc -MP -MMD -c -I../skribblnios_sw_bsp//HAL/inc -I../skribblnios_sw_bsp/ -I../skribblnios_sw_bsp//drivers/inc  -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall   -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global  -o obj/default/skribblmain.o skribblmain.c
+skribblmain.c: In function 'eulerAngles':
+skribblmain.c:180:15: warning: implicit declaration of function 'atan' [-Wimplicit-function-declaration]
+  *yNew = (180*atan(yVal/(sqrt(x2+z2))))/PI;
+               ^
+skribblmain.c:180:15: warning: incompatible implicit declaration of built-in function 'atan'
+skribblmain.c:180:15: note: include '<math.h>' or provide a declaration of 'atan'
+skribblmain.c:180:26: warning: implicit declaration of function 'sqrt' [-Wimplicit-function-declaration]
+  *yNew = (180*atan(yVal/(sqrt(x2+z2))))/PI;
+                          ^
+skribblmain.c:180:26: warning: incompatible implicit declaration of built-in function 'sqrt'
+skribblmain.c:180:26: note: include '<math.h>' or provide a declaration of 'sqrt'
+skribblmain.c: In function 'roundLoop':
+skribblmain.c:241:96: warning: passing argument 10 of 'nTapFilter' makes pointer from integer without a cast [-Wint-conversion]
+    nTapFilter(x_read, y_read, z_read, &xNew, &yNew, &zNew, filterMemX, filterMemY, filterMemZ, nTapPtr);
+                                                                                                ^
+skribblmain.c:117:6: note: expected 'int *' but argument is of type 'int'
+ void nTapFilter(alt_32 x_read, alt_32 y_read, alt_32 z_read, alt_32* xNew, alt_32* yNew, alt_32* zNew, alt_32* filterMemX, alt_32* filterMemY, alt_32* filterMemZ, int* nTapPtr){
+      ^
+skribblmain.c:244:11: warning: format '%d' expects argument of type 'int', but argument 2 has type 'alt_32 {aka long int}' [-Wformat=]
+    printf("%d %d\n", yNew, zNew);
+           ^
+skribblmain.c:244:11: warning: format '%d' expects argument of type 'int', but argument 3 has type 'alt_32 {aka long int}' [-Wformat=]
+skribblmain.c:244:11: warning: format '%d' expects argument of type 'int', but argument 2 has type 'alt_32 {aka long int}' [-Wformat=]
+skribblmain.c:244:11: warning: format '%d' expects argument of type 'int', but argument 3 has type 'alt_32 {aka long int}' [-Wformat=]
+skribblmain.c:190:6: warning: unused variable 'sampleArrayZ' [-Wunused-variable]
+  int sampleArrayZ[DEMEAN_DEPTH] = {0};
+      ^
+skribblmain.c:189:6: warning: unused variable 'sampleArrayY' [-Wunused-variable]
+  int sampleArrayY[DEMEAN_DEPTH] = {0};
+      ^
+skribblmain.c:187:6: warning: unused variable 'arrPointer' [-Wunused-variable]
+  int arrPointer = 0;
+      ^
+skribblmain.c: In function 'main':
+skribblmain.c:289:11: warning: passing argument 1 of 'sprintf' from incompatible pointer type [-Wincompatible-pointer-types]
+   sprintf(scoreStr, "%d-%d", arg1, arg2); //Build score str
+           ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\stdio.h:258:5: note: expected 'char * restrict' but argument is of type 'char **'
+ int _EXFUN(sprintf, (char *__restrict, const char *__restrict, ...)
+     ^
+skribblmain.c:290:14: warning: passing argument 1 of 'writeScore' from incompatible pointer type [-Wincompatible-pointer-types]
+   writeScore(scoreStr);
+              ^
+skribblmain.c:69:6: note: expected 'char *' but argument is of type 'char **'
+ void writeScore(char* scoreStr) {
+      ^
+skribblmain.c:274:6: warning: variable 'roundLength' set but not used [-Wunused-but-set-variable]
+  int roundLength, arg1, arg2;
+      ^
+Info: Linking skribblnios_sw.elf
+nios2-elf-g++  -T'../skribblnios_sw_bsp//linker.x' -msys-crt0='../skribblnios_sw_bsp//obj/HAL/src/crt0.o' -msys-lib=hal_bsp -L../skribblnios_sw_bsp/   -Wl,-Map=skribblnios_sw.map   -O0 -g -Wall   -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global  -o skribblnios_sw.elf obj/default/skribblmain.o -lm -msys-lib=m
+nios2-elf-insert skribblnios_sw.elf --thread_model hal --cpu_name cpu --qsys true --simulation_enabled false --stderr_dev jtag_uart --stdin_dev jtag_uart --stdout_dev jtag_uart --sopc_system_name NIOSSystem --quartus_project_dir "C:/Users/Shaheen/Documents/InformationProcessing/PROJECT/skribblnios/FPGA" --jdi ../..//output_files/skribblnios.jdi --sopcinfo C:/Users/Shaheen/Documents/InformationProcessing/PROJECT/skribblnios/FPGA/software/skribblnios_sw_bsp/../../NIOSSystem.sopcinfo
+Info: (skribblnios_sw.elf) 114 KBytes program size (code + initialized data).
+Info:                      65414 KBytes free for stack + heap.
+Info: Creating skribblnios_sw.objdump
+nios2-elf-objdump --disassemble --syms --all-header --source skribblnios_sw.elf >skribblnios_sw.objdump
+[skribblnios_sw build complete]
+23:42:50 **** Incremental Build of configuration Nios II for project skribblnios_sw ****
+make all 
+Info: Building ../skribblnios_sw_bsp/
+C:/intelFPGA_lite/18.0/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../skribblnios_sw_bsp/
+[BSP build complete]
+[skribblnios_sw build complete]
+23:43:49 **** Build of configuration Nios II for project skribblnios_sw ****
+make all 
+Info: Building ../skribblnios_sw_bsp/
+C:/intelFPGA_lite/18.0/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../skribblnios_sw_bsp/
+[BSP build complete]
+[skribblnios_sw build complete]
+23:43:52 **** Incremental Build of configuration Nios II for project skribblnios_sw ****
+make all 
+Info: Building ../skribblnios_sw_bsp/
+C:/intelFPGA_lite/18.0/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../skribblnios_sw_bsp/
+[BSP build complete]
+[skribblnios_sw build complete]
+23:44:52 **** Build of configuration Nios II for project skribblnios_sw ****
+make all 
+Info: Building ../skribblnios_sw_bsp/
+C:/intelFPGA_lite/18.0/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../skribblnios_sw_bsp/
+[BSP build complete]
+[skribblnios_sw build complete]
+23:44:55 **** Incremental Build of configuration Nios II for project skribblnios_sw ****
+make all 
+Info: Building ../skribblnios_sw_bsp/
+C:/intelFPGA_lite/18.0/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../skribblnios_sw_bsp/
+[BSP build complete]
+[skribblnios_sw build complete]
+23:46:35 **** Build of configuration Nios II for project skribblnios_sw ****
+make all 
+Info: Building ../skribblnios_sw_bsp/
+C:/intelFPGA_lite/18.0/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../skribblnios_sw_bsp/
+[BSP build complete]
+Info: Compiling skribblmain.c to obj/default/skribblmain.o
+nios2-elf-gcc -xc -MP -MMD -c -I../skribblnios_sw_bsp//HAL/inc -I../skribblnios_sw_bsp/ -I../skribblnios_sw_bsp//drivers/inc  -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall   -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global  -o obj/default/skribblmain.o skribblmain.c
+skribblmain.c: In function 'eulerAngles':
+skribblmain.c:180:15: warning: implicit declaration of function 'atan' [-Wimplicit-function-declaration]
+  *yNew = (180*atan(yVal/(sqrt(x2+z2))))/PI;
+               ^
+skribblmain.c:180:15: warning: incompatible implicit declaration of built-in function 'atan'
+skribblmain.c:180:15: note: include '<math.h>' or provide a declaration of 'atan'
+skribblmain.c:180:26: warning: implicit declaration of function 'sqrt' [-Wimplicit-function-declaration]
+  *yNew = (180*atan(yVal/(sqrt(x2+z2))))/PI;
+                          ^
+skribblmain.c:180:26: warning: incompatible implicit declaration of built-in function 'sqrt'
+skribblmain.c:180:26: note: include '<math.h>' or provide a declaration of 'sqrt'
+skribblmain.c: In function 'roundLoop':
+skribblmain.c:241:96: warning: passing argument 10 of 'nTapFilter' makes pointer from integer without a cast [-Wint-conversion]
+    nTapFilter(x_read, y_read, z_read, &xNew, &yNew, &zNew, filterMemX, filterMemY, filterMemZ, nTapPtr);
+                                                                                                ^
+skribblmain.c:117:6: note: expected 'int *' but argument is of type 'int'
+ void nTapFilter(alt_32 x_read, alt_32 y_read, alt_32 z_read, alt_32* xNew, alt_32* yNew, alt_32* zNew, alt_32* filterMemX, alt_32* filterMemY, alt_32* filterMemZ, int* nTapPtr){
+      ^
+skribblmain.c:244:11: warning: format '%d' expects argument of type 'int', but argument 2 has type 'alt_32 {aka long int}' [-Wformat=]
+    printf("%d %d\n", yNew, zNew);
+           ^
+skribblmain.c:244:11: warning: format '%d' expects argument of type 'int', but argument 3 has type 'alt_32 {aka long int}' [-Wformat=]
+skribblmain.c:244:11: warning: format '%d' expects argument of type 'int', but argument 2 has type 'alt_32 {aka long int}' [-Wformat=]
+skribblmain.c:244:11: warning: format '%d' expects argument of type 'int', but argument 3 has type 'alt_32 {aka long int}' [-Wformat=]
+skribblmain.c:190:6: warning: unused variable 'sampleArrayZ' [-Wunused-variable]
+  int sampleArrayZ[DEMEAN_DEPTH] = {0};
+      ^
+skribblmain.c:189:6: warning: unused variable 'sampleArrayY' [-Wunused-variable]
+  int sampleArrayY[DEMEAN_DEPTH] = {0};
+      ^
+skribblmain.c:187:6: warning: unused variable 'arrPointer' [-Wunused-variable]
+  int arrPointer = 0;
+      ^
+skribblmain.c: In function 'main':
+skribblmain.c:289:11: warning: passing argument 1 of 'sprintf' from incompatible pointer type [-Wincompatible-pointer-types]
+   sprintf(scoreStr, "%d-%d", arg1, arg2); //Build score str
+           ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\stdio.h:258:5: note: expected 'char * restrict' but argument is of type 'char **'
+ int _EXFUN(sprintf, (char *__restrict, const char *__restrict, ...)
+     ^
+skribblmain.c:290:14: warning: passing argument 1 of 'writeScore' from incompatible pointer type [-Wincompatible-pointer-types]
+   writeScore(scoreStr);
+              ^
+skribblmain.c:69:6: note: expected 'char *' but argument is of type 'char **'
+ void writeScore(char* scoreStr) {
+      ^
+skribblmain.c:274:6: warning: variable 'roundLength' set but not used [-Wunused-but-set-variable]
+  int roundLength, arg1, arg2;
+      ^
+Info: Linking skribblnios_sw.elf
+nios2-elf-g++  -T'../skribblnios_sw_bsp//linker.x' -msys-crt0='../skribblnios_sw_bsp//obj/HAL/src/crt0.o' -msys-lib=hal_bsp -L../skribblnios_sw_bsp/   -Wl,-Map=skribblnios_sw.map   -O0 -g -Wall   -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global  -o skribblnios_sw.elf obj/default/skribblmain.o -lm -msys-lib=m
+nios2-elf-insert skribblnios_sw.elf --thread_model hal --cpu_name cpu --qsys true --simulation_enabled false --stderr_dev jtag_uart --stdin_dev jtag_uart --stdout_dev jtag_uart --sopc_system_name NIOSSystem --quartus_project_dir "C:/Users/Shaheen/Documents/InformationProcessing/PROJECT/skribblnios/FPGA" --jdi ../..//output_files/skribblnios.jdi --sopcinfo C:/Users/Shaheen/Documents/InformationProcessing/PROJECT/skribblnios/FPGA/software/skribblnios_sw_bsp/../../NIOSSystem.sopcinfo
+Info: (skribblnios_sw.elf) 114 KBytes program size (code + initialized data).
+Info:                      65414 KBytes free for stack + heap.
+Info: Creating skribblnios_sw.objdump
+nios2-elf-objdump --disassemble --syms --all-header --source skribblnios_sw.elf >skribblnios_sw.objdump
+[skribblnios_sw build complete]
+23:46:41 **** Incremental Build of configuration Nios II for project skribblnios_sw ****
+make all 
+Info: Building ../skribblnios_sw_bsp/
+C:/intelFPGA_lite/18.0/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../skribblnios_sw_bsp/
+[BSP build complete]
+[skribblnios_sw build complete]
+00:03:19 **** Build of configuration Nios II for project skribblnios_sw ****
+make all 
+Info: Building ../skribblnios_sw_bsp/
+C:/intelFPGA_lite/18.0/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../skribblnios_sw_bsp/
+[BSP build complete]
+Info: Compiling skribblmain.c to obj/default/skribblmain.o
+nios2-elf-gcc -xc -MP -MMD -c -I../skribblnios_sw_bsp//HAL/inc -I../skribblnios_sw_bsp/ -I../skribblnios_sw_bsp//drivers/inc  -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall   -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global  -o obj/default/skribblmain.o skribblmain.c
+skribblmain.c: In function 'eulerAngles':
+skribblmain.c:180:15: warning: implicit declaration of function 'atan' [-Wimplicit-function-declaration]
+  *yNew = (180*atan(yVal/(sqrt(x2+z2))))/PI;
+               ^
+skribblmain.c:180:15: warning: incompatible implicit declaration of built-in function 'atan'
+skribblmain.c:180:15: note: include '<math.h>' or provide a declaration of 'atan'
+skribblmain.c:180:26: warning: implicit declaration of function 'sqrt' [-Wimplicit-function-declaration]
+  *yNew = (180*atan(yVal/(sqrt(x2+z2))))/PI;
+                          ^
+skribblmain.c:180:26: warning: incompatible implicit declaration of built-in function 'sqrt'
+skribblmain.c:180:26: note: include '<math.h>' or provide a declaration of 'sqrt'
+skribblmain.c: In function 'roundLoop':
+skribblmain.c:241:96: warning: passing argument 10 of 'nTapFilter' makes pointer from integer without a cast [-Wint-conversion]
+    nTapFilter(x_read, y_read, z_read, &xNew, &yNew, &zNew, filterMemX, filterMemY, filterMemZ, nTapPtr);
+                                                                                                ^
+skribblmain.c:117:6: note: expected 'int *' but argument is of type 'int'
+ void nTapFilter(alt_32 x_read, alt_32 y_read, alt_32 z_read, alt_32* xNew, alt_32* yNew, alt_32* zNew, alt_32* filterMemX, alt_32* filterMemY, alt_32* filterMemZ, int* nTapPtr){
+      ^
+skribblmain.c:244:11: warning: format '%d' expects argument of type 'int', but argument 2 has type 'alt_32 {aka long int}' [-Wformat=]
+    printf("%d %d\n", yNew, zNew);
+           ^
+skribblmain.c:244:11: warning: format '%d' expects argument of type 'int', but argument 3 has type 'alt_32 {aka long int}' [-Wformat=]
+skribblmain.c:244:11: warning: format '%d' expects argument of type 'int', but argument 2 has type 'alt_32 {aka long int}' [-Wformat=]
+skribblmain.c:244:11: warning: format '%d' expects argument of type 'int', but argument 3 has type 'alt_32 {aka long int}' [-Wformat=]
+skribblmain.c:190:6: warning: unused variable 'sampleArrayZ' [-Wunused-variable]
+  int sampleArrayZ[DEMEAN_DEPTH] = {0};
+      ^
+skribblmain.c:189:6: warning: unused variable 'sampleArrayY' [-Wunused-variable]
+  int sampleArrayY[DEMEAN_DEPTH] = {0};
+      ^
+skribblmain.c:187:6: warning: unused variable 'arrPointer' [-Wunused-variable]
+  int arrPointer = 0;
+      ^
+skribblmain.c: In function 'main':
+skribblmain.c:289:11: warning: passing argument 1 of 'sprintf' from incompatible pointer type [-Wincompatible-pointer-types]
+   sprintf(scoreStr, "%d-%d", arg1, arg2); //Build score str
+           ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\stdio.h:258:5: note: expected 'char * restrict' but argument is of type 'char **'
+ int _EXFUN(sprintf, (char *__restrict, const char *__restrict, ...)
+     ^
+skribblmain.c:290:14: warning: passing argument 1 of 'writeScore' from incompatible pointer type [-Wincompatible-pointer-types]
+   writeScore(scoreStr);
+              ^
+skribblmain.c:69:6: note: expected 'char *' but argument is of type 'char **'
+ void writeScore(char* scoreStr) {
+      ^
+skribblmain.c:274:6: warning: variable 'roundLength' set but not used [-Wunused-but-set-variable]
+  int roundLength, arg1, arg2;
+      ^
+Info: Linking skribblnios_sw.elf
+nios2-elf-g++  -T'../skribblnios_sw_bsp//linker.x' -msys-crt0='../skribblnios_sw_bsp//obj/HAL/src/crt0.o' -msys-lib=hal_bsp -L../skribblnios_sw_bsp/   -Wl,-Map=skribblnios_sw.map   -O0 -g -Wall   -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global  -o skribblnios_sw.elf obj/default/skribblmain.o -lm -msys-lib=m
+nios2-elf-insert skribblnios_sw.elf --thread_model hal --cpu_name cpu --qsys true --simulation_enabled false --stderr_dev jtag_uart --stdin_dev jtag_uart --stdout_dev jtag_uart --sopc_system_name NIOSSystem --quartus_project_dir "C:/Users/Shaheen/Documents/InformationProcessing/PROJECT/skribblnios/FPGA" --jdi ../..//output_files/skribblnios.jdi --sopcinfo C:/Users/Shaheen/Documents/InformationProcessing/PROJECT/skribblnios/FPGA/software/skribblnios_sw_bsp/../../NIOSSystem.sopcinfo
+Info: (skribblnios_sw.elf) 114 KBytes program size (code + initialized data).
+Info:                      65414 KBytes free for stack + heap.
+Info: Creating skribblnios_sw.objdump
+nios2-elf-objdump --disassemble --syms --all-header --source skribblnios_sw.elf >skribblnios_sw.objdump
+[skribblnios_sw build complete]
+00:03:25 **** Incremental Build of configuration Nios II for project skribblnios_sw ****
+make all 
+Info: Building ../skribblnios_sw_bsp/
+C:/intelFPGA_lite/18.0/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../skribblnios_sw_bsp/
+[BSP build complete]
+[skribblnios_sw build complete]
+18:02:14 **** Build of configuration Nios II for project skribblnios_sw ****
+make all 
+Info: Building ../skribblnios_sw_bsp/
+C:/intelFPGA_lite/18.0/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../skribblnios_sw_bsp/
+[BSP build complete]
+[skribblnios_sw build complete]
+18:02:31 **** Incremental Build of configuration Nios II for project skribblnios_sw ****
+make all 
+Info: Building ../skribblnios_sw_bsp/
+C:/intelFPGA_lite/18.0/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../skribblnios_sw_bsp/
+[BSP build complete]
+[skribblnios_sw build complete]
+18:19:57 **** Build of configuration Nios II for project skribblnios_sw ****
+make all 
+Info: Building ../skribblnios_sw_bsp/
+C:/intelFPGA_lite/18.0/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../skribblnios_sw_bsp/
+[BSP build complete]
+Info: Compiling skribblmain.c to obj/default/skribblmain.o
+nios2-elf-gcc -xc -MP -MMD -c -I../skribblnios_sw_bsp//HAL/inc -I../skribblnios_sw_bsp/ -I../skribblnios_sw_bsp//drivers/inc  -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall   -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global  -o obj/default/skribblmain.o skribblmain.c
+skribblmain.c: In function 'eulerAngles':
+skribblmain.c:180:15: warning: implicit declaration of function 'atan' [-Wimplicit-function-declaration]
+  *yNew = (180*atan(yVal/(sqrt(x2+z2))))/PI;
+               ^
+skribblmain.c:180:15: warning: incompatible implicit declaration of built-in function 'atan'
+skribblmain.c:180:15: note: include '<math.h>' or provide a declaration of 'atan'
+skribblmain.c:180:26: warning: implicit declaration of function 'sqrt' [-Wimplicit-function-declaration]
+  *yNew = (180*atan(yVal/(sqrt(x2+z2))))/PI;
+                          ^
+skribblmain.c:180:26: warning: incompatible implicit declaration of built-in function 'sqrt'
+skribblmain.c:180:26: note: include '<math.h>' or provide a declaration of 'sqrt'
+skribblmain.c: In function 'roundLoop':
+skribblmain.c:242:96: warning: passing argument 10 of 'nTapFilter' makes pointer from integer without a cast [-Wint-conversion]
+    nTapFilter(x_read, y_read, z_read, &xNew, &yNew, &zNew, filterMemX, filterMemY, filterMemZ, nTapPtr);
+                                                                                                ^
+skribblmain.c:117:6: note: expected 'int *' but argument is of type 'int'
+ void nTapFilter(alt_32 x_read, alt_32 y_read, alt_32 z_read, alt_32* xNew, alt_32* yNew, alt_32* zNew, alt_32* filterMemX, alt_32* filterMemY, alt_32* filterMemZ, int* nTapPtr){
+      ^
+skribblmain.c:190:6: warning: unused variable 'sampleArrayZ' [-Wunused-variable]
+  int sampleArrayZ[DEMEAN_DEPTH] = {0};
+      ^
+skribblmain.c:189:6: warning: unused variable 'sampleArrayY' [-Wunused-variable]
+  int sampleArrayY[DEMEAN_DEPTH] = {0};
+      ^
+skribblmain.c:187:6: warning: unused variable 'arrPointer' [-Wunused-variable]
+  int arrPointer = 0;
+      ^
+skribblmain.c: In function 'main':
+skribblmain.c:290:11: warning: passing argument 1 of 'sprintf' from incompatible pointer type [-Wincompatible-pointer-types]
+   sprintf(scoreStr, "%d-%d", arg1, arg2); //Build score str
+           ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\stdio.h:258:5: note: expected 'char * restrict' but argument is of type 'char **'
+ int _EXFUN(sprintf, (char *__restrict, const char *__restrict, ...)
+     ^
+skribblmain.c:291:14: warning: passing argument 1 of 'writeScore' from incompatible pointer type [-Wincompatible-pointer-types]
+   writeScore(scoreStr);
+              ^
+skribblmain.c:69:6: note: expected 'char *' but argument is of type 'char **'
+ void writeScore(char* scoreStr) {
+      ^
+skribblmain.c:275:6: warning: variable 'roundLength' set but not used [-Wunused-but-set-variable]
+  int roundLength, arg1, arg2;
+      ^
+Info: Linking skribblnios_sw.elf
+nios2-elf-g++  -T'../skribblnios_sw_bsp//linker.x' -msys-crt0='../skribblnios_sw_bsp//obj/HAL/src/crt0.o' -msys-lib=hal_bsp -L../skribblnios_sw_bsp/   -Wl,-Map=skribblnios_sw.map   -O0 -g -Wall   -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global  -o skribblnios_sw.elf obj/default/skribblmain.o -lm -msys-lib=m
+nios2-elf-insert skribblnios_sw.elf --thread_model hal --cpu_name cpu --qsys true --simulation_enabled false --stderr_dev jtag_uart --stdin_dev jtag_uart --stdout_dev jtag_uart --sopc_system_name NIOSSystem --quartus_project_dir "C:/Users/Shaheen/Documents/InformationProcessing/PROJECT/skribblnios/FPGA" --jdi ../..//output_files/skribblnios.jdi --sopcinfo C:/Users/Shaheen/Documents/InformationProcessing/PROJECT/skribblnios/FPGA/software/skribblnios_sw_bsp/../../NIOSSystem.sopcinfo
+Info: (skribblnios_sw.elf) 114 KBytes program size (code + initialized data).
+Info:                      65414 KBytes free for stack + heap.
+Info: Creating skribblnios_sw.objdump
+nios2-elf-objdump --disassemble --syms --all-header --source skribblnios_sw.elf >skribblnios_sw.objdump
+[skribblnios_sw build complete]
+18:20:04 **** Incremental Build of configuration Nios II for project skribblnios_sw ****
+make all 
+Info: Building ../skribblnios_sw_bsp/
+C:/intelFPGA_lite/18.0/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../skribblnios_sw_bsp/
+[BSP build complete]
+[skribblnios_sw build complete]
+18:24:34 **** Build of configuration Nios II for project skribblnios_sw ****
+make all 
+Info: Building ../skribblnios_sw_bsp/
+C:/intelFPGA_lite/18.0/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../skribblnios_sw_bsp/
+[BSP build complete]
+Info: Compiling skribblmain.c to obj/default/skribblmain.o
+nios2-elf-gcc -xc -MP -MMD -c -I../skribblnios_sw_bsp//HAL/inc -I../skribblnios_sw_bsp/ -I../skribblnios_sw_bsp//drivers/inc  -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall   -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global  -o obj/default/skribblmain.o skribblmain.c
+skribblmain.c: In function 'eulerAngles':
+skribblmain.c:180:15: warning: implicit declaration of function 'atan' [-Wimplicit-function-declaration]
+  *yNew = (180*atan(yVal/(sqrt(x2+z2))))/PI;
+               ^
+skribblmain.c:180:15: warning: incompatible implicit declaration of built-in function 'atan'
+skribblmain.c:180:15: note: include '<math.h>' or provide a declaration of 'atan'
+skribblmain.c:180:26: warning: implicit declaration of function 'sqrt' [-Wimplicit-function-declaration]
+  *yNew = (180*atan(yVal/(sqrt(x2+z2))))/PI;
+                          ^
+skribblmain.c:180:26: warning: incompatible implicit declaration of built-in function 'sqrt'
+skribblmain.c:180:26: note: include '<math.h>' or provide a declaration of 'sqrt'
+skribblmain.c: In function 'roundLoop':
+skribblmain.c:211:10: warning: format '%d' expects argument of type 'int', but argument 3 has type 'clock_t {aka long unsigned int}' [-Wformat=]
+   printf("time:%d freq:%d stop:%d start:%d\n", timeRatio, t_freq, stopTime, startRoundTime);
+          ^
+skribblmain.c:211:10: warning: format '%d' expects argument of type 'int', but argument 4 has type 'clock_t {aka long unsigned int}' [-Wformat=]
+skribblmain.c:211:10: warning: format '%d' expects argument of type 'int', but argument 5 has type 'clock_t {aka long unsigned int}' [-Wformat=]
+skribblmain.c:211:10: warning: format '%d' expects argument of type 'int', but argument 3 has type 'clock_t {aka long unsigned int}' [-Wformat=]
+skribblmain.c:211:10: warning: format '%d' expects argument of type 'int', but argument 4 has type 'clock_t {aka long unsigned int}' [-Wformat=]
+skribblmain.c:211:10: warning: format '%d' expects argument of type 'int', but argument 5 has type 'clock_t {aka long unsigned int}' [-Wformat=]
+skribblmain.c:242:96: warning: passing argument 10 of 'nTapFilter' makes pointer from integer without a cast [-Wint-conversion]
+    nTapFilter(x_read, y_read, z_read, &xNew, &yNew, &zNew, filterMemX, filterMemY, filterMemZ, nTapPtr);
+                                                                                                ^
+skribblmain.c:117:6: note: expected 'int *' but argument is of type 'int'
+ void nTapFilter(alt_32 x_read, alt_32 y_read, alt_32 z_read, alt_32* xNew, alt_32* yNew, alt_32* zNew, alt_32* filterMemX, alt_32* filterMemY, alt_32* filterMemZ, int* nTapPtr){
+      ^
+skribblmain.c:190:6: warning: unused variable 'sampleArrayZ' [-Wunused-variable]
+  int sampleArrayZ[DEMEAN_DEPTH] = {0};
+      ^
+skribblmain.c:189:6: warning: unused variable 'sampleArrayY' [-Wunused-variable]
+  int sampleArrayY[DEMEAN_DEPTH] = {0};
+      ^
+skribblmain.c:187:6: warning: unused variable 'arrPointer' [-Wunused-variable]
+  int arrPointer = 0;
+      ^
+skribblmain.c: In function 'main':
+skribblmain.c:290:11: warning: passing argument 1 of 'sprintf' from incompatible pointer type [-Wincompatible-pointer-types]
+   sprintf(scoreStr, "%d-%d", arg1, arg2); //Build score str
+           ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\stdio.h:258:5: note: expected 'char * restrict' but argument is of type 'char **'
+ int _EXFUN(sprintf, (char *__restrict, const char *__restrict, ...)
+     ^
+skribblmain.c:291:14: warning: passing argument 1 of 'writeScore' from incompatible pointer type [-Wincompatible-pointer-types]
+   writeScore(scoreStr);
+              ^
+skribblmain.c:69:6: note: expected 'char *' but argument is of type 'char **'
+ void writeScore(char* scoreStr) {
+      ^
+skribblmain.c:275:6: warning: variable 'roundLength' set but not used [-Wunused-but-set-variable]
+  int roundLength, arg1, arg2;
+      ^
+Info: Linking skribblnios_sw.elf
+nios2-elf-g++  -T'../skribblnios_sw_bsp//linker.x' -msys-crt0='../skribblnios_sw_bsp//obj/HAL/src/crt0.o' -msys-lib=hal_bsp -L../skribblnios_sw_bsp/   -Wl,-Map=skribblnios_sw.map   -O0 -g -Wall   -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global  -o skribblnios_sw.elf obj/default/skribblmain.o -lm -msys-lib=m
+nios2-elf-insert skribblnios_sw.elf --thread_model hal --cpu_name cpu --qsys true --simulation_enabled false --stderr_dev jtag_uart --stdin_dev jtag_uart --stdout_dev jtag_uart --sopc_system_name NIOSSystem --quartus_project_dir "C:/Users/Shaheen/Documents/InformationProcessing/PROJECT/skribblnios/FPGA" --jdi ../..//output_files/skribblnios.jdi --sopcinfo C:/Users/Shaheen/Documents/InformationProcessing/PROJECT/skribblnios/FPGA/software/skribblnios_sw_bsp/../../NIOSSystem.sopcinfo
+Info: (skribblnios_sw.elf) 114 KBytes program size (code + initialized data).
+Info:                      65414 KBytes free for stack + heap.
+Info: Creating skribblnios_sw.objdump
+nios2-elf-objdump --disassemble --syms --all-header --source skribblnios_sw.elf >skribblnios_sw.objdump
+[skribblnios_sw build complete]
+18:24:37 **** Incremental Build of configuration Nios II for project skribblnios_sw ****
+make all 
+Info: Building ../skribblnios_sw_bsp/
+C:/intelFPGA_lite/18.0/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../skribblnios_sw_bsp/
+[BSP build complete]
+[skribblnios_sw build complete]
+18:24:53 **** Build of configuration Nios II for project skribblnios_sw ****
+make all 
+Info: Building ../skribblnios_sw_bsp/
+C:/intelFPGA_lite/18.0/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../skribblnios_sw_bsp/
+[BSP build complete]
+[skribblnios_sw build complete]
+18:24:55 **** Incremental Build of configuration Nios II for project skribblnios_sw ****
+make all 
+Info: Building ../skribblnios_sw_bsp/
+C:/intelFPGA_lite/18.0/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../skribblnios_sw_bsp/
+[BSP build complete]
+[skribblnios_sw build complete]
+18:33:52 **** Build of configuration Nios II for project skribblnios_sw ****
+make all 
+Info: Building ../skribblnios_sw_bsp/
+C:/intelFPGA_lite/18.0/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../skribblnios_sw_bsp/
+[BSP build complete]
+Info: Compiling skribblmain.c to obj/default/skribblmain.o
+nios2-elf-gcc -xc -MP -MMD -c -I../skribblnios_sw_bsp//HAL/inc -I../skribblnios_sw_bsp/ -I../skribblnios_sw_bsp//drivers/inc  -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall   -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global  -o obj/default/skribblmain.o skribblmain.c
+skribblmain.c: In function 'eulerAngles':
+skribblmain.c:180:15: warning: implicit declaration of function 'atan' [-Wimplicit-function-declaration]
+  *yNew = (180*atan(yVal/(sqrt(x2+z2))))/PI;
+               ^
+skribblmain.c:180:15: warning: incompatible implicit declaration of built-in function 'atan'
+skribblmain.c:180:15: note: include '<math.h>' or provide a declaration of 'atan'
+skribblmain.c:180:26: warning: implicit declaration of function 'sqrt' [-Wimplicit-function-declaration]
+  *yNew = (180*atan(yVal/(sqrt(x2+z2))))/PI;
+                          ^
+skribblmain.c:180:26: warning: incompatible implicit declaration of built-in function 'sqrt'
+skribblmain.c:180:26: note: include '<math.h>' or provide a declaration of 'sqrt'
+skribblmain.c: In function 'roundLoop':
+skribblmain.c:211:10: warning: format '%d' expects argument of type 'int', but argument 3 has type 'clock_t {aka long unsigned int}' [-Wformat=]
+   printf("time:%d freq:%d stop:%d start:%d\n", timeRatio, t_freq, stopTime, startRoundTime);
+          ^
+skribblmain.c:211:10: warning: format '%d' expects argument of type 'int', but argument 4 has type 'clock_t {aka long unsigned int}' [-Wformat=]
+skribblmain.c:211:10: warning: format '%d' expects argument of type 'int', but argument 5 has type 'clock_t {aka long unsigned int}' [-Wformat=]
+skribblmain.c:211:10: warning: format '%d' expects argument of type 'int', but argument 3 has type 'clock_t {aka long unsigned int}' [-Wformat=]
+skribblmain.c:211:10: warning: format '%d' expects argument of type 'int', but argument 4 has type 'clock_t {aka long unsigned int}' [-Wformat=]
+skribblmain.c:211:10: warning: format '%d' expects argument of type 'int', but argument 5 has type 'clock_t {aka long unsigned int}' [-Wformat=]
+skribblmain.c:242:96: warning: passing argument 10 of 'nTapFilter' makes pointer from integer without a cast [-Wint-conversion]
+    nTapFilter(x_read, y_read, z_read, &xNew, &yNew, &zNew, filterMemX, filterMemY, filterMemZ, nTapPtr);
+                                                                                                ^
+skribblmain.c:117:6: note: expected 'int *' but argument is of type 'int'
+ void nTapFilter(alt_32 x_read, alt_32 y_read, alt_32 z_read, alt_32* xNew, alt_32* yNew, alt_32* zNew, alt_32* filterMemX, alt_32* filterMemY, alt_32* filterMemZ, int* nTapPtr){
+      ^
+skribblmain.c:190:6: warning: unused variable 'sampleArrayZ' [-Wunused-variable]
+  int sampleArrayZ[DEMEAN_DEPTH] = {0};
+      ^
+skribblmain.c:189:6: warning: unused variable 'sampleArrayY' [-Wunused-variable]
+  int sampleArrayY[DEMEAN_DEPTH] = {0};
+      ^
+skribblmain.c:187:6: warning: unused variable 'arrPointer' [-Wunused-variable]
+  int arrPointer = 0;
+      ^
+skribblmain.c: In function 'main':
+skribblmain.c:269:9: warning: format '%d' expects argument of type 'int', but argument 2 has type 'clock_t {aka long unsigned int}' [-Wformat=]
+  printf("start: %d\n", startRoundTime);
+         ^
+skribblmain.c:269:9: warning: format '%d' expects argument of type 'int', but argument 2 has type 'clock_t {aka long unsigned int}' [-Wformat=]
+skribblmain.c:273:2: warning: implicit declaration of function 'usleep' [-Wimplicit-function-declaration]
+  usleep(10000000);
+  ^
+skribblmain.c:275:9: warning: format '%d' expects argument of type 'int', but argument 2 has type 'clock_t {aka long unsigned int}' [-Wformat=]
+  printf("end: %d\n", stopTime);
+         ^
+skribblmain.c:275:9: warning: format '%d' expects argument of type 'int', but argument 2 has type 'clock_t {aka long unsigned int}' [-Wformat=]
+skribblmain.c:293:11: warning: passing argument 1 of 'sprintf' from incompatible pointer type [-Wincompatible-pointer-types]
+   sprintf(scoreStr, "%d-%d", arg1, arg2); //Build score str
+           ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\stdio.h:258:5: note: expected 'char * restrict' but argument is of type 'char **'
+ int _EXFUN(sprintf, (char *__restrict, const char *__restrict, ...)
+     ^
+skribblmain.c:294:14: warning: passing argument 1 of 'writeScore' from incompatible pointer type [-Wincompatible-pointer-types]
+   writeScore(scoreStr);
+              ^
+skribblmain.c:69:6: note: expected 'char *' but argument is of type 'char **'
+ void writeScore(char* scoreStr) {
+      ^
+skribblmain.c:278:6: warning: variable 'roundLength' set but not used [-Wunused-but-set-variable]
+  int roundLength, arg1, arg2;
+      ^
+skribblmain.c:272:20: warning: unused variable 't_freq' [-Wunused-variable]
+  clock_t stopTime, t_freq;
+                    ^
+skribblmain.c:271:10: warning: unused variable 'secondTimer' [-Wunused-variable]
+  clock_t secondTimer = alt_nticks();
+          ^
+skribblmain.c:270:10: warning: unused variable 'sampleTimer' [-Wunused-variable]
+  clock_t sampleTimer = alt_nticks();
+          ^
+Info: Linking skribblnios_sw.elf
+nios2-elf-g++  -T'../skribblnios_sw_bsp//linker.x' -msys-crt0='../skribblnios_sw_bsp//obj/HAL/src/crt0.o' -msys-lib=hal_bsp -L../skribblnios_sw_bsp/   -Wl,-Map=skribblnios_sw.map   -O0 -g -Wall   -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global  -o skribblnios_sw.elf obj/default/skribblmain.o -lm -msys-lib=m
+nios2-elf-insert skribblnios_sw.elf --thread_model hal --cpu_name cpu --qsys true --simulation_enabled false --stderr_dev jtag_uart --stdin_dev jtag_uart --stdout_dev jtag_uart --sopc_system_name NIOSSystem --quartus_project_dir "C:/Users/Shaheen/Documents/InformationProcessing/PROJECT/skribblnios/FPGA" --jdi ../..//output_files/skribblnios.jdi --sopcinfo C:/Users/Shaheen/Documents/InformationProcessing/PROJECT/skribblnios/FPGA/software/skribblnios_sw_bsp/../../NIOSSystem.sopcinfo
+Info: (skribblnios_sw.elf) 114 KBytes program size (code + initialized data).
+Info:                      65414 KBytes free for stack + heap.
+Info: Creating skribblnios_sw.objdump
+nios2-elf-objdump --disassemble --syms --all-header --source skribblnios_sw.elf >skribblnios_sw.objdump
+[skribblnios_sw build complete]
+18:33:56 **** Incremental Build of configuration Nios II for project skribblnios_sw ****
+make all 
+Info: Building ../skribblnios_sw_bsp/
+C:/intelFPGA_lite/18.0/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../skribblnios_sw_bsp/
+[BSP build complete]
+[skribblnios_sw build complete]
+18:35:46 **** Build of configuration Nios II for project skribblnios_sw ****
+make all 
+Info: Building ../skribblnios_sw_bsp/
+C:/intelFPGA_lite/18.0/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../skribblnios_sw_bsp/
+[BSP build complete]
+Info: Compiling skribblmain.c to obj/default/skribblmain.o
+nios2-elf-gcc -xc -MP -MMD -c -I../skribblnios_sw_bsp//HAL/inc -I../skribblnios_sw_bsp/ -I../skribblnios_sw_bsp//drivers/inc  -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall   -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global  -o obj/default/skribblmain.o skribblmain.c
+skribblmain.c: In function 'eulerAngles':
+skribblmain.c:180:15: warning: implicit declaration of function 'atan' [-Wimplicit-function-declaration]
+  *yNew = (180*atan(yVal/(sqrt(x2+z2))))/PI;
+               ^
+skribblmain.c:180:15: warning: incompatible implicit declaration of built-in function 'atan'
+skribblmain.c:180:15: note: include '<math.h>' or provide a declaration of 'atan'
+skribblmain.c:180:26: warning: implicit declaration of function 'sqrt' [-Wimplicit-function-declaration]
+  *yNew = (180*atan(yVal/(sqrt(x2+z2))))/PI;
+                          ^
+skribblmain.c:180:26: warning: incompatible implicit declaration of built-in function 'sqrt'
+skribblmain.c:180:26: note: include '<math.h>' or provide a declaration of 'sqrt'
+skribblmain.c: In function 'roundLoop':
+skribblmain.c:211:10: warning: format '%d' expects argument of type 'int', but argument 3 has type 'clock_t {aka long unsigned int}' [-Wformat=]
+   printf("time:%d freq:%d stop:%d start:%d\n", timeRatio, t_freq, stopTime, startRoundTime);
+          ^
+skribblmain.c:211:10: warning: format '%d' expects argument of type 'int', but argument 4 has type 'clock_t {aka long unsigned int}' [-Wformat=]
+skribblmain.c:211:10: warning: format '%d' expects argument of type 'int', but argument 5 has type 'clock_t {aka long unsigned int}' [-Wformat=]
+skribblmain.c:211:10: warning: format '%d' expects argument of type 'int', but argument 3 has type 'clock_t {aka long unsigned int}' [-Wformat=]
+skribblmain.c:211:10: warning: format '%d' expects argument of type 'int', but argument 4 has type 'clock_t {aka long unsigned int}' [-Wformat=]
+skribblmain.c:211:10: warning: format '%d' expects argument of type 'int', but argument 5 has type 'clock_t {aka long unsigned int}' [-Wformat=]
+skribblmain.c:242:96: warning: passing argument 10 of 'nTapFilter' makes pointer from integer without a cast [-Wint-conversion]
+    nTapFilter(x_read, y_read, z_read, &xNew, &yNew, &zNew, filterMemX, filterMemY, filterMemZ, nTapPtr);
+                                                                                                ^
+skribblmain.c:117:6: note: expected 'int *' but argument is of type 'int'
+ void nTapFilter(alt_32 x_read, alt_32 y_read, alt_32 z_read, alt_32* xNew, alt_32* yNew, alt_32* zNew, alt_32* filterMemX, alt_32* filterMemY, alt_32* filterMemZ, int* nTapPtr){
+      ^
+skribblmain.c:190:6: warning: unused variable 'sampleArrayZ' [-Wunused-variable]
+  int sampleArrayZ[DEMEAN_DEPTH] = {0};
+      ^
+skribblmain.c:189:6: warning: unused variable 'sampleArrayY' [-Wunused-variable]
+  int sampleArrayY[DEMEAN_DEPTH] = {0};
+      ^
+skribblmain.c:187:6: warning: unused variable 'arrPointer' [-Wunused-variable]
+  int arrPointer = 0;
+      ^
+skribblmain.c: In function 'main':
+skribblmain.c:274:9: warning: format '%d' expects argument of type 'int', but argument 2 has type 'clock_t {aka long unsigned int}' [-Wformat=]
+  printf("start: %d\n", startRoundTime);
+         ^
+skribblmain.c:274:9: warning: format '%d' expects argument of type 'int', but argument 2 has type 'clock_t {aka long unsigned int}' [-Wformat=]
+skribblmain.c:278:2: warning: implicit declaration of function 'usleep' [-Wimplicit-function-declaration]
+  usleep(10000000);
+  ^
+skribblmain.c:280:9: warning: format '%d' expects argument of type 'int', but argument 2 has type 'clock_t {aka long unsigned int}' [-Wformat=]
+  printf("end: %d\n", stopTime);
+         ^
+skribblmain.c:280:9: warning: format '%d' expects argument of type 'int', but argument 2 has type 'clock_t {aka long unsigned int}' [-Wformat=]
+skribblmain.c:298:11: warning: passing argument 1 of 'sprintf' from incompatible pointer type [-Wincompatible-pointer-types]
+   sprintf(scoreStr, "%d-%d", arg1, arg2); //Build score str
+           ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\stdio.h:258:5: note: expected 'char * restrict' but argument is of type 'char **'
+ int _EXFUN(sprintf, (char *__restrict, const char *__restrict, ...)
+     ^
+skribblmain.c:299:14: warning: passing argument 1 of 'writeScore' from incompatible pointer type [-Wincompatible-pointer-types]
+   writeScore(scoreStr);
+              ^
+skribblmain.c:69:6: note: expected 'char *' but argument is of type 'char **'
+ void writeScore(char* scoreStr) {
+      ^
+skribblmain.c:283:6: warning: variable 'roundLength' set but not used [-Wunused-but-set-variable]
+  int roundLength, arg1, arg2;
+      ^
+skribblmain.c:277:20: warning: unused variable 't_freq' [-Wunused-variable]
+  clock_t stopTime, t_freq;
+                    ^
+skribblmain.c:276:10: warning: unused variable 'secondTimer' [-Wunused-variable]
+  clock_t secondTimer = alt_nticks();
+          ^
+skribblmain.c:275:10: warning: unused variable 'sampleTimer' [-Wunused-variable]
+  clock_t sampleTimer = alt_nticks();
+          ^
+Info: Linking skribblnios_sw.elf
+nios2-elf-g++  -T'../skribblnios_sw_bsp//linker.x' -msys-crt0='../skribblnios_sw_bsp//obj/HAL/src/crt0.o' -msys-lib=hal_bsp -L../skribblnios_sw_bsp/   -Wl,-Map=skribblnios_sw.map   -O0 -g -Wall   -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global  -o skribblnios_sw.elf obj/default/skribblmain.o -lm -msys-lib=m
+nios2-elf-insert skribblnios_sw.elf --thread_model hal --cpu_name cpu --qsys true --simulation_enabled false --stderr_dev jtag_uart --stdin_dev jtag_uart --stdout_dev jtag_uart --sopc_system_name NIOSSystem --quartus_project_dir "C:/Users/Shaheen/Documents/InformationProcessing/PROJECT/skribblnios/FPGA" --jdi ../..//output_files/skribblnios.jdi --sopcinfo C:/Users/Shaheen/Documents/InformationProcessing/PROJECT/skribblnios/FPGA/software/skribblnios_sw_bsp/../../NIOSSystem.sopcinfo
+Info: (skribblnios_sw.elf) 114 KBytes program size (code + initialized data).
+Info:                      65414 KBytes free for stack + heap.
+Info: Creating skribblnios_sw.objdump
+nios2-elf-objdump --disassemble --syms --all-header --source skribblnios_sw.elf >skribblnios_sw.objdump
+[skribblnios_sw build complete]
+18:35:49 **** Incremental Build of configuration Nios II for project skribblnios_sw ****
+make all 
+Info: Building ../skribblnios_sw_bsp/
+C:/intelFPGA_lite/18.0/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../skribblnios_sw_bsp/
+[BSP build complete]
+[skribblnios_sw build complete]
+18:38:37 **** Build of configuration Nios II for project skribblnios_sw ****
+make all 
+Info: Building ../skribblnios_sw_bsp/
+C:/intelFPGA_lite/18.0/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../skribblnios_sw_bsp/
+[BSP build complete]
+Info: Compiling skribblmain.c to obj/default/skribblmain.o
+nios2-elf-gcc -xc -MP -MMD -c -I../skribblnios_sw_bsp//HAL/inc -I../skribblnios_sw_bsp/ -I../skribblnios_sw_bsp//drivers/inc  -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall   -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global  -o obj/default/skribblmain.o skribblmain.c
+skribblmain.c: In function 'eulerAngles':
+skribblmain.c:180:15: warning: implicit declaration of function 'atan' [-Wimplicit-function-declaration]
+  *yNew = (180*atan(yVal/(sqrt(x2+z2))))/PI;
+               ^
+skribblmain.c:180:15: warning: incompatible implicit declaration of built-in function 'atan'
+skribblmain.c:180:15: note: include '<math.h>' or provide a declaration of 'atan'
+skribblmain.c:180:26: warning: implicit declaration of function 'sqrt' [-Wimplicit-function-declaration]
+  *yNew = (180*atan(yVal/(sqrt(x2+z2))))/PI;
+                          ^
+skribblmain.c:180:26: warning: incompatible implicit declaration of built-in function 'sqrt'
+skribblmain.c:180:26: note: include '<math.h>' or provide a declaration of 'sqrt'
+skribblmain.c: In function 'roundLoop':
+skribblmain.c:211:10: warning: format '%d' expects argument of type 'int', but argument 3 has type 'clock_t {aka long unsigned int}' [-Wformat=]
+   printf("time:%d freq:%d stop:%d start:%d\n", timeRatio, t_freq, stopTime, startRoundTime);
+          ^
+skribblmain.c:211:10: warning: format '%d' expects argument of type 'int', but argument 4 has type 'clock_t {aka long unsigned int}' [-Wformat=]
+skribblmain.c:211:10: warning: format '%d' expects argument of type 'int', but argument 5 has type 'clock_t {aka long unsigned int}' [-Wformat=]
+skribblmain.c:211:10: warning: format '%d' expects argument of type 'int', but argument 3 has type 'clock_t {aka long unsigned int}' [-Wformat=]
+skribblmain.c:211:10: warning: format '%d' expects argument of type 'int', but argument 4 has type 'clock_t {aka long unsigned int}' [-Wformat=]
+skribblmain.c:211:10: warning: format '%d' expects argument of type 'int', but argument 5 has type 'clock_t {aka long unsigned int}' [-Wformat=]
+skribblmain.c:242:96: warning: passing argument 10 of 'nTapFilter' makes pointer from integer without a cast [-Wint-conversion]
+    nTapFilter(x_read, y_read, z_read, &xNew, &yNew, &zNew, filterMemX, filterMemY, filterMemZ, nTapPtr);
+                                                                                                ^
+skribblmain.c:117:6: note: expected 'int *' but argument is of type 'int'
+ void nTapFilter(alt_32 x_read, alt_32 y_read, alt_32 z_read, alt_32* xNew, alt_32* yNew, alt_32* zNew, alt_32* filterMemX, alt_32* filterMemY, alt_32* filterMemZ, int* nTapPtr){
+      ^
+skribblmain.c:190:6: warning: unused variable 'sampleArrayZ' [-Wunused-variable]
+  int sampleArrayZ[DEMEAN_DEPTH] = {0};
+      ^
+skribblmain.c:189:6: warning: unused variable 'sampleArrayY' [-Wunused-variable]
+  int sampleArrayY[DEMEAN_DEPTH] = {0};
+      ^
+skribblmain.c:187:6: warning: unused variable 'arrPointer' [-Wunused-variable]
+  int arrPointer = 0;
+      ^
+skribblmain.c: In function 'main':
+skribblmain.c:274:9: warning: format '%d' expects argument of type 'int', but argument 2 has type 'clock_t {aka long unsigned int}' [-Wformat=]
+  printf("start: %d\n", startRoundTime);
+         ^
+skribblmain.c:274:9: warning: format '%d' expects argument of type 'int', but argument 2 has type 'clock_t {aka long unsigned int}' [-Wformat=]
+skribblmain.c:278:2: warning: implicit declaration of function 'usleep' [-Wimplicit-function-declaration]
+  usleep(10000000);
+  ^
+skribblmain.c:280:9: warning: format '%d' expects argument of type 'int', but argument 2 has type 'clock_t {aka long unsigned int}' [-Wformat=]
+  printf("end: %d\n", stopTime);
+         ^
+skribblmain.c:280:9: warning: format '%d' expects argument of type 'int', but argument 2 has type 'clock_t {aka long unsigned int}' [-Wformat=]
+skribblmain.c:298:11: warning: passing argument 1 of 'sprintf' from incompatible pointer type [-Wincompatible-pointer-types]
+   sprintf(scoreStr, "%d-%d", arg1, arg2); //Build score str
+           ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\stdio.h:258:5: note: expected 'char * restrict' but argument is of type 'char **'
+ int _EXFUN(sprintf, (char *__restrict, const char *__restrict, ...)
+     ^
+skribblmain.c:299:14: warning: passing argument 1 of 'writeScore' from incompatible pointer type [-Wincompatible-pointer-types]
+   writeScore(scoreStr);
+              ^
+skribblmain.c:69:6: note: expected 'char *' but argument is of type 'char **'
+ void writeScore(char* scoreStr) {
+      ^
+skribblmain.c:283:6: warning: variable 'roundLength' set but not used [-Wunused-but-set-variable]
+  int roundLength, arg1, arg2;
+      ^
+skribblmain.c:277:20: warning: unused variable 't_freq' [-Wunused-variable]
+  clock_t stopTime, t_freq;
+                    ^
+skribblmain.c:276:10: warning: unused variable 'secondTimer' [-Wunused-variable]
+  clock_t secondTimer = alt_nticks();
+          ^
+skribblmain.c:275:10: warning: unused variable 'sampleTimer' [-Wunused-variable]
+  clock_t sampleTimer = alt_nticks();
+          ^
+Info: Linking skribblnios_sw.elf
+nios2-elf-g++  -T'../skribblnios_sw_bsp//linker.x' -msys-crt0='../skribblnios_sw_bsp//obj/HAL/src/crt0.o' -msys-lib=hal_bsp -L../skribblnios_sw_bsp/   -Wl,-Map=skribblnios_sw.map   -O0 -g -Wall   -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global  -o skribblnios_sw.elf obj/default/skribblmain.o -lm -msys-lib=m
+nios2-elf-insert skribblnios_sw.elf --thread_model hal --cpu_name cpu --qsys true --simulation_enabled false --stderr_dev jtag_uart --stdin_dev jtag_uart --stdout_dev jtag_uart --sopc_system_name NIOSSystem --quartus_project_dir "C:/Users/Shaheen/Documents/InformationProcessing/PROJECT/skribblnios/FPGA" --jdi ../..//output_files/skribblnios.jdi --sopcinfo C:/Users/Shaheen/Documents/InformationProcessing/PROJECT/skribblnios/FPGA/software/skribblnios_sw_bsp/../../NIOSSystem.sopcinfo
+Info: (skribblnios_sw.elf) 114 KBytes program size (code + initialized data).
+Info:                      65414 KBytes free for stack + heap.
+Info: Creating skribblnios_sw.objdump
+nios2-elf-objdump --disassemble --syms --all-header --source skribblnios_sw.elf >skribblnios_sw.objdump
+[skribblnios_sw build complete]
+18:38:40 **** Incremental Build of configuration Nios II for project skribblnios_sw ****
+make all 
+Info: Building ../skribblnios_sw_bsp/
+C:/intelFPGA_lite/18.0/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../skribblnios_sw_bsp/
+[BSP build complete]
+[skribblnios_sw build complete]
+18:41:24 **** Build of configuration Nios II for project skribblnios_sw ****
+make all 
+Info: Building ../skribblnios_sw_bsp/
+C:/intelFPGA_lite/18.0/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../skribblnios_sw_bsp/
+[BSP build complete]
+Info: Compiling skribblmain.c to obj/default/skribblmain.o
+nios2-elf-gcc -xc -MP -MMD -c -I../skribblnios_sw_bsp//HAL/inc -I../skribblnios_sw_bsp/ -I../skribblnios_sw_bsp//drivers/inc  -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall   -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global  -o obj/default/skribblmain.o skribblmain.c
+skribblmain.c: In function 'eulerAngles':
+skribblmain.c:180:15: warning: implicit declaration of function 'atan' [-Wimplicit-function-declaration]
+  *yNew = (180*atan(yVal/(sqrt(x2+z2))))/PI;
+               ^
+skribblmain.c:180:15: warning: incompatible implicit declaration of built-in function 'atan'
+skribblmain.c:180:15: note: include '<math.h>' or provide a declaration of 'atan'
+skribblmain.c:180:26: warning: implicit declaration of function 'sqrt' [-Wimplicit-function-declaration]
+  *yNew = (180*atan(yVal/(sqrt(x2+z2))))/PI;
+                          ^
+skribblmain.c:180:26: warning: incompatible implicit declaration of built-in function 'sqrt'
+skribblmain.c:180:26: note: include '<math.h>' or provide a declaration of 'sqrt'
+skribblmain.c: In function 'roundLoop':
+skribblmain.c:211:10: warning: format '%d' expects argument of type 'int', but argument 3 has type 'clock_t {aka long unsigned int}' [-Wformat=]
+   printf("time:%d freq:%d stop:%d start:%d\n", timeRatio, t_freq, stopTime, startRoundTime, roundLength);
+          ^
+skribblmain.c:211:10: warning: format '%d' expects argument of type 'int', but argument 4 has type 'clock_t {aka long unsigned int}' [-Wformat=]
+skribblmain.c:211:10: warning: format '%d' expects argument of type 'int', but argument 5 has type 'clock_t {aka long unsigned int}' [-Wformat=]
+skribblmain.c:211:10: warning: too many arguments for format [-Wformat-extra-args]
+skribblmain.c:211:10: warning: format '%d' expects argument of type 'int', but argument 3 has type 'clock_t {aka long unsigned int}' [-Wformat=]
+skribblmain.c:211:10: warning: format '%d' expects argument of type 'int', but argument 4 has type 'clock_t {aka long unsigned int}' [-Wformat=]
+skribblmain.c:211:10: warning: format '%d' expects argument of type 'int', but argument 5 has type 'clock_t {aka long unsigned int}' [-Wformat=]
+skribblmain.c:211:10: warning: too many arguments for format [-Wformat-extra-args]
+skribblmain.c:242:96: warning: passing argument 10 of 'nTapFilter' makes pointer from integer without a cast [-Wint-conversion]
+    nTapFilter(x_read, y_read, z_read, &xNew, &yNew, &zNew, filterMemX, filterMemY, filterMemZ, nTapPtr);
+                                                                                                ^
+skribblmain.c:117:6: note: expected 'int *' but argument is of type 'int'
+ void nTapFilter(alt_32 x_read, alt_32 y_read, alt_32 z_read, alt_32* xNew, alt_32* yNew, alt_32* zNew, alt_32* filterMemX, alt_32* filterMemY, alt_32* filterMemZ, int* nTapPtr){
+      ^
+skribblmain.c:190:6: warning: unused variable 'sampleArrayZ' [-Wunused-variable]
+  int sampleArrayZ[DEMEAN_DEPTH] = {0};
+      ^
+skribblmain.c:189:6: warning: unused variable 'sampleArrayY' [-Wunused-variable]
+  int sampleArrayY[DEMEAN_DEPTH] = {0};
+      ^
+skribblmain.c:187:6: warning: unused variable 'arrPointer' [-Wunused-variable]
+  int arrPointer = 0;
+      ^
+skribblmain.c: In function 'main':
+skribblmain.c:274:9: warning: format '%d' expects argument of type 'int', but argument 2 has type 'clock_t {aka long unsigned int}' [-Wformat=]
+  printf("start: %d\n", startRoundTime);
+         ^
+skribblmain.c:274:9: warning: format '%d' expects argument of type 'int', but argument 2 has type 'clock_t {aka long unsigned int}' [-Wformat=]
+skribblmain.c:280:9: warning: format '%d' expects argument of type 'int', but argument 2 has type 'clock_t {aka long unsigned int}' [-Wformat=]
+  printf("end: %d\n", stopTime);
+         ^
+skribblmain.c:280:9: warning: format '%d' expects argument of type 'int', but argument 2 has type 'clock_t {aka long unsigned int}' [-Wformat=]
+skribblmain.c:298:11: warning: passing argument 1 of 'sprintf' from incompatible pointer type [-Wincompatible-pointer-types]
+   sprintf(scoreStr, "%d-%d", arg1, arg2); //Build score str
+           ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\stdio.h:258:5: note: expected 'char * restrict' but argument is of type 'char **'
+ int _EXFUN(sprintf, (char *__restrict, const char *__restrict, ...)
+     ^
+skribblmain.c:299:14: warning: passing argument 1 of 'writeScore' from incompatible pointer type [-Wincompatible-pointer-types]
+   writeScore(scoreStr);
+              ^
+skribblmain.c:69:6: note: expected 'char *' but argument is of type 'char **'
+ void writeScore(char* scoreStr) {
+      ^
+skribblmain.c:283:6: warning: variable 'roundLength' set but not used [-Wunused-but-set-variable]
+  int roundLength, arg1, arg2;
+      ^
+skribblmain.c:277:20: warning: unused variable 't_freq' [-Wunused-variable]
+  clock_t stopTime, t_freq;
+                    ^
+skribblmain.c:276:10: warning: unused variable 'secondTimer' [-Wunused-variable]
+  clock_t secondTimer = alt_nticks();
+          ^
+skribblmain.c:275:10: warning: unused variable 'sampleTimer' [-Wunused-variable]
+  clock_t sampleTimer = alt_nticks();
+          ^
+Info: Linking skribblnios_sw.elf
+nios2-elf-g++  -T'../skribblnios_sw_bsp//linker.x' -msys-crt0='../skribblnios_sw_bsp//obj/HAL/src/crt0.o' -msys-lib=hal_bsp -L../skribblnios_sw_bsp/   -Wl,-Map=skribblnios_sw.map   -O0 -g -Wall   -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global  -o skribblnios_sw.elf obj/default/skribblmain.o -lm -msys-lib=m
+nios2-elf-insert skribblnios_sw.elf --thread_model hal --cpu_name cpu --qsys true --simulation_enabled false --stderr_dev jtag_uart --stdin_dev jtag_uart --stdout_dev jtag_uart --sopc_system_name NIOSSystem --quartus_project_dir "C:/Users/Shaheen/Documents/InformationProcessing/PROJECT/skribblnios/FPGA" --jdi ../..//output_files/skribblnios.jdi --sopcinfo C:/Users/Shaheen/Documents/InformationProcessing/PROJECT/skribblnios/FPGA/software/skribblnios_sw_bsp/../../NIOSSystem.sopcinfo
+Info: (skribblnios_sw.elf) 114 KBytes program size (code + initialized data).
+Info:                      65414 KBytes free for stack + heap.
+Info: Creating skribblnios_sw.objdump
+nios2-elf-objdump --disassemble --syms --all-header --source skribblnios_sw.elf >skribblnios_sw.objdump
+[skribblnios_sw build complete]
+18:41:27 **** Incremental Build of configuration Nios II for project skribblnios_sw ****
+make all 
+Info: Building ../skribblnios_sw_bsp/
+C:/intelFPGA_lite/18.0/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../skribblnios_sw_bsp/
+[BSP build complete]
+[skribblnios_sw build complete]
+18:43:04 **** Build of configuration Nios II for project skribblnios_sw ****
+make all 
+Info: Building ../skribblnios_sw_bsp/
+C:/intelFPGA_lite/18.0/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../skribblnios_sw_bsp/
+[BSP build complete]
+Info: Compiling skribblmain.c to obj/default/skribblmain.o
+nios2-elf-gcc -xc -MP -MMD -c -I../skribblnios_sw_bsp//HAL/inc -I../skribblnios_sw_bsp/ -I../skribblnios_sw_bsp//drivers/inc  -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall   -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global  -o obj/default/skribblmain.o skribblmain.c
+skribblmain.c: In function 'eulerAngles':
+skribblmain.c:180:15: warning: implicit declaration of function 'atan' [-Wimplicit-function-declaration]
+  *yNew = (180*atan(yVal/(sqrt(x2+z2))))/PI;
+               ^
+skribblmain.c:180:15: warning: incompatible implicit declaration of built-in function 'atan'
+skribblmain.c:180:15: note: include '<math.h>' or provide a declaration of 'atan'
+skribblmain.c:180:26: warning: implicit declaration of function 'sqrt' [-Wimplicit-function-declaration]
+  *yNew = (180*atan(yVal/(sqrt(x2+z2))))/PI;
+                          ^
+skribblmain.c:180:26: warning: incompatible implicit declaration of built-in function 'sqrt'
+skribblmain.c:180:26: note: include '<math.h>' or provide a declaration of 'sqrt'
+skribblmain.c: In function 'roundLoop':
+skribblmain.c:211:10: warning: format '%d' expects argument of type 'int', but argument 3 has type 'clock_t {aka long unsigned int}' [-Wformat=]
+   printf("time:%d freq:%d stop:%d start:%d %d\n", timeRatio, t_freq, stopTime, startRoundTime, roundLength);
+          ^
+skribblmain.c:211:10: warning: format '%d' expects argument of type 'int', but argument 4 has type 'clock_t {aka long unsigned int}' [-Wformat=]
+skribblmain.c:211:10: warning: format '%d' expects argument of type 'int', but argument 5 has type 'clock_t {aka long unsigned int}' [-Wformat=]
+skribblmain.c:211:10: warning: format '%d' expects argument of type 'int', but argument 6 has type 'alt_u32 {aka long unsigned int}' [-Wformat=]
+skribblmain.c:211:10: warning: format '%d' expects argument of type 'int', but argument 3 has type 'clock_t {aka long unsigned int}' [-Wformat=]
+skribblmain.c:211:10: warning: format '%d' expects argument of type 'int', but argument 4 has type 'clock_t {aka long unsigned int}' [-Wformat=]
+skribblmain.c:211:10: warning: format '%d' expects argument of type 'int', but argument 5 has type 'clock_t {aka long unsigned int}' [-Wformat=]
+skribblmain.c:211:10: warning: format '%d' expects argument of type 'int', but argument 6 has type 'alt_u32 {aka long unsigned int}' [-Wformat=]
+skribblmain.c:242:96: warning: passing argument 10 of 'nTapFilter' makes pointer from integer without a cast [-Wint-conversion]
+    nTapFilter(x_read, y_read, z_read, &xNew, &yNew, &zNew, filterMemX, filterMemY, filterMemZ, nTapPtr);
+                                                                                                ^
+skribblmain.c:117:6: note: expected 'int *' but argument is of type 'int'
+ void nTapFilter(alt_32 x_read, alt_32 y_read, alt_32 z_read, alt_32* xNew, alt_32* yNew, alt_32* zNew, alt_32* filterMemX, alt_32* filterMemY, alt_32* filterMemZ, int* nTapPtr){
+      ^
+skribblmain.c:190:6: warning: unused variable 'sampleArrayZ' [-Wunused-variable]
+  int sampleArrayZ[DEMEAN_DEPTH] = {0};
+      ^
+skribblmain.c:189:6: warning: unused variable 'sampleArrayY' [-Wunused-variable]
+  int sampleArrayY[DEMEAN_DEPTH] = {0};
+      ^
+skribblmain.c:187:6: warning: unused variable 'arrPointer' [-Wunused-variable]
+  int arrPointer = 0;
+      ^
+skribblmain.c: In function 'main':
+skribblmain.c:274:9: warning: format '%d' expects argument of type 'int', but argument 2 has type 'clock_t {aka long unsigned int}' [-Wformat=]
+  printf("start: %d\n", startRoundTime);
+         ^
+skribblmain.c:274:9: warning: format '%d' expects argument of type 'int', but argument 2 has type 'clock_t {aka long unsigned int}' [-Wformat=]
+skribblmain.c:280:9: warning: format '%d' expects argument of type 'int', but argument 2 has type 'clock_t {aka long unsigned int}' [-Wformat=]
+  printf("end: %d\n", stopTime);
+         ^
+skribblmain.c:280:9: warning: format '%d' expects argument of type 'int', but argument 2 has type 'clock_t {aka long unsigned int}' [-Wformat=]
+skribblmain.c:299:11: warning: passing argument 1 of 'sprintf' from incompatible pointer type [-Wincompatible-pointer-types]
+   sprintf(scoreStr, "%d-%d", arg1, arg2); //Build score str
+           ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\stdio.h:258:5: note: expected 'char * restrict' but argument is of type 'char **'
+ int _EXFUN(sprintf, (char *__restrict, const char *__restrict, ...)
+     ^
+skribblmain.c:300:14: warning: passing argument 1 of 'writeScore' from incompatible pointer type [-Wincompatible-pointer-types]
+   writeScore(scoreStr);
+              ^
+skribblmain.c:69:6: note: expected 'char *' but argument is of type 'char **'
+ void writeScore(char* scoreStr) {
+      ^
+skribblmain.c:284:10: warning: variable 'roundLength' set but not used [-Wunused-but-set-variable]
+  alt_u32 roundLength;
+          ^
+skribblmain.c:277:20: warning: unused variable 't_freq' [-Wunused-variable]
+  clock_t stopTime, t_freq;
+                    ^
+skribblmain.c:276:10: warning: unused variable 'secondTimer' [-Wunused-variable]
+  clock_t secondTimer = alt_nticks();
+          ^
+skribblmain.c:275:10: warning: unused variable 'sampleTimer' [-Wunused-variable]
+  clock_t sampleTimer = alt_nticks();
+          ^
+Info: Linking skribblnios_sw.elf
+nios2-elf-g++  -T'../skribblnios_sw_bsp//linker.x' -msys-crt0='../skribblnios_sw_bsp//obj/HAL/src/crt0.o' -msys-lib=hal_bsp -L../skribblnios_sw_bsp/   -Wl,-Map=skribblnios_sw.map   -O0 -g -Wall   -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global  -o skribblnios_sw.elf obj/default/skribblmain.o -lm -msys-lib=m
+nios2-elf-insert skribblnios_sw.elf --thread_model hal --cpu_name cpu --qsys true --simulation_enabled false --stderr_dev jtag_uart --stdin_dev jtag_uart --stdout_dev jtag_uart --sopc_system_name NIOSSystem --quartus_project_dir "C:/Users/Shaheen/Documents/InformationProcessing/PROJECT/skribblnios/FPGA" --jdi ../..//output_files/skribblnios.jdi --sopcinfo C:/Users/Shaheen/Documents/InformationProcessing/PROJECT/skribblnios/FPGA/software/skribblnios_sw_bsp/../../NIOSSystem.sopcinfo
+Info: (skribblnios_sw.elf) 114 KBytes program size (code + initialized data).
+Info:                      65414 KBytes free for stack + heap.
+Info: Creating skribblnios_sw.objdump
+nios2-elf-objdump --disassemble --syms --all-header --source skribblnios_sw.elf >skribblnios_sw.objdump
+[skribblnios_sw build complete]
+18:43:07 **** Incremental Build of configuration Nios II for project skribblnios_sw ****
+make all 
+Info: Building ../skribblnios_sw_bsp/
+C:/intelFPGA_lite/18.0/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../skribblnios_sw_bsp/
+[BSP build complete]
+[skribblnios_sw build complete]
+18:43:21 **** Build of configuration Nios II for project skribblnios_sw ****
+make all 
+Info: Building ../skribblnios_sw_bsp/
+C:/intelFPGA_lite/18.0/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../skribblnios_sw_bsp/
+[BSP build complete]
+Info: Compiling skribblmain.c to obj/default/skribblmain.o
+nios2-elf-gcc -xc -MP -MMD -c -I../skribblnios_sw_bsp//HAL/inc -I../skribblnios_sw_bsp/ -I../skribblnios_sw_bsp//drivers/inc  -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall   -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global  -o obj/default/skribblmain.o skribblmain.c
+skribblmain.c: In function 'eulerAngles':
+skribblmain.c:180:15: warning: implicit declaration of function 'atan' [-Wimplicit-function-declaration]
+  *yNew = (180*atan(yVal/(sqrt(x2+z2))))/PI;
+               ^
+skribblmain.c:180:15: warning: incompatible implicit declaration of built-in function 'atan'
+skribblmain.c:180:15: note: include '<math.h>' or provide a declaration of 'atan'
+skribblmain.c:180:26: warning: implicit declaration of function 'sqrt' [-Wimplicit-function-declaration]
+  *yNew = (180*atan(yVal/(sqrt(x2+z2))))/PI;
+                          ^
+skribblmain.c:180:26: warning: incompatible implicit declaration of built-in function 'sqrt'
+skribblmain.c:180:26: note: include '<math.h>' or provide a declaration of 'sqrt'
+skribblmain.c: In function 'roundLoop':
+skribblmain.c:211:10: warning: format '%d' expects argument of type 'int', but argument 3 has type 'clock_t {aka long unsigned int}' [-Wformat=]
+   printf("time:%d freq:%d stop:%d start:%d %d\n", timeRatio, t_freq, stopTime, startRoundTime, roundLength);
+          ^
+skribblmain.c:211:10: warning: format '%d' expects argument of type 'int', but argument 4 has type 'clock_t {aka long unsigned int}' [-Wformat=]
+skribblmain.c:211:10: warning: format '%d' expects argument of type 'int', but argument 5 has type 'clock_t {aka long unsigned int}' [-Wformat=]
+skribblmain.c:211:10: warning: format '%d' expects argument of type 'int', but argument 6 has type 'alt_u32 {aka long unsigned int}' [-Wformat=]
+skribblmain.c:211:10: warning: format '%d' expects argument of type 'int', but argument 3 has type 'clock_t {aka long unsigned int}' [-Wformat=]
+skribblmain.c:211:10: warning: format '%d' expects argument of type 'int', but argument 4 has type 'clock_t {aka long unsigned int}' [-Wformat=]
+skribblmain.c:211:10: warning: format '%d' expects argument of type 'int', but argument 5 has type 'clock_t {aka long unsigned int}' [-Wformat=]
+skribblmain.c:211:10: warning: format '%d' expects argument of type 'int', but argument 6 has type 'alt_u32 {aka long unsigned int}' [-Wformat=]
+skribblmain.c:242:96: warning: passing argument 10 of 'nTapFilter' makes pointer from integer without a cast [-Wint-conversion]
+    nTapFilter(x_read, y_read, z_read, &xNew, &yNew, &zNew, filterMemX, filterMemY, filterMemZ, nTapPtr);
+                                                                                                ^
+skribblmain.c:117:6: note: expected 'int *' but argument is of type 'int'
+ void nTapFilter(alt_32 x_read, alt_32 y_read, alt_32 z_read, alt_32* xNew, alt_32* yNew, alt_32* zNew, alt_32* filterMemX, alt_32* filterMemY, alt_32* filterMemZ, int* nTapPtr){
+      ^
+skribblmain.c:190:6: warning: unused variable 'sampleArrayZ' [-Wunused-variable]
+  int sampleArrayZ[DEMEAN_DEPTH] = {0};
+      ^
+skribblmain.c:189:6: warning: unused variable 'sampleArrayY' [-Wunused-variable]
+  int sampleArrayY[DEMEAN_DEPTH] = {0};
+      ^
+skribblmain.c:187:6: warning: unused variable 'arrPointer' [-Wunused-variable]
+  int arrPointer = 0;
+      ^
+skribblmain.c: In function 'main':
+skribblmain.c:274:9: warning: format '%d' expects argument of type 'int', but argument 2 has type 'clock_t {aka long unsigned int}' [-Wformat=]
+  printf("start: %d\n", startRoundTime);
+         ^
+skribblmain.c:274:9: warning: format '%d' expects argument of type 'int', but argument 2 has type 'clock_t {aka long unsigned int}' [-Wformat=]
+skribblmain.c:280:9: warning: format '%d' expects argument of type 'int', but argument 2 has type 'clock_t {aka long unsigned int}' [-Wformat=]
+  printf("end: %d\n", stopTime);
+         ^
+skribblmain.c:280:9: warning: format '%d' expects argument of type 'int', but argument 2 has type 'clock_t {aka long unsigned int}' [-Wformat=]
+skribblmain.c:299:11: warning: passing argument 1 of 'sprintf' from incompatible pointer type [-Wincompatible-pointer-types]
+   sprintf(scoreStr, "%d-%d", arg1, arg2); //Build score str
+           ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\stdio.h:258:5: note: expected 'char * restrict' but argument is of type 'char **'
+ int _EXFUN(sprintf, (char *__restrict, const char *__restrict, ...)
+     ^
+skribblmain.c:300:14: warning: passing argument 1 of 'writeScore' from incompatible pointer type [-Wincompatible-pointer-types]
+   writeScore(scoreStr);
+              ^
+skribblmain.c:69:6: note: expected 'char *' but argument is of type 'char **'
+ void writeScore(char* scoreStr) {
+      ^
+skribblmain.c:284:10: warning: variable 'roundLength' set but not used [-Wunused-but-set-variable]
+  alt_u32 roundLength;
+          ^
+skribblmain.c:277:20: warning: unused variable 't_freq' [-Wunused-variable]
+  clock_t stopTime, t_freq;
+                    ^
+skribblmain.c:276:10: warning: unused variable 'secondTimer' [-Wunused-variable]
+  clock_t secondTimer = alt_nticks();
+          ^
+skribblmain.c:275:10: warning: unused variable 'sampleTimer' [-Wunused-variable]
+  clock_t sampleTimer = alt_nticks();
+          ^
+Info: Linking skribblnios_sw.elf
+nios2-elf-g++  -T'../skribblnios_sw_bsp//linker.x' -msys-crt0='../skribblnios_sw_bsp//obj/HAL/src/crt0.o' -msys-lib=hal_bsp -L../skribblnios_sw_bsp/   -Wl,-Map=skribblnios_sw.map   -O0 -g -Wall   -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global  -o skribblnios_sw.elf obj/default/skribblmain.o -lm -msys-lib=m
+nios2-elf-insert skribblnios_sw.elf --thread_model hal --cpu_name cpu --qsys true --simulation_enabled false --stderr_dev jtag_uart --stdin_dev jtag_uart --stdout_dev jtag_uart --sopc_system_name NIOSSystem --quartus_project_dir "C:/Users/Shaheen/Documents/InformationProcessing/PROJECT/skribblnios/FPGA" --jdi ../..//output_files/skribblnios.jdi --sopcinfo C:/Users/Shaheen/Documents/InformationProcessing/PROJECT/skribblnios/FPGA/software/skribblnios_sw_bsp/../../NIOSSystem.sopcinfo
+Info: (skribblnios_sw.elf) 114 KBytes program size (code + initialized data).
+Info:                      65414 KBytes free for stack + heap.
+Info: Creating skribblnios_sw.objdump
+nios2-elf-objdump --disassemble --syms --all-header --source skribblnios_sw.elf >skribblnios_sw.objdump
+[skribblnios_sw build complete]
+18:43:24 **** Incremental Build of configuration Nios II for project skribblnios_sw ****
+make all 
+Info: Building ../skribblnios_sw_bsp/
+C:/intelFPGA_lite/18.0/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../skribblnios_sw_bsp/
+[BSP build complete]
+[skribblnios_sw build complete]
+18:44:02 **** Build of configuration Nios II for project skribblnios_sw ****
+make all 
+Info: Building ../skribblnios_sw_bsp/
+C:/intelFPGA_lite/18.0/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../skribblnios_sw_bsp/
+[BSP build complete]
+Info: Compiling skribblmain.c to obj/default/skribblmain.o
+nios2-elf-gcc -xc -MP -MMD -c -I../skribblnios_sw_bsp//HAL/inc -I../skribblnios_sw_bsp/ -I../skribblnios_sw_bsp//drivers/inc  -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall   -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global  -o obj/default/skribblmain.o skribblmain.c
+skribblmain.c: In function 'eulerAngles':
+skribblmain.c:180:15: warning: implicit declaration of function 'atan' [-Wimplicit-function-declaration]
+  *yNew = (180*atan(yVal/(sqrt(x2+z2))))/PI;
+               ^
+skribblmain.c:180:15: warning: incompatible implicit declaration of built-in function 'atan'
+skribblmain.c:180:15: note: include '<math.h>' or provide a declaration of 'atan'
+skribblmain.c:180:26: warning: implicit declaration of function 'sqrt' [-Wimplicit-function-declaration]
+  *yNew = (180*atan(yVal/(sqrt(x2+z2))))/PI;
+                          ^
+skribblmain.c:180:26: warning: incompatible implicit declaration of built-in function 'sqrt'
+skribblmain.c:180:26: note: include '<math.h>' or provide a declaration of 'sqrt'
+skribblmain.c: In function 'roundLoop':
+skribblmain.c:211:10: warning: format '%d' expects argument of type 'int', but argument 3 has type 'clock_t {aka long unsigned int}' [-Wformat=]
+   printf("time:%d freq:%d stop:%d start:%d %d\n", timeRatio, t_freq, stopTime, startRoundTime, roundLength);
+          ^
+skribblmain.c:211:10: warning: format '%d' expects argument of type 'int', but argument 4 has type 'clock_t {aka long unsigned int}' [-Wformat=]
+skribblmain.c:211:10: warning: format '%d' expects argument of type 'int', but argument 5 has type 'clock_t {aka long unsigned int}' [-Wformat=]
+skribblmain.c:211:10: warning: format '%d' expects argument of type 'int', but argument 6 has type 'alt_32 {aka long int}' [-Wformat=]
+skribblmain.c:211:10: warning: format '%d' expects argument of type 'int', but argument 3 has type 'clock_t {aka long unsigned int}' [-Wformat=]
+skribblmain.c:211:10: warning: format '%d' expects argument of type 'int', but argument 4 has type 'clock_t {aka long unsigned int}' [-Wformat=]
+skribblmain.c:211:10: warning: format '%d' expects argument of type 'int', but argument 5 has type 'clock_t {aka long unsigned int}' [-Wformat=]
+skribblmain.c:211:10: warning: format '%d' expects argument of type 'int', but argument 6 has type 'alt_32 {aka long int}' [-Wformat=]
+skribblmain.c:242:96: warning: passing argument 10 of 'nTapFilter' makes pointer from integer without a cast [-Wint-conversion]
+    nTapFilter(x_read, y_read, z_read, &xNew, &yNew, &zNew, filterMemX, filterMemY, filterMemZ, nTapPtr);
+                                                                                                ^
+skribblmain.c:117:6: note: expected 'int *' but argument is of type 'int'
+ void nTapFilter(alt_32 x_read, alt_32 y_read, alt_32 z_read, alt_32* xNew, alt_32* yNew, alt_32* zNew, alt_32* filterMemX, alt_32* filterMemY, alt_32* filterMemZ, int* nTapPtr){
+      ^
+skribblmain.c:190:6: warning: unused variable 'sampleArrayZ' [-Wunused-variable]
+  int sampleArrayZ[DEMEAN_DEPTH] = {0};
+      ^
+skribblmain.c:189:6: warning: unused variable 'sampleArrayY' [-Wunused-variable]
+  int sampleArrayY[DEMEAN_DEPTH] = {0};
+      ^
+skribblmain.c:187:6: warning: unused variable 'arrPointer' [-Wunused-variable]
+  int arrPointer = 0;
+      ^
+skribblmain.c: In function 'main':
+skribblmain.c:274:9: warning: format '%d' expects argument of type 'int', but argument 2 has type 'clock_t {aka long unsigned int}' [-Wformat=]
+  printf("start: %d\n", startRoundTime);
+         ^
+skribblmain.c:274:9: warning: format '%d' expects argument of type 'int', but argument 2 has type 'clock_t {aka long unsigned int}' [-Wformat=]
+skribblmain.c:280:9: warning: format '%d' expects argument of type 'int', but argument 2 has type 'clock_t {aka long unsigned int}' [-Wformat=]
+  printf("end: %d\n", stopTime);
+         ^
+skribblmain.c:280:9: warning: format '%d' expects argument of type 'int', but argument 2 has type 'clock_t {aka long unsigned int}' [-Wformat=]
+skribblmain.c:299:11: warning: passing argument 1 of 'sprintf' from incompatible pointer type [-Wincompatible-pointer-types]
+   sprintf(scoreStr, "%d-%d", arg1, arg2); //Build score str
+           ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\stdio.h:258:5: note: expected 'char * restrict' but argument is of type 'char **'
+ int _EXFUN(sprintf, (char *__restrict, const char *__restrict, ...)
+     ^
+skribblmain.c:300:14: warning: passing argument 1 of 'writeScore' from incompatible pointer type [-Wincompatible-pointer-types]
+   writeScore(scoreStr);
+              ^
+skribblmain.c:69:6: note: expected 'char *' but argument is of type 'char **'
+ void writeScore(char* scoreStr) {
+      ^
+skribblmain.c:284:9: warning: variable 'roundLength' set but not used [-Wunused-but-set-variable]
+  alt_32 roundLength;
+         ^
+skribblmain.c:277:20: warning: unused variable 't_freq' [-Wunused-variable]
+  clock_t stopTime, t_freq;
+                    ^
+skribblmain.c:276:10: warning: unused variable 'secondTimer' [-Wunused-variable]
+  clock_t secondTimer = alt_nticks();
+          ^
+skribblmain.c:275:10: warning: unused variable 'sampleTimer' [-Wunused-variable]
+  clock_t sampleTimer = alt_nticks();
+          ^
+Info: Linking skribblnios_sw.elf
+nios2-elf-g++  -T'../skribblnios_sw_bsp//linker.x' -msys-crt0='../skribblnios_sw_bsp//obj/HAL/src/crt0.o' -msys-lib=hal_bsp -L../skribblnios_sw_bsp/   -Wl,-Map=skribblnios_sw.map   -O0 -g -Wall   -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global  -o skribblnios_sw.elf obj/default/skribblmain.o -lm -msys-lib=m
+nios2-elf-insert skribblnios_sw.elf --thread_model hal --cpu_name cpu --qsys true --simulation_enabled false --stderr_dev jtag_uart --stdin_dev jtag_uart --stdout_dev jtag_uart --sopc_system_name NIOSSystem --quartus_project_dir "C:/Users/Shaheen/Documents/InformationProcessing/PROJECT/skribblnios/FPGA" --jdi ../..//output_files/skribblnios.jdi --sopcinfo C:/Users/Shaheen/Documents/InformationProcessing/PROJECT/skribblnios/FPGA/software/skribblnios_sw_bsp/../../NIOSSystem.sopcinfo
+Info: (skribblnios_sw.elf) 114 KBytes program size (code + initialized data).
+Info:                      65414 KBytes free for stack + heap.
+Info: Creating skribblnios_sw.objdump
+nios2-elf-objdump --disassemble --syms --all-header --source skribblnios_sw.elf >skribblnios_sw.objdump
+[skribblnios_sw build complete]
+18:44:05 **** Incremental Build of configuration Nios II for project skribblnios_sw ****
+make all 
+Info: Building ../skribblnios_sw_bsp/
+C:/intelFPGA_lite/18.0/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../skribblnios_sw_bsp/
+[BSP build complete]
+[skribblnios_sw build complete]
+18:44:56 **** Build of configuration Nios II for project skribblnios_sw ****
+make all 
+Info: Building ../skribblnios_sw_bsp/
+C:/intelFPGA_lite/18.0/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../skribblnios_sw_bsp/
+[BSP build complete]
+Info: Compiling skribblmain.c to obj/default/skribblmain.o
+nios2-elf-gcc -xc -MP -MMD -c -I../skribblnios_sw_bsp//HAL/inc -I../skribblnios_sw_bsp/ -I../skribblnios_sw_bsp//drivers/inc  -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall   -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global  -o obj/default/skribblmain.o skribblmain.c
+skribblmain.c: In function 'eulerAngles':
+skribblmain.c:180:15: warning: implicit declaration of function 'atan' [-Wimplicit-function-declaration]
+  *yNew = (180*atan(yVal/(sqrt(x2+z2))))/PI;
+               ^
+skribblmain.c:180:15: warning: incompatible implicit declaration of built-in function 'atan'
+skribblmain.c:180:15: note: include '<math.h>' or provide a declaration of 'atan'
+skribblmain.c:180:26: warning: implicit declaration of function 'sqrt' [-Wimplicit-function-declaration]
+  *yNew = (180*atan(yVal/(sqrt(x2+z2))))/PI;
+                          ^
+skribblmain.c:180:26: warning: incompatible implicit declaration of built-in function 'sqrt'
+skribblmain.c:180:26: note: include '<math.h>' or provide a declaration of 'sqrt'
+skribblmain.c: In function 'roundLoop':
+skribblmain.c:211:10: warning: format '%d' expects argument of type 'int', but argument 3 has type 'clock_t {aka long unsigned int}' [-Wformat=]
+   printf("time:%d freq:%d stop:%d start:%d %d\n", timeRatio, t_freq, stopTime, startRoundTime, roundLength);
+          ^
+skribblmain.c:211:10: warning: format '%d' expects argument of type 'int', but argument 4 has type 'clock_t {aka long unsigned int}' [-Wformat=]
+skribblmain.c:211:10: warning: format '%d' expects argument of type 'int', but argument 5 has type 'clock_t {aka long unsigned int}' [-Wformat=]
+skribblmain.c:211:10: warning: format '%d' expects argument of type 'int', but argument 3 has type 'clock_t {aka long unsigned int}' [-Wformat=]
+skribblmain.c:211:10: warning: format '%d' expects argument of type 'int', but argument 4 has type 'clock_t {aka long unsigned int}' [-Wformat=]
+skribblmain.c:211:10: warning: format '%d' expects argument of type 'int', but argument 5 has type 'clock_t {aka long unsigned int}' [-Wformat=]
+skribblmain.c:242:96: warning: passing argument 10 of 'nTapFilter' makes pointer from integer without a cast [-Wint-conversion]
+    nTapFilter(x_read, y_read, z_read, &xNew, &yNew, &zNew, filterMemX, filterMemY, filterMemZ, nTapPtr);
+                                                                                                ^
+skribblmain.c:117:6: note: expected 'int *' but argument is of type 'int'
+ void nTapFilter(alt_32 x_read, alt_32 y_read, alt_32 z_read, alt_32* xNew, alt_32* yNew, alt_32* zNew, alt_32* filterMemX, alt_32* filterMemY, alt_32* filterMemZ, int* nTapPtr){
+      ^
+skribblmain.c:190:6: warning: unused variable 'sampleArrayZ' [-Wunused-variable]
+  int sampleArrayZ[DEMEAN_DEPTH] = {0};
+      ^
+skribblmain.c:189:6: warning: unused variable 'sampleArrayY' [-Wunused-variable]
+  int sampleArrayY[DEMEAN_DEPTH] = {0};
+      ^
+skribblmain.c:187:6: warning: unused variable 'arrPointer' [-Wunused-variable]
+  int arrPointer = 0;
+      ^
+skribblmain.c: In function 'main':
+skribblmain.c:274:9: warning: format '%d' expects argument of type 'int', but argument 2 has type 'clock_t {aka long unsigned int}' [-Wformat=]
+  printf("start: %d\n", startRoundTime);
+         ^
+skribblmain.c:274:9: warning: format '%d' expects argument of type 'int', but argument 2 has type 'clock_t {aka long unsigned int}' [-Wformat=]
+skribblmain.c:280:9: warning: format '%d' expects argument of type 'int', but argument 2 has type 'clock_t {aka long unsigned int}' [-Wformat=]
+  printf("end: %d\n", stopTime);
+         ^
+skribblmain.c:280:9: warning: format '%d' expects argument of type 'int', but argument 2 has type 'clock_t {aka long unsigned int}' [-Wformat=]
+skribblmain.c:298:11: warning: passing argument 1 of 'sprintf' from incompatible pointer type [-Wincompatible-pointer-types]
+   sprintf(scoreStr, "%d-%d", arg1, arg2); //Build score str
+           ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\stdio.h:258:5: note: expected 'char * restrict' but argument is of type 'char **'
+ int _EXFUN(sprintf, (char *__restrict, const char *__restrict, ...)
+     ^
+skribblmain.c:299:14: warning: passing argument 1 of 'writeScore' from incompatible pointer type [-Wincompatible-pointer-types]
+   writeScore(scoreStr);
+              ^
+skribblmain.c:69:6: note: expected 'char *' but argument is of type 'char **'
+ void writeScore(char* scoreStr) {
+      ^
+skribblmain.c:283:6: warning: variable 'roundLength' set but not used [-Wunused-but-set-variable]
+  int roundLength, arg1, arg2;
+      ^
+skribblmain.c:277:20: warning: unused variable 't_freq' [-Wunused-variable]
+  clock_t stopTime, t_freq;
+                    ^
+skribblmain.c:276:10: warning: unused variable 'secondTimer' [-Wunused-variable]
+  clock_t secondTimer = alt_nticks();
+          ^
+skribblmain.c:275:10: warning: unused variable 'sampleTimer' [-Wunused-variable]
+  clock_t sampleTimer = alt_nticks();
+          ^
+Info: Linking skribblnios_sw.elf
+nios2-elf-g++  -T'../skribblnios_sw_bsp//linker.x' -msys-crt0='../skribblnios_sw_bsp//obj/HAL/src/crt0.o' -msys-lib=hal_bsp -L../skribblnios_sw_bsp/   -Wl,-Map=skribblnios_sw.map   -O0 -g -Wall   -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global  -o skribblnios_sw.elf obj/default/skribblmain.o -lm -msys-lib=m
+nios2-elf-insert skribblnios_sw.elf --thread_model hal --cpu_name cpu --qsys true --simulation_enabled false --stderr_dev jtag_uart --stdin_dev jtag_uart --stdout_dev jtag_uart --sopc_system_name NIOSSystem --quartus_project_dir "C:/Users/Shaheen/Documents/InformationProcessing/PROJECT/skribblnios/FPGA" --jdi ../..//output_files/skribblnios.jdi --sopcinfo C:/Users/Shaheen/Documents/InformationProcessing/PROJECT/skribblnios/FPGA/software/skribblnios_sw_bsp/../../NIOSSystem.sopcinfo
+Info: (skribblnios_sw.elf) 114 KBytes program size (code + initialized data).
+Info:                      65414 KBytes free for stack + heap.
+Info: Creating skribblnios_sw.objdump
+nios2-elf-objdump --disassemble --syms --all-header --source skribblnios_sw.elf >skribblnios_sw.objdump
+[skribblnios_sw build complete]
+18:44:59 **** Incremental Build of configuration Nios II for project skribblnios_sw ****
+make all 
+Info: Building ../skribblnios_sw_bsp/
+C:/intelFPGA_lite/18.0/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../skribblnios_sw_bsp/
+[BSP build complete]
+[skribblnios_sw build complete]
+18:45:27 **** Build of configuration Nios II for project skribblnios_sw ****
+make all 
+Info: Building ../skribblnios_sw_bsp/
+C:/intelFPGA_lite/18.0/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../skribblnios_sw_bsp/
+[BSP build complete]
+[skribblnios_sw build complete]
+18:45:29 **** Incremental Build of configuration Nios II for project skribblnios_sw ****
+make all 
+Info: Building ../skribblnios_sw_bsp/
+C:/intelFPGA_lite/18.0/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../skribblnios_sw_bsp/
+[BSP build complete]
+[skribblnios_sw build complete]
+18:54:10 **** Build of configuration Nios II for project skribblnios_sw ****
+make all 
+Info: Building ../skribblnios_sw_bsp/
+C:/intelFPGA_lite/18.0/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../skribblnios_sw_bsp/
+[BSP build complete]
+Info: Compiling skribblmain.c to obj/default/skribblmain.o
+nios2-elf-gcc -xc -MP -MMD -c -I../skribblnios_sw_bsp//HAL/inc -I../skribblnios_sw_bsp/ -I../skribblnios_sw_bsp//drivers/inc  -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall   -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global  -o obj/default/skribblmain.o skribblmain.c
+skribblmain.c: In function 'eulerAngles':
+skribblmain.c:180:15: warning: implicit declaration of function 'atan' [-Wimplicit-function-declaration]
+  *yNew = (180*atan(yVal/(sqrt(x2+z2))))/PI;
+               ^
+skribblmain.c:180:15: warning: incompatible implicit declaration of built-in function 'atan'
+skribblmain.c:180:15: note: include '<math.h>' or provide a declaration of 'atan'
+skribblmain.c:180:26: warning: implicit declaration of function 'sqrt' [-Wimplicit-function-declaration]
+  *yNew = (180*atan(yVal/(sqrt(x2+z2))))/PI;
+                          ^
+skribblmain.c:180:26: warning: incompatible implicit declaration of built-in function 'sqrt'
+skribblmain.c:180:26: note: include '<math.h>' or provide a declaration of 'sqrt'
+skribblmain.c: In function 'roundLoop':
+skribblmain.c:211:10: warning: format '%d' expects argument of type 'int', but argument 3 has type 'clock_t {aka long unsigned int}' [-Wformat=]
+   printf("time:%d freq:%d stop:%d start:%d %d\n", timeRatio, t_freq, stopTime, startRoundTime, roundLength);
+          ^
+skribblmain.c:211:10: warning: format '%d' expects argument of type 'int', but argument 4 has type 'clock_t {aka long unsigned int}' [-Wformat=]
+skribblmain.c:211:10: warning: format '%d' expects argument of type 'int', but argument 5 has type 'clock_t {aka long unsigned int}' [-Wformat=]
+skribblmain.c:211:10: warning: format '%d' expects argument of type 'int', but argument 3 has type 'clock_t {aka long unsigned int}' [-Wformat=]
+skribblmain.c:211:10: warning: format '%d' expects argument of type 'int', but argument 4 has type 'clock_t {aka long unsigned int}' [-Wformat=]
+skribblmain.c:211:10: warning: format '%d' expects argument of type 'int', but argument 5 has type 'clock_t {aka long unsigned int}' [-Wformat=]
+skribblmain.c:242:96: warning: passing argument 10 of 'nTapFilter' makes pointer from integer without a cast [-Wint-conversion]
+    nTapFilter(x_read, y_read, z_read, &xNew, &yNew, &zNew, filterMemX, filterMemY, filterMemZ, nTapPtr);
+                                                                                                ^
+skribblmain.c:117:6: note: expected 'int *' but argument is of type 'int'
+ void nTapFilter(alt_32 x_read, alt_32 y_read, alt_32 z_read, alt_32* xNew, alt_32* yNew, alt_32* zNew, alt_32* filterMemX, alt_32* filterMemY, alt_32* filterMemZ, int* nTapPtr){
+      ^
+skribblmain.c:190:6: warning: unused variable 'sampleArrayZ' [-Wunused-variable]
+  int sampleArrayZ[DEMEAN_DEPTH] = {0};
+      ^
+skribblmain.c:189:6: warning: unused variable 'sampleArrayY' [-Wunused-variable]
+  int sampleArrayY[DEMEAN_DEPTH] = {0};
+      ^
+skribblmain.c:187:6: warning: unused variable 'arrPointer' [-Wunused-variable]
+  int arrPointer = 0;
+      ^
+skribblmain.c: In function 'main':
+skribblmain.c:274:9: warning: format '%d' expects argument of type 'int', but argument 2 has type 'clock_t {aka long unsigned int}' [-Wformat=]
+  printf("start: %d\n", startRoundTime);
+         ^
+skribblmain.c:274:9: warning: format '%d' expects argument of type 'int', but argument 2 has type 'clock_t {aka long unsigned int}' [-Wformat=]
+skribblmain.c:280:9: warning: format '%d' expects argument of type 'int', but argument 2 has type 'clock_t {aka long unsigned int}' [-Wformat=]
+  printf("end: %d\n", stopTime);
+         ^
+skribblmain.c:280:9: warning: format '%d' expects argument of type 'int', but argument 2 has type 'clock_t {aka long unsigned int}' [-Wformat=]
+skribblmain.c:298:11: warning: passing argument 1 of 'sprintf' from incompatible pointer type [-Wincompatible-pointer-types]
+   sprintf(scoreStr, "%d-%d", arg1, arg2); //Build score str
+           ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\stdio.h:258:5: note: expected 'char * restrict' but argument is of type 'char **'
+ int _EXFUN(sprintf, (char *__restrict, const char *__restrict, ...)
+     ^
+skribblmain.c:299:14: warning: passing argument 1 of 'writeScore' from incompatible pointer type [-Wincompatible-pointer-types]
+   writeScore(scoreStr);
+              ^
+skribblmain.c:69:6: note: expected 'char *' but argument is of type 'char **'
+ void writeScore(char* scoreStr) {
+      ^
+skribblmain.c:277:20: warning: unused variable 't_freq' [-Wunused-variable]
+  clock_t stopTime, t_freq;
+                    ^
+skribblmain.c:276:10: warning: unused variable 'secondTimer' [-Wunused-variable]
+  clock_t secondTimer = alt_nticks();
+          ^
+skribblmain.c:275:10: warning: unused variable 'sampleTimer' [-Wunused-variable]
+  clock_t sampleTimer = alt_nticks();
+          ^
+Info: Linking skribblnios_sw.elf
+nios2-elf-g++  -T'../skribblnios_sw_bsp//linker.x' -msys-crt0='../skribblnios_sw_bsp//obj/HAL/src/crt0.o' -msys-lib=hal_bsp -L../skribblnios_sw_bsp/   -Wl,-Map=skribblnios_sw.map   -O0 -g -Wall   -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global  -o skribblnios_sw.elf obj/default/skribblmain.o -lm -msys-lib=m
+nios2-elf-insert skribblnios_sw.elf --thread_model hal --cpu_name cpu --qsys true --simulation_enabled false --stderr_dev jtag_uart --stdin_dev jtag_uart --stdout_dev jtag_uart --sopc_system_name NIOSSystem --quartus_project_dir "C:/Users/Shaheen/Documents/InformationProcessing/PROJECT/skribblnios/FPGA" --jdi ../..//output_files/skribblnios.jdi --sopcinfo C:/Users/Shaheen/Documents/InformationProcessing/PROJECT/skribblnios/FPGA/software/skribblnios_sw_bsp/../../NIOSSystem.sopcinfo
+Info: (skribblnios_sw.elf) 114 KBytes program size (code + initialized data).
+Info:                      65414 KBytes free for stack + heap.
+Info: Creating skribblnios_sw.objdump
+nios2-elf-objdump --disassemble --syms --all-header --source skribblnios_sw.elf >skribblnios_sw.objdump
+[skribblnios_sw build complete]
+18:54:13 **** Incremental Build of configuration Nios II for project skribblnios_sw ****
+make all 
+Info: Building ../skribblnios_sw_bsp/
+C:/intelFPGA_lite/18.0/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../skribblnios_sw_bsp/
+[BSP build complete]
+[skribblnios_sw build complete]
+19:09:31 **** Build of configuration Nios II for project skribblnios_sw ****
+make all 
+Info: Building ../skribblnios_sw_bsp/
+C:/intelFPGA_lite/18.0/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../skribblnios_sw_bsp/
+[BSP build complete]
+Info: Compiling skribblmain.c to obj/default/skribblmain.o
+nios2-elf-gcc -xc -MP -MMD -c -I../skribblnios_sw_bsp//HAL/inc -I../skribblnios_sw_bsp/ -I../skribblnios_sw_bsp//drivers/inc  -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall   -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global  -o obj/default/skribblmain.o skribblmain.c
+skribblmain.c: In function 'eulerAngles':
+skribblmain.c:180:15: warning: implicit declaration of function 'atan' [-Wimplicit-function-declaration]
+  *yNew = (180*atan(yVal/(sqrt(x2+z2))))/PI;
+               ^
+skribblmain.c:180:15: warning: incompatible implicit declaration of built-in function 'atan'
+skribblmain.c:180:15: note: include '<math.h>' or provide a declaration of 'atan'
+skribblmain.c:180:26: warning: implicit declaration of function 'sqrt' [-Wimplicit-function-declaration]
+  *yNew = (180*atan(yVal/(sqrt(x2+z2))))/PI;
+                          ^
+skribblmain.c:180:26: warning: incompatible implicit declaration of built-in function 'sqrt'
+skribblmain.c:180:26: note: include '<math.h>' or provide a declaration of 'sqrt'
+skribblmain.c: In function 'roundLoop':
+skribblmain.c:242:96: warning: passing argument 10 of 'nTapFilter' makes pointer from integer without a cast [-Wint-conversion]
+    nTapFilter(x_read, y_read, z_read, &xNew, &yNew, &zNew, filterMemX, filterMemY, filterMemZ, nTapPtr);
+                                                                                                ^
+skribblmain.c:117:6: note: expected 'int *' but argument is of type 'int'
+ void nTapFilter(alt_32 x_read, alt_32 y_read, alt_32 z_read, alt_32* xNew, alt_32* yNew, alt_32* zNew, alt_32* filterMemX, alt_32* filterMemY, alt_32* filterMemZ, int* nTapPtr){
+      ^
+skribblmain.c:190:6: warning: unused variable 'sampleArrayZ' [-Wunused-variable]
+  int sampleArrayZ[DEMEAN_DEPTH] = {0};
+      ^
+skribblmain.c:189:6: warning: unused variable 'sampleArrayY' [-Wunused-variable]
+  int sampleArrayY[DEMEAN_DEPTH] = {0};
+      ^
+skribblmain.c:187:6: warning: unused variable 'arrPointer' [-Wunused-variable]
+  int arrPointer = 0;
+      ^
+skribblmain.c: In function 'main':
+skribblmain.c:290:11: warning: passing argument 1 of 'sprintf' from incompatible pointer type [-Wincompatible-pointer-types]
+   sprintf(scoreStr, "%d-%d", arg1, arg2); //Build score str
+           ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\stdio.h:258:5: note: expected 'char * restrict' but argument is of type 'char **'
+ int _EXFUN(sprintf, (char *__restrict, const char *__restrict, ...)
+     ^
+skribblmain.c:291:14: warning: passing argument 1 of 'writeScore' from incompatible pointer type [-Wincompatible-pointer-types]
+   writeScore(scoreStr);
+              ^
+skribblmain.c:69:6: note: expected 'char *' but argument is of type 'char **'
+ void writeScore(char* scoreStr) {
+      ^
+Info: Linking skribblnios_sw.elf
+nios2-elf-g++  -T'../skribblnios_sw_bsp//linker.x' -msys-crt0='../skribblnios_sw_bsp//obj/HAL/src/crt0.o' -msys-lib=hal_bsp -L../skribblnios_sw_bsp/   -Wl,-Map=skribblnios_sw.map   -O0 -g -Wall   -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global  -o skribblnios_sw.elf obj/default/skribblmain.o -lm -msys-lib=m
+nios2-elf-insert skribblnios_sw.elf --thread_model hal --cpu_name cpu --qsys true --simulation_enabled false --stderr_dev jtag_uart --stdin_dev jtag_uart --stdout_dev jtag_uart --sopc_system_name NIOSSystem --quartus_project_dir "C:/Users/Shaheen/Documents/InformationProcessing/PROJECT/skribblnios/FPGA" --jdi ../..//output_files/skribblnios.jdi --sopcinfo C:/Users/Shaheen/Documents/InformationProcessing/PROJECT/skribblnios/FPGA/software/skribblnios_sw_bsp/../../NIOSSystem.sopcinfo
+Info: (skribblnios_sw.elf) 114 KBytes program size (code + initialized data).
+Info:                      65415 KBytes free for stack + heap.
+Info: Creating skribblnios_sw.objdump
+nios2-elf-objdump --disassemble --syms --all-header --source skribblnios_sw.elf >skribblnios_sw.objdump
+[skribblnios_sw build complete]
+19:09:34 **** Incremental Build of configuration Nios II for project skribblnios_sw ****
+make all 
+Info: Building ../skribblnios_sw_bsp/
+C:/intelFPGA_lite/18.0/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../skribblnios_sw_bsp/
+[BSP build complete]
+[skribblnios_sw build complete]
+19:11:14 **** Build of configuration Nios II for project skribblnios_sw ****
+make all 
+Info: Building ../skribblnios_sw_bsp/
+C:/intelFPGA_lite/18.0/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../skribblnios_sw_bsp/
+[BSP build complete]
+Info: Compiling skribblmain.c to obj/default/skribblmain.o
+nios2-elf-gcc -xc -MP -MMD -c -I../skribblnios_sw_bsp//HAL/inc -I../skribblnios_sw_bsp/ -I../skribblnios_sw_bsp//drivers/inc  -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall   -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global  -o obj/default/skribblmain.o skribblmain.c
+skribblmain.c: In function 'eulerAngles':
+skribblmain.c:180:15: warning: implicit declaration of function 'atan' [-Wimplicit-function-declaration]
+  *yNew = (180*atan(yVal/(sqrt(x2+z2))))/PI;
+               ^
+skribblmain.c:180:15: warning: incompatible implicit declaration of built-in function 'atan'
+skribblmain.c:180:15: note: include '<math.h>' or provide a declaration of 'atan'
+skribblmain.c:180:26: warning: implicit declaration of function 'sqrt' [-Wimplicit-function-declaration]
+  *yNew = (180*atan(yVal/(sqrt(x2+z2))))/PI;
+                          ^
+skribblmain.c:180:26: warning: incompatible implicit declaration of built-in function 'sqrt'
+skribblmain.c:180:26: note: include '<math.h>' or provide a declaration of 'sqrt'
+skribblmain.c: In function 'roundLoop':
+skribblmain.c:242:96: warning: passing argument 10 of 'nTapFilter' makes pointer from integer without a cast [-Wint-conversion]
+    nTapFilter(x_read, y_read, z_read, &xNew, &yNew, &zNew, filterMemX, filterMemY, filterMemZ, nTapPtr);
+                                                                                                ^
+skribblmain.c:117:6: note: expected 'int *' but argument is of type 'int'
+ void nTapFilter(alt_32 x_read, alt_32 y_read, alt_32 z_read, alt_32* xNew, alt_32* yNew, alt_32* zNew, alt_32* filterMemX, alt_32* filterMemY, alt_32* filterMemZ, int* nTapPtr){
+      ^
+skribblmain.c:190:6: warning: unused variable 'sampleArrayZ' [-Wunused-variable]
+  int sampleArrayZ[DEMEAN_DEPTH] = {0};
+      ^
+skribblmain.c:189:6: warning: unused variable 'sampleArrayY' [-Wunused-variable]
+  int sampleArrayY[DEMEAN_DEPTH] = {0};
+      ^
+skribblmain.c:187:6: warning: unused variable 'arrPointer' [-Wunused-variable]
+  int arrPointer = 0;
+      ^
+skribblmain.c: In function 'main':
+skribblmain.c:290:11: warning: passing argument 1 of 'sprintf' from incompatible pointer type [-Wincompatible-pointer-types]
+   sprintf(scoreStr, "%d-%d", arg1, arg2); //Build score str
+           ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\stdio.h:258:5: note: expected 'char * restrict' but argument is of type 'char **'
+ int _EXFUN(sprintf, (char *__restrict, const char *__restrict, ...)
+     ^
+skribblmain.c:291:14: warning: passing argument 1 of 'writeScore' from incompatible pointer type [-Wincompatible-pointer-types]
+   writeScore(scoreStr);
+              ^
+skribblmain.c:69:6: note: expected 'char *' but argument is of type 'char **'
+ void writeScore(char* scoreStr) {
+      ^
+Info: Linking skribblnios_sw.elf
+nios2-elf-g++  -T'../skribblnios_sw_bsp//linker.x' -msys-crt0='../skribblnios_sw_bsp//obj/HAL/src/crt0.o' -msys-lib=hal_bsp -L../skribblnios_sw_bsp/   -Wl,-Map=skribblnios_sw.map   -O0 -g -Wall   -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global  -o skribblnios_sw.elf obj/default/skribblmain.o -lm -msys-lib=m
+nios2-elf-insert skribblnios_sw.elf --thread_model hal --cpu_name cpu --qsys true --simulation_enabled false --stderr_dev jtag_uart --stdin_dev jtag_uart --stdout_dev jtag_uart --sopc_system_name NIOSSystem --quartus_project_dir "C:/Users/Shaheen/Documents/InformationProcessing/PROJECT/skribblnios/FPGA" --jdi ../..//output_files/skribblnios.jdi --sopcinfo C:/Users/Shaheen/Documents/InformationProcessing/PROJECT/skribblnios/FPGA/software/skribblnios_sw_bsp/../../NIOSSystem.sopcinfo
+Info: (skribblnios_sw.elf) 114 KBytes program size (code + initialized data).
+Info:                      65414 KBytes free for stack + heap.
+Info: Creating skribblnios_sw.objdump
+nios2-elf-objdump --disassemble --syms --all-header --source skribblnios_sw.elf >skribblnios_sw.objdump
+[skribblnios_sw build complete]
+19:11:17 **** Incremental Build of configuration Nios II for project skribblnios_sw ****
+make all 
+Info: Building ../skribblnios_sw_bsp/
+C:/intelFPGA_lite/18.0/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../skribblnios_sw_bsp/
+[BSP build complete]
+[skribblnios_sw build complete]
+19:11:32 **** Build of configuration Nios II for project skribblnios_sw ****
+make all 
+Info: Building ../skribblnios_sw_bsp/
+C:/intelFPGA_lite/18.0/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../skribblnios_sw_bsp/
+[BSP build complete]
+Info: Compiling skribblmain.c to obj/default/skribblmain.o
+nios2-elf-gcc -xc -MP -MMD -c -I../skribblnios_sw_bsp//HAL/inc -I../skribblnios_sw_bsp/ -I../skribblnios_sw_bsp//drivers/inc  -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall   -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global  -o obj/default/skribblmain.o skribblmain.c
+skribblmain.c: In function 'eulerAngles':
+skribblmain.c:180:15: warning: implicit declaration of function 'atan' [-Wimplicit-function-declaration]
+  *yNew = (180*atan(yVal/(sqrt(x2+z2))))/PI;
+               ^
+skribblmain.c:180:15: warning: incompatible implicit declaration of built-in function 'atan'
+skribblmain.c:180:15: note: include '<math.h>' or provide a declaration of 'atan'
+skribblmain.c:180:26: warning: implicit declaration of function 'sqrt' [-Wimplicit-function-declaration]
+  *yNew = (180*atan(yVal/(sqrt(x2+z2))))/PI;
+                          ^
+skribblmain.c:180:26: warning: incompatible implicit declaration of built-in function 'sqrt'
+skribblmain.c:180:26: note: include '<math.h>' or provide a declaration of 'sqrt'
+skribblmain.c: In function 'roundLoop':
+skribblmain.c:242:96: warning: passing argument 10 of 'nTapFilter' makes pointer from integer without a cast [-Wint-conversion]
+    nTapFilter(x_read, y_read, z_read, &xNew, &yNew, &zNew, filterMemX, filterMemY, filterMemZ, nTapPtr);
+                                                                                                ^
+skribblmain.c:117:6: note: expected 'int *' but argument is of type 'int'
+ void nTapFilter(alt_32 x_read, alt_32 y_read, alt_32 z_read, alt_32* xNew, alt_32* yNew, alt_32* zNew, alt_32* filterMemX, alt_32* filterMemY, alt_32* filterMemZ, int* nTapPtr){
+      ^
+skribblmain.c:245:11: warning: format '%d' expects argument of type 'int', but argument 2 has type 'alt_32 {aka long int}' [-Wformat=]
+    printf("%d %d\n", yNew, zNew);
+           ^
+skribblmain.c:245:11: warning: format '%d' expects argument of type 'int', but argument 3 has type 'alt_32 {aka long int}' [-Wformat=]
+skribblmain.c:245:11: warning: format '%d' expects argument of type 'int', but argument 2 has type 'alt_32 {aka long int}' [-Wformat=]
+skribblmain.c:245:11: warning: format '%d' expects argument of type 'int', but argument 3 has type 'alt_32 {aka long int}' [-Wformat=]
+skribblmain.c:190:6: warning: unused variable 'sampleArrayZ' [-Wunused-variable]
+  int sampleArrayZ[DEMEAN_DEPTH] = {0};
+      ^
+skribblmain.c:189:6: warning: unused variable 'sampleArrayY' [-Wunused-variable]
+  int sampleArrayY[DEMEAN_DEPTH] = {0};
+      ^
+skribblmain.c:187:6: warning: unused variable 'arrPointer' [-Wunused-variable]
+  int arrPointer = 0;
+      ^
+skribblmain.c: In function 'main':
+skribblmain.c:290:11: warning: passing argument 1 of 'sprintf' from incompatible pointer type [-Wincompatible-pointer-types]
+   sprintf(scoreStr, "%d-%d", arg1, arg2); //Build score str
+           ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\stdio.h:258:5: note: expected 'char * restrict' but argument is of type 'char **'
+ int _EXFUN(sprintf, (char *__restrict, const char *__restrict, ...)
+     ^
+skribblmain.c:291:14: warning: passing argument 1 of 'writeScore' from incompatible pointer type [-Wincompatible-pointer-types]
+   writeScore(scoreStr);
+              ^
+skribblmain.c:69:6: note: expected 'char *' but argument is of type 'char **'
+ void writeScore(char* scoreStr) {
+      ^
+Info: Linking skribblnios_sw.elf
+nios2-elf-g++  -T'../skribblnios_sw_bsp//linker.x' -msys-crt0='../skribblnios_sw_bsp//obj/HAL/src/crt0.o' -msys-lib=hal_bsp -L../skribblnios_sw_bsp/   -Wl,-Map=skribblnios_sw.map   -O0 -g -Wall   -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global  -o skribblnios_sw.elf obj/default/skribblmain.o -lm -msys-lib=m
+nios2-elf-insert skribblnios_sw.elf --thread_model hal --cpu_name cpu --qsys true --simulation_enabled false --stderr_dev jtag_uart --stdin_dev jtag_uart --stdout_dev jtag_uart --sopc_system_name NIOSSystem --quartus_project_dir "C:/Users/Shaheen/Documents/InformationProcessing/PROJECT/skribblnios/FPGA" --jdi ../..//output_files/skribblnios.jdi --sopcinfo C:/Users/Shaheen/Documents/InformationProcessing/PROJECT/skribblnios/FPGA/software/skribblnios_sw_bsp/../../NIOSSystem.sopcinfo
+Info: (skribblnios_sw.elf) 114 KBytes program size (code + initialized data).
+Info:                      65414 KBytes free for stack + heap.
+Info: Creating skribblnios_sw.objdump
+nios2-elf-objdump --disassemble --syms --all-header --source skribblnios_sw.elf >skribblnios_sw.objdump
+[skribblnios_sw build complete]
+19:11:35 **** Incremental Build of configuration Nios II for project skribblnios_sw ****
+make all 
+Info: Building ../skribblnios_sw_bsp/
+C:/intelFPGA_lite/18.0/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../skribblnios_sw_bsp/
+[BSP build complete]
+[skribblnios_sw build complete]
+19:13:47 **** Build of configuration Nios II for project skribblnios_sw ****
+make all 
+Info: Building ../skribblnios_sw_bsp/
+C:/intelFPGA_lite/18.0/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../skribblnios_sw_bsp/
+[BSP build complete]
+Info: Compiling skribblmain.c to obj/default/skribblmain.o
+nios2-elf-gcc -xc -MP -MMD -c -I../skribblnios_sw_bsp//HAL/inc -I../skribblnios_sw_bsp/ -I../skribblnios_sw_bsp//drivers/inc  -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall   -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global  -o obj/default/skribblmain.o skribblmain.c
+skribblmain.c: In function 'eulerAngles':
+skribblmain.c:175:15: warning: implicit declaration of function 'atan' [-Wimplicit-function-declaration]
+  *yNew = (180*atan(yVal/(sqrt(x2+z2))))/PI;
+               ^
+skribblmain.c:175:15: warning: incompatible implicit declaration of built-in function 'atan'
+skribblmain.c:175:15: note: include '<math.h>' or provide a declaration of 'atan'
+skribblmain.c:175:26: warning: implicit declaration of function 'sqrt' [-Wimplicit-function-declaration]
+  *yNew = (180*atan(yVal/(sqrt(x2+z2))))/PI;
+                          ^
+skribblmain.c:175:26: warning: incompatible implicit declaration of built-in function 'sqrt'
+skribblmain.c:175:26: note: include '<math.h>' or provide a declaration of 'sqrt'
+skribblmain.c: In function 'roundLoop':
+skribblmain.c:236:96: warning: passing argument 10 of 'nTapFilter' makes pointer from integer without a cast [-Wint-conversion]
+    nTapFilter(x_read, y_read, z_read, &xNew, &yNew, &zNew, filterMemX, filterMemY, filterMemZ, nTapPtr);
+                                                                                                ^
+skribblmain.c:117:6: note: expected 'int *' but argument is of type 'int'
+ void nTapFilter(alt_32 x_read, alt_32 y_read, alt_32 z_read, alt_32* xNew, alt_32* yNew, alt_32* zNew, alt_32* filterMemX, alt_32* filterMemY, alt_32* filterMemZ, int* nTapPtr){
+      ^
+skribblmain.c:239:11: warning: format '%d' expects argument of type 'int', but argument 2 has type 'alt_32 {aka long int}' [-Wformat=]
+    printf("%d %d\n", yNew, zNew);
+           ^
+skribblmain.c:239:11: warning: format '%d' expects argument of type 'int', but argument 3 has type 'alt_32 {aka long int}' [-Wformat=]
+skribblmain.c:239:11: warning: format '%d' expects argument of type 'int', but argument 2 has type 'alt_32 {aka long int}' [-Wformat=]
+skribblmain.c:239:11: warning: format '%d' expects argument of type 'int', but argument 3 has type 'alt_32 {aka long int}' [-Wformat=]
+skribblmain.c:185:6: warning: unused variable 'sampleArrayZ' [-Wunused-variable]
+  int sampleArrayZ[DEMEAN_DEPTH] = {0};
+      ^
+skribblmain.c:184:6: warning: unused variable 'sampleArrayY' [-Wunused-variable]
+  int sampleArrayY[DEMEAN_DEPTH] = {0};
+      ^
+skribblmain.c:182:6: warning: unused variable 'arrPointer' [-Wunused-variable]
+  int arrPointer = 0;
+      ^
+skribblmain.c: In function 'main':
+skribblmain.c:284:11: warning: passing argument 1 of 'sprintf' from incompatible pointer type [-Wincompatible-pointer-types]
+   sprintf(scoreStr, "%d-%d", arg1, arg2); //Build score str
+           ^
+In file included from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\reent.h:13:0,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\sys\errno.h:16,
+                 from c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\errno.h:14,
+                 from ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h:48,
+                 from skribblmain.c:5:
+c:\intelfpga_lite\18.0\nios2eds\bin\gnu\h-x86_64-mingw32\nios2-elf\include\stdio.h:258:5: note: expected 'char * restrict' but argument is of type 'char **'
+ int _EXFUN(sprintf, (char *__restrict, const char *__restrict, ...)
+     ^
+skribblmain.c:285:14: warning: passing argument 1 of 'writeScore' from incompatible pointer type [-Wincompatible-pointer-types]
+   writeScore(scoreStr);
+              ^
+skribblmain.c:69:6: note: expected 'char *' but argument is of type 'char **'
+ void writeScore(char* scoreStr) {
+      ^
+Info: Linking skribblnios_sw.elf
+nios2-elf-g++  -T'../skribblnios_sw_bsp//linker.x' -msys-crt0='../skribblnios_sw_bsp//obj/HAL/src/crt0.o' -msys-lib=hal_bsp -L../skribblnios_sw_bsp/   -Wl,-Map=skribblnios_sw.map   -O0 -g -Wall   -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global  -o skribblnios_sw.elf obj/default/skribblmain.o -lm -msys-lib=m
+nios2-elf-insert skribblnios_sw.elf --thread_model hal --cpu_name cpu --qsys true --simulation_enabled false --stderr_dev jtag_uart --stdin_dev jtag_uart --stdout_dev jtag_uart --sopc_system_name NIOSSystem --quartus_project_dir "C:/Users/Shaheen/Documents/InformationProcessing/PROJECT/skribblnios/FPGA" --jdi ../..//output_files/skribblnios.jdi --sopcinfo C:/Users/Shaheen/Documents/InformationProcessing/PROJECT/skribblnios/FPGA/software/skribblnios_sw_bsp/../../NIOSSystem.sopcinfo
+Info: (skribblnios_sw.elf) 114 KBytes program size (code + initialized data).
+Info:                      65414 KBytes free for stack + heap.
+Info: Creating skribblnios_sw.objdump
+nios2-elf-objdump --disassemble --syms --all-header --source skribblnios_sw.elf >skribblnios_sw.objdump
+[skribblnios_sw build complete]
+19:13:50 **** Incremental Build of configuration Nios II for project skribblnios_sw ****
+make all 
+Info: Building ../skribblnios_sw_bsp/
+C:/intelFPGA_lite/18.0/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../skribblnios_sw_bsp/
+[BSP build complete]
+[skribblnios_sw build complete]

@@ -1,6 +1,7 @@
 from _thread import *
 import pygame
 import random
+import threading
 class Textbox(pygame.sprite.Sprite):
   def __init__(self,message):
     pygame.sprite.Sprite.__init__(self)
@@ -149,7 +150,7 @@ class Game():
         return textbox
 
 
-    def typing(self,display):
+    def typing(self):
         textbox = Textbox("Type to chat")
         textbox.upper_case = False
         textbox.rect.center = (1030,500)
@@ -216,7 +217,8 @@ class Game():
         pygame.draw.rect(self.display,(255,255,245),(self.canvas))
 
 
-        start_new_thread(self.typing,(self.display,)) 
+        self.drawThread = threading.Thread(target=self.typing, daemon=True)
+        self.drawThread.start()
 
         while self.run == True:
 

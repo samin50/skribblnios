@@ -8,7 +8,7 @@ class mainMenu():
     def __init__(self):
         self.fpga_connected = False
         self.FPGA = False
-        self.initiateFPGA = threading.Thread(target=self.connectFPGA)
+        self.initiateFPGA = threading.Thread(target=self.connectFPGA, daemon=True)
         self.initiateFPGA.start()
         pygame.init()
         #Define white colour
@@ -44,10 +44,10 @@ class mainMenu():
         self.backgrounds = []
         self.gifTracker = 0
         self.mouse_pos  = pygame.mouse.get_pos()
-        self.username_box = text_input.Textbox("Enter Username") #creating self.username_box object for the IP
+        self.username_box = GameUI.Textbox("Enter Username") #creating self.username_box object for the IP
         self.username_box.rect.center = (int(self.width/2),int(self.height/2)) #position of self.username_box on screen
         self.ip_selected = False
-        self.ip_port_box = text_input.Textbox("Enter IP:Port") #creating self.ip:port object for the IP
+        self.ip_port_box = GameUI.Textbox("Enter IP:Port") #creating self.ip:port object for the IP
         self.ip_port_selected = False
         self.ip_port_box.rect.center = (int(self.width/2),int(self.height/1.5)) #position of self.username_box on screen
 
@@ -154,6 +154,7 @@ class mainMenu():
             #return
         #Attempt to connect to server
         connectionData = ip.split(":")
+        #ConnectionData[0] = "IPHERE"
         try:
             self.Client = Client.Client(username, connectionData[0], int(connectionData[1]))
         except:

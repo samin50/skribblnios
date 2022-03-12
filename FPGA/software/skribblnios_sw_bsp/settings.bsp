@@ -2,8 +2,8 @@
 <sch:Settings xmlns:sch="http://www.altera.com/embeddedsw/bsp/schema">
         <BspType>hal</BspType>
         <BspVersion>default</BspVersion>
-        <BspGeneratedTimeStamp>11-Mar-2022 18:29:16</BspGeneratedTimeStamp>
-        <BspGeneratedUnixTimeStamp>1647023356418</BspGeneratedUnixTimeStamp>
+        <BspGeneratedTimeStamp>11-Mar-2022 23:42:40</BspGeneratedTimeStamp>
+        <BspGeneratedUnixTimeStamp>1647042160060</BspGeneratedUnixTimeStamp>
         <BspGeneratedLocation>C:\Users\Shaheen\Documents\InformationProcessing\PROJECT\skribblnios\FPGA\software\skribblnios_sw_bsp</BspGeneratedLocation>
         <BspSettingsFile>settings.bsp</BspSettingsFile>
         <SopcDesignFile>..\..\NIOSSystem.sopcinfo</SopcDesignFile>

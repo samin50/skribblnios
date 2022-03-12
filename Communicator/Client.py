@@ -11,7 +11,7 @@ class Client():
         self.isActive = True
 
         #Begin listening for data
-        self.listenThread = threading.Thread(target=self.listenData)
+        self.listenThread = threading.Thread(target=self.listenData, daemon=True)
         self.listenThread.start()
         self.sendServer("!SETNAME " + name)
     
@@ -48,7 +48,7 @@ class Client():
 
 if __name__ == "__main__":
     PORT = 9999
-    SERVER = '10.5.0.2'
+    SERVER = '26.168.146.5'
     Player = Client("Player-" + str(random.randint(0, 100)), SERVER, PORT)
     while True:
         data = input("Send data: ")

@@ -24,7 +24,7 @@ class SkribblNIOS():
             self.isActive = False
             return
         self.isActive = True
-        self.sendThread = threading.Thread(target=self.getXY)
+        self.sendThread = threading.Thread(target=self.getXY, daemon=True)
         self.sendThread.start()
         return
 

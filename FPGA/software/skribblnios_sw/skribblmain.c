@@ -16,8 +16,8 @@
 #include "alt_types.h"
 
 //Accelerometer setup and filters
-#define SAMPLING_TIME 6
-#define DEMEAN_DEPTH 64
+#define SAMPLING_TIME 3
+#define DEMEAN_DEPTH 8
 #define NTAPSIZE 30
 alt_32 x_read; //Usually not needed
 alt_32 y_read; //Pitch
@@ -145,7 +145,6 @@ void demeanValues(alt_32 y_read, alt_32 z_read, alt_32* yNew, alt_32* zNew, int*
 	int runningSumZ = 0;
 	int i;
 	//Overwrite previous values
-	//printf("%d, %d, ptr:%d\n", y_read, z_read, *arrPointer);
 	sampleArrayY[*arrPointer] = y_read;
 	sampleArrayZ[*arrPointer] = z_read;
 	//Array pointer
@@ -155,15 +154,12 @@ void demeanValues(alt_32 y_read, alt_32 z_read, alt_32* yNew, alt_32* zNew, int*
 	}
 	//Calculate running sum
 	for(i = 0; i < DEMEAN_DEPTH; i++) {
-		//printf("%d\n", sampleArrayY[i]);
 		if(sampleArrayY[i] == 0) {
 			break;
 		}
 		runningSumY += sampleArrayY[i];
 		runningSumZ += sampleArrayZ[i];
 	}
-	//printf("i: %d\n", i);
-	//printf("%d, %d, avg:%d, %d\n", y_read, z_read, (runningSumY/(i+1)), (runningSumZ/(i+1)));
 	*yNew = y_read - (runningSumY/(i));
 	*zNew = z_read - (runningSumZ/(i));
 }
@@ -175,7 +171,6 @@ void eulerAngles(alt_32 x_read, alt_32 y_read, alt_32 z_read, alt_32* xNew, alt_
 	int x2 = xVal*xVal;
 	int y2 = yVal*yVal;
 	int z2 = zVal*zVal;
-	//float tempX, tempY, tempZ;
 	//Convert to degrees
 	*yNew = (180*atan(yVal/(sqrt(x2+z2))))/PI;
 	*zNew = (180*atan((sqrt(x2+y2))/zVal))/PI;
@@ -193,7 +188,7 @@ void roundLoop(FILE* fp, int roundLength) {
 	alt_32 filterMemZ[NTAPSIZE] = {0};
 	alt_32 xNew, yNew, zNew;
 	//Setup
-	clock_t startRoundTime = times(NULL);
+	clock_t startRoundTime = alt_nticks();
 	clock_t sampleTimer = alt_nticks();
 	clock_t secondTimer = alt_nticks();
 	clock_t stopTime, t_freq;
@@ -204,7 +199,7 @@ void roundLoop(FILE* fp, int roundLength) {
 	int tempButtonIn, tempSwitchIn;
 	//While time is not up
 	while (timeRatio < 100) {
-		stopTime = times(NULL);
+		stopTime = alt_nticks();
 		t_freq = alt_ticks_per_second();
 		//Calculate ratio of time elapsed
 		timeRatio = (((stopTime-startRoundTime)/t_freq)*100)/roundLength;
@@ -278,18 +273,18 @@ int main () {
 	//Wait for start
 	writeScore("start.");
 	ledWrite(0b1111111111);
-	//waitForCommand(fp, 'S', 'S', &commandChar, &arg1, &arg2);
+	waitForCommand(fp, 'S', 'S', &commandChar, &arg1, &arg2);
 	roundLength = arg1;//Length of round will be stored into arg1
 	writeScore("------");
 	//Wait for round start
-	//waitForCommand(fp, 'R', 'R', &commandChar, &arg1, &arg2);
+	waitForCommand(fp, 'R', 'R', &commandChar, &arg1, &arg2);
 	fclose(fp);
 	//MAIN LOOP - Terminate loop when game end - command E
 	while (commandChar != 'E') {
 		sprintf(scoreStr, "%d-%d", arg1, arg2); //Build score str
 		writeScore(scoreStr);
 		fp = fopen("/dev/jtag_uart", "r+");
-		roundLoop(fp, -1);
+		roundLoop(fp, roundLength);
 		commandChar = 'F';
 		waitForCommand(fp, 'R', 'E', &commandChar, &arg1, &arg2);
 	}
