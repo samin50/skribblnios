@@ -120,7 +120,7 @@ class Game():
 
     def music_change(self):
         pygame.mixer.music.stop()
-        self.game_music = pygame.mixer.music.load("Game/assets/drawing_music.mp3")
+        self.game_music = pygame.mixer.music.load("Game/assets/bold_statement.mp3")
         pygame.mixer.music.play(-1)
 
     def blti(self,binlist): #binary list to int
