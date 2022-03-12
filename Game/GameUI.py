@@ -52,7 +52,7 @@ class Game():
 
         self.clock = pygame.time.Clock()
         self.fps = 100
-        self.chat_fps = 200
+        self.chat_fps = 100
         self.events = pygame.event.get()
         self.colour_string = ""
         self.timer = 200
@@ -141,7 +141,6 @@ class Game():
 
     def refresh_textbox(self,textbox):
         self.msg_limiter()
-        #self.redraw_chat(textbox)
         for i in range (len(self.received_msgs)):
             textbox = Textbox(self.received_msgs[i])
             textbox.rect.center = (1030,100+(30*i))
@@ -167,28 +166,27 @@ class Game():
         while True:
             chat_clock.tick(self.chat_fps)
             self.refresh_textbox(textbox)
-            for e in self.events:
-                if e.type == pygame.QUIT:
-                    self.run = False
-                if e.type == pygame.KEYUP:
-                    if e.key in [pygame.K_RSHIFT, pygame.K_LSHIFT]:
+            for event in self.events:
+                self.redraw_chat(textbox)
+                if event.type == pygame.KEYUP:
+                    if event.key in [pygame.K_RSHIFT, pygame.K_LSHIFT]:
                         textbox.upper_case = False
-                if e.type == pygame.KEYDOWN:
+                if event.type == pygame.KEYDOWN:
                     if len(self.username+textbox.text)<26:
                         self.redraw_chat(textbox)
-                        textbox.add_chr(pygame.key.name(e.key))
-                        if e.key == pygame.K_SPACE:
+                        textbox.add_chr(pygame.key.name(event.key))
+                        if event.key == pygame.K_SPACE:
                             if len(textbox.text)<20:
                                 textbox.text += " "
                                 textbox.update()
                             else:
                                 print("Text too long")
-                        if e.key in [pygame.K_RSHIFT, pygame.K_LSHIFT]:
+                        if event.key in [pygame.K_RSHIFT, pygame.K_LSHIFT]:
                             textbox.upper_case = True
-                        if e.key == pygame.K_BACKSPACE:
+                        if event.key == pygame.K_BACKSPACE:
                             textbox.text = textbox.text[:-1]
                             textbox.update()
-                    if e.key == pygame.K_RETURN:
+                    if event.key == pygame.K_RETURN:
                         if len(textbox.text) > 0:
                             pygame.display.update(textbox.rect)
                             self.messages.append(textbox.text)
@@ -197,7 +195,7 @@ class Game():
                             textbox = Textbox("Type to chat")
                             textbox.rect.center = (1030,500)
                             self.refresh_textbox(textbox)
-                    if e.type == pygame.QUIT:
+                    if event.type == pygame.QUIT:
                         pygame.quit()
 
 
