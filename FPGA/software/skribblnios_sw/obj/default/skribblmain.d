@@ -12,9 +12,9 @@ obj/default/skribblmain.o: skribblmain.c ../skribblnios_sw_bsp/system.h \
  ../skribblnios_sw_bsp//HAL/inc/sys/alt_irq.h \
  ../skribblnios_sw_bsp//HAL/inc/nios2.h \
  ../skribblnios_sw_bsp//HAL/inc/priv/alt_legacy_irq.h \
- ../skribblnios_sw_bsp//HAL/inc/sys/alt_timestamp.h \
- ../skribblnios_sw_bsp//drivers/inc/altera_avalon_timer.h \
- ../skribblnios_sw_bsp//HAL/inc/sys/alt_warning.h
+ ../skribblnios_sw_bsp//HAL/inc/sys/alt_alarm.h \
+ ../skribblnios_sw_bsp//HAL/inc/sys/alt_llist.h \
+ ../skribblnios_sw_bsp//HAL/inc/priv/alt_alarm.h
 
 ../skribblnios_sw_bsp/system.h:
 
@@ -44,8 +44,8 @@ obj/default/skribblmain.o: skribblmain.c ../skribblnios_sw_bsp/system.h \
 
 ../skribblnios_sw_bsp//HAL/inc/priv/alt_legacy_irq.h:
 
-../skribblnios_sw_bsp//HAL/inc/sys/alt_timestamp.h:
+../skribblnios_sw_bsp//HAL/inc/sys/alt_alarm.h:
 
-../skribblnios_sw_bsp//drivers/inc/altera_avalon_timer.h:
+../skribblnios_sw_bsp//HAL/inc/sys/alt_llist.h:
 
-../skribblnios_sw_bsp//HAL/inc/sys/alt_warning.h:
+../skribblnios_sw_bsp//HAL/inc/priv/alt_alarm.h:

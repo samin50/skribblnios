@@ -201,8 +201,21 @@
          type = "int";
       }
    }
+   element led.external_connection
+   {
+      datum _tags
+      {
+         value = "";
+         type = "String";
+      }
+   }
    element led.s1
    {
+      datum _tags
+      {
+         value = "";
+         type = "String";
+      }
       datum baseAddress
       {
          value = "134221984";
@@ -1091,13 +1104,13 @@
    version="18.0"
    start="cpu.irq"
    end="accelerometer_spi.interrupt">
-  <parameter name="irqNumber" value="1" />
- </connection>
- <connection kind="interrupt" version="18.0" start="cpu.irq" end="timer.irq">
   <parameter name="irqNumber" value="2" />
  </connection>
- <connection kind="interrupt" version="18.0" start="cpu.irq" end="jtag_uart.irq">
+ <connection kind="interrupt" version="18.0" start="cpu.irq" end="timer.irq">
   <parameter name="irqNumber" value="0" />
+ </connection>
+ <connection kind="interrupt" version="18.0" start="cpu.irq" end="jtag_uart.irq">
+  <parameter name="irqNumber" value="1" />
  </connection>
  <connection
    kind="reset"

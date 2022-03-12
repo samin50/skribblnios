@@ -4,7 +4,7 @@
  * Machine generated for CPU 'cpu' in SOPC Builder design 'NIOSSystem'
  * SOPC Builder design path: ../../NIOSSystem.sopcinfo
  *
- * Generated: Fri Mar 04 02:19:38 GMT 2022
+ * Generated: Fri Mar 11 18:29:20 GMT 2022
  */
 
 /*
@@ -188,7 +188,7 @@
  */
 
 #define ACCELEROMETER_SPI_BASE 0x80010c8
-#define ACCELEROMETER_SPI_IRQ 1
+#define ACCELEROMETER_SPI_IRQ 2
 #define ACCELEROMETER_SPI_IRQ_INTERRUPT_CONTROLLER_ID 0
 #define ACCELEROMETER_SPI_NAME "/dev/accelerometer_spi"
 #define ACCELEROMETER_SPI_SPAN 2
@@ -244,8 +244,8 @@
 
 #define ALT_INCLUDE_INSTRUCTION_RELATED_EXCEPTION_API
 #define ALT_MAX_FD 32
-#define ALT_SYS_CLK none
-#define ALT_TIMESTAMP_CLK TIMER
+#define ALT_SYS_CLK TIMER
+#define ALT_TIMESTAMP_CLK none
 
 
 /*
@@ -417,7 +417,7 @@
 
 #define ALT_MODULE_CLASS_jtag_uart altera_avalon_jtag_uart
 #define JTAG_UART_BASE 0x80010c0
-#define JTAG_UART_IRQ 0
+#define JTAG_UART_IRQ 1
 #define JTAG_UART_IRQ_INTERRUPT_CONTROLLER_ID 0
 #define JTAG_UART_NAME "/dev/jtag_uart"
 #define JTAG_UART_READ_DEPTH 64
@@ -532,7 +532,7 @@
 #define TIMER_COUNTER_SIZE 32
 #define TIMER_FIXED_PERIOD 0
 #define TIMER_FREQ 100000000
-#define TIMER_IRQ 2
+#define TIMER_IRQ 0
 #define TIMER_IRQ_INTERRUPT_CONTROLLER_ID 0
 #define TIMER_LOAD_VALUE 99999
 #define TIMER_MULT 0.001

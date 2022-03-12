@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <EnsembleReport name="NIOSSystem" kind="NIOSSystem" version="1.0" fabric="QSYS">
  <!-- Format version 18.0 614 (Future versions may contain additional information.) -->
- <!-- 2022.03.04.02:12:38 -->
+ <!-- 2022.03.11.18:28:11 -->
  <!-- A collection of modules and connections -->
  <parameter name="AUTO_GENERATION_ID">
   <type>java.lang.Integer</type>
-  <value>1646359958</value>
+  <value>1647023291</value>
   <derived>false</derived>
   <enabled>true</enabled>
   <visible>false</visible>
@@ -6650,21 +6650,21 @@ parameters are a RESULT of the module parameters. -->
     <moduleName>accelerometer_spi</moduleName>
     <slaveName>interrupt</slaveName>
     <name>accelerometer_spi.interrupt</name>
-    <interruptNumber>1</interruptNumber>
+    <interruptNumber>2</interruptNumber>
    </interrupt>
    <interrupt>
     <isBridge>false</isBridge>
     <moduleName>timer</moduleName>
     <slaveName>irq</slaveName>
     <name>timer.irq</name>
-    <interruptNumber>2</interruptNumber>
+    <interruptNumber>0</interruptNumber>
    </interrupt>
    <interrupt>
     <isBridge>false</isBridge>
     <moduleName>jtag_uart</moduleName>
     <slaveName>irq</slaveName>
     <name>jtag_uart.irq</name>
-    <interruptNumber>0</interruptNumber>
+    <interruptNumber>1</interruptNumber>
    </interrupt>
   </interface>
   <interface name="debug_reset_request" kind="reset_source" version="18.0">
@@ -17158,7 +17158,7 @@ parameters are a RESULT of the module parameters. -->
    end="accelerometer_spi.interrupt">
   <parameter name="irqNumber">
    <type>int</type>
-   <value>1</value>
+   <value>2</value>
    <derived>false</derived>
    <enabled>true</enabled>
    <visible>true</visible>
@@ -17193,7 +17193,7 @@ parameters are a RESULT of the module parameters. -->
    end="timer.irq">
   <parameter name="irqNumber">
    <type>int</type>
-   <value>2</value>
+   <value>0</value>
    <derived>false</derived>
    <enabled>true</enabled>
    <visible>true</visible>
@@ -17228,7 +17228,7 @@ parameters are a RESULT of the module parameters. -->
    end="jtag_uart.irq">
   <parameter name="irqNumber">
    <type>int</type>
-   <value>0</value>
+   <value>1</value>
    <derived>false</derived>
    <enabled>true</enabled>
    <visible>true</visible>

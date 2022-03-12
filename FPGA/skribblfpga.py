@@ -3,25 +3,16 @@ import intel_jtag_uart
 
 class SkribblNIOS():
     #Instantiate only once
-    def __init__(self):
-        self.Connected = False
-        try:
-            self.UART = intel_jtag_uart.intel_jtag_uart()
-        except Exception as e:
-            self.Connected = True
-            print(e)
-            exit(0)
+    def __init__(self, gameInstance=None):
+        self.gameInstance = gameInstance
+        self.UART = intel_jtag_uart.intel_jtag_uart()
         self.isActive = False
-        self.gameInstance = None
         self.sendThread = None
         self.recieveThread = None
 
     def setGame(self, game):
         self.gameInstance = game
         return
-    
-    def isConnected(self):
-        return self.Connected
     
     #Will be used to change the parameters that is sent to the draw function
     def changeParams(self):
@@ -33,14 +24,17 @@ class SkribblNIOS():
             self.isActive = False
             return
         self.isActive = True
-        self.sendThread = threading.Thread(target=self.getXY)
+        self.sendThread = threading.Thread(target=self.getXY, daemon=True)
         self.sendThread.start()
         return
 
     #Dont use, handled by start
     def getXY(self):
         while self.isActive:
-            XYData = self.UART.read().decode('utf-8')
+            try:
+                XYData = self.UART.read().decode('utf-8')
+            except:
+                print("Error, connection lost to FPGA.")
             if self.gameInstance is None:
                 if len(XYData) > 0:
                     print(XYData)

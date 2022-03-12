@@ -2,7 +2,7 @@ set_global_assignment -entity "NIOSSystem" -library "NIOSSystem" -name IP_TOOL_N
 set_global_assignment -entity "NIOSSystem" -library "NIOSSystem" -name IP_TOOL_VERSION "18.0"
 set_global_assignment -entity "NIOSSystem" -library "NIOSSystem" -name IP_TOOL_ENV "Qsys"
 set_global_assignment -library "NIOSSystem" -name SOPCINFO_FILE [file join $::quartus(qip_path) "../../NIOSSystem.sopcinfo"]
-set_global_assignment -entity "NIOSSystem" -library "NIOSSystem" -name SLD_INFO "QSYS_NAME NIOSSystem HAS_SOPCINFO 1 GENERATION_ID 1646359806"
+set_global_assignment -entity "NIOSSystem" -library "NIOSSystem" -name SLD_INFO "QSYS_NAME NIOSSystem HAS_SOPCINFO 1 GENERATION_ID 1646793243"
 set_global_assignment -library "NIOSSystem" -name MISC_FILE [file join $::quartus(qip_path) "../NIOSSystem.cmp"]
 set_global_assignment -library "NIOSSystem" -name SLD_FILE [file join $::quartus(qip_path) "NIOSSystem.regmap"]
 set_global_assignment -library "NIOSSystem" -name SLD_FILE [file join $::quartus(qip_path) "NIOSSystem.debuginfo"]
@@ -16,7 +16,7 @@ set_global_assignment -entity "NIOSSystem" -library "NIOSSystem" -name IP_COMPON
 set_global_assignment -entity "NIOSSystem" -library "NIOSSystem" -name IP_COMPONENT_REPORT_HIERARCHY "On"
 set_global_assignment -entity "NIOSSystem" -library "NIOSSystem" -name IP_COMPONENT_INTERNAL "Off"
 set_global_assignment -entity "NIOSSystem" -library "NIOSSystem" -name IP_COMPONENT_VERSION "MS4w"
-set_global_assignment -entity "NIOSSystem" -library "NIOSSystem" -name IP_COMPONENT_PARAMETER "QVVUT19HRU5FUkFUSU9OX0lE::MTY0NjM1OTgwNg==::QXV0byBHRU5FUkFUSU9OX0lE"
+set_global_assignment -entity "NIOSSystem" -library "NIOSSystem" -name IP_COMPONENT_PARAMETER "QVVUT19HRU5FUkFUSU9OX0lE::MTY0Njc5MzI0Mw==::QXV0byBHRU5FUkFUSU9OX0lE"
 set_global_assignment -entity "NIOSSystem" -library "NIOSSystem" -name IP_COMPONENT_PARAMETER "QVVUT19ERVZJQ0VfRkFNSUxZ::TUFYIDEw::QXV0byBERVZJQ0VfRkFNSUxZ"
 set_global_assignment -entity "NIOSSystem" -library "NIOSSystem" -name IP_COMPONENT_PARAMETER "QVVUT19ERVZJQ0U=::MTBNNTBEQUY0ODRDN0c=::QXV0byBERVZJQ0U="
 set_global_assignment -entity "NIOSSystem" -library "NIOSSystem" -name IP_COMPONENT_PARAMETER "QVVUT19ERVZJQ0VfU1BFRURHUkFERQ==::Nw==::QXV0byBERVZJQ0VfU1BFRURHUkFERQ=="
@@ -64,7 +64,7 @@ set_global_assignment -entity "NIOSSystem_irq_mapper" -library "NIOSSystem" -nam
 set_global_assignment -entity "NIOSSystem_irq_mapper" -library "NIOSSystem" -name IP_COMPONENT_DESCRIPTION "Q29udmVydHMgaW5kaXZpZHVhbCBpbnRlcnJ1cHQgd2lyZXMgdG8gYSBidXMuIEJ5IGRlZmF1bHQsIHRoZSBpbnRlcnJ1cHQgc2VuZGVyIGNvbm5lY3RlZCB0byB0aGUgcmVjZWl2ZXIwIGludGVyZmFjZSBvZiB0aGUgSVJRIG1hcHBlciBpcyB0aGUgaGlnaGVzdCBwcmlvcml0eSB3aXRoIHNlcXVlbnRpYWwgcmVjZWl2ZXJzIGJlaWluZyBzdWNjZXNzaXZlbHkgbG93ZXIgcHJpb3JpdHku"
 set_global_assignment -entity "NIOSSystem_irq_mapper" -library "NIOSSystem" -name IP_COMPONENT_PARAMETER "TlVNX1JDVlJT::Mw==::TnVtYmVyIG9mIHJlY2VpdmVycw=="
 set_global_assignment -entity "NIOSSystem_irq_mapper" -library "NIOSSystem" -name IP_COMPONENT_PARAMETER "U0VOREVSX0lSUV9XSURUSA==::MzI=::U2VuZGVyIGludGVycnVwdCB3aWR0aA=="
-set_global_assignment -entity "NIOSSystem_irq_mapper" -library "NIOSSystem" -name IP_COMPONENT_PARAMETER "SVJRX01BUA==::MDoxLDE6MiwyOjA=::SVJRIG1hcA=="
+set_global_assignment -entity "NIOSSystem_irq_mapper" -library "NIOSSystem" -name IP_COMPONENT_PARAMETER "SVJRX01BUA==::MDoyLDE6MCwyOjE=::SVJRIG1hcA=="
 set_global_assignment -entity "NIOSSystem_irq_mapper" -library "NIOSSystem" -name IP_COMPONENT_PARAMETER "QVVUT19ERVZJQ0VfRkFNSUxZ::TUFYIDEw::QXV0byBERVZJQ0VfRkFNSUxZ"
 set_global_assignment -entity "NIOSSystem_mm_interconnect_0" -library "NIOSSystem" -name IP_COMPONENT_NAME "TklPU1N5c3RlbV9tbV9pbnRlcmNvbm5lY3RfMA=="
 set_global_assignment -entity "NIOSSystem_mm_interconnect_0" -library "NIOSSystem" -name IP_COMPONENT_DISPLAY_NAME "TU0gSW50ZXJjb25uZWN0"

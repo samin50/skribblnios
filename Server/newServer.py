@@ -9,7 +9,7 @@ class ClientData():
         self.isActive = True
         self.serverProperties = (conn, addr)
         self.serverObj = server
-        self.dataThread = threading.Thread(target=self.listenData)
+        self.dataThread = threading.Thread(target=self.listenData, daemon=True)
         self.dataThread.start()
     
     #Wait for data from clients
