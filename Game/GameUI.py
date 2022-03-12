@@ -39,7 +39,7 @@ class Game():
         self.game_end = False
         self.username = username
         self.width = 1200
-        self.height = 600
+        self.height = 700
         self.display = pygame.display.set_mode((self.width, self.height))
         #self.display = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
 
@@ -51,9 +51,7 @@ class Game():
         self.canvas.center = (self.width/2.7,self.height/2)
 
         self.clock = pygame.time.Clock()
-        self.fps = 100
-        self.chat_fps = 100
-        self.events = pygame.event.get()
+        self.fps = 200
         self.colour_string = ""
         self.timer = 200
         self.background = pygame.image.load("Game/assets/sky_background.png")
@@ -66,27 +64,30 @@ class Game():
         self.colour_list = {"black": (0, 0, 0), "white": (255, 255, 255)}
         self.colours= [[0,0,0],[0,0,0],[0,0,0]] # 3-bit binary value representing colour switch state
         #each bit represents the rgb value 64
-        self.switches = [0,0,0,0,0,0,0,0,0]
+        
         self.brush_colour = self.colour_list["black"]
         self.colour_change = False
         self.draw_blit = False
         self.erase = False
 
 #switches:
-        self.off_switch_imgs = [
-        (pygame.image.load("Game/assets/switches/1.png")),(pygame.image.load("Game/assets/switches/2.png")),
-        (pygame.image.load("Game/assets/switches/3.png")), (pygame.image.load("Game/assets/switches/7.png")),
-        (pygame.image.load("Game/assets/switches/8.png")), (pygame.image.load("Game/assets/switches/9.png")),
-        (pygame.image.load("Game/assets/switches/13.png")), (pygame.image.load("Game/assets/switches/14.png")),
-        (pygame.image.load("Game/assets/switches/15.png"))
+        self.switches = [1,1,0,0,0,0,0,1,1]
+        self.switch_size = (40,70)
+        self.off_switch = [
+            (pygame.image.load("Game/assets/switches/1.png")),(pygame.image.load("Game/assets/switches/2.png")),
+            (pygame.image.load("Game/assets/switches/3.png")), (pygame.image.load("Game/assets/switches/7.png")),
+            (pygame.image.load("Game/assets/switches/8.png")), (pygame.image.load("Game/assets/switches/9.png")),
+            (pygame.image.load("Game/assets/switches/13.png")), (pygame.image.load("Game/assets/switches/14.png")),
+            (pygame.image.load("Game/assets/switches/15.png"))
         ]
 
-        self.off_switch_imgs = [
-        (pygame.image.load("Game/assets/switches/4.png")),(pygame.image.load("Game/assets/switches/5.png")),
-        (pygame.image.load("Game/assets/switches/6.png")), (pygame.image.load("Game/assets/switches/10.png")),
-        (pygame.image.load("Game/assets/switches/11.png")), (pygame.image.load("Game/assets/switches/12.png")),
-        (pygame.image.load("Game/assets/switches/16.png")), (pygame.image.load("Game/assets/switches/17.png")),
-        (pygame.image.load("Game/assets/switches/18.png"))
+
+        self.on_switch= [
+            (pygame.image.load("Game/assets/switches/4.png")),(pygame.image.load("Game/assets/switches/5.png")),
+            (pygame.image.load("Game/assets/switches/6.png")), (pygame.image.load("Game/assets/switches/10.png")),
+            (pygame.image.load("Game/assets/switches/11.png")), (pygame.image.load("Game/assets/switches/12.png")),
+            (pygame.image.load("Game/assets/switches/16.png")), (pygame.image.load("Game/assets/switches/17.png")),
+            (pygame.image.load("Game/assets/switches/18.png"))
         ]
 
 #chatbox:
@@ -96,6 +97,17 @@ class Game():
         self.msg_limit = 13
         self.max_char_len = 26
 
+    def switch_img_scale(self):
+        for i in range(9):
+            self.off_switch[i] = pygame.transform.scale(self.off_switch[i],(self.switch_size))
+            self.on_switch[i] = pygame.transform.scale(self.on_switch[i],(self.switch_size))
+    
+    def disp_switches(self):
+        for i in range (9):
+            if self.switches[i]:
+                self.display.blit(self.on_switch[i],(i*70+100,self.height-5-self.switch_size[1]))
+            else:
+                self.display.blit(self.off_switch[i],(i*70+100,self.height-5-self.switch_size[1]))
 
     def redraw_window(self):
         self.display.fill(self.colour_list["white"])
@@ -116,8 +128,10 @@ class Game():
 
 
     def colour_update(self):
+        self.colours[0] =self.switches[:3]
+        self.colours[1] =self.switches[3:6]
+        self.colours[2] =self.switches[6:9]
         self.brush_colour = ((self.blti(self.colours[0])<<5),(self.blti(self.colours[1])<<5),(self.blti(self.colours[2])<<5)) #RGB
-
     def switch_update(self):
         for i in range(len(self.colours)):
             for j in range(len(self.colours[i])):
@@ -139,11 +153,11 @@ class Game():
         pygame.draw.rect(self.display,(245,245,240),(self.chatbox))
         self.display.blit(textbox.message, textbox.rect)
 
-    def refresh_textbox(self,textbox):
+    def refresh_textbox(self):
         self.msg_limiter()
         for i in range (len(self.received_msgs)):
             textbox = Textbox(self.received_msgs[i])
-            textbox.rect.center = (1030,100+(30*i))
+            textbox.rect.center = (self.width-170,100+(30*i))
             self.display.blit(textbox.message, textbox.rect)
 
     def addtext(self,textbox):
@@ -160,12 +174,12 @@ class Game():
         chat_clock = pygame.time.Clock()
         textbox = Textbox("Type to chat")
         textbox.upper_case = False
-        textbox.rect.center = (1030,500)
+        textbox.rect.center = (self.width-170,self.height-100)
         self.chatbox.center = (self.width/1.18,self.height/2)
         self.redraw_chat(textbox)
         while True:
-            chat_clock.tick(self.chat_fps)
-            self.refresh_textbox(textbox)
+            chat_clock.tick(self.fps)
+            self.refresh_textbox()
             for event in self.events:
                 self.redraw_chat(textbox)
                 if event.type == pygame.KEYUP:
@@ -193,8 +207,8 @@ class Game():
                             self.received_msgs.append((self.username+":  "+textbox.text))
                             print(self.messages)
                             textbox = Textbox("Type to chat")
-                            textbox.rect.center = (1030,500)
-                            self.refresh_textbox(textbox)
+                            textbox.rect.center = (self.width-170,self.height-100)
+                            self.refresh_textbox()
                     if event.type == pygame.QUIT:
                         pygame.quit()
 
@@ -233,7 +247,8 @@ class Game():
         self.background=pygame.transform.scale(self.background,(self.width,self.height))
         self.display.blit(self.background,(0,0))
 #switches:
-        self. display.blit(self.off_switch_imgs[0],(0,0))
+        self.switch_img_scale()
+        #self. display.blit(self.off_switch[0],(0,0))
         
         pygame.draw.rect(self.display,(255,255,245),(self.canvas))
         
@@ -243,14 +258,15 @@ class Game():
         #start_new_thread(self.typing,(self.display,)) old threading function - outdated
 
         while self.run == True:
+            self.events = pygame.event.get()
 
             self.frame_counter+=1
             if (self.frame_counter % self.fps): #counts number of seconds player is drawing using the frame rate of the game
                 self.draw_timer+=1
             if self.draw_timer == 1:
                 self.music_change()
-            self.events = pygame.event.get()
-
+            
+            self.disp_switches()
             self.clock.tick(self.fps)
             self.brush_size = 5
             self.colour_update()
@@ -267,6 +283,7 @@ class Game():
             #self.display.blit(self.canvas)
             #pygame.draw(self.display, (255,255,255), canvas)
             pygame.display.update()
+
             for event in self.events:
                 if event.type == pygame.QUIT:
                     self.run = False
