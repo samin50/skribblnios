@@ -13,6 +13,7 @@ class Game():
         self.width = 1200
         self.height = 600
         self.display = pygame.display.set_mode((self.width, self.height))
+        #self.display = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
 
 #canvas:
         self.canvas_width = int(self.width/1.6)
@@ -96,7 +97,7 @@ class Game():
 
     def refresh_textbox(self,textbox):
         self.msg_limiter()
-        self.redraw_chat(textbox)
+        #self.redraw_chat(textbox)
         for i in range (len(self.received_msgs)):
             textbox = Textbox(self.received_msgs[i])
             textbox.rect.center = (1030,100+(30*i))
@@ -178,7 +179,8 @@ class Game():
 
         
         if self.draw_blit:
-            pygame.draw.rect(self.display,(self.brush_colour),pygame.Rect(xy[0],xy[1],5,5))
+            pygame.draw.circle(self.display,(self.brush_colour),(xy[0],xy[1]),5)
+            #pygame.draw.rect(self.display,(self.brush_colour),pygame.Rect(xy[0],xy[1],5,5))
 
 
     def round_start(self):
