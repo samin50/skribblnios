@@ -1,6 +1,6 @@
 import pygame
 from Communicator import Client
-from FPGA import skribblfpga
+#from FPGA import skribblfpga
 from Game import GameUI
 import threading
 import time
@@ -141,8 +141,9 @@ class mainMenu():
             try:
                 #Check if FPGA connected every 2.5 sec
                 time.sleep(2.5)
-                self.FPGA = skribblfpga.SkribblNIOS(self)
-                self.fpga_connected = True
+                #self.FPGA = skribblfpga.SkribblNIOS(self)
+                print("This is meant to be the FPGA thread, but wont work on mac")
+                #self.fpga_connected = True
             except Exception as e:
                 print(e)
         return
