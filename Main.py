@@ -28,6 +28,11 @@ class mainMenu():
         self.ip_port = ""
         self.fpga_box = pygame.Rect(300,300,70,50)
         self.connect_box = pygame.Rect(500,300,100,50)
+        self.port_number_box_border = pygame.Rect(196,100,104,56)
+        self.port_number_box = pygame.Rect(198,102,100,52)
+        self.name_box = pygame.Rect(205,300,150,40)
+        self.name_box_border = pygame.Rect(204,299,151,41)
+        self.name_box_secondary_border = pygame.Rect(180,295,200,49)
         self.connect_pressed = False
         self.server_connect = False
         self.isActive = True
@@ -40,7 +45,7 @@ class mainMenu():
         
         self.clock = pygame.time.Clock()
           
-        self.music = pygame.mixer.music.load("Game/assets/menu_music.mp3")
+        self.music = pygame.mixer.music.load("Game/assets/bold_statement.mp3")
         pygame.mixer.music.play(-1)
         self.backgrounds = []
         self.gifTracker = 0
@@ -48,7 +53,7 @@ class mainMenu():
         self.username_box = GameUI.Textbox("Enter Username") #creating self.username_box object for the IP
         self.username_box.rect.center = (int(self.width/2),int(self.height/2)) #position of self.username_box on screen
         self.ip_selected = False
-        self.ip_port_box = GameUI.Textbox("Enter IP:Port") #creating self.ip:port object for the IP
+        self.ip_port_box = GameUI.Textbox("Enter IP: Port") #creating self.ip:port object for the IP
         self.ip_port_selected = False
         self.ip_port_box.rect.center = (int(self.width/2),int(self.height/1.5)) #position of self.username_box on screen
 
@@ -72,7 +77,13 @@ class mainMenu():
             self.display.fill(self.white)
             self.display.blit(self.backgrounds[self.gifTracker],(0,0))
             pygame.draw.rect(self.display,(255,255,255),(self.username_box)) #self.username_box for IP being drawn onto the display
-            pygame.draw.rect(self.display,(255,255,255),(self.ip_port_box)) #self.username_box for IP being drawn onto the display
+            pygame.draw.rect(self.display,(255,255,255),(self.ip_port_box))
+            pygame.draw.rect(self.display,(0,0,0),(self.port_number_box_border),2)
+            pygame.draw.rect(self.display,(0,0,0),(self.name_box),2)
+            pygame.draw.rect(self.display,(140,197,230),(self.name_box))
+            pygame.draw.rect(self.display,(0,0,0),(self.name_box_border),2)
+            pygame.draw.rect(self.display,(0,0,0),(self.name_box_secondary_border), 2)
+            pygame.draw.rect(self.display,(140, 197, 230),(self.port_number_box)) #self.username_box for IP being drawn onto the display
             if self.fpga_connected:
                 pygame.draw.rect(self.display,(0,250,0),(self.fpga_box)) #box changes colour if not connected to fpga
             else:
@@ -110,29 +121,36 @@ class mainMenu():
     def run_text(self,box):
         for e in pygame.event.get():
             self.display.blit(box.message,box.rect)
+
+
             if e.type == pygame.KEYDOWN:
-                box.add_chr(pygame.key.name(e.key))
-                if e.key == pygame.K_SPACE:
-                    if len(box.text)<20:
-                        box.text += " "
-                        box.update()
-                    else:
-                        print("Text too long")
-                if e.key in [pygame.K_RSHIFT, pygame.K_LSHIFT]:
-                    box.upper_case = True
-                else:
-                    box.upper_case = False
+
                 if e.key == pygame.K_BACKSPACE:
-                    box.text = box.text[:-1]
-                    box.update()
-                '''if e.key == pygame.K_RETURN:
-                    if (box.text) > 0:
-                        pygame.display.update(box.rect)
-                        print(box.text)'''
-                        #self.received_msgs.append((self.username+":  "+self.username_box.text))
-                        #print(self.messages)
-                        #self.username_box = Textbox("Type to chat")
-                        #self.username_box.rect.center = (1030,500)
+                  box.text = box.text[:-1]
+                  box.update()
+
+                box.add_chr(pygame.key.name(e.key))
+                if (len(box.text) < 15):
+
+                    if e.key == pygame.K_SPACE:
+                        if len(box.text)<20:
+                            box.text += " "
+                            box.update()
+                        else:
+                            print("Text too long")
+                    if e.key in [pygame.K_RSHIFT, pygame.K_LSHIFT]:
+                        box.upper_case = True
+                    else:
+                        box.upper_case = False
+
+                    '''if e.key == pygame.K_RETURN:
+                        if (box.text) > 0:
+                            pygame.display.update(box.rect)
+                            print(box.text)'''
+                            #self.received_msgs.append((self.username+":  "+self.username_box.text))
+                            #print(self.messages)
+                            #self.username_box = Textbox("Type to chat")
+                            #self.username_box.rect.center = (1030,500)
     #pygame.display.flip()
     #self.display.blit(self.username_box.message, self.username_box.rect)
         return
