@@ -9,9 +9,9 @@ class ClientData():
         self.isActive = True
         self.serverProperties = (conn, addr)
         self.serverObj = server
-        self.dataThread = threading.Thread(target=self.listenData, daemon=True)
+        self.dataThread = threading.Thread(target=self.listenData)
         self.dataThread.start()
-    
+
     #Wait for data from clients
     def listenData(self):
         while self.isActive:
@@ -47,7 +47,7 @@ class ClientData():
             return
 
     def sendClientData(self, data):
-        self.serverProperties[0].send(str.encode(f"Server response: {data}"))
+        self.serverProperties[0].send(str.encode(f"Server response: {data}\n"))
     
 
 
@@ -55,6 +55,7 @@ class Server():
     def __init__(self, PORT):
         self.address = socket.gethostbyname(socket.gethostname())
         self.server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.server.settimeout(3600)
         self.isActive = True
         self.server.bind((self.address, PORT))
         self.clientList = []
@@ -89,7 +90,8 @@ class Server():
                 self.clientList[player].processData(data)
         return
 
-    
+
+
     #Process data on server side
     def processServerSide(self, data):
         data = data.split("SERVERCMD: ")[1]
@@ -125,6 +127,25 @@ class Server():
             self.sendData(whosdrawing, True)
             print(self.next_drawer.name + " is now drawing!")
             return
+        #select the 3 words at the start of each round
+        if "!WORDSELECT" in data:
+            f = "football,snake,waves,beach,knee,airplane,flag,car,eyes,octopus,robot,king,skateboard,window,banana,tree,elephant,door,key,bridge,bow,fork,sun,hippo,woman,pen,mickeymouse,fire,spider,kite,rain,computer,corn,star,cat,motorcycle,pizza,butterfly,cherry,love,cake,tennis,cannon,teapot,sunglasses,drink,happy,table,notebook,jupiter,letter,boot,crown,starfish,tyre,doughnut,pipe,apple pie,shark,chair,hole,ping pong,tower,cigarette,anvil,ramp,fish,forehead,sailing,hair,positive,apple,golf,bicycle,clock,drip,lightning,trousers,signal,music,laptop,mouse,arrow,backpack,lightbulb,headphones,pickaxe,sword,pause,beard,bikini,ice cream,duck,swimming pool,shin pads,sausage dog,paper clip,chicken wing,gym,flashlight"
+            Dictionary = f.split(",")
+
+            word1 = random.choice(Dictionary) 
+            self.sendData(word1, True) 
+            
+
+            word2 = random.choice(Dictionary)
+            while word2 == word1:
+             word2 = random.choice(Dictionary) 
+            self.sendData(word2, True)
+
+            word3 = random.choice(Dictionary)
+            while (word3 == word1) or (word3 == word2):
+             word3 = random.choice(Dictionary) 
+            self.sendData(word3, True)
+    
 
     #Send data
     def sendData(self, data, all=False, playerName=0):
