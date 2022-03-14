@@ -43,6 +43,10 @@ class Game():
         self.width = 1200
         self.height = 700
         self.display = pygame.display.set_mode((self.width, self.height))
+        self.cursor = pygame.image.load("Game/assets/cursor.png")
+        self.cursor.convert()
+        self.cursorRect = self.cursor.get_rect()
+
         #self.display = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
         self.xy = (0,0)
 
@@ -136,7 +140,7 @@ class Game():
 
     def music_change(self):
         pygame.mixer.music.stop()
-        self.game_music = pygame.mixer.music.load("Game/assets/bold_statement.mp3")
+        self.game_music = pygame.mixer.music.load("Game/assets/drawing_music.mp3")
         pygame.mixer.music.play(-1)
 
     def blti(self,binlist): #binary list to int
@@ -155,12 +159,19 @@ class Game():
 
     def mouse_down(self,draw):
         self.xy = pygame.mouse.get_pos()
-        for event in self.events:
-            if draw == True:
-                if event.type == pygame.MOUSEBUTTONDOWN:
-                    self.draw_blit = True
-                elif event.type == pygame.MOUSEBUTTONUP:
+        if draw == True:
+            for event in self.events:
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_SPACE:
+                        self.draw_blit = True
+                elif event.type == pygame.KEYUP:
                     self.draw_blit = False
+                        
+                else:
+                    if event.type == pygame.MOUSEBUTTONDOWN:
+                        self.draw_blit = True
+                    elif event.type == pygame.MOUSEBUTTONUP:
+                        self.draw_blit = False
     
     def msg_limiter(self):
         if len(self.received_msgs)>=self.msg_limit:
@@ -239,10 +250,7 @@ class Game():
         self.y = random.randint(0,500)
         self.draw_blit = True
         return (self.x,self.y)
-
-    def draw(self,x,y):
-        #xy = pygame.mouse.get_pos()
-
+    def draw_check(self):
         canvas_collide = self.canvas.collidepoint(pygame.mouse.get_pos())
         chat_collide = self.chatbox.collidepoint(pygame.mouse.get_pos())
 
@@ -254,10 +262,14 @@ class Game():
         if chat_collide:
             self.mouse_down(False)
 
-        
         if self.draw_blit:
-            pygame.draw.circle(self.display,(self.brush_colour),(xy[0],xy[1]),5)
-            #pygame.draw.rect(self.display,(self.brush_colour),pygame.Rect(xy[0],xy[1],5,5))
+            self.draw(pygame.mouse.get_pos()[0],pygame.mouse.get_pos()[1])
+
+    def draw(self,x,y):
+
+        #xy = pygame.mouse.get_pos()
+        pygame.draw.circle(self.display,(self.brush_colour),(x,y),5)
+        #pygame.draw.rect(self.display,(self.brush_colour),pygame.Rect(xy[0],xy[1],5,5))
 
 
     def round_start(self):
@@ -285,7 +297,7 @@ class Game():
                 self.draw_timer+=1
             if self.draw_timer == 1:
                 self.music_change()
-            
+            self.draw_check()
             self.disp_switches()
             self.clock.tick(self.fps)
             self.brush_size = 5
