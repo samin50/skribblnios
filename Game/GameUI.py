@@ -31,9 +31,11 @@ class Textbox(pygame.sprite.Sprite):
     self.rect.center = old_rect_pos
 class Game():
     def __init__(self,username, FPGAinstance=None, clientInstance=None):
+        pygame.init()
+        self.font = pygame.font.Font("Game/assets/pencil.TTF", 20)
         self.FPGA = FPGAinstance
         self.Client = clientInstance
-        pygame.init()
+        
         self.run = False
         self.round_end = False
         self.game_end = False
@@ -42,6 +44,7 @@ class Game():
         self.height = 700
         self.display = pygame.display.set_mode((self.width, self.height))
         #self.display = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+        self.xy = (0,0)
 
 #canvas:
         self.canvas_width = int(self.width/1.6)
@@ -96,6 +99,19 @@ class Game():
         self.received_msgs = []
         self.msg_limit = 13
         self.max_char_len = 26
+    
+    def size_update(self, is_increasing):
+        if self.brush_size>=1:
+            if is_increasing:
+                self.brush_size+=2
+            else:
+                self.brush_size-=2
+
+
+    def switch_update(self,switches):
+        temp =([int(i) for i in switches])
+        self.switches = temp[:8]
+
 
     def switch_img_scale(self):
         for i in range(9):
@@ -138,6 +154,7 @@ class Game():
                 self.colours[i][j] = random.randint(0,1)
 
     def mouse_down(self,draw):
+        self.xy = pygame.mouse.get_pos()
         for event in self.events:
             if draw == True:
                 if event.type == pygame.MOUSEBUTTONDOWN:
@@ -156,9 +173,12 @@ class Game():
     def refresh_textbox(self):
         self.msg_limiter()
         for i in range (len(self.received_msgs)):
-            textbox = Textbox(self.received_msgs[i])
-            textbox.rect.center = (self.width-170,100+(30*i))
-            self.display.blit(textbox.message, textbox.rect)
+            #pygame.display.blit
+            text_surface = self.font.render(self.received_msgs[i],False,(0, 0, 0))
+            self.display.blit(text_surface, dest=(self.width-300,100+(30*i)))
+            #textbox = Textbox(self.received_msgs[i])
+            #textbox.rect.center = (self.width-170,100+(30*i))
+            #self.display.blit(textbox.message, textbox.rect)
 
     def addtext(self,textbox):
         if len(textbox.text)<self.max_char_len:
@@ -220,8 +240,8 @@ class Game():
         self.draw_blit = True
         return (self.x,self.y)
 
-    def draw(self):
-        xy = pygame.mouse.get_pos()
+    def draw(self,x,y):
+        #xy = pygame.mouse.get_pos()
 
         canvas_collide = self.canvas.collidepoint(pygame.mouse.get_pos())
         chat_collide = self.chatbox.collidepoint(pygame.mouse.get_pos())
@@ -271,7 +291,6 @@ class Game():
             self.brush_size = 5
             self.colour_update()
             #self.switch_update()
-            self.draw()
 
             #self.random_draw()
             #if (((self.centre[0]-self.canvas_width/2)<xy[0]>(self.centre[0]+self.canvas_width/2)) or ((self.centre[1]-self.canvas_height/2)<xy[1]>(self.centre[1]+self.canvas_height/2))):
