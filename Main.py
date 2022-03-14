@@ -6,7 +6,9 @@ import threading
 import time
 class mainMenu():
     def __init__(self):
+        pygame.init()
         self.fpga_connected = False
+        self.font = pygame.font.Font("Game/assets/pencil.TTF", 20)
         self.FPGA = None
         self.Client = None
         self.initiateFPGA = threading.Thread(target=self.connectFPGA, daemon=True)
@@ -30,14 +32,13 @@ class mainMenu():
         self.height = 550
         self.fpga_box = pygame.Rect(self.width-70,0,70,50)
         self.connect_box = pygame.Rect(self.width-90,140,100,50)
-        self.port_number_box_border = pygame.Rect(196,100,104,56)
-        self.port_number_box = pygame.Rect(198,102,100,52)
-        self.name_box = pygame.Rect(205,274,150,50) #Shan: this is where you need to move "Enter username" to
-        self.name_box_border = pygame.Rect(204,274,151,50)
+        self.name_box = pygame.Rect(195,274,170,50) #Shan: this is where you need to move "Enter username" to
+        self.name_box_border = pygame.Rect(194,274,171,50)
         self.name_box_secondary_border = pygame.Rect(150,265,257,68)
         self.lower_box = pygame.Rect(150,345,257,140)
         self.avatar_box = pygame.Rect(427,265,270,220)
-        self.avatar_box_white = pygame.Rect(427,265,270,220)
+        self.avatar_box_white = pygame.Rect(429,267,266,216) #Shan: you need to put the avatars here and add triangles and a switching option
+        self.ip_port_box_border = pygame.Rect(100,365,150,27)
         self.connect_pressed = False
         self.server_connect = False
         self.isActive = True
@@ -54,11 +55,11 @@ class mainMenu():
         self.gifTracker = 0
         self.mouse_pos  = pygame.mouse.get_pos()
         self.username_box = GameUI.Textbox("Enter Username") #creating self.username_box object for the IP
-        self.username_box.rect.center = (int(self.width/2),int(self.height/2)) #position of self.username_box on screen
+        self.username_box.rect.center = (280,297) #position of self.username_box on screen
         self.ip_selected = False
         self.ip_port_box = GameUI.Textbox("Enter IP: Port") #creating self.ip:port object for the IP
         self.ip_port_selected = False
-        self.ip_port_box.rect.center = (int(self.width/2),int(self.height/1.5)) #position of self.username_box on screen
+        self.ip_port_box.rect.center = (280,377) #position of self.username_box on screen
 
 
         for i in range(100):
@@ -81,15 +82,14 @@ class mainMenu():
             self.display.blit(self.backgrounds[self.gifTracker],(0,0))
             pygame.draw.rect(self.display,(255,255,255),(self.username_box)) #self.username_box for IP being drawn onto the display
             pygame.draw.rect(self.display,(255,255,255),(self.ip_port_box))
-            pygame.draw.rect(self.display,(0,0,0),(self.port_number_box_border),2)
             pygame.draw.rect(self.display,(0,0,0),(self.name_box),2)
             pygame.draw.rect(self.display,(140,197,230),(self.name_box))
             pygame.draw.rect(self.display,(0,0,0),(self.name_box_border),2)
             pygame.draw.rect(self.display,(0,0,0),(self.name_box_secondary_border), 2)
             pygame.draw.rect(self.display,(0,0,0),(self.lower_box), 2)
             pygame.draw.rect(self.display,(0,0,0),(self.avatar_box), 2)
-            pygame.draw.rect(self.display,(255,255,255),(self.avatar_box_white))
-            pygame.draw.rect(self.display,(140, 197, 230),(self.port_number_box)) #self.username_box for IP being drawn onto the display
+            pygame.draw.rect(self.display,(0,0,0),(self.ip_port_box), 2)
+            pygame.draw.rect(self.display,(255,255,255),(self.avatar_box_white))#self.username_box for IP being drawn onto the display
             if self.fpga_connected:
                 pygame.draw.rect(self.display,(0,250,0),(self.fpga_box)) #box changes colour if not connected to fpga
             else:

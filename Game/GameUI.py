@@ -27,7 +27,7 @@ class Textbox(pygame.sprite.Sprite):
   def update(self):
     old_rect_pos = self.rect.center
     self.message = self.font.render(self.text, False, self.black)
-    self.rect = pygame.Rect(600,600,80,22)
+    self.rect = pygame.Rect(600,600,100,26)
     self.rect.center = old_rect_pos
 class Game():
     def __init__(self,username, FPGAinstance=None, clientInstance=None):
