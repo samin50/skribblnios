@@ -26,18 +26,21 @@ class mainMenu():
         #Declare dimensions and background
         self.ip = ""
         self.ip_port = ""
-        self.fpga_box = pygame.Rect(300,300,70,50)
-        self.connect_box = pygame.Rect(500,300,100,50)
+        self.width = 900
+        self.height = 550
+        self.fpga_box = pygame.Rect(self.width-70,0,70,50)
+        self.connect_box = pygame.Rect(self.width-90,140,100,50)
         self.port_number_box_border = pygame.Rect(196,100,104,56)
         self.port_number_box = pygame.Rect(198,102,100,52)
-        self.name_box = pygame.Rect(205,300,150,40)
-        self.name_box_border = pygame.Rect(204,299,151,41)
-        self.name_box_secondary_border = pygame.Rect(180,295,200,49)
+        self.name_box = pygame.Rect(205,274,150,50) #Shan: this is where you need to move "Enter username" to
+        self.name_box_border = pygame.Rect(204,274,151,50)
+        self.name_box_secondary_border = pygame.Rect(150,265,257,68)
+        self.lower_box = pygame.Rect(150,345,257,140)
+        self.avatar_box = pygame.Rect(427,265,270,220)
+        self.avatar_box_white = pygame.Rect(427,265,270,220)
         self.connect_pressed = False
         self.server_connect = False
         self.isActive = True
-        self.width = 900
-        self.height = 550
         self.background = pygame.image.load("Game/assets/sky_background.png")
         self.background= pygame.transform.scale(self.background,(self.width,self.height))
         self.display = pygame.display.set_mode((self.width, self.height))
@@ -83,6 +86,9 @@ class mainMenu():
             pygame.draw.rect(self.display,(140,197,230),(self.name_box))
             pygame.draw.rect(self.display,(0,0,0),(self.name_box_border),2)
             pygame.draw.rect(self.display,(0,0,0),(self.name_box_secondary_border), 2)
+            pygame.draw.rect(self.display,(0,0,0),(self.lower_box), 2)
+            pygame.draw.rect(self.display,(0,0,0),(self.avatar_box), 2)
+            pygame.draw.rect(self.display,(255,255,255),(self.avatar_box_white))
             pygame.draw.rect(self.display,(140, 197, 230),(self.port_number_box)) #self.username_box for IP being drawn onto the display
             if self.fpga_connected:
                 pygame.draw.rect(self.display,(0,250,0),(self.fpga_box)) #box changes colour if not connected to fpga
