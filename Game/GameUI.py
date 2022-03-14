@@ -8,6 +8,7 @@ class Textbox(pygame.sprite.Sprite):
     pygame.sprite.Sprite.__init__(self)
     self.text = ""
     self.font = pygame.font.Font("Game/assets/pencil.TTF", 20)
+    self.smallfont = pygame.font.Font("Game/assets/pencil.TTF", 13) #Shan: you need to make this the smaller font of the IP port no etc
     self.black = (0,0,0)
     self.white = (255,255,255)
     self.message = self.font.render(message, False, self.black)
@@ -29,7 +30,7 @@ class Textbox(pygame.sprite.Sprite):
   def update(self):
     old_rect_pos = self.rect.center
     self.message = self.font.render(self.text, False, self.black)
-    self.rect = self.message.get_rect()
+    self.rect = pygame.Rect(600,600,100,26)
     self.rect.center = old_rect_pos
 class Game():
     def __init__(self,username, FPGAinstance=None, clientInstance=None):
