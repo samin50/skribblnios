@@ -7,10 +7,11 @@ PORT = 9999
 SERVER = '146.169.180.197'
 
 class Client():
-    def __init__(self, name, ip, port):
+    def __init__(self, name, ip, port, game):
         self.name = name            
         self.server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.server.settimeout(600)
+        self.isHost = False
         try:
             self.server.connect((ip, port))
         except:
@@ -27,14 +28,20 @@ class Client():
     def sendServer(self, data):
         if self.isActive:
             self.server.send(data.encode('utf-8'))
-            
-            if data == "!DISCONNECT":
+        if(self.name == self.clientsever.name):
+            if data == "SERVERCMD: !DISCONNECT":
                 self.isActive = False
                 print("you have now disconnected from the server")
                 
             if data == "SERVERCMD: !KILL":
                 self.isActive = False
                 print("you have now closed the server and no longer connected")
+           
+    
+    def setGame(self, game):
+        self.Game = game
+
+    
             
     #Always wait for data
     def listenData(self):
@@ -54,16 +61,30 @@ class Client():
                 print("Error in connection to server, connection lost.")
                 input()
 
+            
+            self.closeServer()
          
-            if(i+j == 1000):
+            if(i+j == 10000):
                  self.isActive = False
                  print("you have now disconnected from the server")
                  
         return
     
     #Process recieved data
+    #listening to the server
     def processData(self, data):
+        
         print("\n" + data + '\n')
+        
+        data = data.split("CLIENTCMD: ")[1]
+        print(f"Server: RECEIVED SERVER COMMAND: {data}")
+        if data == "!HOST ":
+            if(self.name == data.split("!HOST ")[1]):
+                self.isHost = True
+        if data == "!COORDINATES":
+               None
+
+              
 
 if __name__ == "__main__":
     Player = Client("Player-" + str(random.randint(0, 100)), SERVER, PORT)

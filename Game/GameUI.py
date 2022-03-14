@@ -1,6 +1,8 @@
 import pygame
 import random
 import threading
+from Server import newServer
+
 class Textbox(pygame.sprite.Sprite):
   def __init__(self,message):
     pygame.sprite.Sprite.__init__(self)
@@ -238,7 +240,8 @@ class Game():
         if self.draw_blit:
             pygame.draw.circle(self.display,(self.brush_colour),(xy[0],xy[1]),5)
             #pygame.draw.rect(self.display,(self.brush_colour),pygame.Rect(xy[0],xy[1],5,5))
-
+       
+        return (self.x,self.y)
 
     def round_start(self):
         self.run = True

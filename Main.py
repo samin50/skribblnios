@@ -4,6 +4,7 @@ from Communicator import Client
 from Game import GameUI
 import threading
 import time
+
 class mainMenu():
     def __init__(self):
         self.fpga_connected = False
@@ -155,8 +156,8 @@ class mainMenu():
             print("Will use mouse")
             #return
         #Attempt to connect to server
-        #username = "name"
-        #ip = "IP:PORT"
+        username = "aryan"
+        ip = "146.169.186.165:9999"
         connectionData = ip.split(":")
         try:
             self.Client = Client.Client(username, connectionData[0], int(connectionData[1]))
@@ -166,6 +167,7 @@ class mainMenu():
         #Instantiate game and hook FPGA
         self.isActive = False
         self.Game = GameUI.Game(username, self.FPGA, self.Client)
+        self.Client.setGame(self.Game)
         if self.fpga_connected:
             self.FPGA.setGame(self.Game)
         self.fpga_connected = True
