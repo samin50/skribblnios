@@ -41,7 +41,9 @@ class Client():
                 print("Error in connection to server, connection lost.")
                 input()
         return
-    
+    def setGame(self, game):
+        self.Game = game
+        return
     #Process recieved data
     def processData(self, data):
         print("\n" + data + '\n')
