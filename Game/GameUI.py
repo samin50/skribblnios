@@ -169,7 +169,7 @@ class Game():
         return textbox
 
 
-    def typing(self,display):
+    def typing(self):
         pygame.init()
         chat_clock = pygame.time.Clock()
         textbox = Textbox("Type to chat")
@@ -252,7 +252,7 @@ class Game():
         
         pygame.draw.rect(self.display,(255,255,245),(self.canvas))
         
-        chat_thread = threading.Thread(target=self.typing, args=(self.display,),daemon=True) #daemon thread so it will terminate when master thread quits
+        chat_thread = threading.Thread(target=self.typing, daemon=True) #daemon thread so it will terminate when master thread quits
         chat_thread.start() #starts a new thread for the chat window
         
         #start_new_thread(self.typing,(self.display,)) old threading function - outdated

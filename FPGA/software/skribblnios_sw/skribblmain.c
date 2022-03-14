@@ -236,7 +236,7 @@ void roundLoop(FILE* fp, int roundLength) {
 			nTapFilter(x_read, y_read, z_read, &xNew, &yNew, &zNew, filterMemX, filterMemY, filterMemZ, nTapPtr);
 			//demeanValues(y_read, z_read, &newY, &newZ, sampleArrayY, sampleArrayZ, &arrPointer); //Demean filter
 			eulerAngles(x_read, y_read, z_read, &xNew, &yNew, &zNew);
-			printf("%d %d\n", yNew, zNew);
+			printf("C %d %d\n", yNew, zNew);
 			//printf("%d %d %d\n", x_read, y_read, z_read);
 			sampleTimer = alt_nticks();
 		}

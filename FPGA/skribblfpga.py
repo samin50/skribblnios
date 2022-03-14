@@ -32,15 +32,24 @@ class SkribblNIOS():
     def getXY(self):
         while self.isActive:
             try:
-                XYData = self.UART.read().decode('utf-8')
+                Data = self.UART.read().decode('utf-8')
             except:
                 print("Error, connection lost to FPGA.")
             if self.gameInstance is None:
-                if len(XYData) > 0:
-                    print(XYData)
+                if len(Data) > 0:
+                    print(Data)
             else:
                 #Use parameters here
-                self.gameInstance.Draw(XYData) #Game drawing function
+                commandParam = Data.split()
+                if commandParam[0] == 'C':
+                    self.gameInstance.draw(commandParam[1], commandParam[2]) #Game drawing function
+                elif commandParam[0] == 'S':
+                    self.gameInstance.switch_update(str(int(commandParam[1], base=2)))
+                elif commandParam[0] == 'B':
+                    if commandParam[1] == "1":
+                        self.gameInstance.size_update(True)
+                    elif commandParam[1] == "2":
+                        self.gameInstance.size_update(False)
         return
 
     #Used to update data on the FPGA, unless KILL is sent
