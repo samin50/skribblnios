@@ -87,7 +87,7 @@ class Game():
             (pygame.image.load("Game/assets/switches/6.png")), (pygame.image.load("Game/assets/switches/10.png")),
             (pygame.image.load("Game/assets/switches/11.png")), (pygame.image.load("Game/assets/switches/12.png")),
             (pygame.image.load("Game/assets/switches/16.png")), (pygame.image.load("Game/assets/switches/17.png")),
-            (pygame.image.load("Game/assets/switches/18.png"))
+            (pygame.image.load("Game/assets/switches/18.png")) 
         ]
 
 #chatbox:
@@ -96,6 +96,24 @@ class Game():
         self.received_msgs = []
         self.msg_limit = 13
         self.max_char_len = 26
+    
+    def mouseTracker(self):
+        while self.FPGA is None:
+            mousePos = pygame.mouse.get_pos()
+            self.draw_check(mousePos[0], mousePos[1])
+    
+    def size_update(self, is_increasing):
+        if self.brush_size>=1:
+            if is_increasing:
+                self.brush_size+=2
+            else:
+                self.brush_size-=2
+
+
+    def switch_update(self,switches):
+        temp =([int(i) for i in switches])
+        self.switches = temp[:8]
+
 
     def switch_img_scale(self):
         for i in range(9):
@@ -136,7 +154,7 @@ class Game():
         for i in range(len(self.colours)):
             for j in range(len(self.colours[i])):
                 self.colours[i][j] = random.randint(0,1)
-
+    """REDUNDANT
     def mouse_down(self,draw):
         for event in self.events:
             if draw == True:
@@ -144,6 +162,13 @@ class Game():
                     self.draw_blit = True
                 elif event.type == pygame.MOUSEBUTTONUP:
                     self.draw_blit = False
+                        
+                else:
+                    if event.type == pygame.MOUSEBUTTONDOWN:
+                        self.draw_blit = True
+                    elif event.type == pygame.MOUSEBUTTONUP:
+                        self.draw_blit = False
+    """
     
     def msg_limiter(self):
         if len(self.received_msgs)>=self.msg_limit:
@@ -180,6 +205,8 @@ class Game():
         while True:
             chat_clock.tick(self.fps)
             self.refresh_textbox()
+            if not self.chatbox.collidepoint(pygame.mouse.get_pos()):
+                continue
             for event in self.events:
                 self.redraw_chat(textbox)
                 if event.type == pygame.KEYUP:
@@ -220,24 +247,31 @@ class Game():
         self.draw_blit = True
         return (self.x,self.y)
 
-    def draw(self):
-        xy = pygame.mouse.get_pos()
-
-        canvas_collide = self.canvas.collidepoint(pygame.mouse.get_pos())
-        chat_collide = self.chatbox.collidepoint(pygame.mouse.get_pos())
-
-        if canvas_collide==False:
-            self.draw_blit = False
+    def draw_check(self, x, y, useFPGA=False):
+        FACTOR = 6.6
+        print(x, y)
+        if not self.draw_blit:
+            return
+        # Add offsets for coordinates
+        if useFPGA:
+            #Bound angles
+            if abs(x) > 25 or abs(y) > 35:
+                return
+            x+=self.width//2.7*FACTOR
+            y+=self.height//2*FACTOR
         else:
-            self.mouse_down(True)
+            print("Coords:", x, y)
+        # returns true if coordinates are within the canvas
+        canvas_collide = self.canvas.collidepoint((x,y))
 
-        if chat_collide:
-            self.mouse_down(False)
+        if canvas_collide==True:
+            pygame.draw.circle(self.display,(self.brush_colour),(int(x),int(y)),5)
 
-        
-        if self.draw_blit:
-            pygame.draw.circle(self.display,(self.brush_colour),(xy[0],xy[1]),5)
-            #pygame.draw.rect(self.display,(self.brush_colour),pygame.Rect(xy[0],xy[1],5,5))
+    def draw(self,x,y):
+
+        #xy = pygame.mouse.get_pos()
+        pygame.draw.circle(self.display,(self.brush_colour),(x,y),5)
+        #pygame.draw.rect(self.display,(self.brush_colour),pygame.Rect(xy[0],xy[1],5,5))
 
 
     def round_start(self):
@@ -256,7 +290,9 @@ class Game():
         chat_thread.start() #starts a new thread for the chat window
         
         #start_new_thread(self.typing,(self.display,)) old threading function - outdated
-
+        #Mouse thread 
+        self.mouseThread = threading.Thread(target=self.mouseTracker, daemon=True)
+        self.mouseThread.start()
         while self.run == True:
             self.events = pygame.event.get()
 
@@ -265,13 +301,11 @@ class Game():
                 self.draw_timer+=1
             if self.draw_timer == 1:
                 self.music_change()
-            
             self.disp_switches()
             self.clock.tick(self.fps)
             self.brush_size = 5
             self.colour_update()
             #self.switch_update()
-            self.draw()
 
             #self.random_draw()
             #if (((self.centre[0]-self.canvas_width/2)<xy[0]>(self.centre[0]+self.canvas_width/2)) or ((self.centre[1]-self.canvas_height/2)<xy[1]>(self.centre[1]+self.canvas_height/2))):
@@ -288,6 +322,12 @@ class Game():
                 if event.type == pygame.QUIT:
                     self.run = False
                     pygame.quit()
+                #Mouse usage only
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_SPACE:
+                        self.draw_blit = True
+                if event.type == pygame.KEYUP:
+                    self.draw_blit = False
 
     def load_sprites(self):
         None

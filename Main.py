@@ -143,6 +143,7 @@ class mainMenu():
                 time.sleep(2.5)
                 self.FPGA = skribblfpga.SkribblNIOS(self)
                 self.fpga_connected = True
+                return
             except Exception as e:
                 print(e)
         return
@@ -169,6 +170,7 @@ class mainMenu():
             self.FPGA.setGame(self.Game)
         self.Client.setGame(self.Game)
         self.fpga_connected = True
+        self.FPGA.start()
         self.Game.round_start()
         return
 
