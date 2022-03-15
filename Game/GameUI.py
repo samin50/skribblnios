@@ -7,8 +7,8 @@ class Textbox(pygame.sprite.Sprite):
   def __init__(self,message):
     pygame.sprite.Sprite.__init__(self)
     self.text = ""
-    self.font = pygame.font.Font("Game/assets/pencil.TTF", 20)
-    self.smallfont = pygame.font.Font("Game/assets/pencil.TTF", 13) #Shan: you need to make this the smaller font of the IP port no etc
+    self.font = pygame.font.Font("Game/assets/Gameplay.TTF", 15)
+    self.smallfont = pygame.font.Font("Game/assets/Gameplay.TTF", 13) #Shan: you need to make this the smaller font of the IP port no etc
     self.black = (0,0,0)
     self.white = (255,255,255)
     self.message = self.font.render(message, False, self.black)

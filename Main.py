@@ -9,7 +9,8 @@ class mainMenu():
     def __init__(self):
         pygame.init()
         self.fpga_connected = False
-        self.font = pygame.font.Font("Game/assets/pencil.TTF", 20)
+        self.font = pygame.font.Font("Game/assets/Gameplay.TTF", 20)
+
         self.FPGA = None
         self.Client = None
         self.initiateFPGA = threading.Thread(target=self.connectFPGA, daemon=True)
@@ -48,7 +49,7 @@ class mainMenu():
         self.background= pygame.transform.scale(self.background,(self.width,self.height))
         self.display = pygame.display.set_mode((self.width, self.height))
         #self.display.fill(self.white)
-        
+
         self.clock = pygame.time.Clock()
           
         #self.music = pygame.mixer.music.load("Game/assets/bold_statement.mp3")
@@ -57,7 +58,7 @@ class mainMenu():
         self.gifTracker = 0
         self.mouse_pos  = pygame.mouse.get_pos()
         self.username_box = GameUI.Textbox("Enter Username") #creating self.username_box object for the IP
-        self.username_box.rect.center = (305,297) #position of self.username_box on screen
+        self.username_box.rect.center = (305,300) #position of self.username_box on screen
         self.ip_selected = False
         self.ip_port_box = GameUI.Textbox("Enter IP: Port") #creating self.ip:port object for the IP
         self.ip_port_selected = False
@@ -93,6 +94,11 @@ class mainMenu():
             pygame.draw.rect(self.display,(0,0,0),(self.ip_port_box_border), 2)
             pygame.draw.rect(self.display,(240,227,40),(self.ip_port_box_bg))
             pygame.draw.rect(self.display,(255,255,255),(self.avatar_box_white))#self.username_box for IP being drawn onto the display
+            pygame.draw.polygon(self.display,color=(200,0,200),points=[(480,376), (520,326), (520,426)])
+            pygame.draw.polygon(self.display,color=(0,0,0),points=[(478,377), (520,325), (520,428)],width=4)
+            pygame.draw.polygon(self.display,color=(200,0,200),points=[(700,376), (659,326), (659,426)])
+            pygame.draw.polygon(self.display,color=(0,0,0),points=[(702,377), (658,325), (658,428)],width=4)
+            
             if self.fpga_connected:
                 pygame.draw.rect(self.display,(0,250,0),(self.fpga_box)) #box changes colour if not connected to fpga
             else:
