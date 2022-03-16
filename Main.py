@@ -168,9 +168,9 @@ class mainMenu():
         self.Game = GameUI.Game(username, self.FPGA, self.Client)
         if self.fpga_connected:
             self.FPGA.setGame(self.Game)
+            self.FPGA.start()
         self.Client.setGame(self.Game)
-        self.fpga_connected = True
-        self.FPGA.start()
+        self.fpga_connected = True    
         self.Game.round_start()
         return
 

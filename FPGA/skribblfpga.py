@@ -37,15 +37,14 @@ class SkribblNIOS():
                 print("Error, connection lost to FPGA.")
                 continue
             if len(Data) > 0:
-                print(Data)
                 #Use parameters here
                 if self.gameInstance is not None:
                     try: #Sometimes all data from FPGA is not recieved, causing errors
                         commandParam = Data.split()
                         if commandParam[0] == 'C':
-                            self.gameInstance.draw_check(int(commandParam[2]), -int(commandParam[1]), True) #Game drawing function
+                            self.gameInstance.draw_check(int(commandParam[1]), -int(commandParam[2]), True) #Game drawing function
                         elif commandParam[0] == 'S':
-                            self.gameInstance.switch_update(str(int(commandParam[1], base=2)))
+                            self.gameInstance.switch_update(commandParam[1])
                         elif commandParam[0] == 'B':
                             if commandParam[1] == "1":
                                 self.gameInstance.size_update(True)

@@ -33,6 +33,7 @@ class Game():
     def __init__(self,username, FPGAinstance=None, clientInstance=None):
         self.FPGA = FPGAinstance
         self.Client = clientInstance
+        self.drawPoints = [(None, None), (None, None), 0]
         pygame.init()
         self.run = False
         self.round_end = False
@@ -51,7 +52,7 @@ class Game():
         self.canvas.center = (self.width/2.7,self.height/2)
 
         self.clock = pygame.time.Clock()
-        self.fps = 200
+        self.fps = 60
         self.colour_string = ""
         self.timer = 200
         self.background = pygame.image.load("Game/assets/sky_background.png")
@@ -109,23 +110,10 @@ class Game():
             else:
                 self.brush_size-=2
 
-
-    def switch_update(self,switches):
-        temp =([int(i) for i in switches])
-        self.switches = temp[:8]
-
-
     def switch_img_scale(self):
         for i in range(9):
             self.off_switch[i] = pygame.transform.scale(self.off_switch[i],(self.switch_size))
             self.on_switch[i] = pygame.transform.scale(self.on_switch[i],(self.switch_size))
-    
-    def disp_switches(self):
-        for i in range (9):
-            if self.switches[i]:
-                self.display.blit(self.on_switch[i],(i*70+100,self.height-5-self.switch_size[1]))
-            else:
-                self.display.blit(self.off_switch[i],(i*70+100,self.height-5-self.switch_size[1]))
 
     def redraw_window(self):
         self.display.fill(self.colour_list["white"])
@@ -139,21 +127,25 @@ class Game():
     def music_change(self):
         pygame.mixer.music.stop()
         self.game_music = pygame.mixer.music.load("Game/assets/bold_statement.mp3")
-        pygame.mixer.music.play(-1)
+        #pygame.mixer.music.play(-1)
 
     def blti(self,binlist): #binary list to int
         return int(''.join(map(str, binlist)), 2)
 
-
-    def colour_update(self):
-        self.colours[0] =self.switches[:3]
-        self.colours[1] =self.switches[3:6]
-        self.colours[2] =self.switches[6:9]
+    def switch_update(self, switchesNew):
+        print(switchesNew)
+        switchesNew = str(bin(int(switchesNew)))[2:].zfill(9)
+        self.switches = [int(i) for i in switchesNew]
+        self.colours[0] =self.switches[0:2]
+        self.colours[1] =self.switches[3:5]
+        self.colours[2] =self.switches[6:8]
         self.brush_colour = ((self.blti(self.colours[0])<<5),(self.blti(self.colours[1])<<5),(self.blti(self.colours[2])<<5)) #RGB
-    def switch_update(self):
-        for i in range(len(self.colours)):
-            for j in range(len(self.colours[i])):
-                self.colours[i][j] = random.randint(0,1)
+        for i in range (9):
+            if self.switches[i]:
+                self.display.blit(self.on_switch[i],(i*70+100,self.height-5-self.switch_size[1]))
+            else:
+                self.display.blit(self.off_switch[i],(i*70+100,self.height-5-self.switch_size[1]))
+
     """REDUNDANT
     def mouse_down(self,draw):
         for event in self.events:
@@ -249,28 +241,31 @@ class Game():
 
     def draw_check(self, x, y, useFPGA=False):
         FACTOR = 6.6
-        print(x, y)
         if not self.draw_blit:
             return
         # Add offsets for coordinates
         if useFPGA:
             #Bound angles
-            if abs(x) > 25 or abs(y) > 35:
+            if abs(x) > 35 or abs(y) > 25:
                 return
-            x+=self.width//2.7*FACTOR
-            y+=self.height//2*FACTOR
-        else:
-            print("Coords:", x, y)
+            x =(FACTOR*x)+self.width//2.7
+            y =(FACTOR*y)+self.height//2
+        print("Coords:", x, y)
         # returns true if coordinates are within the canvas
         canvas_collide = self.canvas.collidepoint((x,y))
 
         if canvas_collide==True:
-            pygame.draw.circle(self.display,(self.brush_colour),(int(x),int(y)),5)
+            self.draw(x,y)
 
     def draw(self,x,y):
-
+        #Aryan send coordinates here
+        Pointer = self.drawPoints[2]
+        self.drawPoints[Pointer] = (x, y)
+        if self.drawPoints[not Pointer] != (None, None):
+             pygame.draw.line(self.display,(self.brush_colour),self.drawPoints[Pointer],self.drawPoints[not Pointer], self.brush_size*2)
+        self.drawPoints[2] = not self.drawPoints[2] #Invert pointer
         #xy = pygame.mouse.get_pos()
-        pygame.draw.circle(self.display,(self.brush_colour),(x,y),5)
+        pygame.draw.circle(self.display,(self.brush_colour),(x,y),self.brush_size)
         #pygame.draw.rect(self.display,(self.brush_colour),pygame.Rect(xy[0],xy[1],5,5))
 
 
@@ -293,6 +288,7 @@ class Game():
         #Mouse thread 
         self.mouseThread = threading.Thread(target=self.mouseTracker, daemon=True)
         self.mouseThread.start()
+        self.switch_update("54")
         while self.run == True:
             self.events = pygame.event.get()
 
@@ -301,10 +297,8 @@ class Game():
                 self.draw_timer+=1
             if self.draw_timer == 1:
                 self.music_change()
-            self.disp_switches()
             self.clock.tick(self.fps)
             self.brush_size = 5
-            self.colour_update()
             #self.switch_update()
 
             #self.random_draw()
@@ -325,9 +319,11 @@ class Game():
                 #Mouse usage only
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_SPACE:
+                        self.drawPoints = [(None, None), (None, None), 0]
                         self.draw_blit = True
                 if event.type == pygame.KEYUP:
                     self.draw_blit = False
+                    
 
     def load_sprites(self):
         None
