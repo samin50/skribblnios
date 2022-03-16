@@ -10,7 +10,7 @@ class mainMenu():
         pygame.init()
         self.fpga_connected = False
         self.font = pygame.font.Font("Game/assets/Gameplay.TTF", 20)
-
+        self.font_large = pygame.font.Font("Game/assets/Sketch College.TTF", 80)
         self.FPGA = None
         self.Client = None
         self.initiateFPGA = threading.Thread(target=self.connectFPGA, daemon=True)
@@ -39,6 +39,8 @@ class mainMenu():
         self.char_box_x = 570
         self.char_box_size = (270,220)
         self.fpga_box = pygame.Rect(self.width-110,0,110,70)
+        self.fpga_cross  = pygame.image.load("Game/assets/cross.png")
+        self.fpga_tick = pygame.image.load("Game/assets/tick.png")
         self.connect_box = pygame.Rect(200,413,210,50)
         self.name_box = pygame.Rect(self.box_x+10,274,self.box_width,50) #Shan: this is where you need to move "Enter username" to
         self.name_box_border = pygame.Rect(self.box_x+10,274,self.box_width+1,50)
@@ -54,6 +56,7 @@ class mainMenu():
         self.background = pygame.image.load("Game/assets/sky_background.png")
         self.background= pygame.transform.scale(self.background,(self.width,self.height))
         self.display = pygame.display.set_mode((self.width, self.height))
+        self.text_limit = 24
 
         self.triangle_button1 = pygame.Rect(520,325,40,100) #rect for collosion detection of traingle buttons
         self.triangle_button2 = pygame.Rect(self.char_box_x + self.char_box_size[0]+10,325,40,100)
@@ -121,27 +124,32 @@ class mainMenu():
             pygame.draw.polygon(self.display,color=(0,0,0),points=[(self.char_box_x + self.char_box_size[0]+50,377), (self.char_box_x + self.char_box_size[0]+10,325), (self.char_box_x + self.char_box_size[0]+10,428)],width=4)
             pygame.draw.rect(self.display,(self.avatar*10,self.avatar*40,self.avatar*20),(self.avatar_list[self.avatar])) #avatar
             
+
+
             #pygame.draw.rect(self.display,(0,0,0),(self.triangle_button1))
             #pygame.draw.rect(self.display,(0,0,0),(self.triangle_button2))
             if self.fpga_connected:
-                pygame.draw.rect(self.display,(0,250,0),(self.fpga_box)) #box changes colour if not connected to fpga
+                self.display.blit(self.fpga_tick,(self.fpga_box))
+                #pygame.draw.rect(self.display,(0,250,0),(self.fpga_box)) #box changes colour if not connected to fpga
             else:
-                pygame.draw.rect(self.display,(250,0,0),(self.fpga_box))
+                self.display.blit(self.fpga_cross,(self.fpga_box))
+                #pygame.draw.rect(self.display,(250,0,0),(self.fpga_box))
 
             pygame.draw.rect(self.display,(0,200,0),(self.connect_box))
             self.display.blit(self.username_box.message, self.username_box.rect)
             self.display.blit(self.ip_port_box.message, self.ip_port_box.rect)
             
             #Collisions:
-            if self.username_box.rect.collidepoint(self.mouse_pos):
+            if self.name_box.collidepoint(self.mouse_pos):
                 self.run_text(self.username_box)
-            elif self.ip_port_box.rect.collidepoint(self.mouse_pos):
+            elif self.ip_port_box_bg.collidepoint(self.mouse_pos):
                 self.run_text(self.ip_port_box)
 
             elif self.triangle_button1.collidepoint(self.mouse_pos):
                 self.next_avatar(False)
             elif self.triangle_button2.collidepoint(self.mouse_pos):
                 self.next_avatar(True)
+
 
             
             elif self.connect_box.collidepoint(self.mouse_pos):
@@ -150,6 +158,15 @@ class mainMenu():
                         self.connect_pressed = True
                         #PUT FUNCTION TO CONNECT HERE
                         self.instantiateGame(self.username_box.text, self.ip_port_box.text)
+
+            #FONTS:
+            title = self.font_large.render('Skribblnios', True, self.black)
+            title_rect = title.get_rect(center=(self.width/2,80))
+            self.display.blit(title,title_rect)
+
+            connect = self.font.render('Connect', True, self.black)
+            connect_rect = connect.get_rect(center=(200+100,413+25))
+            self.display.blit(connect,connect_rect)
             
             self.gifTracker += 1
             if self.gifTracker == len(self.backgrounds): #ignore all the gifTrack stuff, it's for the background animation
@@ -169,7 +186,6 @@ class mainMenu():
         for event in self.events:
             if event.type ==pygame.MOUSEBUTTONDOWN:
                 if right:
-                    print("NOO")
                     if self.avatar<len(self.avatar_list)-1:
                         self.avatar+=1
                     else:
@@ -188,7 +204,7 @@ class mainMenu():
                 if e.key == pygame.K_BACKSPACE:
                   box.text = box.text[:-1]
                   box.update()
-                elif len(box.text)>20: #text limiter for box
+                elif len(box.text)>self.text_limit: #text limiter for box
                     continue
                 box.add_chr(pygame.key.name(e.key))
                 if (len(box.text) < 15):
