@@ -43,6 +43,7 @@ class Game():
         self.height = 700
         self.display = pygame.display.set_mode((self.width, self.height))
         #self.display = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+        self.chat_events = []
 
 #canvas:
         self.canvas_width = int(self.width/1.6)
@@ -52,7 +53,7 @@ class Game():
         self.canvas.center = (self.width/2.7,self.height/2)
 
         self.clock = pygame.time.Clock()
-        self.fps = 60
+        self.fps = 200
         self.colour_string = ""
         self.timer = 200
         self.background = pygame.image.load("Game/assets/sky_background.png")
@@ -195,10 +196,12 @@ class Game():
         self.chatbox.center = (self.width/1.18,self.height/2)
         self.redraw_chat(textbox)
         while True:
-            chat_clock.tick(self.fps)
-            self.refresh_textbox()
             if not self.chatbox.collidepoint(pygame.mouse.get_pos()):
                 continue
+            chat_clock.tick(self.fps)
+            print(self.events)
+            self.refresh_textbox()
+
             for event in self.events:
                 self.redraw_chat(textbox)
                 if event.type == pygame.KEYUP:
@@ -305,8 +308,6 @@ class Game():
             #if (((self.centre[0]-self.canvas_width/2)<xy[0]>(self.centre[0]+self.canvas_width/2)) or ((self.centre[1]-self.canvas_height/2)<xy[1]>(self.centre[1]+self.canvas_height/2))):
 
              # returns true if mouse is being held down which enables draw
-
-
 
             #self.display.blit(self.canvas)
             #pygame.draw(self.display, (255,255,255), canvas)

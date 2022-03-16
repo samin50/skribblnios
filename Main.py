@@ -236,7 +236,7 @@ class mainMenu():
             try:
                 #Check if FPGA connected every 2.5 sec
                 time.sleep(2.5)
-                self.FPGA = skribblfpga.SkribblNIOS(self)
+                #self.FPGA = skribblfpga.SkribblNIOS(self)
                 self.fpga_connected = True
                 return
             except Exception as e:
@@ -251,7 +251,7 @@ class mainMenu():
             #return
         #Attempt to connect to server
         username = "test"
-        ip = "26.168.146.5:9999"
+        ip = "10.200.244.69" #"26.168.146.5:9999"
         connectionData = ip.split(":")
         try:
             self.Client = Client.Client(username, connectionData[0], int(connectionData[1]))
