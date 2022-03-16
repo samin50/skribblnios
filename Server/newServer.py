@@ -7,11 +7,12 @@ from copy import deepcopy
 class ClientData():
     def __init__(self, conn, addr, server):
         self.isActive = True
+        self.isHost = False
         self.serverProperties = (conn, addr)
         self.serverObj = server
-        self.dataThread = threading.Thread(target=self.listenData, daemon=True)
+        self.dataThread = threading.Thread(target=self.listenData)
         self.dataThread.start()
-    
+
     #Wait for data from clients
     def listenData(self):
         while self.isActive:
@@ -47,7 +48,7 @@ class ClientData():
             return
 
     def sendClientData(self, data):
-        self.serverProperties[0].send(str.encode(f"Server response: {data}"))
+        self.serverProperties[0].send(str.encode(f"Server response: {data}\n"))
     
 
 
@@ -55,6 +56,7 @@ class Server():
     def __init__(self, PORT):
         self.address = socket.gethostbyname(socket.gethostname())
         self.server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.server.settimeout(3600)
         self.isActive = True
         self.server.bind((self.address, PORT))
         self.clientList = []
@@ -73,6 +75,11 @@ class Server():
                 conn, addr = self.server.accept()
                 Player = ClientData(conn, addr, self)
                 self.clientList.append(Player)
+                if(len(self.clientList)==1):
+                    self.host = self.clientlist[0]
+                    print( self.clientlist[0].name + ": is the host of this lobby\n" )
+                    self.sendData(self.clientlist[0].name , True)
+                    self.host.send("CLIENTCMD: !SETHOST " + self.clientlist[0].name)
                 conn.send(b"Welcome to the server!\n")
                 print("New Player Joined!\n")
             except:
@@ -89,42 +96,72 @@ class Server():
                 self.clientList[player].processData(data)
         return
 
-    
+
+
     #Process data on server side
     def processServerSide(self, data):
         data = data.split("SERVERCMD: ")[1]
-        print(f"Server: RECEIVED SERVER COMMAND: {data}")
-        if data == "!KILL":
-            self.closeServer()
-        if "!DISCONNECT" in data:
-            #Remove player from list based on name
-            playerNameToRemove = data.split("!DISCONNECT ")[1]
-            for player in self.clientList:
-                if player.name.strip() == playerNameToRemove.strip():
-                    try:
-                        player.sendClientData("Server: You have been disconnected.\n")
-                    except:
-                        print(player.name + " was forcibly disconnected on their side.")
-                    player.isActive = False
-                    self.clientList.remove(player)
-                    print(f"Server: Disconnected Player {playerNameToRemove}")
-                    break
-            return
-        #Broadcast to all players
-        if "!BROADCAST" in data:
-            message = data.split("!BROADCAST")[1]
-            self.sendData(message, True)
-            return
 
-        #choose who is drawing 
-        if "!DRAWERSELECT" in data:
-            self.turn = True
-            randomize_drawer = random.randint(1, len(self.clientList))
-            self.next_drawer = self.clientList[randomize_drawer-1]
-            whosdrawing = self.next_drawer.name + " is now drawing! "
-            self.sendData(whosdrawing, True)
-            print(self.next_drawer.name + " is now drawing!")
-            return
+        #Broadcast to all players
+        #universal server commands
+        if "!BROADCAST" in data:
+                message = data.split("!BROADCAST")[1]
+                self.sendData(message, True)
+                return
+
+        for client in self.clientList:
+            if client.isHost:
+                print(f"Server: RECEIVED SERVER COMMAND: {data}")
+                if data == "!KILL":
+                    self.closeServer()
+
+                if "!DISCONNECT" in data:
+                    #Remove player from list based on name
+                    playerNameToRemove = data.split("!DISCONNECT ")[1]
+                    for player in self.clientList:
+                        if player.name.strip() == playerNameToRemove.strip():
+                            try:
+                                player.sendClientData("Server: You have been disconnected.\n")
+                            except:
+                                print(player.name + " was forcibly disconnected on their side.")
+                            player.isActive = False
+                            self.clientList.remove(player)
+                            print(f"Server: Disconnected Player {playerNameToRemove}")
+                            break
+                    return
+
+            #choose who is drawing 
+                if "!DRAWERSELECT" in data:
+                    self.turn = True
+                    randomize_drawer = random.randint(1, len(self.clientList))
+                    self.next_drawer = self.clientList[randomize_drawer-1]
+                    whosdrawing = self.next_drawer.name + " is now drawing! "
+                    self.sendData(whosdrawing, True)
+                    print(self.next_drawer.name + " is now drawing!")
+                    return
+                #select the 3 words at the start of each round
+                if "!WORDSELECT" in data:
+                    f = "football,snake,waves,beach,knee,airplane,flag,car,eyes,octopus,robot,king,skateboard,window,banana,tree,elephant,door,key,bridge,bow,fork,sun,hippo,woman,pen,mickeymouse,fire,spider,kite,rain,computer,corn,star,cat,motorcycle,pizza,butterfly,cherry,love,cake,tennis,cannon,teapot,sunglasses,drink,happy,table,notebook,jupiter,letter,boot,crown,starfish,tyre,doughnut,pipe,apple pie,shark,chair,hole,ping pong,tower,cigarette,anvil,ramp,fish,forehead,sailing,hair,positive,apple,golf,bicycle,clock,drip,lightning,trousers,signal,music,laptop,mouse,arrow,backpack,lightbulb,headphones,pickaxe,sword,pause,beard,bikini,ice cream,duck,swimming pool,shin pads,sausage dog,paper clip,chicken wing,gym,flashlight"
+                    Dictionary = f.split(",")
+
+                    word1 = random.choice(Dictionary) 
+                    self.sendData(word1, True) 
+                    
+
+                    word2 = random.choice(Dictionary)
+                    while word2 == word1:
+                        word2 = random.choice(Dictionary) 
+                    self.sendData(word2, True)
+
+                    word3 = random.choice(Dictionary)
+                    while (word3 == word1) or (word3 == word2):
+                        word3 = random.choice(Dictionary) 
+                    self.sendData(word3, True)
+
+                if "!COOORDINATES" in data:
+                    return_xy(self.next_drawer)
+                
+            
 
     #Send data
     def sendData(self, data, all=False, playerName=0):
