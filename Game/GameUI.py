@@ -1,13 +1,11 @@
 import pygame
 import random
 import threading
-
 class Textbox(pygame.sprite.Sprite):
   def __init__(self,message):
     pygame.sprite.Sprite.__init__(self)
     self.text = ""
-    self.font = pygame.font.Font("Game/assets/Gameplay.TTF", 15)
-    self.smallfont = pygame.font.Font("Game/assets/Gameplay.TTF", 13) #Shan: you need to make this the smaller font of the IP port no etc
+    self.font = pygame.font.Font("Game/assets/pencil.TTF", 20)
     self.black = (0,0,0)
     self.white = (255,255,255)
     self.message = self.font.render(message, False, self.black)
@@ -29,15 +27,14 @@ class Textbox(pygame.sprite.Sprite):
   def update(self):
     old_rect_pos = self.rect.center
     self.message = self.font.render(self.text, False, self.black)
-    self.rect = pygame.Rect(600,600,100,26)
+    self.rect = self.message.get_rect()
     self.rect.center = old_rect_pos
 class Game():
     def __init__(self,username, FPGAinstance=None, clientInstance=None):
-        pygame.init()
-        self.font = pygame.font.Font("Game/assets/pencil.TTF", 20)
         self.FPGA = FPGAinstance
         self.Client = clientInstance
-        
+        self.drawPoints = [(None, None), (None, None), 0]
+        pygame.init()
         self.run = False
         self.round_end = False
         self.game_end = False
@@ -45,12 +42,7 @@ class Game():
         self.width = 1200
         self.height = 700
         self.display = pygame.display.set_mode((self.width, self.height))
-        self.cursor = pygame.image.load("Game/assets/cursor.png")
-        self.cursor.convert()
-        self.cursorRect = self.cursor.get_rect()
-
         #self.display = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
-        self.xy = (0,0)
 
 #canvas:
         self.canvas_width = int(self.width/1.6)
@@ -60,7 +52,7 @@ class Game():
         self.canvas.center = (self.width/2.7,self.height/2)
 
         self.clock = pygame.time.Clock()
-        self.fps = 200
+        self.fps = 60
         self.colour_string = ""
         self.timer = 200
         self.background = pygame.image.load("Game/assets/sky_background.png")
@@ -118,23 +110,10 @@ class Game():
             else:
                 self.brush_size-=2
 
-
-    def switch_update(self,switches):
-        temp =([int(i) for i in switches])
-        self.switches = temp[:8]
-
-
     def switch_img_scale(self):
         for i in range(9):
             self.off_switch[i] = pygame.transform.scale(self.off_switch[i],(self.switch_size))
             self.on_switch[i] = pygame.transform.scale(self.on_switch[i],(self.switch_size))
-    
-    def disp_switches(self):
-        for i in range (9):
-            if self.switches[i]:
-                self.display.blit(self.on_switch[i],(i*70+100,self.height-5-self.switch_size[1]))
-            else:
-                self.display.blit(self.off_switch[i],(i*70+100,self.height-5-self.switch_size[1]))
 
     def redraw_window(self):
         self.display.fill(self.colour_list["white"])
@@ -147,31 +126,33 @@ class Game():
 
     def music_change(self):
         pygame.mixer.music.stop()
-        self.game_music = pygame.mixer.music.load("Game/assets/drawing_music.mp3")
-        pygame.mixer.music.play(-1)
+        self.game_music = pygame.mixer.music.load("Game/assets/bold_statement.mp3")
+        #pygame.mixer.music.play(-1)
 
     def blti(self,binlist): #binary list to int
         return int(''.join(map(str, binlist)), 2)
 
-
-    def colour_update(self):
-        self.colours[0] =self.switches[:3]
-        self.colours[1] =self.switches[3:6]
-        self.colours[2] =self.switches[6:9]
+    def switch_update(self, switchesNew):
+        print(switchesNew)
+        switchesNew = str(bin(int(switchesNew)))[2:].zfill(9)
+        self.switches = [int(i) for i in switchesNew]
+        self.colours[0] =self.switches[0:2]
+        self.colours[1] =self.switches[3:5]
+        self.colours[2] =self.switches[6:8]
         self.brush_colour = ((self.blti(self.colours[0])<<5),(self.blti(self.colours[1])<<5),(self.blti(self.colours[2])<<5)) #RGB
-    def switch_update(self):
-        for i in range(len(self.colours)):
-            for j in range(len(self.colours[i])):
-                self.colours[i][j] = random.randint(0,1)
+        for i in range (9):
+            if self.switches[i]:
+                self.display.blit(self.on_switch[i],(i*70+100,self.height-5-self.switch_size[1]))
+            else:
+                self.display.blit(self.off_switch[i],(i*70+100,self.height-5-self.switch_size[1]))
+
     """REDUNDANT
     def mouse_down(self,draw):
-        self.xy = pygame.mouse.get_pos()
-        if draw == True:
-            for event in self.events:
-                if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_SPACE:
-                        self.draw_blit = True
-                elif event.type == pygame.KEYUP:
+        for event in self.events:
+            if draw == True:
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    self.draw_blit = True
+                elif event.type == pygame.MOUSEBUTTONUP:
                     self.draw_blit = False
                         
                 else:
@@ -192,12 +173,9 @@ class Game():
     def refresh_textbox(self):
         self.msg_limiter()
         for i in range (len(self.received_msgs)):
-            #pygame.display.blit
-            text_surface = self.font.render(self.received_msgs[i],False,(0, 0, 0))
-            self.display.blit(text_surface, dest=(self.width-300,100+(30*i)))
-            #textbox = Textbox(self.received_msgs[i])
-            #textbox.rect.center = (self.width-170,100+(30*i))
-            #self.display.blit(textbox.message, textbox.rect)
+            textbox = Textbox(self.received_msgs[i])
+            textbox.rect.center = (self.width-170,100+(30*i))
+            self.display.blit(textbox.message, textbox.rect)
 
     def addtext(self,textbox):
         if len(textbox.text)<self.max_char_len:
@@ -263,33 +241,31 @@ class Game():
 
     def draw_check(self, x, y, useFPGA=False):
         FACTOR = 6.6
-        print(x, y)
         if not self.draw_blit:
-            print("cant' draw")
             return
         # Add offsets for coordinates
         if useFPGA:
             #Bound angles
-            if abs(x) > 25 or abs(y) > 35:
+            if abs(x) > 35 or abs(y) > 25:
                 return
-            x+=self.width//2.7*FACTOR
-            y+=self.height//2*FACTOR
-        else:
-            print("Coords:", x, y)
+            x =(FACTOR*x)+self.width//2.7
+            y =(FACTOR*y)+self.height//2
+        print("Coords:", x, y)
         # returns true if coordinates are within the canvas
         canvas_collide = self.canvas.collidepoint((x,y))
 
         if canvas_collide==True:
-            print("should_print")
-            pygame.draw.circle(self.display,(self.brush_colour),(int(x),int(y)),5)
-
-        #if self.draw_blit:
-            #self.draw(pygame.mouse.get_pos()[0],pygame.mouse.get_pos()[1])
+            self.draw(x,y)
 
     def draw(self,x,y):
-
+        #Aryan send coordinates here
+        Pointer = self.drawPoints[2]
+        self.drawPoints[Pointer] = (x, y)
+        if self.drawPoints[not Pointer] != (None, None):
+             pygame.draw.line(self.display,(self.brush_colour),self.drawPoints[Pointer],self.drawPoints[not Pointer], self.brush_size*2)
+        self.drawPoints[2] = not self.drawPoints[2] #Invert pointer
         #xy = pygame.mouse.get_pos()
-        pygame.draw.circle(self.display,(self.brush_colour),(x,y),5)
+        pygame.draw.circle(self.display,(self.brush_colour),(x,y),self.brush_size)
         #pygame.draw.rect(self.display,(self.brush_colour),pygame.Rect(xy[0],xy[1],5,5))
 
 
@@ -312,6 +288,7 @@ class Game():
         #Mouse thread 
         self.mouseThread = threading.Thread(target=self.mouseTracker, daemon=True)
         self.mouseThread.start()
+        self.switch_update("54")
         while self.run == True:
             self.events = pygame.event.get()
 
@@ -320,11 +297,8 @@ class Game():
                 self.draw_timer+=1
             if self.draw_timer == 1:
                 self.music_change()
-
-            self.disp_switches()
             self.clock.tick(self.fps)
             self.brush_size = 5
-            self.colour_update()
             #self.switch_update()
 
             #self.random_draw()
@@ -340,15 +314,16 @@ class Game():
 
             for event in self.events:
                 if event.type == pygame.QUIT:
-                    print("quit")
                     self.run = False
                     pygame.quit()
                 #Mouse usage only
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_SPACE:
+                        self.drawPoints = [(None, None), (None, None), 0]
                         self.draw_blit = True
                 if event.type == pygame.KEYUP:
                     self.draw_blit = False
+                    
 
     def load_sprites(self):
         None

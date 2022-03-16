@@ -236,7 +236,7 @@ class mainMenu():
             try:
                 #Check if FPGA connected every 2.5 sec
                 time.sleep(2.5)
-                #self.FPGA = skribblfpga.SkribblNIOS(self)
+                self.FPGA = skribblfpga.SkribblNIOS(self)
                 self.fpga_connected = True
                 return
             except Exception as e:
@@ -250,8 +250,8 @@ class mainMenu():
             print("Will use mouse")
             #return
         #Attempt to connect to server
-        #username = "test"
-        ip = "10.200.244.69:9999"
+        username = "test"
+        ip = "26.168.146.5:9999"
         connectionData = ip.split(":")
         try:
             self.Client = Client.Client(username, connectionData[0], int(connectionData[1]))
@@ -264,9 +264,9 @@ class mainMenu():
         self.Client.setGame(self.Game)
         if self.fpga_connected:
             self.FPGA.setGame(self.Game)
+            self.FPGA.start()
         self.Client.setGame(self.Game)
         self.fpga_connected = True
-        self.FPGA.start()
         self.Game.round_start()
         return
 

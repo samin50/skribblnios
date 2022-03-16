@@ -4,13 +4,13 @@ import threading
 import time
 
 PORT = 9999
-SERVER = '146.169.180.197'
+SERVER = '26.168.146.5'
 
 class Client():
-    def __init__(self, name, ip, port, game):
+    def __init__(self, name, ip, port):
         self.name = name            
         self.server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.server.settimeout(600)
+        #self.server.settimeout(600)
         self.isHost = False
         try:
             self.server.connect((ip, port))
@@ -28,7 +28,7 @@ class Client():
     def sendServer(self, data):
         if self.isActive:
             self.server.send(data.encode('utf-8'))
-        if(self.name == self.clientsever.name):
+        #if(self.name == self.clientserver.name): tf is this
             if data == "SERVERCMD: !DISCONNECT":
                 self.isActive = False
                 print("you have now disconnected from the server")
@@ -57,13 +57,12 @@ class Client():
                 if len(data) > 0:
                     self.processData(data)  #If connection fails
             except Exception as e:
+                print(e)
                 self.isActive = False
                 print("Error in connection to server, connection lost.")
                 input()
 
-            
-            self.closeServer()
-         
+               
             if(i+j == 10000):
                  self.isActive = False
                  print("you have now disconnected from the server")
@@ -77,14 +76,14 @@ class Client():
     def processData(self, data):
         
         print("\n" + data + '\n')
-        
-        data = data.split("CLIENTCMD: ")[1]
-        print(f"Server: RECEIVED SERVER COMMAND: {data}")
-        if data == "!HOST ":
-            if(self.name == data.split("!HOST ")[1]):
-                self.isHost = True
-        if data == "!COORDINATES":
-               None
+        if "CLIENTCMD:" in data:
+            data = data.split("CLIENTCMD: ")[1]
+            print(f"Server: RECEIVED SERVER COMMAND: {data}")
+            if data == "!HOST ":
+                if(self.name == data.split("!HOST ")[1]):
+                    self.isHost = True
+            if data == "!COORDINATES":
+                    None
 
               
 
