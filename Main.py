@@ -82,7 +82,7 @@ class mainMenu():
         self.ip_port_box.rect.center = (self.box_x+100,377) #position of self.username_box on screen
 
 
-        for i in range(100):
+        for i in range(120):
             dir = f"Game/assets/backgrounds/{i}.gif"
             img = pygame.image.load(dir)
             img = pygame.transform.scale(img,(self.width,self.height))
@@ -133,14 +133,16 @@ class mainMenu():
             self.display.blit(self.ip_port_box.message, self.ip_port_box.rect)
             
             #Collisions:
-            if self.triangle_button1.collidepoint(self.mouse_pos):
-                self.next_avatar(False)
-            if self.triangle_button2.collidepoint(self.mouse_pos):
-                self.next_avatar(True)
             if self.username_box.rect.collidepoint(self.mouse_pos):
                 self.run_text(self.username_box)
             elif self.ip_port_box.rect.collidepoint(self.mouse_pos):
                 self.run_text(self.ip_port_box)
+
+            elif self.triangle_button1.collidepoint(self.mouse_pos):
+                self.next_avatar(False)
+            elif self.triangle_button2.collidepoint(self.mouse_pos):
+                self.next_avatar(True)
+
             
             elif self.connect_box.collidepoint(self.mouse_pos):
                 for e in self.events:
@@ -178,12 +180,10 @@ class mainMenu():
                     else:
                         self.avatar = len(self.avatar_list)-1
                     
-        print(self.avatar)
 
     def run_text(self,box):
-        for e in pygame.event.get():
+        for e in self.events:
             self.display.blit(box.message,box.rect)
-
             if e.type == pygame.KEYDOWN:
                 if e.key == pygame.K_BACKSPACE:
                   box.text = box.text[:-1]
