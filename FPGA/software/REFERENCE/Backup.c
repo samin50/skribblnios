@@ -145,7 +145,6 @@ void demeanValues(alt_32 y_read, alt_32 z_read, alt_32* yNew, alt_32* zNew, int*
 	int runningSumZ = 0;
 	int i;
 	//Overwrite previous values
-	//printf("%d, %d, ptr:%d\n", y_read, z_read, *arrPointer);
 	sampleArrayY[*arrPointer] = y_read;
 	sampleArrayZ[*arrPointer] = z_read;
 	//Array pointer
@@ -155,30 +154,29 @@ void demeanValues(alt_32 y_read, alt_32 z_read, alt_32* yNew, alt_32* zNew, int*
 	}
 	//Calculate running sum
 	for(i = 0; i < DEMEAN_DEPTH; i++) {
-		//printf("%d\n", sampleArrayY[i]);
 		if(sampleArrayY[i] == 0) {
 			break;
 		}
 		runningSumY += sampleArrayY[i];
 		runningSumZ += sampleArrayZ[i];
 	}
-	//printf("i: %d\n", i);
-	//printf("%d, %d, avg:%d, %d\n", y_read, z_read, (runningSumY/(i+1)), (runningSumZ/(i+1)));
 	*yNew = y_read - (runningSumY/(i));
 	*zNew = z_read - (runningSumZ/(i));
 }
 //Calculates Euler angles (rotation control)
-void eulerAngles(alt_32 x_read, alt_32 y_read, alt_32 z_read, alt_32* xNew, alt_32* yNew, alt_32* zNew) {
-	int xVal = (x_read-CENTERX);
-	int yVal = (y_read-CENTERY);
-	int zVal = (z_read-CENTERZ);
-	int x2 = xVal*xVal;
-	int y2 = yVal*yVal;
-	int z2 = zVal*zVal;
-	//float tempX, tempY, tempZ;
+void eulerAngles(double x_read, double y_read, double z_read, alt_32* xNew, alt_32* yNew, alt_32* zNew) {
 	//Convert to degrees
-	*yNew = (180*atan(yVal/(sqrt(x2+z2))))/PI;
-	*zNew = (180*atan((sqrt(x2+y2))/zVal))/PI;
+	double x2 = x_read*x_read;
+	double y2 = y_read*y_read;
+	double z2 = z_read*z_read;
+	//*xNew = (180*atan(x_read/z_read))/PI; //Roll
+	//*yNew = (180*atan(x_read/y_read))/PI; //Pitch
+	*xNew = (180*atan(y_read/sqrt(x2+z2)))/PI; //Roll
+	*yNew = (180*atan(x_read/sqrt(y2+z2)))/PI; //Pitch
+	//*xNew = (180*atan(x_read/z_read))/PI; //Pitch
+	//*yNew = (180*atan(y_read/z_read))/PI; //Roll
+	*zNew = z_read;
+	//(180*atan((sqrt(x2+y2))/zVal))/PI; //Yaw - cant be calculated without compass
 }
 
 //Function that runs during a round
@@ -203,12 +201,11 @@ void roundLoop(FILE* fp, int roundLength) {
 	int switchIn = 0;
 	int tempButtonIn, tempSwitchIn;
 	//While time is not up
-	while (timeRatio < 1000000) {
+	while (timeRatio < 100) {
 		stopTime = alt_nticks();
 		t_freq = alt_ticks_per_second();
 		//Calculate ratio of time elapsed
 		timeRatio = (((stopTime-startRoundTime)/t_freq)*100)/roundLength;
-		printf("time:%d freq:%d stop:%d start:%d %d\n", timeRatio, t_freq, stopTime, startRoundTime, roundLength);
 		if (timeRatio < 10) {
 			ledWrite(0b1);
 		} else if (timeRatio < 20) {
@@ -232,24 +229,26 @@ void roundLoop(FILE* fp, int roundLength) {
 		}
 		//Send  accelerometer and input values
 		//Obtain values at a certain frequency
-		///*
-		//Frequency of accelerometer is 2^SAMPLING_TIME Hz, with 6, 64Hz
-		if (((stopTime-sampleTimer)) > (t_freq >> SAMPLING_TIME)) {
+		//Frequency of accelerometer is 2^SAMPLING_TIME Hz, with 6 = 64Hz
+		//if (((stopTime-sampleTimer)) > (t_freq >> SAMPLING_TIME)) {
 			alt_up_accelerometer_spi_read_x_axis(acc_dev, &x_read);
 			alt_up_accelerometer_spi_read_y_axis(acc_dev, &y_read);
 			alt_up_accelerometer_spi_read_z_axis(acc_dev, &z_read);
-			//Filter values
-			nTapFilter(x_read, y_read, z_read, &xNew, &yNew, &zNew, filterMemX, filterMemY, filterMemZ, nTapPtr);
-			//demeanValues(y_read, z_read, &newY, &newZ, sampleArrayY, sampleArrayZ, &arrPointer); //Demean filter
-			eulerAngles(x_read, y_read, z_read, &xNew, &yNew, &zNew);
-			//printf("%d %d\n", yNew, zNew);
 			//printf("%d %d %d\n", x_read, y_read, z_read);
-			sampleTimer = alt_nticks();
-		}
-		//*/
+			//Filter values
+			nTapFilter(x_read, y_read, z_read, &xNew, &yNew, &zNew, filterMemX, filterMemY, filterMemZ, &nTapPtr);
+			//demeanValues(y_read, z_read, &newY, &newZ, sampleArrayY, sampleArrayZ, &arrPointer); //Demean filter
+			x_read = xNew;
+			y_read = yNew;
+			z_read = zNew;
+			eulerAngles(x_read, y_read, z_read, &xNew, &yNew, &zNew); //Get angles of rotation
+			printf("C %d %d\n", xNew, yNew); //Roll and pitch -> x and y
+			//printf("%d %d %d\n", x_read, y_read, z_read);
+			//sampleTimer = alt_nticks();
+		//}
 		//If a second has elapsed, send the state of the buttons and switch if different from before
-		if ((stopTime-secondTimer) > t_freq) {
-			secondTimer = alt_nticks();
+		//if ((stopTime-secondTimer) > t_freq) {
+		//	secondTimer = alt_nticks();
 			tempButtonIn = IORD_ALTERA_AVALON_PIO_DATA(BUTTON_BASE);
 			tempSwitchIn = IORD_ALTERA_AVALON_PIO_DATA(SWITCH_BASE);
 			if (tempButtonIn != buttonIn) {
@@ -259,7 +258,7 @@ void roundLoop(FILE* fp, int roundLength) {
 			if (tempSwitchIn != switchIn) {
 				switchIn = tempSwitchIn;
 				printf("S %d\n", switchIn);
-			}
+		//	}
 		}
 	}
 }
@@ -270,14 +269,6 @@ int main () {
 		// if return 1, check if the spi ip name is "accelerometer_spi"
 		return 1;
 	}
-	clock_t startRoundTime = alt_nticks();
-	printf("start: %d\n", startRoundTime);
-	clock_t sampleTimer = alt_nticks();
-	clock_t secondTimer = alt_nticks();
-	clock_t stopTime, t_freq;
-	//usleep(10000000);
-	stopTime = alt_nticks();
-	printf("end: %d\n", stopTime);
 	//Declare variables for accepting commands/data
 	char commandChar = 0;
 	int roundLength, arg1, arg2;
@@ -287,20 +278,20 @@ int main () {
 	//Wait for start
 	writeScore("start.");
 	ledWrite(0b1111111111);
-	waitForCommand(fp, 'S', 'S', &commandChar, &arg1, &arg2);
+	//waitForCommand(fp, 'S', 'S', &commandChar, &arg1, &arg2);
 	roundLength = arg1;//Length of round will be stored into arg1
 	writeScore("------");
 	//Wait for round start
-	waitForCommand(fp, 'R', 'R', &commandChar, &arg1, &arg2);
-	fclose(fp);
+	//waitForCommand(fp, 'R', 'R', &commandChar, &arg1, &arg2);
 	//MAIN LOOP - Terminate loop when game end - command E
 	while (commandChar != 'E') {
 		sprintf(scoreStr, "%d-%d", arg1, arg2); //Build score str
 		writeScore(scoreStr);
 		fp = fopen("/dev/jtag_uart", "r+");
-		roundLoop(fp, roundLength);
+		roundLoop(fp, -1);
 		commandChar = 'F';
-		waitForCommand(fp, 'R', 'E', &commandChar, &arg1, &arg2);
+		//waitForCommand(fp, 'R', 'E', &commandChar, &arg1, &arg2);
+		fclose(fp);
 	}
 	ledWrite(0b0);
 	return 0;

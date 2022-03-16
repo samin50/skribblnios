@@ -18,14 +18,11 @@
 //Accelerometer setup and filters
 #define SAMPLING_TIME 3
 #define DEMEAN_DEPTH 8
-#define NTAPSIZE 30
+#define NTAPSIZE 300
 alt_32 x_read; //Usually not needed
 alt_32 y_read; //Pitch
 alt_32 z_read; //Yaw
 alt_up_accelerometer_spi_dev * acc_dev;
-#define CENTERX 0
-#define CENTERY -260
-#define CENTERZ 0
 #define PI 3.14159
 
 //Convert letters - will be upside down
@@ -247,19 +244,14 @@ void roundLoop(FILE* fp, int roundLength) {
 			//sampleTimer = alt_nticks();
 		//}
 		//If a second has elapsed, send the state of the buttons and switch if different from before
-		if ((stopTime-secondTimer) > t_freq) {
-			secondTimer = alt_nticks();
+		//if ((stopTime-secondTimer) > t_freq) {
+		//	secondTimer = alt_nticks();
 			tempButtonIn = IORD_ALTERA_AVALON_PIO_DATA(BUTTON_BASE);
 			tempSwitchIn = IORD_ALTERA_AVALON_PIO_DATA(SWITCH_BASE);
-			if (tempButtonIn != buttonIn) {
-				buttonIn = tempButtonIn;
-				printf("B %d\n", buttonIn);
-			}
-			if (tempSwitchIn != switchIn) {
-				switchIn = tempSwitchIn;
-				printf("S %d\n", switchIn);
-			}
-		}
+			printf("B %d\n", tempButtonIn);
+			printf("S %d\n", tempSwitchIn);
+		//	}
+
 	}
 }
 

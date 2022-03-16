@@ -56,7 +56,7 @@ class Game():
         self.colour_string = ""
         self.timer = 200
         self.background = pygame.image.load("Game/assets/sky_background.png")
-        self.brush_size = 20
+        self.brush_size = 5
         self.game_music = pygame.mixer.music.load("Game/assets/menu_music.mp3")
         self.draw_timer = 0
         self.frame_counter = 0
@@ -75,11 +75,11 @@ class Game():
         self.switches = [1,1,0,0,0,0,0,1,1]
         self.switch_size = (40,70)
         self.off_switch = [
-            (pygame.image.load("Game/assets/switches/1.png")),(pygame.image.load("Game/assets/switches/2.png")),
-            (pygame.image.load("Game/assets/switches/3.png")), (pygame.image.load("Game/assets/switches/7.png")),
+            (pygame.image.load("Game/assets/switches/1.png")),(pygame.image.load("Game/assets/switches/14.png")),
+            (pygame.image.load("Game/assets/switches/15.png")), (pygame.image.load("Game/assets/switches/7.png")),
             (pygame.image.load("Game/assets/switches/8.png")), (pygame.image.load("Game/assets/switches/9.png")),
-            (pygame.image.load("Game/assets/switches/13.png")), (pygame.image.load("Game/assets/switches/14.png")),
-            (pygame.image.load("Game/assets/switches/15.png"))
+            (pygame.image.load("Game/assets/switches/13.png")), (pygame.image.load("Game/assets/switches/2.png")),
+            (pygame.image.load("Game/assets/switches/3.png"))
         ]
 
 
@@ -104,11 +104,13 @@ class Game():
             self.draw_check(mousePos[0], mousePos[1])
     
     def size_update(self, is_increasing):
-        if self.brush_size>=1:
-            if is_increasing:
-                self.brush_size+=2
-            else:
+        print("Brush size:", self.brush_size)
+        if is_increasing:
+            self.brush_size+=2
+        else:
+            if self.brush_size>=3: 
                 self.brush_size-=2
+        print("New size:", self.brush_size)
 
     def switch_img_scale(self):
         for i in range(9):
@@ -127,21 +129,28 @@ class Game():
     def music_change(self):
         pygame.mixer.music.stop()
         self.game_music = pygame.mixer.music.load("Game/assets/bold_statement.mp3")
-        #pygame.mixer.music.play(-1)
+        pygame.mixer.music.play(-1)
 
     def blti(self,binlist): #binary list to int
         return int(''.join(map(str, binlist)), 2)
 
     def switch_update(self, switchesNew):
-        print(switchesNew)
-        switchesNew = str(bin(int(switchesNew)))[2:].zfill(9)
-        self.switches = [int(i) for i in switchesNew]
-        self.colours[0] =self.switches[0:2]
-        self.colours[1] =self.switches[3:5]
-        self.colours[2] =self.switches[6:8]
-        self.brush_colour = ((self.blti(self.colours[0])<<5),(self.blti(self.colours[1])<<5),(self.blti(self.colours[2])<<5)) #RGB
+        switchesNew = str(bin(int(switchesNew)))[2:].zfill(10)
+        tempSwitch = [int(i) for i in switchesNew]
+        if tempSwitch == self.switches:
+            return
+        self.switches = tempSwitch
+        print(self.switches)
+        self.colours[0] = self.blti(self.switches[0:3])*32
+        self.colours[1] = self.blti(self.switches[3:6])*32
+        self.colours[2] = self.blti(self.switches[6:9])*32
+        print("New colours:", self.colours)
+        if self.switches[9] == 0:
+            self.brush_colour = (self.colours[0],self.colours[1],self.colours[2]) #RGB
+        else: #Eraser mode
+            self.brush_colour = self.colour_list["white"]
         for i in range (9):
-            if self.switches[i]:
+            if self.switches[i] and self.switches[9] == 0:
                 self.display.blit(self.on_switch[i],(i*70+100,self.height-5-self.switch_size[1]))
             else:
                 self.display.blit(self.off_switch[i],(i*70+100,self.height-5-self.switch_size[1]))
@@ -298,7 +307,6 @@ class Game():
             if self.draw_timer == 1:
                 self.music_change()
             self.clock.tick(self.fps)
-            self.brush_size = 5
             #self.switch_update()
 
             #self.random_draw()
