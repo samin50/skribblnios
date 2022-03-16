@@ -32,6 +32,7 @@ class mainMenu():
         self.ip_port = ""
         self.width = 950
         self.height = 550
+        self.events = pygame.event.get()
         self.box_width = 320
         self.box_height =50 
         self.box_x = 150
@@ -54,8 +55,18 @@ class mainMenu():
         self.background= pygame.transform.scale(self.background,(self.width,self.height))
         self.display = pygame.display.set_mode((self.width, self.height))
 
+        self.triangle_button1 = pygame.Rect(520,325,40,100) #rect for collosion detection of traingle buttons
+        self.triangle_button2 = pygame.Rect(self.char_box_x + self.char_box_size[0]+10,325,40,100)
 #avatars:
-        self.avatars = []
+        self.avatar_list = [
+            pygame.Rect(self.char_box_x+100,365,80,80),
+            pygame.Rect(self.char_box_x+100,365,90,90),
+            pygame.Rect(self.char_box_x+100,365,100,80),
+            pygame.Rect(self.char_box_x+100,365,30,30),
+            pygame.Rect(self.char_box_x+100,365,50,100),
+            pygame.Rect(self.char_box_x+100,365,30,90),
+            ]
+        self.avatar = 0
         self.clock = pygame.time.Clock()
           
         #self.music = pygame.mixer.music.load("Game/assets/bold_statement.mp3")
@@ -84,7 +95,8 @@ class mainMenu():
 
         #While in main menu
         while self.isActive:
-            #Update background
+
+            self.events = pygame.event.get()
             self.mouse_pos = pygame.mouse.get_pos()
             
             self.display.fill(self.white)
@@ -96,6 +108,8 @@ class mainMenu():
             pygame.draw.rect(self.display,(0,0,0),(self.name_box_border),2)
             pygame.draw.rect(self.display,(0,0,0),(self.name_box_secondary_border), 2)
             pygame.draw.rect(self.display,(0,0,0),(self.lower_box), 2)
+
+            
             
             pygame.draw.rect(self.display,(240,227,40),(self.ip_port_box_bg))
             pygame.draw.rect(self.display,(0,0,0),(self.ip_port_box_border), 2)
@@ -105,7 +119,10 @@ class mainMenu():
             pygame.draw.polygon(self.display,color=(0,0,0),points=[(520,376), (560,326), (560,426)],width=4)
             pygame.draw.polygon(self.display,color=(200,0,200),points=[(self.char_box_x + self.char_box_size[0]+50,377), (self.char_box_x + self.char_box_size[0]+10,325), (self.char_box_x + self.char_box_size[0]+10,428)])
             pygame.draw.polygon(self.display,color=(0,0,0),points=[(self.char_box_x + self.char_box_size[0]+50,377), (self.char_box_x + self.char_box_size[0]+10,325), (self.char_box_x + self.char_box_size[0]+10,428)],width=4)
+            pygame.draw.rect(self.display,(self.avatar*10,self.avatar*40,self.avatar*20),(self.avatar_list[self.avatar])) #avatar
             
+            #pygame.draw.rect(self.display,(0,0,0),(self.triangle_button1))
+            #pygame.draw.rect(self.display,(0,0,0),(self.triangle_button2))
             if self.fpga_connected:
                 pygame.draw.rect(self.display,(0,250,0),(self.fpga_box)) #box changes colour if not connected to fpga
             else:
@@ -114,14 +131,19 @@ class mainMenu():
             pygame.draw.rect(self.display,(0,200,0),(self.connect_box))
             self.display.blit(self.username_box.message, self.username_box.rect)
             self.display.blit(self.ip_port_box.message, self.ip_port_box.rect)
-
+            
+            #Collisions:
+            if self.triangle_button1.collidepoint(self.mouse_pos):
+                self.next_avatar(False)
+            if self.triangle_button2.collidepoint(self.mouse_pos):
+                self.next_avatar(True)
             if self.username_box.rect.collidepoint(self.mouse_pos):
                 self.run_text(self.username_box)
             elif self.ip_port_box.rect.collidepoint(self.mouse_pos):
                 self.run_text(self.ip_port_box)
             
             elif self.connect_box.collidepoint(self.mouse_pos):
-                for e in pygame.event.get():
+                for e in self.events:
                     if e.type == pygame.MOUSEBUTTONDOWN:
                         self.connect_pressed = True
                         #PUT FUNCTION TO CONNECT HERE
@@ -133,12 +155,30 @@ class mainMenu():
             self.ip = ""
 
 
-            for events in pygame.event.get(): #Checks if ur clicking the exit button
+            for events in self.events: #Checks if ur clicking the exit button
                 if events.type == pygame.QUIT:
                     pygame.quit()
 
             pygame.display.update()
             self.clock.tick(30)
+
+    #character select cycle
+    def next_avatar(self,right):
+        for event in self.events:
+            if event.type ==pygame.MOUSEBUTTONDOWN:
+                if right:
+                    print("NOO")
+                    if self.avatar<len(self.avatar_list)-1:
+                        self.avatar+=1
+                    else:
+                        self.avatar = 0 
+                else:
+                    if self.avatar>0:
+                        self.avatar -=1
+                    else:
+                        self.avatar = len(self.avatar_list)-1
+                    
+        print(self.avatar)
 
     def run_text(self,box):
         for e in pygame.event.get():
