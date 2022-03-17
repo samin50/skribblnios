@@ -138,11 +138,9 @@ class Game():
     def switch_update(self, switchesNew):
         switchesNew = str(bin(int(switchesNew)))[2:].zfill(10)
         tempSwitch = [int(i) for i in switchesNew]
-        print("infunc:",tempSwitch, self.switches)
         if (tempSwitch == self.switches) and self.FPGA is not None:
             return
         self.switches = tempSwitch
-        print(self.switches)
         self.colours[0] = self.blti(self.switches[0:3])*32
         self.colours[1] = self.blti(self.switches[3:6])*32
         self.colours[2] = self.blti(self.switches[6:9])*32
@@ -171,8 +169,6 @@ class Game():
             if collide:
                 for event in self.events:
                     if event.type ==pygame.MOUSEBUTTONDOWN:
-                        print("COLLIDED WITH: ", i)
-                        print(self.switches)
                         temp_switch = self.switches
                         if temp_switch[i] == 0:
                             temp_switch[i] = 1
@@ -182,45 +178,7 @@ class Game():
                         number = int("".join(str(i) for i in temp_switch), base=2)
                         self.switch_update(number)
                         return
-                        """
-                        print(temp_switch)
-                        for i in range(len(temp_switch)):
-                            if temp_switch[i] == 0:
-                                number += (2**i)
-                                #print("switch_changed")
-                                temp_switch[i] = 1
-                                #sign = 1
-                                #print("switch changed",i)
-                            else:
-                                temp_switch[i] = 0
-                                number -= sign*(2**i)
-                                sign = -1
-                                
-                                #print(i)
-                                #if temp_switch[i] == 1:
-                            print(sign*(2**i))
-                            
-                            print("NUMBER", number)
-                            print(temp_switch)'''
-                        
-                            self.switch_update(str(number))
-
-    REDUNDANT
-    def mouse_down(self,draw):
-        for event in self.events:
-            if draw == True:
-                if event.type == pygame.MOUSEBUTTONDOWN:
-                    self.draw_blit = True
-                elif event.type == pygame.MOUSEBUTTONUP:
-                    self.draw_blit = False
-                        
-                else:
-                    if event.type == pygame.MOUSEBUTTONDOWN:
-                        self.draw_blit = True
-                    elif event.type == pygame.MOUSEBUTTONUP:
-                        self.draw_blit = False
-    """
-    
+        
     def msg_limiter(self):
         if len(self.received_msgs)>=self.msg_limit:
             self.received_msgs.pop(0)
