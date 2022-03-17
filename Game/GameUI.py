@@ -106,6 +106,8 @@ class Game():
             clock.tick(self.fps)
              #while changed to if to avoid threading
             mousePos = pygame.mouse.get_pos()
+            self.switch_update("54")
+            self.switch_collisions(mousePos)
             self.draw_check(mousePos[0], mousePos[1])
     
     def size_update(self, is_increasing):
@@ -138,9 +140,9 @@ class Game():
         return int(''.join(map(str, binlist)), 2)
 
     def switch_update(self, switchesNew):
-        print(switchesNew)
-        switchesNew = str(bin(int(switchesNew)))[2:].zfill(9)
-        self.switches = [int(i) for i in switchesNew]
+        #print(switchesNew)
+        #switchesNew = str(bin(int(switchesNew)))[2:].zfill(9)
+        #self.switches = [int(i) for i in switchesNew]
         self.colours[0] =self.switches[0:2]
         self.colours[1] =self.switches[3:5]
         self.colours[2] =self.switches[6:8]
@@ -258,13 +260,32 @@ class Game():
                 return
             x =(FACTOR*x)+self.width//2.7
             y =(FACTOR*y)+self.height//2
-        print("Coords:", x, y)
+        #print("Coords:", x, y)
         # returns true if coordinates are within the canvas
         canvas_collide = self.canvas.collidepoint((x,y))
 
         if canvas_collide==True:
             self.draw(x,y)
 
+    def switch_collisions(self,mouse_pos):
+        #mouse_rect = pygame.Rect(mouse_pos[0],mouse_pos[1],5,5)
+        for i in range(len(self.off_switch)):
+            switch_rect = self.off_switch[i].get_rect()
+            #switch_rect.center = (i*70+100,self.height-5-self.switch_size[1])
+            switch_rect.x =i*70+100
+            switch_rect.y =self.height-5-self.switch_size[1]
+            #pygame.draw.rect(self.display,(0,0,0),switch_rect)
+            collide = switch_rect.collidepoint(mouse_pos)
+            if collide:
+                for event in self.events:
+                    if event.type ==pygame.MOUSEBUTTONDOWN:
+                        if self.switches[i] == 0:
+                            self.switches[i] = 1
+                            #print("switch changed",i)
+                        else:
+                            self.switches[i] = 0
+
+        
     def draw(self,x,y):
         #Aryan send coordinates here
         Pointer = self.drawPoints[2]
@@ -274,6 +295,8 @@ class Game():
         self.drawPoints[2] = not self.drawPoints[2] #Invert pointer
         #xy = pygame.mouse.get_pos()
         pygame.draw.circle(self.display,(self.brush_colour),(x,y),self.brush_size)
+        print(self.brush_colour)
+        print(self.switches)
         #pygame.draw.rect(self.display,(self.brush_colour),pygame.Rect(xy[0],xy[1],5,5))
 
 
