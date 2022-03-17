@@ -31,6 +31,8 @@ class Textbox(pygame.sprite.Sprite):
     self.rect.center = old_rect_pos
 class Game():
     def __init__(self,username, FPGAinstance=None, clientInstance=None):
+        pygame.init()
+        self.font = pygame.font.Font("Game/assets/pencil.TTF", 20)
         self.FPGA = FPGAinstance
         self.Client = clientInstance
         self.drawPoints = [(None, None), (None, None), 0]
@@ -42,7 +44,12 @@ class Game():
         self.width = 1200
         self.height = 700
         self.display = pygame.display.set_mode((self.width, self.height))
+        self.cursor = pygame.image.load("Game/assets/cursor.png")
+        self.cursor.convert()
+        self.cursorRect = self.cursor.get_rect()
+
         #self.display = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+        self.xy = (0,0)
 
 #canvas:
         self.canvas_width = int(self.width/1.6)
@@ -129,7 +136,7 @@ class Game():
 
     def music_change(self):
         pygame.mixer.music.stop()
-        self.game_music = pygame.mixer.music.load("Game/assets/bold_statement.mp3")
+        self.game_music = pygame.mixer.music.load("Game/assets/drawing_music.mp3")
         pygame.mixer.music.play(-1)
 
     def blti(self,binlist): #binary list to int
@@ -190,9 +197,12 @@ class Game():
     def refresh_textbox(self):
         self.msg_limiter()
         for i in range (len(self.received_msgs)):
-            textbox = Textbox(self.received_msgs[i])
-            textbox.rect.center = (self.width-170,100+(30*i))
-            self.display.blit(textbox.message, textbox.rect)
+            #pygame.display.blit
+            text_surface = self.font.render(self.received_msgs[i],False,(0, 0, 0))
+            self.display.blit(text_surface, dest=(self.width-300,100+(30*i)))
+            #textbox = Textbox(self.received_msgs[i])
+            #textbox.rect.center = (self.width-170,100+(30*i))
+            #self.display.blit(textbox.message, textbox.rect)
 
     def addtext(self,textbox):
         if len(textbox.text)<self.max_char_len:
