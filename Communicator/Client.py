@@ -4,14 +4,14 @@ import threading
 import time
 
 PORT = 9999
-SERVER = '146.169.180.197'
+SERVER = '146.169.183.125'
 
 class Client():
-    def __init__(self, name, ip, port, game):
+    def __init__(self, name, ip, port): #game
         self.name = name            
         self.server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.server.settimeout(600)
-        self.isHost = False
+        self.isDrawer = False
         try:
             self.server.connect((ip, port))
         except:
@@ -23,12 +23,13 @@ class Client():
         #Begin listening for data
         self.listenThread = threading.Thread(target=self.listenData)
         self.listenThread.start()
-        self.sendServer("!SETNAME " + name)
+        self.sendServer("!SETNAME " + name, True)
     
-    def sendServer(self, data):
-        if self.isActive:
+    def sendServer(self, data, bypass=False):
+
+        if bypass or (self.isActive and self.isDrawer):
             self.server.send(data.encode('utf-8'))
-        if(self.name == self.clientsever.name):
+            
             if data == "SERVERCMD: !DISCONNECT":
                 self.isActive = False
                 print("you have now disconnected from the server")
@@ -36,6 +37,7 @@ class Client():
             if data == "SERVERCMD: !KILL":
                 self.isActive = False
                 print("you have now closed the server and no longer connected")
+
            
     
     def setGame(self, game):
@@ -57,12 +59,10 @@ class Client():
                 if len(data) > 0:
                     self.processData(data)  #If connection fails
             except Exception as e:
+                print(e)
                 self.isActive = False
                 print("Error in connection to server, connection lost.")
                 input()
-
-            
-            self.closeServer()
          
             if(i+j == 10000):
                  self.isActive = False
@@ -76,13 +76,24 @@ class Client():
         
         print("\n" + data + '\n')
         
-        data = data.split("CLIENTCMD: ")[1]
-        print(f"Server: RECEIVED SERVER COMMAND: {data}")
-        if data == "!HOST ":
-            if(self.name == data.split("!HOST ")[1]):
-                self.isHost = True
-        if data == "!COORDINATES":
-               None
+        if("CLIENTCMD: " in data):
+            data = data.split("CLIENTCMD:")[1]
+            print(data)
+            print(f"Server: RECEIVED SERVER COMMAND: {data}")
+            if "!SET1STDRAWER" in data:
+                self.isDrawer= True
+                print("SET AS CURRENT DRAWER")
+        if "!DRAWERSELECT" in data:
+            print(data)
+            data = data.split("!DRAWERSELECT ")[1]
+            if self.name == data:
+                self.isDrawer = True
+            else:
+                self.isDrawer = False
+
+
+        #if data == "!COORDINATES":
+        #       None
 
               
 
