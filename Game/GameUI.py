@@ -347,6 +347,11 @@ class Game():
 
     def load_sprites(self):
         None
+    
+    def sendServer(self, data):
+        if self.Client is None:
+            return
+        self.Client.sendServer(data)
 
 if __name__ == "__main__":
     GameTest = Game("test")
