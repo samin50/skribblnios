@@ -164,30 +164,54 @@ class Server():
             self.is_drawer = True
 
 
-        if self.is_drawer == True:
-            print(f"Server: RECEIVED SERVER COMMAND: {data}")
-            if data == "!KILL":
-                self.closeServer()
+        for client in self.clientList:
+            if client.isHost:
+                print(f"Server: RECEIVED SERVER COMMAND: {data}")
+                if data == "!KILL":
+                    self.closeServer()
 
-            
-            #select the 3 words at the start of each round
-            if "!3WORDDISPLAY" in data:
-                f = "football,snake,waves,beach,knee,airplane,flag,car,eyes,octopus,robot,king,skateboard,window,banana,tree,elephant,door,key,bridge,bow,fork,sun,hippo,woman,pen,mickeymouse,fire,spider,kite,rain,computer,corn,star,cat,motorcycle,pizza,butterfly,cherry,love,cake,tennis,cannon,teapot,sunglasses,drink,happy,table,notebook,jupiter,letter,boot,crown,starfish,tyre,doughnut,pipe,apple pie,shark,chair,hole,ping pong,tower,cigarette,anvil,ramp,fish,forehead,sailing,hair,positive,apple,golf,bicycle,clock,drip,lightning,trousers,signal,music,laptop,mouse,arrow,backpack,lightbulb,headphones,pickaxe,sword,pause,beard,bikini,ice cream,duck,swimming pool,shin pads,sausage dog,paper clip,chicken wing,gym,flashlight"
-                Dictionary = f.split(",")
+                if "!DISCONNECT" in data:
+                    #Remove player from list based on name
+                    playerNameToRemove = data.split("!DISCONNECT ")[1]
+                    for player in self.clientList:
+                        if player.name.strip() == playerNameToRemove.strip():
+                            try:
+                                player.sendClientData("Server: You have been disconnected.\n")
+                            except:
+                                print(player.name + " was forcibly disconnected on their side.")
+                            player.isActive = False
+                            self.clientList.remove(player)
+                            print(f"Server: Disconnected Player {playerNameToRemove}")
+                            break
+                    return
 
-                word1 = random.choice(Dictionary) 
-                self.next_drawer.send(word1, True) 
-                
+            #choose who is drawing 
+                if "!DRAWERSELECT" in data:
+                    self.turn = True
+                    randomize_drawer = random.randint(1, len(self.clientList))
+                    self.next_drawer = self.clientList[randomize_drawer-1]
+                    whosdrawing = self.next_drawer.name + " is now drawing! "
+                    self.sendData(whosdrawing, True)
+                    print(self.next_drawer.name + " is now drawing!")
+                    return
+                #select the 3 words at the start of each round
+                if "!WORDSELECT" in data:
+                    f = "football,snake,waves,beach,knee,airplane,flag,car,eyes,octopus,robot,king,skateboard,window,banana,tree,elephant,door,key,bridge,bow,fork,sun,hippo,woman,pen,mickeymouse,fire,spider,kite,rain,computer,corn,star,cat,motorcycle,pizza,butterfly,cherry,love,cake,tennis,cannon,teapot,sunglasses,drink,happy,table,notebook,jupiter,letter,boot,crown,starfish,tyre,doughnut,pipe,apple pie,shark,chair,hole,ping pong,tower,cigarette,anvil,ramp,fish,forehead,sailing,hair,positive,apple,golf,bicycle,clock,drip,lightning,trousers,signal,music,laptop,mouse,arrow,backpack,lightbulb,headphones,pickaxe,sword,pause,beard,bikini,ice cream,duck,swimming pool,shin pads,sausage dog,paper clip,chicken wing,gym,flashlight"
+                    Dictionary = f.split(",")
 
-                word2 = random.choice(Dictionary)
-                while word2 == word1:
-                    word2 = random.choice(Dictionary) 
-                self.next_drawer.send(word2, True)
+                    word1 = random.choice(Dictionary) 
+                    self.sendData(word1, True) 
+                    
 
-                word3 = random.choice(Dictionary)
-                while (word3 == word1) or (word3 == word2):
-                    word3 = random.choice(Dictionary) 
-                self.next_drawer.send(word3, True)
+                    word2 = random.choice(Dictionary)
+                    while word2 == word1:
+                        word2 = random.choice(Dictionary) 
+                    self.sendData(word2, True)
+
+                    word3 = random.choice(Dictionary)
+                    while (word3 == word1) or (word3 == word2):
+                        word3 = random.choice(Dictionary) 
+                    self.sendData(word3, True)
 
         #     if "!COOORDINATES" in data:
             #     return_xy(self.next_drawer)
