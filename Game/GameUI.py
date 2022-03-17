@@ -45,11 +45,14 @@ class Game():
         self.height = 700
         self.display = pygame.display.set_mode((self.width, self.height))
         self.cursor = pygame.image.load("Game/assets/cursor.png")
-        self.cursor.convert()
+        #self.cursor.convert()
         self.cursorRect = self.cursor.get_rect()
+        #self.cursor_img = pygame.image.load("Game/assets/cursor.png")
 
         #self.display = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
         self.xy = (0,0)
+
+        self.cursor_surface = pygame.surface.Surface((self.width,self.height))
 
 #canvas:
         self.canvas_width = int(self.width/1.6)
@@ -104,6 +107,11 @@ class Game():
         self.received_msgs = []
         self.msg_limit = 13
         self.max_char_len = 26
+
+    def cursor_update(self,x,y):
+        self.cursor_surface.blit(self.cursor,(x,y))
+        self.cursor.set_alpha(0)
+        
     
     def mouseTracker(self):
         if self.FPGA is None:
@@ -269,6 +277,7 @@ class Game():
         return (self.x,self.y)
 
     def draw_check(self, x, y, useFPGA=False):
+        self.cursor_update(x,y)
         FACTOR = 6.6
         if not self.draw_blit:
             return
@@ -294,6 +303,7 @@ class Game():
              pygame.draw.line(self.display,(self.brush_colour),self.drawPoints[Pointer],self.drawPoints[not Pointer], self.brush_size*2)
         self.drawPoints[2] = not self.drawPoints[2] #Invert pointer
         #xy = pygame.mouse.get_pos()
+        
         pygame.draw.circle(self.display,(self.brush_colour),(x,y),self.brush_size)
         #pygame.draw.rect(self.display,(self.brush_colour),pygame.Rect(xy[0],xy[1],5,5))
 
