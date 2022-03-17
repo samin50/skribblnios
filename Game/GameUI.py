@@ -102,7 +102,7 @@ class Game():
     def mouseTracker(self):
         clock  = pygame.time.Clock()
         
-        while self.FPGA is None:
+        if self.FPGA is None:
             clock.tick(self.fps)
              #while changed to if to avoid threading
             mousePos = pygame.mouse.get_pos()
@@ -317,12 +317,13 @@ class Game():
         
         #start_new_thread(self.typing,(self.display,)) old threading function - outdated
         #Mouse thread 
-        self.mouseThread = threading.Thread(target=self.mouseTracker, daemon=True)
-        self.mouseThread.start()
+        #self.mouseThread = threading.Thread(target=self.mouseTracker, daemon=True)
+        #self.mouseThread.start()
         self.switch_update("54")
         while self.run == True:
             self.events = pygame.event.get()
             #self.mouseTracker()
+            self.mouseTracker()
             self.frame_counter+=1
             if (self.frame_counter % self.fps): #counts number of seconds player is drawing using the frame rate of the game
                 self.draw_timer+=1
