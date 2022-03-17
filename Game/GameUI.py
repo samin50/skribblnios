@@ -106,8 +106,9 @@ class Game():
         self.max_char_len = 26
     
     def mouseTracker(self):
-        while self.FPGA is None:
+        if self.FPGA is None:
             mousePos = pygame.mouse.get_pos()
+            self.switch_collisions(mousePos)
             self.draw_check(mousePos[0], mousePos[1])
     
     def size_update(self, is_increasing):
@@ -144,10 +145,9 @@ class Game():
     def switch_update(self, switchesNew):
         switchesNew = str(bin(int(switchesNew)))[2:].zfill(10)
         tempSwitch = [int(i) for i in switchesNew]
-        if tempSwitch == self.switches:
+        if (tempSwitch == self.switches) and self.FPGA is not None:
             return
         self.switches = tempSwitch
-        print(self.switches)
         self.colours[0] = self.blti(self.switches[0:3])*32
         self.colours[1] = self.blti(self.switches[3:6])*32
         self.colours[2] = self.blti(self.switches[6:9])*32
@@ -162,24 +162,30 @@ class Game():
             else:
                 self.display.blit(self.off_switch[i],(i*70+100,self.height-5-self.switch_size[1]))
 
-    """REDUNDANT
-    def mouse_down(self,draw):
-        self.xy = pygame.mouse.get_pos()
-        if draw == True:
-            for event in self.events:
-                if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_SPACE:
-                        self.draw_blit = True
-                elif event.type == pygame.KEYUP:
-                    self.draw_blit = False
-                        
-                else:
-                    if event.type == pygame.MOUSEBUTTONDOWN:
-                        self.draw_blit = True
-                    elif event.type == pygame.MOUSEBUTTONUP:
-                        self.draw_blit = False
-    """
-    
+    def switch_collisions(self,mouse_pos):
+        
+        #mouse_rect = pygame.Rect(mouse_pos[0],mouse_pos[1],5,5)
+        for i in range(len(self.off_switch)):
+            number =  0
+            switch_rect = self.off_switch[i].get_rect()
+            #switch_rect.center = (i*70+100,self.height-5-self.switch_size[1])
+            switch_rect.x =i*70+100
+            switch_rect.y =self.height-5-self.switch_size[1]
+            #pygame.draw.rect(self.display,(0,0,0),switch_rect)
+            collide = switch_rect.collidepoint(mouse_pos)
+            if collide:
+                for event in self.events:
+                    if event.type ==pygame.MOUSEBUTTONDOWN:
+                        temp_switch = self.switches
+                        if temp_switch[i] == 0:
+                            temp_switch[i] = 1
+                        else:
+                            temp_switch[i] = 0
+                        #temp_switch = temp_switch[::-1]
+                        number = int("".join(str(i) for i in temp_switch), base=2)
+                        self.switch_update(number)
+                        return
+        
     def msg_limiter(self):
         if len(self.received_msgs)>=self.msg_limit:
             self.received_msgs.pop(0)
@@ -221,13 +227,15 @@ class Game():
             if not self.chatbox.collidepoint(pygame.mouse.get_pos()):
                 continue
             for event in self.events:
-                self.redraw_chat(textbox)
+                
                 if event.type == pygame.KEYUP:
+                    self.redraw_chat(textbox)
                     if event.key in [pygame.K_RSHIFT, pygame.K_LSHIFT]:
                         textbox.upper_case = False
                 if event.type == pygame.KEYDOWN:
+                    self.redraw_chat(textbox)
                     if len(self.username+textbox.text)<26:
-                        self.redraw_chat(textbox)
+                        #self.redraw_chat(textbox)
                         textbox.add_chr(pygame.key.name(event.key))
                         if event.key == pygame.K_SPACE:
                             if len(textbox.text)<20:
@@ -271,7 +279,7 @@ class Game():
                 return
             x =(FACTOR*x)+self.width//2.7
             y =(FACTOR*y)+self.height//2
-        print("Coords:", x, y)
+        #print("Coords:", x, y)
         # returns true if coordinates are within the canvas
         canvas_collide = self.canvas.collidepoint((x,y))
 
@@ -307,12 +315,14 @@ class Game():
         
         #start_new_thread(self.typing,(self.display,)) old threading function - outdated
         #Mouse thread 
-        self.mouseThread = threading.Thread(target=self.mouseTracker, daemon=True)
-        self.mouseThread.start()
-        self.switch_update("54")
+        #self.mouseThread = threading.Thread(target=self.mouseTracker, daemon=True)
+        #self.mouseThread.start()
+        self.switch_update("0")
         while self.run == True:
             self.events = pygame.event.get()
-
+            
+            #self.switch_update("54")
+            self.mouseTracker()
             self.frame_counter+=1
             if (self.frame_counter % self.fps): #counts number of seconds player is drawing using the frame rate of the game
                 self.draw_timer+=1
