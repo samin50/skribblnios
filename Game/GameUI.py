@@ -53,7 +53,7 @@ class Game():
         self.canvas.center = (self.width/2.7,self.height/2)
 
         self.clock = pygame.time.Clock()
-        self.fps = 200
+        self.fps = 100
         self.colour_string = ""
         self.timer = 200
         self.background = pygame.image.load("Game/assets/sky_background.png")
@@ -100,7 +100,11 @@ class Game():
         self.max_char_len = 26
     
     def mouseTracker(self):
+        clock  = pygame.time.Clock()
+        
         while self.FPGA is None:
+            clock.tick(self.fps)
+             #while changed to if to avoid threading
             mousePos = pygame.mouse.get_pos()
             self.draw_check(mousePos[0], mousePos[1])
     
@@ -128,7 +132,7 @@ class Game():
     def music_change(self):
         pygame.mixer.music.stop()
         self.game_music = pygame.mixer.music.load("Game/assets/bold_statement.mp3")
-        #pygame.mixer.music.play(-1)
+        pygame.mixer.music.play(-1)
 
     def blti(self,binlist): #binary list to int
         return int(''.join(map(str, binlist)), 2)
@@ -196,18 +200,19 @@ class Game():
         self.chatbox.center = (self.width/1.18,self.height/2)
         self.redraw_chat(textbox)
         while True:
-            if not self.chatbox.collidepoint(pygame.mouse.get_pos()):
-                continue
             chat_clock.tick(self.fps)
-            print(self.events)
             self.refresh_textbox()
+            if not self.chatbox.collidepoint(pygame.mouse.get_pos()):
+                continue   
 
             for event in self.events:
-                self.redraw_chat(textbox)
+                #self.redraw_chat(textbox)
                 if event.type == pygame.KEYUP:
+                    self.redraw_chat(textbox)
                     if event.key in [pygame.K_RSHIFT, pygame.K_LSHIFT]:
                         textbox.upper_case = False
                 if event.type == pygame.KEYDOWN:
+                    self.redraw_chat(textbox)
                     if len(self.username+textbox.text)<26:
                         self.redraw_chat(textbox)
                         textbox.add_chr(pygame.key.name(event.key))
@@ -294,7 +299,7 @@ class Game():
         self.switch_update("54")
         while self.run == True:
             self.events = pygame.event.get()
-
+            #self.mouseTracker()
             self.frame_counter+=1
             if (self.frame_counter % self.fps): #counts number of seconds player is drawing using the frame rate of the game
                 self.draw_timer+=1
