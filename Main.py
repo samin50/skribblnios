@@ -1,4 +1,6 @@
+from unittest.mock import NonCallableMagicMock
 import pygame
+import signal
 from Communicator import Client
 from FPGA import skribblfpga
 from Game import GameUI
@@ -11,6 +13,7 @@ class mainMenu():
         self.Client = None
         self.initiateFPGA = threading.Thread(target=self.connectFPGA, daemon=True)
         self.initiateFPGA.start()
+        signal.signal(signal.SIGINT, self.closeAll)
         pygame.init()
         #Define white colour
         self.white = (205, 205, 205) 
@@ -136,6 +139,10 @@ class mainMenu():
     #pygame.display.flip()
     #self.display.blit(self.username_box.message, self.username_box.rect)
         return
+    def closeAll(self):
+        if self.FPGA is not None:
+            self.FPGA.stop()
+
     def connectFPGA(self):
         while not self.fpga_connected:
             try:
@@ -143,6 +150,7 @@ class mainMenu():
                 time.sleep(2.5)
                 self.FPGA = skribblfpga.SkribblNIOS(self)
                 self.fpga_connected = True
+                return
             except Exception as e:
                 print(e)
         return
@@ -167,8 +175,9 @@ class mainMenu():
         self.Game = GameUI.Game(username, self.FPGA, self.Client)
         if self.fpga_connected:
             self.FPGA.setGame(self.Game)
+            self.FPGA.start()
         self.Client.setGame(self.Game)
-        self.fpga_connected = True
+        self.fpga_connected = True    
         self.Game.round_start()
         return
 

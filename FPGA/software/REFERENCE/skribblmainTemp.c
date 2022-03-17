@@ -145,7 +145,6 @@ void demeanValues(alt_32 y_read, alt_32 z_read, alt_32* yNew, alt_32* zNew, int*
 	int runningSumZ = 0;
 	int i;
 	//Overwrite previous values
-	//printf("%d, %d, ptr:%d\n", y_read, z_read, *arrPointer);
 	sampleArrayY[*arrPointer] = y_read;
 	sampleArrayZ[*arrPointer] = z_read;
 	//Array pointer
@@ -155,15 +154,12 @@ void demeanValues(alt_32 y_read, alt_32 z_read, alt_32* yNew, alt_32* zNew, int*
 	}
 	//Calculate running sum
 	for(i = 0; i < DEMEAN_DEPTH; i++) {
-		//printf("%d\n", sampleArrayY[i]);
 		if(sampleArrayY[i] == 0) {
 			break;
 		}
 		runningSumY += sampleArrayY[i];
 		runningSumZ += sampleArrayZ[i];
 	}
-	//printf("i: %d\n", i);
-	//printf("%d, %d, avg:%d, %d\n", y_read, z_read, (runningSumY/(i+1)), (runningSumZ/(i+1)));
 	*yNew = y_read - (runningSumY/(i));
 	*zNew = z_read - (runningSumZ/(i));
 }
@@ -175,7 +171,6 @@ void eulerAngles(alt_32 x_read, alt_32 y_read, alt_32 z_read, alt_32* xNew, alt_
 	int x2 = xVal*xVal;
 	int y2 = yVal*yVal;
 	int z2 = zVal*zVal;
-	//float tempX, tempY, tempZ;
 	//Convert to degrees
 	*yNew = (180*atan(yVal/(sqrt(x2+z2))))/PI;
 	*zNew = (180*atan((sqrt(x2+y2))/zVal))/PI;
@@ -208,7 +203,6 @@ void roundLoop(FILE* fp, int roundLength) {
 		t_freq = alt_ticks_per_second();
 		//Calculate ratio of time elapsed
 		timeRatio = (((stopTime-startRoundTime)/t_freq)*100)/roundLength;
-		printf("time:%d freq:%d stop:%d start:%d\n", timeRatio, t_freq, stopTime, startRoundTime);
 		if (timeRatio < 10) {
 			ledWrite(0b1);
 		} else if (timeRatio < 20) {
@@ -239,10 +233,10 @@ void roundLoop(FILE* fp, int roundLength) {
 			alt_up_accelerometer_spi_read_y_axis(acc_dev, &y_read);
 			alt_up_accelerometer_spi_read_z_axis(acc_dev, &z_read);
 			//Filter values
-			nTapFilter(x_read, y_read, z_read, &xNew, &yNew, &zNew, filterMemX, filterMemY, filterMemZ, nTapPtr);
+			//nTapFilter(x_read, y_read, z_read, &xNew, &yNew, &zNew, filterMemX, filterMemY, filterMemZ, nTapPtr);
 			//demeanValues(y_read, z_read, &newY, &newZ, sampleArrayY, sampleArrayZ, &arrPointer); //Demean filter
 			eulerAngles(x_read, y_read, z_read, &xNew, &yNew, &zNew);
-			//printf("%d %d\n", yNew, zNew);
+			printf("C %d %d\n", yNew, zNew);
 			//printf("%d %d %d\n", x_read, y_read, z_read);
 			sampleTimer = alt_nticks();
 		}
@@ -279,11 +273,11 @@ int main () {
 	//Wait for start
 	writeScore("start.");
 	ledWrite(0b1111111111);
-	waitForCommand(fp, 'S', 'S', &commandChar, &arg1, &arg2);
+	//waitForCommand(fp, 'S', 'S', &commandChar, &arg1, &arg2);
 	roundLength = arg1;//Length of round will be stored into arg1
 	writeScore("------");
 	//Wait for round start
-	waitForCommand(fp, 'R', 'R', &commandChar, &arg1, &arg2);
+	//waitForCommand(fp, 'R', 'R', &commandChar, &arg1, &arg2);
 	fclose(fp);
 	//MAIN LOOP - Terminate loop when game end - command E
 	while (commandChar != 'E') {
@@ -292,7 +286,7 @@ int main () {
 		fp = fopen("/dev/jtag_uart", "r+");
 		roundLoop(fp, -1);
 		commandChar = 'F';
-		waitForCommand(fp, 'R', 'E', &commandChar, &arg1, &arg2);
+		//waitForCommand(fp, 'R', 'E', &commandChar, &arg1, &arg2);
 	}
 	ledWrite(0b0);
 	return 0;

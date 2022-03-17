@@ -18,14 +18,11 @@
 //Accelerometer setup and filters
 #define SAMPLING_TIME 3
 #define DEMEAN_DEPTH 8
-#define NTAPSIZE 30
+#define NTAPSIZE 300
 alt_32 x_read; //Usually not needed
 alt_32 y_read; //Pitch
 alt_32 z_read; //Yaw
 alt_up_accelerometer_spi_dev * acc_dev;
-#define CENTERX 0
-#define CENTERY -260
-#define CENTERZ 0
 #define PI 3.14159
 
 //Convert letters - will be upside down
@@ -164,16 +161,19 @@ void demeanValues(alt_32 y_read, alt_32 z_read, alt_32* yNew, alt_32* zNew, int*
 	*zNew = z_read - (runningSumZ/(i));
 }
 //Calculates Euler angles (rotation control)
-void eulerAngles(alt_32 x_read, alt_32 y_read, alt_32 z_read, alt_32* xNew, alt_32* yNew, alt_32* zNew) {
-	int xVal = (x_read-CENTERX);
-	int yVal = (y_read-CENTERY);
-	int zVal = (z_read-CENTERZ);
-	int x2 = xVal*xVal;
-	int y2 = yVal*yVal;
-	int z2 = zVal*zVal;
+void eulerAngles(double x_read, double y_read, double z_read, alt_32* xNew, alt_32* yNew, alt_32* zNew) {
 	//Convert to degrees
-	*yNew = (180*atan(yVal/(sqrt(x2+z2))))/PI;
-	*zNew = (180*atan((sqrt(x2+y2))/zVal))/PI;
+	double x2 = x_read*x_read;
+	double y2 = y_read*y_read;
+	double z2 = z_read*z_read;
+	//*xNew = (180*atan(x_read/z_read))/PI; //Roll
+	//*yNew = (180*atan(x_read/y_read))/PI; //Pitch
+	*xNew = (180*atan(y_read/sqrt(x2+z2)))/PI; //Roll
+	*yNew = (180*atan(x_read/sqrt(y2+z2)))/PI; //Pitch
+	//*xNew = (180*atan(x_read/z_read))/PI; //Pitch
+	//*yNew = (180*atan(y_read/z_read))/PI; //Roll
+	*zNew = z_read;
+	//(180*atan((sqrt(x2+y2))/zVal))/PI; //Yaw - cant be calculated without compass
 }
 
 //Function that runs during a round
@@ -226,35 +226,32 @@ void roundLoop(FILE* fp, int roundLength) {
 		}
 		//Send  accelerometer and input values
 		//Obtain values at a certain frequency
-		///*
-		//Frequency of accelerometer is 2^SAMPLING_TIME Hz, with 6, 64Hz
-		if (((stopTime-sampleTimer)) > (t_freq >> SAMPLING_TIME)) {
+		//Frequency of accelerometer is 2^SAMPLING_TIME Hz, with 6 = 64Hz
+		//if (((stopTime-sampleTimer)) > (t_freq >> SAMPLING_TIME)) {
 			alt_up_accelerometer_spi_read_x_axis(acc_dev, &x_read);
 			alt_up_accelerometer_spi_read_y_axis(acc_dev, &y_read);
 			alt_up_accelerometer_spi_read_z_axis(acc_dev, &z_read);
-			//Filter values
-			nTapFilter(x_read, y_read, z_read, &xNew, &yNew, &zNew, filterMemX, filterMemY, filterMemZ, nTapPtr);
-			//demeanValues(y_read, z_read, &newY, &newZ, sampleArrayY, sampleArrayZ, &arrPointer); //Demean filter
-			eulerAngles(x_read, y_read, z_read, &xNew, &yNew, &zNew);
-			printf("C %d %d\n", yNew, zNew);
 			//printf("%d %d %d\n", x_read, y_read, z_read);
-			sampleTimer = alt_nticks();
-		}
-		//*/
+			//Filter values
+			nTapFilter(x_read, y_read, z_read, &xNew, &yNew, &zNew, filterMemX, filterMemY, filterMemZ, &nTapPtr);
+			//demeanValues(y_read, z_read, &newY, &newZ, sampleArrayY, sampleArrayZ, &arrPointer); //Demean filter
+			x_read = xNew;
+			y_read = yNew;
+			z_read = zNew;
+			eulerAngles(x_read, y_read, z_read, &xNew, &yNew, &zNew); //Get angles of rotation
+			printf("C %d %d\n", xNew, yNew); //Roll and pitch -> x and y
+			//printf("%d %d %d\n", x_read, y_read, z_read);
+			//sampleTimer = alt_nticks();
+		//}
 		//If a second has elapsed, send the state of the buttons and switch if different from before
-		if ((stopTime-secondTimer) > t_freq) {
-			secondTimer = alt_nticks();
+		//if ((stopTime-secondTimer) > t_freq) {
+		//	secondTimer = alt_nticks();
 			tempButtonIn = IORD_ALTERA_AVALON_PIO_DATA(BUTTON_BASE);
 			tempSwitchIn = IORD_ALTERA_AVALON_PIO_DATA(SWITCH_BASE);
-			if (tempButtonIn != buttonIn) {
-				buttonIn = tempButtonIn;
-				printf("B %d\n", buttonIn);
-			}
-			if (tempSwitchIn != switchIn) {
-				switchIn = tempSwitchIn;
-				printf("S %d\n", switchIn);
-			}
-		}
+			printf("B %d\n", tempButtonIn);
+			printf("S %d\n", tempSwitchIn);
+		//	}
+
 	}
 }
 
@@ -273,20 +270,20 @@ int main () {
 	//Wait for start
 	writeScore("start.");
 	ledWrite(0b1111111111);
-	waitForCommand(fp, 'S', 'S', &commandChar, &arg1, &arg2);
+	//waitForCommand(fp, 'S', 'S', &commandChar, &arg1, &arg2);
 	roundLength = arg1;//Length of round will be stored into arg1
 	writeScore("------");
 	//Wait for round start
-	waitForCommand(fp, 'R', 'R', &commandChar, &arg1, &arg2);
-	fclose(fp);
+	//waitForCommand(fp, 'R', 'R', &commandChar, &arg1, &arg2);
 	//MAIN LOOP - Terminate loop when game end - command E
 	while (commandChar != 'E') {
 		sprintf(scoreStr, "%d-%d", arg1, arg2); //Build score str
 		writeScore(scoreStr);
 		fp = fopen("/dev/jtag_uart", "r+");
-		roundLoop(fp, roundLength);
+		roundLoop(fp, -1);
 		commandChar = 'F';
-		waitForCommand(fp, 'R', 'E', &commandChar, &arg1, &arg2);
+		//waitForCommand(fp, 'R', 'E', &commandChar, &arg1, &arg2);
+		fclose(fp);
 	}
 	ledWrite(0b0);
 	return 0;
