@@ -101,6 +101,7 @@ class Game():
     def mouseTracker(self):
         if self.FPGA is None:
             mousePos = pygame.mouse.get_pos()
+            self.switch_collisions(mousePos)
             self.draw_check(mousePos[0], mousePos[1])
     
     def size_update(self, is_increasing):
@@ -137,7 +138,8 @@ class Game():
     def switch_update(self, switchesNew):
         switchesNew = str(bin(int(switchesNew)))[2:].zfill(10)
         tempSwitch = [int(i) for i in switchesNew]
-        if tempSwitch == self.switches:
+        print("infunc:",tempSwitch, self.switches)
+        if (tempSwitch == self.switches) and self.FPGA is not None:
             return
         self.switches = tempSwitch
         print(self.switches)
@@ -155,7 +157,55 @@ class Game():
             else:
                 self.display.blit(self.off_switch[i],(i*70+100,self.height-5-self.switch_size[1]))
 
-    """REDUNDANT
+    def switch_collisions(self,mouse_pos):
+        
+        #mouse_rect = pygame.Rect(mouse_pos[0],mouse_pos[1],5,5)
+        for i in range(len(self.off_switch)):
+            number =  0
+            switch_rect = self.off_switch[i].get_rect()
+            #switch_rect.center = (i*70+100,self.height-5-self.switch_size[1])
+            switch_rect.x =i*70+100
+            switch_rect.y =self.height-5-self.switch_size[1]
+            #pygame.draw.rect(self.display,(0,0,0),switch_rect)
+            collide = switch_rect.collidepoint(mouse_pos)
+            if collide:
+                for event in self.events:
+                    if event.type ==pygame.MOUSEBUTTONDOWN:
+                        print("COLLIDED WITH: ", i)
+                        print(self.switches)
+                        temp_switch = self.switches
+                        if temp_switch[i] == 0:
+                            temp_switch[i] = 1
+                        else:
+                            temp_switch[i] = 0
+                        #temp_switch = temp_switch[::-1]
+                        number = int("".join(str(i) for i in temp_switch), base=2)
+                        self.switch_update(number)
+                        return
+                        """
+                        print(temp_switch)
+                        for i in range(len(temp_switch)):
+                            if temp_switch[i] == 0:
+                                number += (2**i)
+                                #print("switch_changed")
+                                temp_switch[i] = 1
+                                #sign = 1
+                                #print("switch changed",i)
+                            else:
+                                temp_switch[i] = 0
+                                number -= sign*(2**i)
+                                sign = -1
+                                
+                                #print(i)
+                                #if temp_switch[i] == 1:
+                            print(sign*(2**i))
+                            
+                            print("NUMBER", number)
+                            print(temp_switch)'''
+                        
+                            self.switch_update(str(number))
+
+    REDUNDANT
     def mouse_down(self,draw):
         for event in self.events:
             if draw == True:
@@ -261,7 +311,7 @@ class Game():
                 return
             x =(FACTOR*x)+self.width//2.7
             y =(FACTOR*y)+self.height//2
-        print("Coords:", x, y)
+        #print("Coords:", x, y)
         # returns true if coordinates are within the canvas
         canvas_collide = self.canvas.collidepoint((x,y))
 
@@ -299,9 +349,11 @@ class Game():
         #Mouse thread 
         #self.mouseThread = threading.Thread(target=self.mouseTracker, daemon=True)
         #self.mouseThread.start()
-        self.switch_update("54")
+        self.switch_update("0")
         while self.run == True:
             self.events = pygame.event.get()
+            
+            #self.switch_update("54")
             self.mouseTracker()
             self.frame_counter+=1
             if (self.frame_counter % self.fps): #counts number of seconds player is drawing using the frame rate of the game
