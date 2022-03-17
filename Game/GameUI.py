@@ -104,6 +104,9 @@ class Game():
         self.received_msgs = []
         self.msg_limit = 13
         self.max_char_len = 26
+
+    def cursor(self,x,y):
+        pygame.draw.circle(self.display,(self.brush_colour),(x,y),self.brush_size)
     
     def mouseTracker(self):
         while self.FPGA is None:
@@ -286,7 +289,9 @@ class Game():
              pygame.draw.line(self.display,(self.brush_colour),self.drawPoints[Pointer],self.drawPoints[not Pointer], self.brush_size*2)
         self.drawPoints[2] = not self.drawPoints[2] #Invert pointer
         #xy = pygame.mouse.get_pos()
+        self.cursor(x,y)
         pygame.draw.circle(self.display,(self.brush_colour),(x,y),self.brush_size)
+
         #pygame.draw.rect(self.display,(self.brush_colour),pygame.Rect(xy[0],xy[1],5,5))
 
 
