@@ -6,6 +6,7 @@ from FPGA import skribblfpga
 from Game import GameUI
 import threading
 import time
+
 class mainMenu():
     def __init__(self):
         pygame.init()
@@ -266,6 +267,7 @@ class mainMenu():
         #Instantiate game and hook FPGA
         self.isActive = False
         self.Game = GameUI.Game(username, self.FPGA, self.Client)
+        self.Client.setGame(self.Game)
         if self.fpga_connected:
             self.FPGA.setGame(self.Game)
             self.FPGA.start()
