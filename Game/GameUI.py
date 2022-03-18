@@ -109,6 +109,7 @@ class Game():
 
         #self.reset_button = pygame.transform.scale(pygame.image.load("Game/assets/reset.png"),(self.reset_size))
         self.reset_button = pygame.image.load("Game/assets/reset.png")
+
 #chatbox:
         self.chatbox = pygame.Rect(self.width/5,self.height/2,self.canvas_width/2.3,self.canvas_height)
         self.received_msgs = []
