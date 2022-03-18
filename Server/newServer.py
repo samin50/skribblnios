@@ -1,10 +1,7 @@
-from dataclasses import dataclass
-from logging import exception
-from pickle import TRUE
 import socket
 import threading
 import random
-from copy import deepcopy
+import urllib.request
 
 #Client on the server sides that holds their attributes and waits for data
 class ClientData():
@@ -60,11 +57,15 @@ class ClientData():
 class Server():
     def __init__(self, PORT, roundLength):
         self.roundLength = roundLength
-        self.address = socket.gethostbyname(socket.gethostname())
         self.server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.server.settimeout(3600)
         self.isActive = True
-        self.server.bind((self.address, PORT))
+        try:
+            self.address = urllib.request.urlopen('https://ident.me').read().decode('utf-8')
+            self.server.bind((self.address, PORT))
+        except:
+            self.address = socket.gethostbyname(socket.gethostname())
+            self.server.bind((self.address, PORT))
         self.clientList = []
         self.server.listen()
         self.listenThread = threading.Thread(target=self.addClients)

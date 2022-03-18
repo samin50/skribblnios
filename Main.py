@@ -1,6 +1,4 @@
-from unittest.mock import NonCallableMagicMock
 import pygame
-import signal
 from Communicator import Client
 from FPGA import skribblfpga
 from Game import GameUI
@@ -209,18 +207,16 @@ class mainMenu():
                 elif len(box.text)>self.text_limit: #text limiter for box
                     continue
                 box.add_chr(pygame.key.name(e.key))
-                if (len(box.text) < 15):
-
-                    if e.key == pygame.K_SPACE:
-                        if len(box.text)<20:
-                            box.text += " "
-                            box.update()
-                        else:
-                            print("Text too long")
-                    if e.key in [pygame.K_RSHIFT, pygame.K_LSHIFT]:
-                        box.upper_case = True
+                if e.key == pygame.K_SPACE:
+                    if len(box.text)<20:
+                        box.text += " "
+                        box.update()
                     else:
-                        box.upper_case = False
+                        print("Text too long")
+                if e.key in [pygame.K_RSHIFT, pygame.K_LSHIFT]:
+                    box.upper_case = True
+                else:
+                    box.upper_case = False
 
                     '''if e.key == pygame.K_RETURN:
                         if (box.text) > 0:
@@ -251,7 +247,7 @@ class mainMenu():
 
     def instantiateGame(self, username, ip):
         #username = "test"
-        ip = "26.168.146.5:9999"
+        #ip = "26.168.146.5:9999"
         if len(username) == 0:
             print("Enter a username!")
             return

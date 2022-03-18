@@ -1,7 +1,6 @@
 import random
 import socket
 import threading
-import time
 
 PORT = 9999
 SERVER = '146.169.183.125'
