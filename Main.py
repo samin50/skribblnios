@@ -251,7 +251,7 @@ class mainMenu():
     def instantiateGame(self, username, ip):
         #username = "test"
         #ip = "26.168.146.5:9999"
-        ip = "10.200.244.69:9999"
+        #ip = "10.200.244.69:9999"
         if len(username) == 0:
             print("Enter a username!")
             return
