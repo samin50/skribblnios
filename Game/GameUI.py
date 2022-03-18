@@ -1,8 +1,8 @@
 import pygame
 import random
 import threading
-import pyautogui
-import mouse
+#import pyautogui
+#import mouse
 
 class Textbox(pygame.sprite.Sprite):
   def __init__(self,message):
@@ -117,7 +117,7 @@ class Game():
 
     def pointer_update(self,x,y):
         self.pointer_pos = (x,y)
-        mouse.move(self.pointer_pos[0],self.pointer_pos[1])
+        #mouse.move(self.pointer_pos[0],self.pointer_pos[1])
     
     def mouseTracker(self):
         if self.FPGA is None:
@@ -321,7 +321,7 @@ class Game():
                 return
             x =(FACTOR*x)+self.width//2.7
             y =(FACTOR*y)+self.height//2
-            self.pointer_update(x,y)
+            #self.pointer_update(x,y)
         #print("Coords:", x, y)
         # returns true if coordinates are within the canvas
         canvas_collide = self.canvas.collidepoint((x,y))
