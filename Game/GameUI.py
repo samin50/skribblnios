@@ -1,8 +1,8 @@
 import pygame
 import random
 import threading
-import pyautogui
-import mouse
+#import pyautogui
+#import mouse
 
 class Textbox(pygame.sprite.Sprite):
   def __init__(self,message):
@@ -109,6 +109,7 @@ class Game():
 
         #self.reset_button = pygame.transform.scale(pygame.image.load("Game/assets/reset.png"),(self.reset_size))
         self.reset_button = pygame.image.load("Game/assets/reset.png")
+
 #chatbox:
         self.chatbox = pygame.Rect(self.width/5,self.height/2,self.canvas_width/2.3,self.canvas_height)
         self.received_msgs = []
@@ -117,7 +118,7 @@ class Game():
 
     def pointer_update(self,x,y):
         self.pointer_pos = (x,y)
-        mouse.move(self.pointer_pos[0],self.pointer_pos[1])
+        #mouse.move(self.pointer_pos[0],self.pointer_pos[1])
     
     def mouseTracker(self):
         if self.FPGA is None:
