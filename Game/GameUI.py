@@ -1,11 +1,13 @@
 import pygame
 import random
 import threading
+
 class Textbox(pygame.sprite.Sprite):
   def __init__(self,message):
     pygame.sprite.Sprite.__init__(self)
     self.text = ""
-    self.font = pygame.font.Font("Game/assets/pencil.TTF", 20)
+    self.font = pygame.font.Font("Game/assets/Gameplay.TTF", 15)
+    self.smallfont = pygame.font.Font("Game/assets/Gameplay.TTF", 13) #Shan: you need to make this the smaller font of the IP port no etc
     self.black = (0,0,0)
     self.white = (255,255,255)
     self.message = self.font.render(message, False, self.black)
@@ -27,7 +29,7 @@ class Textbox(pygame.sprite.Sprite):
   def update(self):
     old_rect_pos = self.rect.center
     self.message = self.font.render(self.text, False, self.black)
-    self.rect = self.message.get_rect()
+    self.rect = pygame.Rect(600,600,100,26)
     self.rect.center = old_rect_pos
 class Game():
     def __init__(self,username, FPGAinstance=None, clientInstance=None):
@@ -82,7 +84,7 @@ class Game():
         self.erase = False
 
 #switches:
-        self.switches = [1,1,0,0,0,0,0,1,1]
+        self.switches = [0,0,0,0,0,0,0,0,0,0]
         self.switch_size = (40,70)
         self.off_switch = [
             (pygame.image.load("Game/assets/switches/1.png")),(pygame.image.load("Game/assets/switches/14.png")),
@@ -103,7 +105,6 @@ class Game():
 
 #chatbox:
         self.chatbox = pygame.Rect(self.width/5,self.height/2,self.canvas_width/2.3,self.canvas_height)
-        self.messages = []
         self.received_msgs = []
         self.msg_limit = 13
         self.max_char_len = 26
@@ -150,11 +151,17 @@ class Game():
     def blti(self,binlist): #binary list to int
         return int(''.join(map(str, binlist)), 2)
 
-    def switch_update(self, switchesNew):
-        switchesNew = str(bin(int(switchesNew)))[2:].zfill(10)
-        tempSwitch = [int(i) for i in switchesNew]
+    def switch_update(self, switchesNew, override=False):
+        #Only drawers can update switch if connected to server
+        if self.Client is not None:
+            if not (self.Client.isDrawing() or override):
+                return
+        switches = str(bin(int(switchesNew)))[2:].zfill(10)
+        tempSwitch = [int(i) for i in switches]
         if (tempSwitch == self.switches) and self.FPGA is not None:
             return
+        #Update to server any changes
+        self.sendServer("SERVERCMD: !SETSWITCH " + str(switchesNew), True)
         self.switches = tempSwitch
         self.colours[0] = self.blti(self.switches[0:3])*32
         self.colours[1] = self.blti(self.switches[3:6])*32
@@ -164,6 +171,9 @@ class Game():
             self.brush_colour = (self.colours[0],self.colours[1],self.colours[2]) #RGB
         else: #Eraser mode
             self.brush_colour = self.colour_list["white"]
+        self.renderSwitch()
+
+    def renderSwitch(self):
         for i in range (9):
             if self.switches[i] and self.switches[9] == 0:
                 self.display.blit(self.on_switch[i],(i*70+100,self.height-5-self.switch_size[1]))
@@ -219,6 +229,10 @@ class Game():
         else:
             print("Text too long")
         return textbox
+    
+    def addOtherMessages(self, text):
+        print("added message")
+        self.received_msgs.append(text)
 
 
     def typing(self):
@@ -259,9 +273,8 @@ class Game():
                     if event.key == pygame.K_RETURN:
                         if len(textbox.text) > 0:
                             pygame.display.update(textbox.rect)
-                            self.messages.append(textbox.text)
                             self.received_msgs.append((self.username+":  "+textbox.text))
-                            print(self.messages)
+                            self.sendServer("SERVERCMD: !BROADCAST "+ self.username + ": " + textbox.text)
                             textbox = Textbox("Type to chat")
                             textbox.rect.center = (self.width-170,self.height-100)
                             self.refresh_textbox()
@@ -295,7 +308,11 @@ class Game():
         if canvas_collide==True:
             self.draw(x,y)
 
-    def draw(self,x,y):
+    def draw(self,x,y, override=False):
+        #Only drawers can update switch if connected to server
+        if self.Client is not None:
+            if not (self.Client.isDrawing() or override):
+                return
         #Aryan send coordinates here
         Pointer = self.drawPoints[2]
         self.drawPoints[Pointer] = (x, y)
@@ -303,7 +320,8 @@ class Game():
              pygame.draw.line(self.display,(self.brush_colour),self.drawPoints[Pointer],self.drawPoints[not Pointer], self.brush_size*2)
         self.drawPoints[2] = not self.drawPoints[2] #Invert pointer
         #xy = pygame.mouse.get_pos()
-        
+        if override == False:
+            self.sendServer("SERVERCMD: !DRW " +str(x) + " " + str(y), True) #Send data to server
         pygame.draw.circle(self.display,(self.brush_colour),(x,y),self.brush_size)
         #pygame.draw.rect(self.display,(self.brush_colour),pygame.Rect(xy[0],xy[1],5,5))
 
@@ -327,7 +345,7 @@ class Game():
         #Mouse thread 
         #self.mouseThread = threading.Thread(target=self.mouseTracker, daemon=True)
         #self.mouseThread.start()
-        self.switch_update("0")
+        self.renderSwitch()
         while self.run == True:
             self.events = pygame.event.get()
             
@@ -359,14 +377,23 @@ class Game():
                 #Mouse usage only
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_SPACE:
-                        self.drawPoints = [(None, None), (None, None), 0]
+                        self.resetTracker()
                         self.draw_blit = True
                 if event.type == pygame.KEYUP:
+                    self.sendServer("SERVERCMD: !RESETTRACKER", True)
                     self.draw_blit = False
                     
 
     def load_sprites(self):
         None
+    
+    def sendServer(self, data, requiresDrawer=False):
+        if self.Client is None:
+            return
+        self.Client.sendServer(data, requiresDrawer)
+    
+    def resetTracker(self):
+        self.drawPoints = [(None, None), (None, None), 0]
 
 if __name__ == "__main__":
     GameTest = Game("test")

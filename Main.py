@@ -6,6 +6,7 @@ from FPGA import skribblfpga
 from Game import GameUI
 import threading
 import time
+
 class mainMenu():
     def __init__(self):
         pygame.init()
@@ -249,14 +250,20 @@ class mainMenu():
         return
 
     def instantiateGame(self, username, ip):
+        #username = "test"
+        ip = "26.168.146.5:9999"
+        if len(username) == 0:
+            print("Enter a username!")
+            return
+        if len(ip) == 0:
+            print("Enter a server ip!")
+            return
         #Ensure FPGA is connected
         if self.fpga_connected == False:
             print("FPGA not connected!")
             print("Will use mouse")
             #return
         #Attempt to connect to server
-        username = "test"
-        ip = "26.168.146.5:9999"
         connectionData = ip.split(":")
         try:
             self.Client = Client.Client(username, connectionData[0], int(connectionData[1]))
@@ -266,6 +273,7 @@ class mainMenu():
         #Instantiate game and hook FPGA
         self.isActive = False
         self.Game = GameUI.Game(username, self.FPGA, self.Client)
+        self.Client.setGame(self.Game)
         if self.fpga_connected:
             self.FPGA.setGame(self.Game)
             self.FPGA.start()
