@@ -250,14 +250,20 @@ class mainMenu():
         return
 
     def instantiateGame(self, username, ip):
+        #username = "test"
+        ip = "26.168.146.5:9999"
+        if len(username) == 0:
+            print("Enter a username!")
+            return
+        if len(ip) == 0:
+            print("Enter a server ip!")
+            return
         #Ensure FPGA is connected
         if self.fpga_connected == False:
             print("FPGA not connected!")
             print("Will use mouse")
             #return
         #Attempt to connect to server
-        username = "test"
-        ip = "26.168.146.5:9999"
         connectionData = ip.split(":")
         try:
             self.Client = Client.Client(username, connectionData[0], int(connectionData[1]))

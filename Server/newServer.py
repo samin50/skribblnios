@@ -1,3 +1,4 @@
+from dataclasses import dataclass
 from logging import exception
 from pickle import TRUE
 import socket
@@ -8,8 +9,8 @@ from copy import deepcopy
 #Client on the server sides that holds their attributes and waits for data
 class ClientData():
     def __init__(self, conn, addr, server):
+        self.name = None
         self.isActive = True
-        self.is_drawer = False
         self.serverProperties = (conn, addr)
         self.serverObj = server
         self.dataThread = threading.Thread(target=self.listenData)
@@ -19,7 +20,7 @@ class ClientData():
     def listenData(self):
         while self.isActive:
             try:
-                data = self.serverProperties[0].recv(1024).decode('utf-8')
+                data = self.serverProperties[0].recv(64).decode('utf-8')
             #If player disconnects
             except ConnectionResetError:
                 self.isActive = False
@@ -28,13 +29,12 @@ class ClientData():
                 return
             if data:
                 self.processData(data)
-                print(f"Player {self.name} got data!")
+                if "!DRW" not in data:
+                    print(f"Server received data from {self.name}")
         return
 
     #Process client side data
     def processData(self, data):
-        #Default server response
-        self.sendClientData(data)
         #Server wide command
         if "SERVERCMD:" in data:
             self.serverObj.processServerSide(data)
@@ -58,7 +58,8 @@ class ClientData():
 
 
 class Server():
-    def __init__(self, PORT):
+    def __init__(self, PORT, roundLength):
+        self.roundLength = roundLength
         self.address = socket.gethostbyname(socket.gethostname())
         self.server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.server.settimeout(3600)
@@ -68,7 +69,7 @@ class Server():
         self.server.listen()
         self.listenThread = threading.Thread(target=self.addClients)
         self.listenThread.start()
-        self.next_drawer = 0 
+        self.next_drawer = None
         
         print(f"Server bind success @{self.address}")
     
@@ -80,32 +81,16 @@ class Server():
                 Player = ClientData(conn, addr, self)
                 
                 self.clientList.append(Player)
-                self.sendData("hello", True)
-
-                self.sendData("1a", True)
                 conn.send(b"Welcome to the server!\n")
-
-
-                self.sendData("2a", True)
                 print("New Player Joined!\n")
-            
-                
-                
-
-                self.sendData("1b", True)
-                    #self.next_drawer = random.choice(self.clientList)
-
                 if(len(self.clientList) == 1 ):
                     self.next_drawer = self.clientList[0]
-                    print(self.next_drawer)
                     conn.send(b'CLIENTCMD: !SET1STDRAWER')  #set first drawer
             
                 
             except Exception as e:
                 print(e)
                 print("Server closed.")
-
-                self.sendData("7", True)
                 return
             
             
@@ -124,6 +109,15 @@ class Server():
     def processServerSide(self, data):
         data = data.split("SERVERCMD: ")[1]
 
+        #Draw function
+        if "!DRW" in data:
+            coords = data.split("!DRW ")[1]
+            self.sendData("CLIENTCMD: !DRW " + coords, True, self.next_drawer.name)
+        else:    
+            print(f"Server: RECEIVED SERVER COMMAND: {data}")
+
+        if "!RESETTRACKER" in data:
+            self.sendData("CLIENTCMD: !RESETTRACKER", True, self.next_drawer.name)
         #Broadcast to all players
         #universal server commands
        
@@ -139,14 +133,23 @@ class Server():
                         print(player.name + " was forcibly disconnected on their side.")
                     player.isActive = False
                     self.clientList.remove(player)
+                    # If the current drawer leaves, select a new one
+                    if (player == self.next_drawer) and (len(self.clientList) > 0):
+                        self.processServerSide("SERVERCMD: !DRAWERSELECT")
                     print(f"Server: Disconnected Player {playerNameToRemove}")
                     break
                 return
-        
+        #Chat function
         if "!BROADCAST" in data:
-            message = data.split("!BROADCAST")[1]
-            self.sendData(message, True)
-            return    
+            message = data.split("!BROADCAST ")[1]
+            name = message.split(": ")[0]
+            self.sendData(data, True, name)
+            return
+
+        #Switch function  
+        if "!SETSWITCH" in data:
+            switches = data.split("!SETSWITCH ")[1]
+            self.sendData("CLIENTCMD: !SETSWITCH " + switches, True, self.next_drawer.name)
 
         #choose who is drawing 
         if "!DRAWERSELECT" in data:
@@ -155,78 +158,58 @@ class Server():
                 temp = random.choice(self.clientList)
             self.next_drawer = temp
             #if self.next_drawer.name 
-            whosdrawing = ("!DRAWERSELECT " + self.next_drawer.name)
+            whosdrawing = ("CLIENTCMD: !DRAWERSELECT " + self.next_drawer.name)
             self.sendData(whosdrawing, True)
-            return    
+            return   
 
-        if data == self.next_drawer.name:
+        if data == "!KILL":
+            self.closeServer()
 
-            self.is_drawer = True
+        if "!DISCONNECT" in data:
+            #Remove player from list based on name
+            playerNameToRemove = data.split("!DISCONNECT ")[1]
+            for player in self.clientList:
+                if player.name.strip() == playerNameToRemove.strip():
+                    try:
+                        player.sendClientData("Server: You have been disconnected.\n")
+                    except:
+                        print(player.name + " was forcibly disconnected on their side.")
+                    player.isActive = False
+                    self.clientList.remove(player)
+                    print(f"Server: Disconnected Player {playerNameToRemove}")
+                    break
+            return
 
-
-        for client in self.clientList:
-            if client.isHost:
-                print(f"Server: RECEIVED SERVER COMMAND: {data}")
-                if data == "!KILL":
-                    self.closeServer()
-
-                if "!DISCONNECT" in data:
-                    #Remove player from list based on name
-                    playerNameToRemove = data.split("!DISCONNECT ")[1]
-                    for player in self.clientList:
-                        if player.name.strip() == playerNameToRemove.strip():
-                            try:
-                                player.sendClientData("Server: You have been disconnected.\n")
-                            except:
-                                print(player.name + " was forcibly disconnected on their side.")
-                            player.isActive = False
-                            self.clientList.remove(player)
-                            print(f"Server: Disconnected Player {playerNameToRemove}")
-                            break
-                    return
-
-            #choose who is drawing 
-                if "!DRAWERSELECT" in data:
-                    self.turn = True
-                    randomize_drawer = random.randint(1, len(self.clientList))
-                    self.next_drawer = self.clientList[randomize_drawer-1]
-                    whosdrawing = self.next_drawer.name + " is now drawing! "
-                    self.sendData(whosdrawing, True)
-                    print(self.next_drawer.name + " is now drawing!")
-                    return
-                #select the 3 words at the start of each round
-                if "!WORDSELECT" in data:
-                    f = "football,snake,waves,beach,knee,airplane,flag,car,eyes,octopus,robot,king,skateboard,window,banana,tree,elephant,door,key,bridge,bow,fork,sun,hippo,woman,pen,mickeymouse,fire,spider,kite,rain,computer,corn,star,cat,motorcycle,pizza,butterfly,cherry,love,cake,tennis,cannon,teapot,sunglasses,drink,happy,table,notebook,jupiter,letter,boot,crown,starfish,tyre,doughnut,pipe,apple pie,shark,chair,hole,ping pong,tower,cigarette,anvil,ramp,fish,forehead,sailing,hair,positive,apple,golf,bicycle,clock,drip,lightning,trousers,signal,music,laptop,mouse,arrow,backpack,lightbulb,headphones,pickaxe,sword,pause,beard,bikini,ice cream,duck,swimming pool,shin pads,sausage dog,paper clip,chicken wing,gym,flashlight"
-                    Dictionary = f.split(",")
-
-                    word1 = random.choice(Dictionary) 
-                    self.sendData(word1, True) 
-                    
-
-                    word2 = random.choice(Dictionary)
-                    while word2 == word1:
-                        word2 = random.choice(Dictionary) 
-                    self.sendData(word2, True)
-
-                    word3 = random.choice(Dictionary)
-                    while (word3 == word1) or (word3 == word2):
-                        word3 = random.choice(Dictionary) 
-                    self.sendData(word3, True)
+        #select the 3 words at the start of each round
+        if "!WORDSELECT" in data:
+            f = "football,snake,waves,beach,knee,airplane,flag,car,eyes,octopus,robot,king,skateboard,window,banana,tree,elephant,door,key,bridge,bow,fork,sun,hippo,woman,pen,mickeymouse,fire,spider,kite,rain,computer,corn,star,cat,motorcycle,pizza,butterfly,cherry,love,cake,tennis,cannon,teapot,sunglasses,drink,happy,table,notebook,jupiter,letter,boot,crown,starfish,tyre,doughnut,pipe,apple pie,shark,chair,hole,ping pong,tower,cigarette,anvil,ramp,fish,forehead,sailing,hair,positive,apple,golf,bicycle,clock,drip,lightning,trousers,signal,music,laptop,mouse,arrow,backpack,lightbulb,headphones,pickaxe,sword,pause,beard,bikini,ice cream,duck,swimming pool,shin pads,sausage dog,paper clip,chicken wing,gym,flashlight"
+            Dictionary = f.split(",")
+            word1 = random.choice(Dictionary) 
+            self.sendData(word1, True) 
+            word2 = random.choice(Dictionary)
+            while word2 == word1:
+                word2 = random.choice(Dictionary) 
+            self.sendData(word2, True)
+            word3 = random.choice(Dictionary)
+            while (word3 == word1) or (word3 == word2):
+                word3 = random.choice(Dictionary) 
+            self.sendData(word3, True)
 
         #     if "!COOORDINATES" in data:
             #     return_xy(self.next_drawer)
             #for when shan and shaheen done fpga and game
-        print("a non drawer tried implementing server commands")
 
     #Send data
-    def sendData(self, data, all=False, playerName=0):
+    def sendData(self, data, all=False, playerName=""):
         if all == False:
             for player in self.clientList:
                 if player.name == playerName:
                     player.send(f"{data}")
         else:
             for player in self.clientList:
-                player.send(f"{data}")
+                #Ignore the player that did the broadcast if specified
+                if player.name != playerName:
+                    player.send(f"{data}")
     
     #Close server
     def closeServer(self):
@@ -239,7 +222,8 @@ class Server():
 
 if __name__ == "__main__":
     PORT = 9999
-    server = Server(PORT)
+    #roundLength = int(input("What will be the length of each round in the game? (seconds): "))
+    server = Server(PORT, 1)
 
     
 
