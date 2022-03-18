@@ -229,7 +229,7 @@ class Game():
             self.received_msgs.pop(0)
     
     def redraw_chat(self,textbox):
-        pygame.draw.rect(self.display,(245,245,240),(self.chatbox))
+        pygame.draw.rect(self.display,(204,255,204),(self.chatbox))
         self.display.blit(textbox.message, textbox.rect)
 
     def refresh_textbox(self):
