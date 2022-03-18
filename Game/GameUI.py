@@ -1,6 +1,8 @@
 import pygame
 import random
 import threading
+import pyautogui
+import mouse
 
 class Textbox(pygame.sprite.Sprite):
   def __init__(self,message):
@@ -34,7 +36,7 @@ class Textbox(pygame.sprite.Sprite):
 class Game():
     def __init__(self,username, FPGAinstance=None, clientInstance=None):
         pygame.init()
-        self.font = pygame.font.Font("Game/assets/pencil.TTF", 20)
+        self.font = pygame.font.Font("Game/assets/Gameplay.TTF", 12)
         self.FPGA = FPGAinstance
         self.Client = clientInstance
         self.drawPoints = [(None, None), (None, None), 0]
@@ -46,15 +48,16 @@ class Game():
         self.width = 1200
         self.height = 700
         self.display = pygame.display.set_mode((self.width, self.height))
-        self.cursor = pygame.image.load("Game/assets/cursor.png")
-        #self.cursor.convert()
-        self.cursorRect = self.cursor.get_rect()
-        #self.cursor_img = pygame.image.load("Game/assets/cursor.png")
+        self.pointer = pygame.image.load("Game/assets/cursor.png")
+        self.pointer_pos =(359, 190)
+        #self.pointer.convert()
+        #self.pointerRect = self.pointer.get_rect()
+        #self.pointer_img = pygame.image.load("Game/assets/cursor.png")
 
         #self.display = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
         self.xy = (0,0)
 
-        self.cursor_surface = pygame.surface.Surface((self.width,self.height))
+        self.pointer_surface = pygame.surface.Surface((self.width,self.height))
 
 #canvas:
         self.canvas_width = int(self.width/1.6)
@@ -86,6 +89,7 @@ class Game():
 #switches:
         self.switches = [0,0,0,0,0,0,0,0,0,0]
         self.switch_size = (40,70)
+        self.reset_size = (50,60)
         self.off_switch = [
             (pygame.image.load("Game/assets/switches/1.png")),(pygame.image.load("Game/assets/switches/14.png")),
             (pygame.image.load("Game/assets/switches/15.png")), (pygame.image.load("Game/assets/switches/7.png")),
@@ -103,21 +107,23 @@ class Game():
             (pygame.image.load("Game/assets/switches/18.png")) 
         ]
 
+        #self.reset_button = pygame.transform.scale(pygame.image.load("Game/assets/reset.png"),(self.reset_size))
+        self.reset_button = pygame.image.load("Game/assets/reset.png")
 #chatbox:
         self.chatbox = pygame.Rect(self.width/5,self.height/2,self.canvas_width/2.3,self.canvas_height)
         self.received_msgs = []
         self.msg_limit = 13
         self.max_char_len = 26
 
-    def cursor_update(self,x,y):
-        self.cursor_surface.blit(self.cursor,(x,y))
-        self.cursor.set_alpha(0)
-        
+    def pointer_update(self,x,y):
+        self.pointer_pos = (x,y)
+        mouse.move(self.pointer_pos[0],self.pointer_pos[1])
     
     def mouseTracker(self):
         if self.FPGA is None:
             mousePos = pygame.mouse.get_pos()
             self.switch_collisions(mousePos)
+            #self.pointer_update(mousePos[0], mousePos[1])
             self.draw_check(mousePos[0], mousePos[1])
     
     def size_update(self, is_increasing):
@@ -174,14 +180,28 @@ class Game():
         self.renderSwitch()
 
     def renderSwitch(self):
+        self.display.blit(self.reset_button,(9*70+100,self.height-5-self.switch_size[1]))
         for i in range (9):
             if self.switches[i] and self.switches[9] == 0:
                 self.display.blit(self.on_switch[i],(i*70+100,self.height-5-self.switch_size[1]))
             else:
                 self.display.blit(self.off_switch[i],(i*70+100,self.height-5-self.switch_size[1]))
 
+    def reset_canvas(self):
+        pygame.draw.rect(self.display,(255,255,255),(self.canvas))
+
+
     def switch_collisions(self,mouse_pos):
-        
+        reset_rect = self.reset_button.get_rect() #reset button rect
+        reset_rect.x = 9*70+100
+        reset_rect.y = self.height-5-self.switch_size[1]
+        #reset_rect.center = (9*70+100,self.height-5-self.switch_size[1])
+        #pygame.draw.rect(self.display,(0,0,0),reset_rect)
+        if reset_rect.collidepoint(mouse_pos):
+            for event in self.events:
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    self.reset_canvas()
+
         #mouse_rect = pygame.Rect(mouse_pos[0],mouse_pos[1],5,5)
         for i in range(len(self.off_switch)):
             number =  0
@@ -290,7 +310,7 @@ class Game():
         return (self.x,self.y)
 
     def draw_check(self, x, y, useFPGA=False):
-        self.cursor_update(x,y)
+        #self.pointer_update(x,y)
         FACTOR = 6.6
         if not self.draw_blit:
             return
@@ -301,6 +321,7 @@ class Game():
                 return
             x =(FACTOR*x)+self.width//2.7
             y =(FACTOR*y)+self.height//2
+            self.pointer_update(x,y)
         #print("Coords:", x, y)
         # returns true if coordinates are within the canvas
         canvas_collide = self.canvas.collidepoint((x,y))
@@ -323,6 +344,7 @@ class Game():
         if override == False:
             self.sendServer("SERVERCMD: !DRW " +str(x) + " " + str(y), True) #Send data to server
         pygame.draw.circle(self.display,(self.brush_colour),(x,y),self.brush_size)
+
         #pygame.draw.rect(self.display,(self.brush_colour),pygame.Rect(xy[0],xy[1],5,5))
 
 
@@ -336,7 +358,7 @@ class Game():
         self.switch_img_scale()
         #self. display.blit(self.off_switch[0],(0,0))
         
-        pygame.draw.rect(self.display,(255,255,245),(self.canvas))
+        pygame.draw.rect(self.display,(255,255,255),(self.canvas))
         
         chat_thread = threading.Thread(target=self.typing, daemon=True) #daemon thread so it will terminate when master thread quits
         chat_thread.start() #starts a new thread for the chat window
@@ -349,7 +371,6 @@ class Game():
         while self.run == True:
             self.events = pygame.event.get()
             
-            #self.switch_update("54")
             self.mouseTracker()
             self.frame_counter+=1
             if (self.frame_counter % self.fps): #counts number of seconds player is drawing using the frame rate of the game
