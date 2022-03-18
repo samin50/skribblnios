@@ -88,6 +88,7 @@ class Game():
 #switches:
         self.switches = [1,1,0,0,0,0,0,1,1]
         self.switch_size = (40,70)
+        self.reset_size = (50,60)
         self.off_switch = [
             (pygame.image.load("Game/assets/switches/1.png")),(pygame.image.load("Game/assets/switches/14.png")),
             (pygame.image.load("Game/assets/switches/15.png")), (pygame.image.load("Game/assets/switches/7.png")),
@@ -105,6 +106,8 @@ class Game():
             (pygame.image.load("Game/assets/switches/18.png")) 
         ]
 
+        #self.reset_button = pygame.transform.scale(pygame.image.load("Game/assets/reset.png"),(self.reset_size))
+        self.reset_button = pygame.image.load("Game/assets/reset.png")
 #chatbox:
         self.chatbox = pygame.Rect(self.width/5,self.height/2,self.canvas_width/2.3,self.canvas_height)
         self.messages = []
@@ -155,6 +158,7 @@ class Game():
         return int(''.join(map(str, binlist)), 2)
 
     def switch_update(self, switchesNew):
+        self.display.blit(self.reset_button,(9*70+100,self.height-5-self.switch_size[1]))
         switchesNew = str(bin(int(switchesNew)))[2:].zfill(10)
         tempSwitch = [int(i) for i in switchesNew]
         if (tempSwitch == self.switches) and self.FPGA is not None:
@@ -174,8 +178,21 @@ class Game():
             else:
                 self.display.blit(self.off_switch[i],(i*70+100,self.height-5-self.switch_size[1]))
 
+    def reset_canvas(self):
+        pygame.draw.rect(self.display,(255,255,255),(self.canvas))
+
+
     def switch_collisions(self,mouse_pos):
-        
+        reset_rect = self.reset_button.get_rect() #reset button rect
+        reset_rect.x = 9*70+100
+        reset_rect.y = self.height-5-self.switch_size[1]
+        #reset_rect.center = (9*70+100,self.height-5-self.switch_size[1])
+        #pygame.draw.rect(self.display,(0,0,0),reset_rect)
+        if reset_rect.collidepoint(mouse_pos):
+            for event in self.events:
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    self.reset_canvas()
+
         #mouse_rect = pygame.Rect(mouse_pos[0],mouse_pos[1],5,5)
         for i in range(len(self.off_switch)):
             number =  0
@@ -324,7 +341,7 @@ class Game():
         self.switch_img_scale()
         #self. display.blit(self.off_switch[0],(0,0))
         
-        pygame.draw.rect(self.display,(255,255,245),(self.canvas))
+        pygame.draw.rect(self.display,(255,255,255),(self.canvas))
         
         chat_thread = threading.Thread(target=self.typing, daemon=True) #daemon thread so it will terminate when master thread quits
         chat_thread.start() #starts a new thread for the chat window
