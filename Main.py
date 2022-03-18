@@ -256,7 +256,7 @@ class mainMenu():
             #return
         #Attempt to connect to server
         username = "test"
-        ip = "26.168.146.5:9999"
+        ip = "10.200.244.69:9999"
         connectionData = ip.split(":")
         try:
             self.Client = Client.Client(username, connectionData[0], int(connectionData[1]))
