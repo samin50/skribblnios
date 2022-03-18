@@ -2,7 +2,7 @@ import pygame
 import random
 import threading
 #import pyautogui
-#import mouse
+import mouse
 
 class Textbox(pygame.sprite.Sprite):
   def __init__(self,message):
@@ -116,9 +116,11 @@ class Game():
         self.msg_limit = 13
         self.max_char_len = 26
 
+        self.window_pos = (360,160)
+
     def pointer_update(self,x,y):
         self.pointer_pos = (x,y)
-        #mouse.move(self.pointer_pos[0],self.pointer_pos[1])
+        mouse.move(self.window_pos[0]+self.pointer_pos[0],self.window_pos[1]+self.pointer_pos[1])
     
     def mouseTracker(self):
         if self.FPGA is None:
