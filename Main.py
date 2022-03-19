@@ -1,6 +1,10 @@
+from ast import Import
 import pygame
 from Communicator import Client
-from FPGA import skribblfpga
+try:
+    from FPGA import skribblfpga
+except ImportError:
+    print("FPGA import error, continuing without FPGA support.")
 from Game import GameUI
 import threading
 import time
@@ -249,8 +253,8 @@ class mainMenu():
         return
 
     def instantiateGame(self, username, ip):
-        #username = "test"
-        #ip = "26.168.146.5:9999"
+        username = "test"
+        ip = "26.168.146.5:9999"
         #ip ="34.230.47.14:9999"
         if len(username) == 0:
             print("Enter a username!")

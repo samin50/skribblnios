@@ -85,7 +85,6 @@ class Client():
             self.sendGame(codeStr)
         if("CLIENTCMD: " in data):
             data = data.split("CLIENTCMD: ")[1]
-            print(f"Client: RECEIVED CLIENT COMMAND FROM SERVER: {data}")
             #First drawer
             if "!SET1STDRAWER" in data:
                 self.isDrawer = True
@@ -102,18 +101,21 @@ class Client():
             if "!SETSWITCH" in data:
                 switches = data.split("!SETSWITCH ")[1]
                 codeStr = f"switch_update({switches}, True)"
-                print(codeStr)
                 self.sendGame(codeStr)
             #Drawing
             if "!DRW" in data:
                 coords = data.split("!DRW ")[1]
                 coords = coords.split()
                 codeStr = f"draw({coords[0]}, {coords[1]}, True)"
-                print(codeStr)
                 self.sendGame(codeStr)
+            else:
+                print(f"Client: RECEIVED CLIENT COMMAND FROM SERVER: {data}")
             #When drawer lets go of space
             if "!RESETTRACKER" in data:
                 self.sendGame("resetTracker()")
+            #When drawer presses clear
+            if "!CLEAR" in data:
+                self.sendGame("reset_canvas(True)")
 
         #if data == "!COORDINATES":
         #       None
