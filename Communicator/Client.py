@@ -13,12 +13,13 @@ class Client():
 
         self.server.settimeout(600)
         self.isDrawer = False
+        self.isActive = True
         try:
             self.server.connect((ip, port))
         except:
             print("Unable to connect to server, check IP or if server is running.")
             return
-        self.isActive = True
+        
 
         #Begin listening for data
         self.listenThread = threading.Thread(target=self.listenData)
