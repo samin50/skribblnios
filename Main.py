@@ -1,4 +1,3 @@
-from ast import Import
 import pygame
 from Communicator import Client
 try:
@@ -253,7 +252,7 @@ class mainMenu():
         return
 
     def instantiateGame(self, username, ip):
-        username = "test"
+        #username = "test"
         ip = "26.168.146.5:9999"
         #ip ="34.230.47.14:9999"
         if len(username) == 0:
