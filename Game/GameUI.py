@@ -35,6 +35,7 @@ class Game():
     def __init__(self,username, FPGAinstance=None, clientInstance=None):
         pygame.init()
         self.font = pygame.font.Font("Game/assets/Gameplay.TTF", 12)
+        self.large_font =  pygame.font.Font("Game/assets/Gameplay.TTF", 16)
         self.FPGA = FPGAinstance
         self.Client = clientInstance
         self.drawPoints = [(None, None), (None, None), 0]
@@ -48,6 +49,8 @@ class Game():
         self.display = pygame.display.set_mode((self.width, self.height))
         self.pointer = pygame.image.load("Game/assets/cursor.png")
         self.pointer_pos =(359, 190)
+
+        self.score = 0
         #self.pointer.convert()
         #self.pointerRect = self.pointer.get_rect()
         #self.pointer_img = pygame.image.load("Game/assets/cursor.png")
@@ -109,15 +112,30 @@ class Game():
 
         #self.reset_button = pygame.transform.scale(pygame.image.load("Game/assets/reset.png"),(self.reset_size))
         self.reset_button = pygame.image.load("Game/assets/reset.png")
+#avatars:
+        self.avatar = 0
+        self.avatar_list = [
+            pygame.image.load("Game/assets/avatars/1.png"),
+            pygame.image.load("Game/assets/avatars/2.png"),
+            pygame.image.load("Game/assets/avatars/3.png"),
+            pygame.image.load("Game/assets/avatars/4.png"),
+            pygame.image.load("Game/assets/avatars/5.png"),
+            pygame.image.load("Game/assets/avatars/6.png"),
+            pygame.image.load("Game/assets/avatars/7.png"),
+            pygame.image.load("Game/assets/avatars/8.png")
+            ]
 
 #chatbox:
         self.chatbox = pygame.Rect(self.width/5,self.height/2,self.canvas_width/2.3,self.canvas_height)
         self.received_msgs = []
-        self.msg_limit = 13
-        self.max_char_len = 26
+        self.msg_limit = 17
+        self.max_char_len = 32
 
         self.window_pos = (360,160)
-    
+
+#***METHODS***#
+
+#mousetracker:    
     def mouseTracker(self):
         mousePos = pygame.mouse.get_pos()
         if self.FPGA is None:
@@ -129,6 +147,8 @@ class Game():
             #self.pointer_update(mousePos[0], mousePos[1])
             self.draw_check(mousePos[0], mousePos[1])
         self.switch_collisions(mousePos)
+
+#update brush size
     
     def size_update(self, is_increasing):
         print("Brush size:", self.brush_size)
@@ -139,31 +159,36 @@ class Game():
                 self.brush_size-=2
         print("New size:", self.brush_size)
 
+#scaling switch sizes on screen
     def switch_img_scale(self):
         for i in range(len(self.off_switch)):
             self.off_switch[i] = pygame.transform.scale(self.off_switch[i],(self.switch_size))
             self.on_switch[i] = pygame.transform.scale(self.on_switch[i],(self.switch_size))
 
+
     def redraw_window(self):
         self.display.fill(self.colour_list["white"])
 
-    def return_xy(self):
+    '''def return_xy(self):
         x = random.randint(0,self.width+100)
         y = random.randint(0, self.height+100)
         xy =(x,y)
-        return xy
+        return xy'''
+#updates music:
 
     def music_change(self):
         pygame.mixer.music.stop()
         self.game_music = pygame.mixer.music.load("Game/assets/drawing_music.mp3")
         pygame.mixer.music.play(-1)
 
+#binary list to int convertor:
+
     def blti(self,binlist): #binary list to int
         return int(''.join(map(str, binlist)), 2)
+#checks and updates switch state:        
 
     def switch_update(self, switchesNew, override=False):
 
-        
         #Only drawers can update switch if connected to server
         if self.Client is not None:
             if not (self.Client.isDrawing() or override):
@@ -185,6 +210,7 @@ class Game():
             self.brush_colour = self.colour_list["white"]
         self.renderSwitch()
 
+#displays switches
     def renderSwitch(self):
         self.display.blit(self.reset_button,(10*70+100,self.height-5-self.switch_size[1]))
         for i in range (len(self.off_switch)):
@@ -198,6 +224,34 @@ class Game():
         else:
             self.display.blit(self.off_switch[9],(9*70+100,self.height-5-self.switch_size[1])) 
 
+#waiting screen
+
+    def wait_screen(self):
+        self.display.fill((255,255,255))
+        while True:
+            #start_rect  = pygame.Rect(200,413,210,50)
+            pygame.draw.rect(self.display,(0,200,0),(self.width/2-75,self.height-100,150,40))
+            pygame.draw.rect(self.display,(0,0,0),(self.width/2-75,self.height-100,150,40),2)
+            cont = self.large_font.render('Continue', True, (0,0,0))
+            disp_user = self.large_font.render(self.username, True, (0,0,0))
+            score = self.large_font.render("Score: "+str(self.score), True, (0,0,0))
+            self.display.blit(score,(self.width/2-100,self.height/2+50))
+            self.display.blit(disp_user,(self.width/2-100,self.height/2+20))
+            cont_rect = cont.get_rect(x=(self.width/2-45),y=self.height-90)
+            self.display.blit(cont,cont_rect)
+            self.display.blit(self.avatar_list[self.avatar],(self.width/2-100,self.height/2-180))
+            
+            for event in pygame.event.get():
+                if cont_rect.collidepoint(pygame.mouse.get_pos()) and event.type ==pygame.MOUSEBUTTONDOWN:
+                    return
+
+                if event.type ==pygame.QUIT:
+                    pygame.quit()
+
+            pygame.display.update()
+        
+
+#resets the canvas
     def reset_canvas(self, override=False):
         if self.Client is not None:
             if not (self.Client.isDrawing() or override):
@@ -205,7 +259,7 @@ class Game():
         pygame.draw.rect(self.display,(255,255,255),(self.canvas))
         pygame.draw.rect(self.display,(0,0,0),(self.canvas),3)
 
-
+#checks if switches have been clicked:
     def switch_collisions(self,mouse_pos):
         reset_rect = self.reset_button.get_rect() #reset button rect
         reset_rect.x = 10*70+100
@@ -242,15 +296,21 @@ class Game():
                         number = int("".join(str(i) for i in temp_switch), base=2)
                         self.switch_update(number)
                         return
-        
+
+#limits message length to fit into textbox 
+     
     def msg_limiter(self):
         if len(self.received_msgs)>=self.msg_limit:
             self.received_msgs.pop(0)
-    
+
+#drawing chatbox    
+
     def redraw_chat(self,textbox):
         pygame.draw.rect(self.display,(204,255,204),(self.chatbox))
         pygame.draw.rect(self.display,(0,0,0),(self.chatbox),3)
         self.display.blit(textbox.message, textbox.rect)
+
+#refreshig main chatbox
 
     def refresh_textbox(self):
         self.msg_limiter()
@@ -262,25 +322,25 @@ class Game():
             #textbox.rect.center = (self.width-170,100+(30*i))
             #self.display.blit(textbox.message, textbox.rect)
 
-    def addtext(self,textbox):
+    '''def addtext(self,textbox):
         if len(textbox.text)<self.max_char_len:
             textbox.text += " "
             textbox.update()
         else:
             print("Text too long")
-        return textbox
-    
+        return textbox'''
+#adding messages to list  
     def addOtherMessages(self, text):
         print("added message")
         self.received_msgs.append(text)
 
-
+#typing
     def typing(self):
         pygame.init()
         chat_clock = pygame.time.Clock()
         textbox = Textbox("Type to chat")
         textbox.upper_case = False
-        textbox.rect.center = (self.width-170,self.height-100)
+        textbox.rect.center = (self.width-260,self.height-100)
         self.chatbox.center = (self.width/1.18,self.height/2)
         self.redraw_chat(textbox)
         while True:
@@ -296,20 +356,21 @@ class Game():
                         textbox.upper_case = False
                 if event.type == pygame.KEYDOWN:
                     self.redraw_chat(textbox)
-                    if len(self.username+textbox.text)<26:
+                    if event.key == pygame.K_BACKSPACE:
+                        textbox.text = textbox.text[:-1]
+                        textbox.update()
+                    if len(self.username+textbox.text)<self.max_char_len:
                         #self.redraw_chat(textbox)
                         textbox.add_chr(pygame.key.name(event.key))
                         if event.key == pygame.K_SPACE:
-                            if len(textbox.text)<20:
-                                textbox.text += " "
-                                textbox.update()
-                            else:
-                                print("Text too long")
+                            #if len(textbox.text)<self.max_char_len:
+                            textbox.text += " "
+                            textbox.update()
+                            #else:
+                                #print("Text too long")
                         if event.key in [pygame.K_RSHIFT, pygame.K_LSHIFT]:
                             textbox.upper_case = True
-                        if event.key == pygame.K_BACKSPACE:
-                            textbox.text = textbox.text[:-1]
-                            textbox.update()
+                        
                     if event.key == pygame.K_RETURN:
                         if len(textbox.text) > 0:
                             pygame.display.update(textbox.rect)
@@ -322,12 +383,12 @@ class Game():
                         pygame.quit()
 
 
-
+    '''
     def random_draw(self):
         self.x = random.randint(0,500)
         self.y = random.randint(0,500)
         self.draw_blit = True
-        return (self.x,self.y)
+        return (self.x,self.y)'''
 
     def draw_check(self, x, y, useFPGA=False):
         #self.pointer_update(x,y)
@@ -369,6 +430,7 @@ class Game():
 
 
     def round_start(self):
+        self.wait_screen()
         self.run = True
         self.redraw_window()
         #pygame.mixer.music.play(-1)
