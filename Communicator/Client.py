@@ -22,7 +22,7 @@ class Client():
         self.isActive = True
 
         #Begin listening for data
-        self.listenThread = threading.Thread(target=self.listenData)
+        self.listenThread = threading.Thread(target=self.listenData, daemon=True)
         self.listenThread.start()
         self.sendServer("!SETNAME " + name, False)
     
