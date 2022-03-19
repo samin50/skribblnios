@@ -10,15 +10,16 @@ class Client():
         self.Game = None
         self.name = name            
         self.server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
         self.server.settimeout(600)
         self.isDrawer = False
+        self.isActive = True
         try:
             self.server.connect((ip, port))
         except:
             print("Unable to connect to server, check IP or if server is running.")
-            input()
-            exit(0)
-        self.isActive = True
+            return
+        
 
         #Begin listening for data
         self.listenThread = threading.Thread(target=self.listenData)

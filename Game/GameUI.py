@@ -324,7 +324,7 @@ class Game():
                 return
             x =(FACTOR*x)+self.width//2.7
             y =(FACTOR*y)+self.height//2
-            self.pointer_update(x,y)
+            #self.pointer_update(x,y)
         #print("Coords:", x, y)
         # returns true if coordinates are within the canvas
         canvas_collide = self.canvas.collidepoint((x,y))
