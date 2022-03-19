@@ -3,6 +3,7 @@
 	<name>skribblnios_sw</name>
 	<comment></comment>
 	<projects>
+		<project>skribblnios_sw_bsp</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

@@ -121,6 +121,9 @@ class Server():
 
         if "!RESETTRACKER" in data:
             self.sendData("CLIENTCMD: !RESETTRACKER", True, self.next_drawer.name)
+
+        if "!CLEAR" in data:
+            self.sendData("CLIENTCMD: !CLEAR", True, self.next_drawer.name)
         #Broadcast to all players
         #universal server commands
        

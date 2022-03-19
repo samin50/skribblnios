@@ -1,8 +1,6 @@
 import pygame
 import random
-import threading
-#import pyautogui
-import mouse
+import threading    
 
 class Textbox(pygame.sprite.Sprite):
   def __init__(self,message):
@@ -125,16 +123,16 @@ class Game():
         mouse.move(self.window_pos[0]+self.pointer_pos[0],self.window_pos[1]+self.pointer_pos[1])
     
     def mouseTracker(self):
+        mousePos = pygame.mouse.get_pos()
         if self.FPGA is None:
-            mousePos = pygame.mouse.get_pos()
-            self.tempDisplay = self.display
+            #self.tempDisplay = self.display
             #self.display.blit(self.cursor, mousePos)
             #pygame.display.update()
             #self.display = self.tempDisplay.copy()
             #pygame.display.update()
-            self.switch_collisions(mousePos)
             #self.pointer_update(mousePos[0], mousePos[1])
             self.draw_check(mousePos[0], mousePos[1])
+        self.switch_collisions(mousePos)
     
     def size_update(self, is_increasing):
         print("Brush size:", self.brush_size)
@@ -204,7 +202,10 @@ class Game():
         else:
             self.display.blit(self.off_switch[9],(9*70+100,self.height-5-self.switch_size[1])) 
 
-    def reset_canvas(self):
+    def reset_canvas(self, override=False):
+        if self.Client is not None:
+            if not (self.Client.isDrawing() or override):
+                return
         pygame.draw.rect(self.display,(255,255,255),(self.canvas))
         pygame.draw.rect(self.display,(0,0,0),(self.canvas),3)
 
@@ -216,12 +217,14 @@ class Game():
 
         #reset_rect.center = (9*70+100,self.height-5-self.switch_size[1])
         #pygame.draw.rect(self.display,(0,0,0),reset_rect)
+        if (self.Client is not None):
+            if not self.Client.isDrawing():
+                return
         if reset_rect.collidepoint(mouse_pos):
             for event in self.events:
                 if event.type == pygame.MOUSEBUTTONDOWN:
-                    self.reset_canvas()
-
-        #mouse_rect = pygame.Rect(mouse_pos[0],mouse_pos[1],5,5)
+                        self.sendServer("!SERVERCMD: !CLEAR", True)
+                        self.reset_canvas(True)
 
         switch_rect = self.off_switch[0].get_rect()
         for i in range(len(self.off_switch)):
@@ -378,7 +381,7 @@ class Game():
 #switches:
         self.switch_img_scale()
         #self. display.blit(self.off_switch[0],(0,0))
-        self.reset_canvas()
+        self.reset_canvas(True)
         #pygame.draw.rect(self.display,(255,255,255),(self.canvas))
         
         chat_thread = threading.Thread(target=self.typing, daemon=True) #daemon thread so it will terminate when master thread quits

@@ -16,9 +16,9 @@
 #include "alt_types.h"
 
 //Accelerometer setup and filters
+#define FILTER_TAP_NUM 500
 #define SAMPLING_TIME 3
 #define DEMEAN_DEPTH 8
-#define NTAPSIZE 300
 alt_32 x_read; //Usually not needed
 alt_32 y_read; //Pitch
 alt_32 z_read; //Yaw
@@ -27,7 +27,7 @@ alt_up_accelerometer_spi_dev * acc_dev;
 
 //Convert letters - will be upside down
 alt_u8 convertDisplay(char digit) {
-	switch(digit) {
+	switch (digit) {
 	case '0':
 		return 0b11000000;
 	case '1':
@@ -66,8 +66,7 @@ alt_u8 convertDisplay(char digit) {
 void writeScore(char* scoreStr) {
 	IOWR_ALTERA_AVALON_PIO_DATA(HEX0_BASE, convertDisplay(scoreStr[0]));
 	IOWR_ALTERA_AVALON_PIO_DATA(HEX1_BASE, convertDisplay(scoreStr[1]));
-	switch (strlen(scoreStr))
-	{
+	switch (strlen(scoreStr)) {
 	case 3:
 		IOWR_ALTERA_AVALON_PIO_DATA(HEX2_BASE, convertDisplay('.'));
 		IOWR_ALTERA_AVALON_PIO_DATA(HEX3_BASE, convertDisplay('.'));
@@ -96,48 +95,89 @@ void writeScore(char* scoreStr) {
 	return;
 }
 
-
-
 //Write to leds
 void ledWrite(unsigned int led_pattern) {
-    IOWR(LED_BASE, 0, led_pattern);
+	IOWR(LED_BASE, 0, led_pattern);
 }
 
-void waitForCommand(FILE* fp, char mode, char mode2, char *command, int *arg1, int *arg2) {
-	while((*command != mode) && (*command != mode2)) {
+void waitForCommand(FILE* fp, char mode, char mode2, char *command, int *arg1,
+		int *arg2) {
+	while ((*command != mode) && (*command != mode2)) {
 		fscanf(fp, "%c %d %d", command, arg1, arg2);
 	}
 }
 
 //Filtering/accelerometer converter functions
 //Moving average filter
-void nTapFilter(alt_32 x_read, alt_32 y_read, alt_32 z_read, alt_32* xNew, alt_32* yNew, alt_32* zNew, alt_32* filterMemX, alt_32* filterMemY, alt_32* filterMemZ, int* nTapPtr){
-	int totalX = 0;
-	int totalY = 0;
-	int totalZ = 0;
-	int i;
+void movingAverage(alt_32 x_read, alt_32 y_read, alt_32 z_read, alt_32* xNew,
+		alt_32* yNew, alt_32* zNew, alt_32* filterMemX, alt_32* filterMemY,
+		alt_32* filterMemZ, int* nTapPtr, alt_32* xTotal, alt_32* yTotal, alt_32* zTotal) {
+	//Running totals
+	*xTotal += x_read;
+	*yTotal += y_read;
+	*zTotal += z_read;
+	if (filterMemX[*nTapPtr] != 0) {
+		*xTotal -= filterMemX[*nTapPtr];
+		*yTotal -= filterMemY[*nTapPtr];
+		*zTotal -= filterMemZ[*nTapPtr];
+	}
+	//Append new values
 	filterMemX[*nTapPtr] = x_read;
 	filterMemY[*nTapPtr] = y_read;
 	filterMemZ[*nTapPtr] = z_read;
 	(*nTapPtr)++;
-	if (*nTapPtr == NTAPSIZE) {
-		*nTapPtr = 0;
-	}
-	for(i = 0; i < NTAPSIZE; i++) {
-		if (filterMemX[i] == 0) {
-			break;
+	if(*nTapPtr == FILTER_TAP_NUM-1) {
+			*nTapPtr = 0;
 		}
-		totalX += filterMemX[i];
-		totalY += filterMemY[i];
-		totalZ += filterMemZ[i];
+	//Divide by appropriate amount
+	if ((filterMemX[FILTER_TAP_NUM-1] != 0) && (filterMemY[FILTER_TAP_NUM-1] != 0) && (filterMemZ[FILTER_TAP_NUM-1] != 0)) {
+		*xNew = *xTotal/FILTER_TAP_NUM;
+		*yNew = *yTotal/FILTER_TAP_NUM;
+		*zNew = *zTotal/FILTER_TAP_NUM;
+	} else {
+		*xNew = *xTotal/ *nTapPtr+1;
+		*yNew = *yTotal/ *nTapPtr+1;
+		*zNew = *zTotal/ *nTapPtr+1;
 	}
-	*xNew = totalX/i;
-	*yNew = totalY/i;
-	*zNew = totalZ/i;
+}
+/*N tap filter
+int sign(long x) { //Determine sign of a number
+    return (x > 0) - (x < 0);
 }
 
+void nTapFilter(alt_32 x_read, alt_32 y_read, alt_32 z_read, alt_32* xNew,
+		alt_32* yNew, alt_32* zNew, alt_32* filterMemX, alt_32* filterMemY,
+		alt_32* filterMemZ, int* nTapPtr) {
+	if(* nTapPtr == 0) {
+		* nTapPtr = FILTER_TAP_NUM;
+	}
+	(* nTapPtr)--;
+	filterMemX[* nTapPtr] = x_read;
+	filterMemY[* nTapPtr] = y_read;
+	filterMemY[* nTapPtr] = z_read;
+	int i;
+	//64 bit numbers
+	long long runningSumX = 0;
+	long long runningSumY = 0;
+	long long runningSumZ = 0;
+	//Filtering
+	int placeholderPointer = *nTapPtr;
+	for(i = 0; i < FILTER_TAP_NUM; i++) { //Calculate running sum
+		runningSumX += filterMemX[placeholderPointer - i] * filter_taps[i];
+		runningSumY += filterMemY[placeholderPointer - i] * filter_taps[i];
+		runningSumZ += filterMemZ[placeholderPointer - i] * filter_taps[i];
+		if((placeholderPointer-i) == 0) { //Wrap back around
+			placeholderPointer = FILTER_TAP_NUM+i-1;
+		}
+	}
+	*xNew = (abs(runningSumX) >> SHIFT_AMOUNT) * sign(runningSumX);
+	*yNew = (abs(runningSumY) >> SHIFT_AMOUNT) * sign(runningSumY);
+	*zNew = (abs(runningSumZ) >> SHIFT_AMOUNT) * sign(runningSumZ);
+}
+*/
 //works by removing the mean of previous samples from the current sample to acheive filtering effects
-void demeanValues(alt_32 y_read, alt_32 z_read, alt_32* yNew, alt_32* zNew, int* sampleArrayY, int* sampleArrayZ, int* arrPointer) {
+void demeanValues(alt_32 y_read, alt_32 z_read, alt_32* yNew, alt_32* zNew,
+		int* sampleArrayY, int* sampleArrayZ, int* arrPointer) {
 	int runningSumY = 0;
 	int runningSumZ = 0;
 	int i;
@@ -150,30 +190,26 @@ void demeanValues(alt_32 y_read, alt_32 z_read, alt_32* yNew, alt_32* zNew, int*
 		*arrPointer = 0;
 	}
 	//Calculate running sum
-	for(i = 0; i < DEMEAN_DEPTH; i++) {
-		if(sampleArrayY[i] == 0) {
+	for (i = 0; i < DEMEAN_DEPTH; i++) {
+		if (sampleArrayY[i] == 0) {
 			break;
 		}
 		runningSumY += sampleArrayY[i];
 		runningSumZ += sampleArrayZ[i];
 	}
-	*yNew = y_read - (runningSumY/(i));
-	*zNew = z_read - (runningSumZ/(i));
+	*yNew = y_read - (runningSumY / (i));
+	*zNew = z_read - (runningSumZ / (i));
 }
 //Calculates Euler angles (rotation control)
-void eulerAngles(double x_read, double y_read, double z_read, alt_32* xNew, alt_32* yNew, alt_32* zNew) {
+void eulerAngles(double x_read, double y_read, double z_read, alt_32* xNew,
+		alt_32* yNew, alt_32* zNew) {
 	//Convert to degrees
-	double x2 = x_read*x_read;
-	double y2 = y_read*y_read;
-	double z2 = z_read*z_read;
-	//*xNew = (180*atan(x_read/z_read))/PI; //Roll
-	//*yNew = (180*atan(x_read/y_read))/PI; //Pitch
-	*xNew = (180*atan(y_read/sqrt(x2+z2)))/PI; //Roll
-	*yNew = (180*atan(x_read/sqrt(y2+z2)))/PI; //Pitch
-	//*xNew = (180*atan(x_read/z_read))/PI; //Pitch
-	//*yNew = (180*atan(y_read/z_read))/PI; //Roll
+	double x2 = x_read * x_read;
+	double y2 = y_read * y_read;
+	double z2 = z_read * z_read;
+	*xNew = (180 * atan(y_read / sqrt(x2 + z2))) / PI; //Roll
+	*yNew = (180 * atan(x_read / sqrt(y2 + z2))) / PI; //Pitch
 	*zNew = z_read;
-	//(180*atan((sqrt(x2+y2))/zVal))/PI; //Yaw - cant be calculated without compass
 }
 
 //Function that runs during a round
@@ -181,16 +217,17 @@ void roundLoop(FILE* fp, int roundLength) {
 	//filter parameters
 	int arrPointer = 0;
 	int nTapPtr = 0;
-	int sampleArrayY[DEMEAN_DEPTH] = {0};
-	int sampleArrayZ[DEMEAN_DEPTH] = {0};
-	alt_32 filterMemX[NTAPSIZE] = {0};
-	alt_32 filterMemY[NTAPSIZE] = {0};
-	alt_32 filterMemZ[NTAPSIZE] = {0};
+	int sampleArrayY[DEMEAN_DEPTH] = { 0 };
+	int sampleArrayZ[DEMEAN_DEPTH] = { 0 };
+	alt_32 filterMemX[FILTER_TAP_NUM] = { 0 };
+	alt_32 filterMemY[FILTER_TAP_NUM] = { 0 };
+	alt_32 filterMemZ[FILTER_TAP_NUM] = { 0 };
 	alt_32 xNew, yNew, zNew;
+	alt_32 xTotal = 0;
+	alt_32 yTotal = 0;
+	alt_32 zTotal = 0;
 	//Setup
 	clock_t startRoundTime = alt_nticks();
-	clock_t sampleTimer = alt_nticks();
-	clock_t secondTimer = alt_nticks();
 	clock_t stopTime, t_freq;
 	int timeRatio = 0;
 	//Inputs on board
@@ -202,7 +239,8 @@ void roundLoop(FILE* fp, int roundLength) {
 		stopTime = alt_nticks();
 		t_freq = alt_ticks_per_second();
 		//Calculate ratio of time elapsed
-		timeRatio = (((stopTime-startRoundTime)/t_freq)*100)/roundLength;
+		timeRatio = (((stopTime - startRoundTime) / t_freq) * 100)
+				/ roundLength;
 		if (timeRatio < 10) {
 			ledWrite(0b1);
 		} else if (timeRatio < 20) {
@@ -225,37 +263,26 @@ void roundLoop(FILE* fp, int roundLength) {
 			ledWrite(0b1111111111);
 		}
 		//Send  accelerometer and input values
-		//Obtain values at a certain frequency
-		//Frequency of accelerometer is 2^SAMPLING_TIME Hz, with 6 = 64Hz
-		//if (((stopTime-sampleTimer)) > (t_freq >> SAMPLING_TIME)) {
-			alt_up_accelerometer_spi_read_x_axis(acc_dev, &x_read);
-			alt_up_accelerometer_spi_read_y_axis(acc_dev, &y_read);
-			alt_up_accelerometer_spi_read_z_axis(acc_dev, &z_read);
-			//printf("%d %d %d\n", x_read, y_read, z_read);
-			//Filter values
-			nTapFilter(x_read, y_read, z_read, &xNew, &yNew, &zNew, filterMemX, filterMemY, filterMemZ, &nTapPtr);
-			//demeanValues(y_read, z_read, &newY, &newZ, sampleArrayY, sampleArrayZ, &arrPointer); //Demean filter
-			x_read = xNew;
-			y_read = yNew;
-			z_read = zNew;
-			eulerAngles(x_read, y_read, z_read, &xNew, &yNew, &zNew); //Get angles of rotation
-			printf("C %d %d\n", xNew, yNew); //Roll and pitch -> x and y
-			//printf("%d %d %d\n", x_read, y_read, z_read);
-			//sampleTimer = alt_nticks();
-		//}
-		//If a second has elapsed, send the state of the buttons and switch if different from before
-		//if ((stopTime-secondTimer) > t_freq) {
-		//	secondTimer = alt_nticks();
-			tempButtonIn = IORD_ALTERA_AVALON_PIO_DATA(BUTTON_BASE);
-			tempSwitchIn = IORD_ALTERA_AVALON_PIO_DATA(SWITCH_BASE);
-			printf("B %d\n", tempButtonIn);
-			printf("S %d\n", tempSwitchIn);
-		//	}
-
+		alt_up_accelerometer_spi_read_x_axis(acc_dev, &x_read);
+		alt_up_accelerometer_spi_read_y_axis(acc_dev, &y_read);
+		alt_up_accelerometer_spi_read_z_axis(acc_dev, &z_read);
+		//Filter values
+		movingAverage(x_read, y_read, z_read, &xNew, &yNew, &zNew, filterMemX, filterMemY, filterMemZ, &nTapPtr, &xTotal, &yTotal, &zTotal);
+		//nTapFilter(x_read, y_read, z_read, &xNew, &yNew, &zNew, filterMemX, filterMemY, filterMemZ, &nTapPtr);
+		//demeanValues(y_read, z_read, &newY, &newZ, sampleArrayY, sampleArrayZ, &arrPointer); //Demean filter
+		x_read = xNew;
+		y_read = yNew;
+		z_read = zNew;
+		eulerAngles(x_read, y_read, z_read, &xNew, &yNew, &zNew); //Get angles of rotation
+		printf("C %d %d\n", xNew, yNew); //Roll and pitch -> x and y
+		tempButtonIn = IORD_ALTERA_AVALON_PIO_DATA(BUTTON_BASE);
+		tempSwitchIn = IORD_ALTERA_AVALON_PIO_DATA(SWITCH_BASE);
+		printf("B %d\n", tempButtonIn);
+		printf("S %d\n", tempSwitchIn);
 	}
 }
 
-int main () {
+int main() {
 	acc_dev = alt_up_accelerometer_spi_open_dev("/dev/accelerometer_spi");
 	if (acc_dev == NULL) {
 		// if return 1, check if the spi ip name is "accelerometer_spi"
@@ -271,10 +298,11 @@ int main () {
 	writeScore("start.");
 	ledWrite(0b1111111111);
 	//waitForCommand(fp, 'S', 'S', &commandChar, &arg1, &arg2);
-	roundLength = arg1;//Length of round will be stored into arg1
+	roundLength = arg1;		//Length of round will be stored into arg1
 	writeScore("------");
 	//Wait for round start
 	//waitForCommand(fp, 'R', 'R', &commandChar, &arg1, &arg2);
+	fclose(fp);
 	//MAIN LOOP - Terminate loop when game end - command E
 	while (commandChar != 'E') {
 		sprintf(scoreStr, "%d-%d", arg1, arg2); //Build score str
