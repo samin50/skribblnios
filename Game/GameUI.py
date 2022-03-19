@@ -113,7 +113,7 @@ class Game():
         #self.reset_button = pygame.transform.scale(pygame.image.load("Game/assets/reset.png"),(self.reset_size))
         self.reset_button = pygame.image.load("Game/assets/reset.png")
 #avatars:
-        self.avatar = 0
+        self.avatar = 7
         self.avatar_list = [
             pygame.image.load("Game/assets/avatars/1.png"),
             pygame.image.load("Game/assets/avatars/2.png"),
@@ -124,6 +124,8 @@ class Game():
             pygame.image.load("Game/assets/avatars/7.png"),
             pygame.image.load("Game/assets/avatars/8.png")
             ]
+
+        self.lobby_background = []
 
 #chatbox:
         self.chatbox = pygame.Rect(self.width/5,self.height/2,self.canvas_width/2.3,self.canvas_height)
@@ -158,6 +160,11 @@ class Game():
             if self.brush_size>=3: 
                 self.brush_size-=2
         print("New size:", self.brush_size)
+
+#scaling avatars:
+    def avatar_scale(self):
+        for i in range(len(self.avatar_list)):
+            self.avatar_list[i] = pygame.transform.scale(self.avatar_list[i],((80,120)))
 
 #scaling switch sizes on screen
     def switch_img_scale(self):
@@ -224,22 +231,36 @@ class Game():
         else:
             self.display.blit(self.off_switch[9],(9*70+100,self.height-5-self.switch_size[1])) 
 
-#waiting screen
+#lobby screen
 
     def wait_screen(self):
+        #pygame.clock.clock
+        self.avatar_scale()
+        self.load_backgrounds()
+        count = 1
         self.display.fill((255,255,255))
         while True:
+            pygame.time.Clock().tick(6)
+            self.avatar = random.randint(0,7)
+            if count>5:
+                count = 0
+            else:
+                count+=1
+            
+            self.display.blit(self.lobby_background[count],(0,0))
             #start_rect  = pygame.Rect(200,413,210,50)
             pygame.draw.rect(self.display,(0,200,0),(self.width/2-75,self.height-100,150,40))
             pygame.draw.rect(self.display,(0,0,0),(self.width/2-75,self.height-100,150,40),2)
             cont = self.large_font.render('Continue', True, (0,0,0))
-            disp_user = self.large_font.render(self.username, True, (0,0,0))
-            score = self.large_font.render("Score: "+str(self.score), True, (0,0,0))
-            self.display.blit(score,(self.width/2-100,self.height/2+50))
-            self.display.blit(disp_user,(self.width/2-100,self.height/2+20))
+            disp_user = self.large_font.render(self.username, True, (255,255,255))
+            score = self.large_font.render("Score: "+str(self.score), True, (255,255,255))
+            self.display.blit(score,(self.width/2-500,self.height/2+50))
+            self.display.blit(disp_user,(self.width/2-500,self.height/2+20))
             cont_rect = cont.get_rect(x=(self.width/2-45),y=self.height-90)
             self.display.blit(cont,cont_rect)
-            self.display.blit(self.avatar_list[self.avatar],(self.width/2-100,self.height/2-180))
+            avatar = (self.avatar_list[self.avatar]).convert()
+            avatar.set_alpha(80)
+            self.display.blit(avatar,(self.width/2-500,self.height/2-130))
             
             for event in pygame.event.get():
                 if cont_rect.collidepoint(pygame.mouse.get_pos()) and event.type ==pygame.MOUSEBUTTONDOWN:
@@ -249,7 +270,14 @@ class Game():
                     pygame.quit()
 
             pygame.display.update()
-        
+
+# lobby screen background
+    def load_backgrounds(self):
+        for i in range(7):
+            dir = f"Game/assets/lobby_background/{i}.gif"
+            img = pygame.image.load(dir)
+            img = pygame.transform.scale(img,(self.width,self.height))
+            self.lobby_background.append(img)     
 
 #resets the canvas
     def reset_canvas(self, override=False):
@@ -435,6 +463,7 @@ class Game():
         self.redraw_window()
         #pygame.mixer.music.play(-1)
         self.background=pygame.transform.scale(self.background,(self.width,self.height))
+        #self.display.blit(self.lobby_background[0],(0,0))
         self.display.blit(self.background,(0,0))
 #switches:
         self.switch_img_scale()
