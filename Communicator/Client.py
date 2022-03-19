@@ -10,8 +10,10 @@ class Client():
         self.Game = None
         self.name = name            
         self.server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
         self.server.settimeout(600)
         self.isDrawer = False
+        self.isActive = True
         try:
             self.server.connect((ip, port))
         except:
@@ -26,16 +28,16 @@ class Client():
     
     def sendServer(self, data, requiresDrawer=False):
         #Can only send commands if drawer or for special commands like broadcast
-        if not requiresDrawer or (self.isActive and self.isDrawer):
+        if self.isActive and (not requiresDrawer or self.isDrawer):
             self.server.send(data.encode('utf-8'))
             
             if data == "SERVERCMD: !DISCONNECT":
                 self.isActive = False
-                print("you have now disconnected from the server")
+                print("You have been disconnected from the server.")
                 
             if data == "SERVERCMD: !KILL":
                 self.isActive = False
-                print("you have now closed the server and no longer connected")
+                print("You have closed the server and are no longer connected.")
         else:
             print("COMMAND '" + data + "' rejected, insufficient priviliges.")
 

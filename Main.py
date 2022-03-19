@@ -62,12 +62,14 @@ class mainMenu():
         self.triangle_button2 = pygame.Rect(self.char_box_x + self.char_box_size[0]+10,325,40,100)
 #avatars:
         self.avatar_list = [
-            pygame.Rect(self.char_box_x+100,365,80,80),
-            pygame.Rect(self.char_box_x+100,365,90,90),
-            pygame.Rect(self.char_box_x+100,365,100,80),
-            pygame.Rect(self.char_box_x+100,365,30,30),
-            pygame.Rect(self.char_box_x+100,365,50,100),
-            pygame.Rect(self.char_box_x+100,365,30,90),
+            pygame.image.load("Game/assets/avatars/1.png"),
+            pygame.image.load("Game/assets/avatars/2.png"),
+            pygame.image.load("Game/assets/avatars/3.png"),
+            pygame.image.load("Game/assets/avatars/4.png"),
+            pygame.image.load("Game/assets/avatars/5.png"),
+            pygame.image.load("Game/assets/avatars/6.png"),
+            pygame.image.load("Game/assets/avatars/7.png"),
+            pygame.image.load("Game/assets/avatars/8.png")
             ]
         self.avatar = 0
         self.clock = pygame.time.Clock()
@@ -116,13 +118,14 @@ class mainMenu():
             
             pygame.draw.rect(self.display,(240,227,40),(self.ip_port_box_bg))
             pygame.draw.rect(self.display,(0,0,0),(self.ip_port_box_border), 2)
-            pygame.draw.rect(self.display,(255,255,255),(self.avatar_box_white))#self.username_box for IP being drawn onto the display
-            pygame.draw.rect(self.display,(0,0,0),(self.avatar_box), 2)
+            #pygame.draw.rect(self.display,(255,255,255),(self.avatar_box_white))#self.username_box for IP being drawn onto the display
+            #pygame.draw.rect(self.display,(0,0,0),(self.avatar_box), 2)
             pygame.draw.polygon(self.display,color=(200,0,200),points=[(520,376), (560,326), (560,426)])
             pygame.draw.polygon(self.display,color=(0,0,0),points=[(520,376), (560,326), (560,426)],width=4)
             pygame.draw.polygon(self.display,color=(200,0,200),points=[(self.char_box_x + self.char_box_size[0]+50,377), (self.char_box_x + self.char_box_size[0]+10,325), (self.char_box_x + self.char_box_size[0]+10,428)])
             pygame.draw.polygon(self.display,color=(0,0,0),points=[(self.char_box_x + self.char_box_size[0]+50,377), (self.char_box_x + self.char_box_size[0]+10,325), (self.char_box_x + self.char_box_size[0]+10,428)],width=4)
-            pygame.draw.rect(self.display,(self.avatar*10,self.avatar*40,self.avatar*20),(self.avatar_list[self.avatar])) #avatar
+            #pygame.draw.rect(self.display,(self.avatar*10,self.avatar*40,self.avatar*20),(self.avatar_list[self.avatar])) #avatar
+            self.display.blit(self.avatar_list[self.avatar],(self.char_box_x+65,300))
             
 
 
@@ -248,6 +251,7 @@ class mainMenu():
     def instantiateGame(self, username, ip):
         #username = "test"
         #ip = "26.168.146.5:9999"
+        ip ="34.230.47.14:9999"
         if len(username) == 0:
             print("Enter a username!")
             return
