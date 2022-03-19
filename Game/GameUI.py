@@ -2,7 +2,7 @@ import pygame
 import random
 import threading
 #import pyautogui
-#import mouse
+import mouse
 
 class Textbox(pygame.sprite.Sprite):
   def __init__(self,message):
@@ -86,6 +86,7 @@ class Game():
         self.colour_change = False
         self.draw_blit = False
         self.erase = False
+        #self.colour_preview = 
 
 #switches:
         self.switches = [0,0,0,0,0,0,0,0,0,0]
@@ -96,7 +97,7 @@ class Game():
             (pygame.image.load("Game/assets/switches/15.png")), (pygame.image.load("Game/assets/switches/7.png")),
             (pygame.image.load("Game/assets/switches/8.png")), (pygame.image.load("Game/assets/switches/9.png")),
             (pygame.image.load("Game/assets/switches/13.png")), (pygame.image.load("Game/assets/switches/2.png")),
-            (pygame.image.load("Game/assets/switches/3.png"))
+            (pygame.image.load("Game/assets/switches/3.png")),(pygame.image.load("Game/assets/switches/19.png"))
         ]
 
 
@@ -105,7 +106,7 @@ class Game():
             (pygame.image.load("Game/assets/switches/6.png")), (pygame.image.load("Game/assets/switches/10.png")),
             (pygame.image.load("Game/assets/switches/11.png")), (pygame.image.load("Game/assets/switches/12.png")),
             (pygame.image.load("Game/assets/switches/16.png")), (pygame.image.load("Game/assets/switches/17.png")),
-            (pygame.image.load("Game/assets/switches/18.png")) 
+            (pygame.image.load("Game/assets/switches/18.png")), (pygame.image.load("Game/assets/switches/20.png")) 
         ]
 
         #self.reset_button = pygame.transform.scale(pygame.image.load("Game/assets/reset.png"),(self.reset_size))
@@ -117,9 +118,11 @@ class Game():
         self.msg_limit = 13
         self.max_char_len = 26
 
+        self.window_pos = (360,160)
+
     def pointer_update(self,x,y):
         self.pointer_pos = (x,y)
-        #mouse.move(self.pointer_pos[0],self.pointer_pos[1])
+        mouse.move(self.window_pos[0]+self.pointer_pos[0],self.window_pos[1]+self.pointer_pos[1])
     
     def mouseTracker(self):
         if self.FPGA is None:
@@ -143,7 +146,7 @@ class Game():
         print("New size:", self.brush_size)
 
     def switch_img_scale(self):
-        for i in range(9):
+        for i in range(len(self.off_switch)):
             self.off_switch[i] = pygame.transform.scale(self.off_switch[i],(self.switch_size))
             self.on_switch[i] = pygame.transform.scale(self.on_switch[i],(self.switch_size))
 
@@ -165,6 +168,8 @@ class Game():
         return int(''.join(map(str, binlist)), 2)
 
     def switch_update(self, switchesNew, override=False):
+
+        
         #Only drawers can update switch if connected to server
         if self.Client is not None:
             if not (self.Client.isDrawing() or override):
@@ -187,21 +192,28 @@ class Game():
         self.renderSwitch()
 
     def renderSwitch(self):
-        self.display.blit(self.reset_button,(9*70+100,self.height-5-self.switch_size[1]))
-        for i in range (9):
+        self.display.blit(self.reset_button,(10*70+100,self.height-5-self.switch_size[1]))
+        for i in range (len(self.off_switch)):
             if self.switches[i] and self.switches[9] == 0:
                 self.display.blit(self.on_switch[i],(i*70+100,self.height-5-self.switch_size[1]))
             else:
                 self.display.blit(self.off_switch[i],(i*70+100,self.height-5-self.switch_size[1]))
 
+        if self.switches[9]:
+            self.display.blit(self.on_switch[9],(9*70+100,self.height-5-self.switch_size[1]))
+        else:
+            self.display.blit(self.off_switch[9],(9*70+100,self.height-5-self.switch_size[1])) 
+
     def reset_canvas(self):
         pygame.draw.rect(self.display,(255,255,255),(self.canvas))
+        pygame.draw.rect(self.display,(0,0,0),(self.canvas),3)
 
 
     def switch_collisions(self,mouse_pos):
         reset_rect = self.reset_button.get_rect() #reset button rect
-        reset_rect.x = 9*70+100
+        reset_rect.x = 10*70+100
         reset_rect.y = self.height-5-self.switch_size[1]
+
         #reset_rect.center = (9*70+100,self.height-5-self.switch_size[1])
         #pygame.draw.rect(self.display,(0,0,0),reset_rect)
         if reset_rect.collidepoint(mouse_pos):
@@ -210,9 +222,10 @@ class Game():
                     self.reset_canvas()
 
         #mouse_rect = pygame.Rect(mouse_pos[0],mouse_pos[1],5,5)
+
+        switch_rect = self.off_switch[0].get_rect()
         for i in range(len(self.off_switch)):
             number =  0
-            switch_rect = self.off_switch[i].get_rect()
             #switch_rect.center = (i*70+100,self.height-5-self.switch_size[1])
             switch_rect.x =i*70+100
             switch_rect.y =self.height-5-self.switch_size[1]
@@ -226,7 +239,7 @@ class Game():
                             temp_switch[i] = 1
                         else:
                             temp_switch[i] = 0
-                        #temp_switch = temp_switch[::-1]
+
                         number = int("".join(str(i) for i in temp_switch), base=2)
                         self.switch_update(number)
                         return
@@ -237,6 +250,7 @@ class Game():
     
     def redraw_chat(self,textbox):
         pygame.draw.rect(self.display,(204,255,204),(self.chatbox))
+        pygame.draw.rect(self.display,(0,0,0),(self.chatbox),3)
         self.display.blit(textbox.message, textbox.rect)
 
     def refresh_textbox(self):
@@ -364,8 +378,8 @@ class Game():
 #switches:
         self.switch_img_scale()
         #self. display.blit(self.off_switch[0],(0,0))
-        
-        pygame.draw.rect(self.display,(255,255,255),(self.canvas))
+        self.reset_canvas()
+        #pygame.draw.rect(self.display,(255,255,255),(self.canvas))
         
         chat_thread = threading.Thread(target=self.typing, daemon=True) #daemon thread so it will terminate when master thread quits
         chat_thread.start() #starts a new thread for the chat window
@@ -376,6 +390,8 @@ class Game():
         #self.mouseThread.start()
         self.renderSwitch()
         while self.run == True:
+
+            pygame.draw.rect(self.display,self.brush_colour,(50,self.height-60,30,50)) #pallet preview
             self.events = pygame.event.get()
             
             self.mouseTracker()
