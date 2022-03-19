@@ -16,8 +16,7 @@ class Client():
             self.server.connect((ip, port))
         except:
             print("Unable to connect to server, check IP or if server is running.")
-            input()
-            exit(0)
+            return
         self.isActive = True
 
         #Begin listening for data

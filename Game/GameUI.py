@@ -52,6 +52,7 @@ class Game():
 
         #self.display = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
         self.xy = (0,0)
+        #self.mouseSurface = pygame.Surface((self.height. self.width))
 
 #canvas:
         self.canvas_width = int(self.width/1.6)
@@ -109,6 +110,11 @@ class Game():
     def mouseTracker(self):
         if self.FPGA is None:
             mousePos = pygame.mouse.get_pos()
+            self.tempDisplay = self.display
+            #self.display.blit(self.cursor, mousePos)
+            #pygame.display.update()
+            #self.display = self.tempDisplay.copy()
+            #pygame.display.update()
             self.switch_collisions(mousePos)
             self.draw_check(mousePos[0], mousePos[1])
     

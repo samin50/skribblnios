@@ -63,7 +63,9 @@ class Server():
         try:
             self.address = urllib.request.urlopen('https://ident.me').read().decode('utf-8')
             self.server.bind((self.address, PORT))
-        except:
+        except Exception as e:
+            print(e)
+            print(f"Failed to bind to public IP: {self.address}, will now try binding to local IP.")
             self.address = socket.gethostbyname(socket.gethostname())
             self.server.bind((self.address, PORT))
         self.clientList = []
