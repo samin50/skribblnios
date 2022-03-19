@@ -234,7 +234,8 @@ class Game():
 
 #lobby screen
 
-    def wait_screen(self):
+    def wait_screen(self,avatar):
+        self.avatar = avatar
         #pygame.clock.clock
         self.avatar_scale()
         self.load_backgrounds()
@@ -242,7 +243,7 @@ class Game():
         self.display.fill((255,255,255))
         while self.round_not_started:
             pygame.time.Clock().tick(6)
-            self.avatar = random.randint(0,7)
+            #self.avatar = random.randint(0,7)
             if count>5:
                 count = 0
             else:
@@ -266,7 +267,8 @@ class Game():
             for event in pygame.event.get():
                 if cont_rect.collidepoint(pygame.mouse.get_pos()) and event.type ==pygame.MOUSEBUTTONDOWN:
                     self.round_not_started = False
-                    return
+                    self.round_start()
+                    #return
 
                 if event.type ==pygame.QUIT:
                     pygame.quit()
@@ -460,7 +462,7 @@ class Game():
 
 
     def round_start(self):
-        self.wait_screen()
+        #self.wait_screen()
         self.run = True
         self.redraw_window()
         #pygame.mixer.music.play(-1)
@@ -539,4 +541,4 @@ class Game():
 
 if __name__ == "__main__":
     GameTest = Game("test")
-    GameTest.round_start()
+    GameTest.wait_screen(random.randint(0,7))
