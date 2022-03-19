@@ -3,7 +3,7 @@ import pygame
 from Communicator import Client
 try:
     from FPGA import skribblfpga
-except ImportError:
+except Exception as e:
     print("FPGA import error, continuing without FPGA support.")
 from Game import GameUI
 import threading
