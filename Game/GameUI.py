@@ -391,7 +391,11 @@ class Game():
         self.renderSwitch()
         while self.run == True:
 
-            pygame.draw.rect(self.display,self.brush_colour,(50,self.height-60,30,50)) #pallet preview
+            pygame.draw.rect(self.display,self.brush_colour,(30,self.height-67,30,60)) #pallet preview
+            pygame.draw.rect(self.display,(0,0,0),(30,self.height-67,30,60),2)
+            #pygame.draw.circle(self.display, self.brush_colour,(30,30), 30, 15)
+            #pygame.draw.circle(self.display, (0,0,0),(30,30), 15, 2)
+            #pygame.draw.circle(self.display, (0,0,0),(30,30), 30, 2)
             self.events = pygame.event.get()
             
             self.mouseTracker()
