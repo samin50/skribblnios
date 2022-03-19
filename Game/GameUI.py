@@ -41,6 +41,7 @@ class Game():
         self.drawPoints = [(None, None), (None, None), 0]
         pygame.init()
         self.run = False
+        self.round_not_started = True
         self.round_end = False
         self.game_end = False
         self.username = username
@@ -239,7 +240,7 @@ class Game():
         self.load_backgrounds()
         count = 1
         self.display.fill((255,255,255))
-        while True:
+        while self.round_not_started:
             pygame.time.Clock().tick(6)
             self.avatar = random.randint(0,7)
             if count>5:
@@ -264,6 +265,7 @@ class Game():
             
             for event in pygame.event.get():
                 if cont_rect.collidepoint(pygame.mouse.get_pos()) and event.type ==pygame.MOUSEBUTTONDOWN:
+                    self.round_not_started = False
                     return
 
                 if event.type ==pygame.QUIT:
@@ -480,6 +482,8 @@ class Game():
         #self.mouseThread.start()
         self.renderSwitch()
         while self.run == True:
+            if self.round_not_started:
+                self.wait_screen()
 
             pygame.draw.rect(self.display,self.brush_colour,(30,self.height-67,30,60)) #pallet preview
             pygame.draw.rect(self.display,(0,0,0),(30,self.height-67,30,60),2)
