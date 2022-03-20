@@ -46,8 +46,7 @@ class ClientData():
             self.name = data[0]
             self.avatar = data[1]
             #Tell all players about new player
-            self.data = [self.name, int(self.avatar), 0, 0]
-            self.serverObj.updatePlayers()
+            self.serverObj.addPlayer(self.name, self.avatar)
             #self.serverObj.sendData("CLIENTCMD: !SENDPLAYER " + self.name + " " +self.avatar, True, self.name)
             return
         #Disconnect player
@@ -99,9 +98,14 @@ class Server():
         print("round ended")
         self.sendData("CLIENTCMD: !FINROUND " , True)
     
+    def addPlayer(self, name, avatar):
+        self.players.append([name, int(avatar), 0, 0])
+        self.updatePlayers()
+    
     def updatePlayers(self):
         self.sendData("CLIENTCMD: !CLEARPLAYERS " , True)
         self.players = self.sortPlayers(self.players)
+        print(self.players)
         for player in self.players:
             self.sendData(f"CLIENTCMD: !UPDATEPLAYERS {str(player)}" , True)
     
@@ -175,12 +179,12 @@ class Server():
                         print(player.name + " was forcibly disconnected on their side.")
                     player.isActive = False
                     self.clientList.remove(player)
+                    self.updatePlayers()
                     # If the current drawer leaves, select a new one
                     if (player == self.next_drawer) and (len(self.clientList) > 0):
                         self.processServerSide("SERVERCMD: !DRAWERSELECT")
                     print(f"Server: Disconnected Player {playerNameToRemove}")
                     break
-                self.updatePlayers()
                 return
         #Chat function
         if "!BROADCAST" in data:

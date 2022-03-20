@@ -384,19 +384,19 @@ class Game():
             self.waitdisplay.blit(self.lobby_background[count],(0,0))
             #start_rect  = pygame.Rect(200,413,210,50)
             pygame.draw.rect(self.waitdisplay,(0,0,0),(self.width/2-75,self.height-100,150,40),2)
-            for user in range(len(self.players)):
-                username = self.large_font.render(self.players[user][0], True, (255,255,255))
-                avatar = (self.avatar_list[self.players[user][1]]).convert()
-                score = self.large_font.render("Score: "+str(self.players[user][2]), True, (255,255,255))
-                self.waitdisplay.blit(avatar,((self.width/2-500)+user*200,self.height/2-130))
-                self.waitdisplay.blit(username,((self.width/2-500)+user*200,self.height/2+20))
-                self.waitdisplay.blit(score,((self.width/2-500)+user*200,self.height/2+50))
-                if self.Client is not None:
-                    if self.Client.isDrawing():
-                        self.display_word_choices()
-                        
-                else:
+            for i in range(len(self.players)):
+                username = self.large_font.render(self.players[i][0], True, (255,255,255))
+                avatar = (self.avatar_list[self.players[i][1]]).convert()
+                score = self.large_font.render("Score: "+str(self.players[i][2]), True, (255,255,255))
+                self.waitdisplay.blit(avatar,((self.width/2-500)+i*200,self.height/2-130))
+                self.waitdisplay.blit(username,((self.width/2-500)+i*200,self.height/2+20))
+                self.waitdisplay.blit(score,((self.width/2-500)+i*200,self.height/2+50))
+            if self.Client is not None:
+                if self.Client.isDrawing():
                     self.display_word_choices()
+                    
+            else:
+                self.display_word_choices()
             self.screen.blit(self.waitdisplay, (0,0))
             pygame.display.update()
         #self.screen.blit(self.display, (0, 0))
