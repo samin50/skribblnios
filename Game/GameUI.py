@@ -149,6 +149,33 @@ class Game():
 
 #***METHODS***#
 
+    def word_reveal(self,timeratio):
+        timeratio = 0.3  #will receive value
+        space = self.word(" ")
+
+        wordlength = len(self.word)
+        wordtoguessarray = ['_']
+        for x in range(wordlength-1):
+            wordtoguessarray.insert(1,'_')
+        if space != -1:
+            wordtoguessarray[space] = " "
+
+        if timeratio == 0.45:
+            y = random.randint(0,wordlength-1)
+            while y == space:
+                y = random.randint(0,wordlength-1)
+            z = self.word[y]
+            wordtoguessarray[y] = z
+
+
+        if timeratio == 0.7 and wordlength > 3 :
+            w = random.randint(0,wordlength-1)
+            while w == y or w == space:
+                w = random.randint(0,wordlength-1)
+            z = self.word[w]
+            wordtoguessarray[w] = z
+
+
 #Words from text file
     def getword(self):
         with open('Game/assets/words.txt') as words:
