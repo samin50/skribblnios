@@ -191,9 +191,6 @@ class Game():
             wordtoguessarray[w] = z
 
 
-
-
-
 #Words from text file
     def getword(self):
         with open('Game/assets/words.txt') as words:
@@ -209,24 +206,43 @@ class Game():
 
     def display_word_choices(self):
         for i in range(len(self.words_chosen)):
+            self.events = pygame.event.get()
+            #print(self.words_chosen)
             word = self.large_font.render(self.words_chosen[i], True, (100,150,255))
             word_rect = word.get_rect(x =(self.width/2-200)+(i*150),y =(self.height/2+180))
             self.display.blit(word,word_rect)  
+            self.word_collision(word,word_rect,i)
     
-    def word_collision(self):
-        for i in range(len(self.words_chosen)):
-            word = self.large_font.render(self.words_chosen[i], True, (100,150,255))
-            word_rect = word.get_rect(x =(self.width/2-200)+(i*150),y =(self.height/2+180))
-            mouse  = pygame.mouse.get_pos()
-            for event in pygame.event.get():
-                if word_rect.collidepoint(mouse[0],mouse[1]) and event.type == pygame.MOUSEBUTTONDOWN:
-                    self.word = self.words_chosen[i]
-                    self.sendServer("SERVERCMD: !STARTROUND " + self.word)
-                    self.round_not_started = False
-                if event.type == pygame.QUIT:
-                        pygame.quit()
+    def word_collision(self,word,word_rect,index):
 
+        word0 = self.large_font.render(self.words_chosen[0], True, (100,150,255))
+        word0_rect = word.get_rect(x =(self.width/2-200)+(0*150),y =(self.height/2+180))
+        word1 = self.large_font.render(self.words_chosen[1], True, (100,150,255))
+        word1_rect = word.get_rect(x =(self.width/2-200)+(1*150),y =(self.height/2+180))
+        word2 = self.large_font.render(self.words_chosen[2], True, (100,150,255))
+        word2_rect = word.get_rect(x =(self.width/2-200)+(2*150),y =(self.height/2+180))
 
+        mouse  = pygame.mouse.get_pos()
+        #pygame.draw.rect(self.display,(255,255,255),word_rect)
+        for event in self.events:
+
+            if word0_rect.collidepoint(mouse[0],mouse[1]) and event.type == pygame.MOUSEBUTTONDOWN:
+                self.word = self.words_chosen[0]
+                self.round_not_started = False
+            if word1_rect.collidepoint(mouse[0],mouse[1]) and event.type == pygame.MOUSEBUTTONDOWN:
+                self.word = self.words_chosen[1]
+                self.round_not_started = False
+            if word2_rect.collidepoint(mouse[0],mouse[1]) and event.type == pygame.MOUSEBUTTONDOWN:
+                self.word = self.words_chosen[2]
+                self.round_not_started = False
+                '''for event in self.events:
+                    if event.type == pygame.MOUSEBUTTONDOWN:
+                        self.word = self.words_chosen[index]
+                        self.round_not_started = False
+                        self.sendServer("SERVERCMD: !STARTROUND " + self.word)'''
+            if event.type == pygame.QUIT:
+                pygame.quit()
+            #
 
 #mousetracker:    
     def mouseTracker(self):
@@ -348,6 +364,7 @@ class Game():
         self.round_not_started = False
 
     def wait_screen(self):
+        self.events = pygame.event.get()
         self.getword()
         self.choose_word()
         #pygame.clock.clock
@@ -373,10 +390,10 @@ class Game():
                 if self.Client is not None:
                     if self.Client.isDrawing():
                         self.display_word_choices()
-                        self.word_collision()
+                        
                 else:
                     self.display_word_choices()
-                    self.word_collision()
+                    
             self.screen.blit(self.display, (0, 0))
             pygame.display.update()
         self.round_start()
