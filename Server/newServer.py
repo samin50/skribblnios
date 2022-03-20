@@ -8,6 +8,7 @@ import time
 class ClientData():
     def __init__(self, conn, addr, server):
         self.name = None
+        self.data = [None, None, 0, 0]
         self.isActive = True
         self.serverProperties = (conn, addr)
         self.serverObj = server
@@ -39,16 +40,23 @@ class ClientData():
             return
         #Set player name
         if "!SETNAME" in data:
-            self.name = data.split(" ")[1]
-            self.avatar = data.split(" ")[0]
+            print(data)
+            data = data.split("!SETNAME ")[1]
+            data = data.split(" ")
+            self.name = data[0]
+            self.avatar = data[1]
             #Tell all players about new player
-            self.serverObj.sendData("CLIENTCMD: !SENDPLAYER " + self.name + " " +self.avatar, True, self.name)
+            self.data = [self.name, int(self.avatar), 0, 0]
+            self.serverObj.updatePlayers()
+            #self.serverObj.sendData("CLIENTCMD: !SENDPLAYER " + self.name + " " +self.avatar, True, self.name)
             return
         #Disconnect player
         if data == "!DISCONNECT":
             self.isActive = False #Disable player
             self.serverObj.processServerSide("SERVERCMD: !DISCONNECT " + str(self.name))
             return
+    def getData(self):
+        return self.data
 
     def sendClientData(self, data):
         self.serverProperties[0].send(str.encode(f"Server response: {data}\n"))
@@ -64,6 +72,7 @@ class Server():
         self.server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.server.settimeout(3600)
         self.isActive = True
+        self.players = []
         try:
             self.address = urllib.request.urlopen('https://ident.me').read().decode('utf-8')
             self.server.bind((self.address, PORT))
@@ -81,13 +90,26 @@ class Server():
         print(f"Server bind success @{self.address}")
     
     def startTimer(self):
-        self.timer_thread = threading.Thread(target = self.roundTimer.timer,daemon=True)
+        self.timer_thread = threading.Thread(target=self.roundTimer,daemon=True)
         self.timer_thread.start() 
 
     def roundTimer(self):
-        self.sendData("CLIENTCMD: !STARTROUND " , True, self.next_drawer.name)
-        time.sleep(roundLength)
-        self.sendData("CLIENTCMD: !ENDROUND " , True)
+        self.sendData("CLIENTCMD: !STARTROUND " , True)
+        time.sleep(self.roundLength)
+        print("round ended")
+        self.sendData("CLIENTCMD: !FINROUND " , True)
+    
+    def updatePlayers(self):
+        self.sendData("CLIENTCMD: !CLEARPLAYERS " , True)
+        self.players = self.sortPlayers(self.players)
+        for player in self.players:
+            self.sendData(f"CLIENTCMD: !UPDATEPLAYERS {str(player)}" , True)
+    
+    def sortPlayers(self, players):
+        players.sort(key=lambda list: list[2], reverse=True)
+        for i in range(len(players)):
+            players[i][3] = i+1
+        return players
 
     
     #Add new clients as they connect
@@ -158,11 +180,14 @@ class Server():
                         self.processServerSide("SERVERCMD: !DRAWERSELECT")
                     print(f"Server: Disconnected Player {playerNameToRemove}")
                     break
+                self.updatePlayers()
                 return
         #Chat function
         if "!BROADCAST" in data:
             message = data.split("!BROADCAST ")[1]
             name = message.split(": ")[0]
+            if self.currentWord in message:
+                self.sendData(f"!BROADCAST SERVER: Player {name} guessed the word!", True)
             self.sendData(data, True, name)
             return
 
@@ -200,28 +225,14 @@ class Server():
                     break
             return
 
-        #select the 3 words at the start of each round
-        if "!WORDSELECT" in data:
-            f = "football,snake,waves,beach,knee,airplane,flag,car,eyes,octopus,robot,king,skateboard,window,banana,tree,elephant,door,key,bridge,bow,fork,sun,hippo,woman,pen,mickeymouse,fire,spider,kite,rain,computer,corn,star,cat,motorcycle,pizza,butterfly,cherry,love,cake,tennis,cannon,teapot,sunglasses,drink,happy,table,notebook,jupiter,letter,boot,crown,starfish,tyre,doughnut,pipe,apple pie,shark,chair,hole,ping pong,tower,cigarette,anvil,ramp,fish,forehead,sailing,hair,positive,apple,golf,bicycle,clock,drip,lightning,trousers,signal,music,laptop,mouse,arrow,backpack,lightbulb,headphones,pickaxe,sword,pause,beard,bikini,ice cream,duck,swimming pool,shin pads,sausage dog,paper clip,chicken wing,gym,flashlight"
-            Dictionary = f.split(",")
-            word1 = random.choice(Dictionary) 
-            self.sendData(word1, True) 
-            word2 = random.choice(Dictionary)
-            while word2 == word1:
-                word2 = random.choice(Dictionary) 
-            self.sendData(word2, True)
-            word3 = random.choice(Dictionary)
-            while (word3 == word1) or (word3 == word2):
-                word3 = random.choice(Dictionary) 
-            self.sendData(word3, True)
-
         #     if "!COOORDINATES" in data:
             #     return_xy(self.next_drawer)
             #for when shan and shaheen done fpga and game
         if "!STARTROUND " in data:
             self.currentWord = data.split("!STARTROUND ")[1]
             print("Word set to: " + self.currentWord)
-            self.sendData("CLIENTCMD: !STARTROUND", True, self.next_drawer.name)
+            self.sendData("CLIENTCMD: !STARTROUND", True)
+            #True, self.next_drawer.name)
             self.startTimer()
 
 

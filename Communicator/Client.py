@@ -116,19 +116,29 @@ class Client():
             if "!CLEAR" in data:
                 self.sendGame("reset_canvas(True)")
             if "!STARTROUND" in data:
+                print("ROUND started")
                 self.sendGame("startRound()")
-            if "!ENDROUND" in data:
-                self.sendGame("wait_screen()")
-            if "!SENDPLAYER" in data:
-                playerdata = data.split("!SENDPLAYER ")[1]
-                self.sendGame(f"addPlayer({playerdata[0]}, {playerdata[1]})")
+                return
+            if "!FINROUND" in data:
+                print("ROUND Ended")
+                self.sendGame("endRound()")
+                return
+            if "!CLEARPLAYERS" in data:
+                self.sendGame("clearPlayers()")
+            if "!UPDATEPLAYERS" in data:
+                playerdata = data.split("!UPDATEPLAYERS ")
+                self.sendGame(f"updatePlayers({playerdata})")
+
 
         #if data == "!COORDINATES":
         #       None
     def sendGame(self, code):
         if self.Game is None:
             return
-        exec("self.Game." + code)
+        try:
+            exec("self.Game." + code)
+        except Exception as e:
+            print(e)
 
     def isDrawing(self):
         return self.isDrawer
