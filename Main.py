@@ -1,4 +1,3 @@
-from ast import Import
 import pygame
 from Communicator import Client
 try:
@@ -246,6 +245,7 @@ class mainMenu():
                 #Check if FPGA connected every 2.5 sec
                 time.sleep(2.5)
                 self.FPGA = skribblfpga.SkribblNIOS(self)
+                self.FPGA.send("I 0 0") #Send connected signal to FPGA
                 self.fpga_connected = True
                 return
             except Exception as e:
@@ -253,9 +253,9 @@ class mainMenu():
         return
 
     def instantiateGame(self, username, ip):
-        username = "test"
-        #ip = "26.168.146.5:9999"
-        ip ="34.230.47.14:9999"
+        #username = "test"
+        ip = "26.168.146.5:9999"
+        #ip ="34.230.47.14:9999"
         if len(username) == 0:
             print("Enter a username!")
             return

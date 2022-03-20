@@ -16,7 +16,7 @@
 #include "alt_types.h"
 
 //Accelerometer setup and filters
-#define FILTER_TAP_NUM 500
+#define FILTER_TAP_NUM 5000
 #define SAMPLING_TIME 3
 #define DEMEAN_DEPTH 8
 alt_32 x_read; //Usually not needed
@@ -58,6 +58,12 @@ alt_u8 convertDisplay(char digit) {
 		return 0b10000001;
 	case 'r':
 		return 0b10111101; //0b11110001 Capital
+	case 'h':
+		return 0b10001001;
+	case 'e':
+		return 0b10110000;
+	case 'l':
+		return 0b11111000;
 	default:
 		return 0b11111111;
 	}
@@ -295,6 +301,9 @@ int main() {
 	writeScore("......");
 	FILE* fp = fopen("/dev/jtag_uart", "r+");
 	//Wait for start
+	writeScore("hell0.");
+	ledWrite(0b0000000000);
+	waitForCommand(fp, 'I', 'I', &commandChar, &arg1, &arg2);
 	writeScore("start.");
 	ledWrite(0b1111111111);
 	//waitForCommand(fp, 'S', 'S', &commandChar, &arg1, &arg2);
