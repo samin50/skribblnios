@@ -45,12 +45,12 @@ class Game():
         self.username = username
         self.width = 1200
         self.height = 700
-        self.display = pygame.display.set_mode((self.width, self.height))
+        self.screen = pygame.display.set_mode((self.width, self.height))
+        self.display = pygame.Surface((self.width, self.height))
         self.pointer = pygame.image.load("Game/assets/cursor.png")
-        self.pointer_pos =(359, 190)
-        #self.pointer.convert()
-        #self.pointerRect = self.pointer.get_rect()
-        #self.pointer_img = pygame.image.load("Game/assets/cursor.png")
+        self.pointer = pygame.transform.scale(self.pointer, (20, 20))
+        self.FPGAX = 0
+        self.FPGAY = 0
 
         #self.display = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
         self.xy = (0,0)
@@ -117,21 +117,15 @@ class Game():
         self.max_char_len = 26
 
         self.window_pos = (360,160)
-
-    def pointer_update(self,x,y):
-        self.pointer_pos = (x,y)
-        mouse.move(self.window_pos[0]+self.pointer_pos[0],self.window_pos[1]+self.pointer_pos[1])
     
-    def mouseTracker(self):
+    def cursor(self):
+        self.screen.blit(self.display, (0, 0))
         mousePos = pygame.mouse.get_pos()
         if self.FPGA is None:
-            #self.tempDisplay = self.display
-            #self.display.blit(self.cursor, mousePos)
-            #pygame.display.update()
-            #self.display = self.tempDisplay.copy()
-            #pygame.display.update()
-            #self.pointer_update(mousePos[0], mousePos[1])
+            self.screen.blit(self.pointer, (mousePos[0]-10, mousePos[1]-10))
             self.draw_check(mousePos[0], mousePos[1])
+        else:
+            self.screen.blit(self.pointer, (self.FPGAX-10, self.FPGAY-10))
         self.switch_collisions(mousePos)
     
     def size_update(self, is_increasing):
@@ -336,15 +330,17 @@ class Game():
     def draw_check(self, x, y, useFPGA=False):
         #self.pointer_update(x,y)
         FACTOR = 6.6
-        if not self.draw_blit:
-            return
-        # Add offsets for coordinates
         if useFPGA:
             #Bound angles
             if abs(x) > 35 or abs(y) > 25:
                 return
             x =(FACTOR*x)+self.width//2.7
             y =(FACTOR*y)+self.height//2
+            self.FPGAX = x
+            self.FPGAY = y
+        if not self.draw_blit:
+            return
+        # Add offsets for coordinates
             #self.pointer_update(x,y)
         #print("Coords:", x, y)
         # returns true if coordinates are within the canvas
@@ -397,7 +393,7 @@ class Game():
             pygame.draw.rect(self.display,self.brush_colour,(50,self.height-60,30,50)) #pallet preview
             self.events = pygame.event.get()
             
-            self.mouseTracker()
+            self.cursor()
             self.frame_counter+=1
             if (self.frame_counter % self.fps): #counts number of seconds player is drawing using the frame rate of the game
                 self.draw_timer+=1
@@ -438,6 +434,11 @@ class Game():
         if self.Client is None:
             return
         self.Client.sendServer(data, requiresDrawer)
+    
+    def sendFPGA(self, data):
+        if self.FPGA is None:
+            return
+        self.FPGA.send(data)
     
     def resetTracker(self):
         self.drawPoints = [(None, None), (None, None), 0]

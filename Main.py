@@ -245,6 +245,7 @@ class mainMenu():
                 #Check if FPGA connected every 2.5 sec
                 time.sleep(2.5)
                 self.FPGA = skribblfpga.SkribblNIOS(self)
+                self.FPGA.send("I 0 0") #Send connected signal to FPGA
                 self.fpga_connected = True
                 return
             except Exception as e:
