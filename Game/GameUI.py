@@ -1,6 +1,7 @@
 import pygame
 import random
-import threading    
+import threading
+import time  
 
 class Textbox(pygame.sprite.Sprite):
   def __init__(self,message):
@@ -8,6 +9,7 @@ class Textbox(pygame.sprite.Sprite):
     self.text = ""
     self.font = pygame.font.Font("Game/assets/Gameplay.TTF", 15)
     self.smallfont = pygame.font.Font("Game/assets/Gameplay.TTF", 13) #Shan: you need to make this the smaller font of the IP port no etc
+    
     self.black = (0,0,0)
     self.white = (255,255,255)
     self.message = self.font.render(message, False, self.black)
@@ -36,6 +38,7 @@ class Game():
         pygame.init()
         self.font = pygame.font.Font("Game/assets/Gameplay.TTF", 12)
         self.large_font =  pygame.font.Font("Game/assets/Gameplay.TTF", 16)
+        self.paint_font = pygame.font.Font("Game/assets/paint.TTF", 35)
         self.FPGA = FPGAinstance
         self.Client = clientInstance
         self.drawPoints = [(None, None), (None, None), 0]
@@ -45,7 +48,7 @@ class Game():
         self.round_end = False
         self.game_end = False
         self.username = username
-        self.width = 1200
+        self.width = 1400
         self.height = 700
         self.display = pygame.display.set_mode((self.width, self.height))
         self.pointer = pygame.image.load("Game/assets/cursor.png")
@@ -67,12 +70,11 @@ class Game():
         self.canvas_height = int(self.height/1.3)
         self.canvas = pygame.Rect(self.width/2,self.height/2,self.canvas_width,self.canvas_height)
         self.centre = (self.width/2,self.height/2)
-        self.canvas.center = (self.width/2.7,self.height/2)
+        self.canvas.center = (self.width/2.6,self.height/2)
 
         self.clock = pygame.time.Clock()
         self.fps = 60
         self.colour_string = ""
-        self.timer = 200
         self.background = pygame.image.load("Game/assets/sky_background.png")
         self.brush_size = 5
         self.game_music = pygame.mixer.music.load("Game/assets/menu_music.mp3")
@@ -88,8 +90,10 @@ class Game():
         self.colour_change = False
         self.draw_blit = False
         self.erase = False
-        #self.colour_preview = 
-
+        self.time_limit = 20
+        self.time = self.time_limit
+        self.timer_img = pygame.transform.scale(pygame.image.load("Game/assets/timer.png"),(250,100))
+        self.timer_img =pygame.image.load("Game/assets/timer.png")
 #switches:
         self.switches = [0,0,0,0,0,0,0,0,0,0]
         self.switch_size = (40,70)
@@ -151,8 +155,31 @@ class Game():
             self.draw_check(mousePos[0], mousePos[1])
         self.switch_collisions(mousePos)
 
+#countdown timer:
+    def timer(self):
+        while True:
+            self.time= self.time_limit
+            while self.time or self.round_not_started == False:
+                mins, secs = divmod(self.time, 60)
+                self.round_time = secs
+                timer = '{:02d}:{:02d}'.format(mins, secs)
+                print(timer, end="\r")
+                time.sleep(1)
+                self.time -= 1
+                if self.time <= 0:
+                    self.round_not_started = True
+                    #self.run = False
+#Display timer
+    def display_timer(self):
+        self.display.blit(self.timer_img,(8,10))
+        timer_disp = self.paint_font.render(str(self.time),True,(255,255,255))
+        self.display.blit(timer_disp,(37,60))
+        #timer_rect = pygame.Rect(10,10,100,100)
+        #pygame.draw.rect(self.display,(random.randint(0,255),0,0),timer_rect)
+        pygame.display.update()
+
 #update brush size
-    
+
     def size_update(self, is_increasing):
         print("Brush size:", self.brush_size)
         if is_increasing:
@@ -165,7 +192,7 @@ class Game():
 #scaling avatars:
     def avatar_scale(self):
         for i in range(len(self.avatar_list)):
-            self.avatar_list[i] = pygame.transform.scale(self.avatar_list[i],((80,120)))
+            self.avatar_list[i] = pygame.transform.scale(self.avatar_list[i],((85,115)))
 
 #scaling switch sizes on screen
     def switch_img_scale(self):
@@ -235,6 +262,7 @@ class Game():
 #lobby screen
 
     def wait_screen(self,avatar):
+        
         self.avatar = avatar
         #pygame.clock.clock
         self.avatar_scale()
@@ -267,13 +295,14 @@ class Game():
             for event in pygame.event.get():
                 if cont_rect.collidepoint(pygame.mouse.get_pos()) and event.type ==pygame.MOUSEBUTTONDOWN:
                     self.round_not_started = False
-                    self.round_start()
+                    
                     #return
 
                 if event.type ==pygame.QUIT:
                     pygame.quit()
 
             pygame.display.update()
+        self.round_start()
 
 # lobby screen background
     def load_backgrounds(self):
@@ -462,13 +491,14 @@ class Game():
 
 
     def round_start(self):
-        #self.wait_screen()
+        self.time = self.time_limit
         self.run = True
         self.redraw_window()
         #pygame.mixer.music.play(-1)
         self.background=pygame.transform.scale(self.background,(self.width,self.height))
         #self.display.blit(self.lobby_background[0],(0,0))
         self.display.blit(self.background,(0,0))
+        
 #switches:
         self.switch_img_scale()
         #self. display.blit(self.off_switch[0],(0,0))
@@ -483,9 +513,10 @@ class Game():
         #self.mouseThread = threading.Thread(target=self.mouseTracker, daemon=True)
         #self.mouseThread.start()
         self.renderSwitch()
-        while self.run == True:
+        while self.run:
             if self.round_not_started:
-                self.wait_screen()
+                self.wait_screen(self.avatar)
+            self.display_timer()
 
             pygame.draw.rect(self.display,self.brush_colour,(30,self.height-67,30,60)) #pallet preview
             pygame.draw.rect(self.display,(0,0,0),(30,self.height-67,30,60),2)
