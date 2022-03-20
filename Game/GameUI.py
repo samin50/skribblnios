@@ -176,6 +176,9 @@ class Game():
             wordtoguessarray[w] = z
 
 
+
+
+
 #Words from text file
     def getword(self):
         with open('Game/assets/words.txt') as words:
