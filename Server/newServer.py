@@ -77,6 +77,7 @@ class Server():
         self.listenThread = threading.Thread(target=self.addClients)
         self.listenThread.start()
         self.next_drawer = None
+        self.currentWord = None
         print(f"Server bind success @{self.address}")
     
     def startTimer(self):
@@ -217,8 +218,11 @@ class Server():
         #     if "!COOORDINATES" in data:
             #     return_xy(self.next_drawer)
             #for when shan and shaheen done fpga and game
-        if "!STARTROUND" in data:
+        if "!STARTROUND " in data:
+            self.currentWord = data.split("!STARTROUND ")[1]
+            print("Word set to: " + self.currentWord)
             self.sendData("CLIENTCMD: !STARTROUND", True, self.next_drawer.name)
+            self.startTimer()
 
 
     #Send data
