@@ -118,9 +118,11 @@ class Client():
             if "!STARTROUND" in data:
                 print("ROUND started")
                 self.sendGame("startRound()")
-            if "!ENDROUND" in data:
+                return
+            if "!FINROUND" in data:
                 print("ROUND Ended")
-                #self.sendGame("wait_screen()")
+                self.sendGame("wait_screen()")
+                return
             if "!CLEARPLAYERS" in data:
                 self.sendGame("clearPlayers()")
             if "!UPDATEPLAYERS" in data:

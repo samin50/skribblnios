@@ -410,8 +410,7 @@ class Game():
                     
             self.screen.blit(self.display, (0, 0))
             pygame.display.update()
-        if self.Client is None:
-            self.startRound()
+        self.startRound()
 
 # lobby screen background
     def load_backgrounds(self):

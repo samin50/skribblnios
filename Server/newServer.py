@@ -96,7 +96,8 @@ class Server():
     def roundTimer(self):
         self.sendData("CLIENTCMD: !STARTROUND " , True)
         time.sleep(self.roundLength)
-        self.sendData("CLIENTCMD: !ENDROUND " , True)
+        print("round ended")
+        self.sendData("CLIENTCMD: !FINROUND " , True)
     
     def updatePlayers(self):
         self.sendData("CLIENTCMD: !CLEARPLAYERS " , True)
