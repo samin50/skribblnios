@@ -191,12 +191,17 @@ class Game():
             for event in pygame.event.get():
                 if word_rect.collidepoint(mouse[0],mouse[1]) and event.type == pygame.MOUSEBUTTONDOWN:
                     self.word = self.words_chosen[i]
+                    self.sendServer("SERVERCMD: !STARTROUND " + self.word)
                     self.round_not_started = False
+                if event.type == pygame.QUIT:
+                        pygame.quit()
+
 
 
 #mousetracker:    
     def mouseTracker(self):
         mousePos = pygame.mouse.get_pos()
+        self.screen.blit(self.display, (0,0))
         if self.FPGA is None:
             self.screen.blit(self.pointer, (mousePos[0]-10, mousePos[1]-10))
             self.draw_check(mousePos[0], mousePos[1])
@@ -558,8 +563,6 @@ class Game():
         #self.mouseThread.start()
         self.renderSwitch()
         while self.run:
-            if self.round_not_started:
-                self.wait_screen(self.avatar)
             self.display_timer()
 
             pygame.draw.rect(self.display,self.brush_colour,(30,self.height-67,30,60)) #pallet preview
@@ -569,7 +572,7 @@ class Game():
             #pygame.draw.circle(self.display, (0,0,0),(30,30), 30, 2)
             self.events = pygame.event.get()
             
-            self.cursor()
+            self.mouseTracker()
             self.frame_counter+=1
             if (self.frame_counter % self.fps): #counts number of seconds player is drawing using the frame rate of the game
                 self.draw_timer+=1
@@ -622,3 +625,4 @@ class Game():
 if __name__ == "__main__":
     GameTest = Game("test")
     GameTest.wait_screen()
+    #GameTest.round_start()
