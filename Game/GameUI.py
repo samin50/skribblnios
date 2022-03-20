@@ -34,23 +34,27 @@ class Textbox(pygame.sprite.Sprite):
     self.rect = pygame.Rect(600,600,100,26)
     self.rect.center = old_rect_pos
 class Game():
-    def __init__(self,username, FPGAinstance=None, clientInstance=None):
+    def __init__(self,username, FPGAinstance=None, clientInstance=None, avatar=0):
         pygame.init()
+        #Username, avatar, score, position
+        self.players = [[username, avatar, 0, 0], ["twat", 3, 53, 0]]
         self.font = pygame.font.Font("Game/assets/Gameplay.TTF", 12)
         self.large_font =  pygame.font.Font("Game/assets/Gameplay.TTF", 16)
         self.paint_font = pygame.font.Font("Game/assets/paint.TTF", 35)
         self.FPGA = FPGAinstance
         self.Client = clientInstance
+        self.username = username
+        self.sendServer("!SETNAME " + username + " " + str(avatar), False)
         self.drawPoints = [(None, None), (None, None), 0]
         pygame.init()
         self.run = False
         self.round_not_started = True
         self.round_end = False
         self.game_end = False
-        self.username = username
         self.width = 1400
         self.height = 700
-        self.display = pygame.display.set_mode((self.width, self.height))
+        self.screen = pygame.display.set_mode((self.width, self.height))
+        self.display = pygame.Surface((self.width, self.height))
         self.pointer = pygame.image.load("Game/assets/cursor.png")
         self.pointer_pos =(359, 190)
 
@@ -62,6 +66,9 @@ class Game():
         #self.pointer.convert()
         #self.pointerRect = self.pointer.get_rect()
         #self.pointer_img = pygame.image.load("Game/assets/cursor.png")
+        self.pointer = pygame.transform.scale(self.pointer, (20, 20))
+        self.FPGAX = 0
+        self.FPGAY = 0
 
         #self.display = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
         self.xy = (0,0)
@@ -146,6 +153,14 @@ class Game():
         self.max_char_len = 32
 
         self.window_pos = (360,160)
+        self.avatar_scale()
+        self.load_backgrounds()
+    
+    def addPlayer(self, playerName, avatar):
+        self.players.append([playerName, int(avatar), 0, 0])
+    
+    def cursor(self):
+        self.screen.blit(self.display, (0, 0))
 
 #***METHODS***#
 
@@ -213,13 +228,10 @@ class Game():
     def mouseTracker(self):
         mousePos = pygame.mouse.get_pos()
         if self.FPGA is None:
-            #self.tempDisplay = self.display
-            #self.display.blit(self.cursor, mousePos)
-            #pygame.display.update()
-            #self.display = self.tempDisplay.copy()
-            #pygame.display.update()
-            #self.pointer_update(mousePos[0], mousePos[1])
+            self.screen.blit(self.pointer, (mousePos[0]-10, mousePos[1]-10))
             self.draw_check(mousePos[0], mousePos[1])
+        else:
+            self.screen.blit(self.pointer, (self.FPGAX-10, self.FPGAY-10))
         self.switch_collisions(mousePos)
 
 #countdown timer:
@@ -327,51 +339,40 @@ class Game():
             self.display.blit(self.off_switch[9],(9*70+100,self.height-5-self.switch_size[1])) 
 
 #lobby screen
+    def startRound(self):
+        self.round_not_started = False
 
-    def wait_screen(self,avatar):
+    def wait_screen(self):
         self.getword()
         self.choose_word()
-        self.avatar = avatar
         #pygame.clock.clock
-        self.avatar_scale()
-        self.load_backgrounds()
         count = 1
         self.display.fill((255,255,255))
-        
         while self.round_not_started:
             
             pygame.time.Clock().tick(6)
-            #self.avatar = random.randint(0,7)
             if count>5:
                 count = 0
             else:
-                count+=1
-            
+                count += 1
             self.display.blit(self.lobby_background[count],(0,0))
             #start_rect  = pygame.Rect(200,413,210,50)
-            pygame.draw.rect(self.display,(0,200,0),(self.width/2-75,self.height-100,150,40))
             pygame.draw.rect(self.display,(0,0,0),(self.width/2-75,self.height-100,150,40),2)
-            cont = self.large_font.render('Continue', True, (0,0,0))
-            disp_user = self.large_font.render(self.username, True, (255,255,255))
-            score = self.large_font.render("Score: "+str(self.score), True, (255,255,255))
-            self.display.blit(score,(self.width/2-500,self.height/2+50))
-            self.display.blit(disp_user,(self.width/2-500,self.height/2+20))
-            cont_rect = cont.get_rect(x=(self.width/2-45),y=self.height-90)
-            self.display.blit(cont,cont_rect)
-            avatar = (self.avatar_list[self.avatar]).convert()
-            avatar.set_alpha(80)
-            self.display.blit(avatar,(self.width/2-500,self.height/2-130))
-            self.display_word_choices()
-            self.word_collision()
-            for event in pygame.event.get():
-                if cont_rect.collidepoint(pygame.mouse.get_pos()) and event.type ==pygame.MOUSEBUTTONDOWN:
-                    self.round_not_started = False
-                    
-                    #return
-
-                if event.type ==pygame.QUIT:
-                    pygame.quit()
-
+            for user in range(len(self.players)):
+                username = self.large_font.render(self.players[user][0], True, (255,255,255))
+                avatar = (self.avatar_list[self.players[user][1]]).convert()
+                score = self.large_font.render("Score: "+str(self.players[user][2]), True, (255,255,255))
+                self.display.blit(avatar,((self.width/2-500)+user*200,self.height/2-130))
+                self.display.blit(username,((self.width/2-500)+user*200,self.height/2+20))
+                self.display.blit(score,((self.width/2-500)+user*200,self.height/2+50))
+                if self.Client is not None:
+                    if self.Client.isDrawing():
+                        self.display_word_choices()
+                        self.word_collision()
+                else:
+                    self.display_word_choices()
+                    self.word_collision()
+            self.screen.blit(self.display, (0, 0))
             pygame.display.update()
         self.round_start()
 
@@ -525,15 +526,17 @@ class Game():
     def draw_check(self, x, y, useFPGA=False):
         #self.pointer_update(x,y)
         FACTOR = 6.6
-        if not self.draw_blit:
-            return
-        # Add offsets for coordinates
         if useFPGA:
             #Bound angles
             if abs(x) > 35 or abs(y) > 25:
                 return
             x =(FACTOR*x)+self.width//2.7
             y =(FACTOR*y)+self.height//2
+            self.FPGAX = x
+            self.FPGAY = y
+        if not self.draw_blit:
+            return
+        # Add offsets for coordinates
             #self.pointer_update(x,y)
         #print("Coords:", x, y)
         # returns true if coordinates are within the canvas
@@ -596,7 +599,7 @@ class Game():
             #pygame.draw.circle(self.display, (0,0,0),(30,30), 30, 2)
             self.events = pygame.event.get()
             
-            self.mouseTracker()
+            self.cursor()
             self.frame_counter+=1
             if (self.frame_counter % self.fps): #counts number of seconds player is drawing using the frame rate of the game
                 self.draw_timer+=1
@@ -638,9 +641,14 @@ class Game():
             return
         self.Client.sendServer(data, requiresDrawer)
     
+    def sendFPGA(self, data):
+        if self.FPGA is None:
+            return
+        self.FPGA.send(data)
+    
     def resetTracker(self):
         self.drawPoints = [(None, None), (None, None), 0]
 
 if __name__ == "__main__":
     GameTest = Game("test")
-    GameTest.wait_screen(random.randint(0,7))
+    GameTest.wait_screen()

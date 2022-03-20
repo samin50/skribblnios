@@ -1,4 +1,3 @@
-from ast import Import
 import pygame
 from Communicator import Client
 try:
@@ -14,7 +13,7 @@ class mainMenu():
         pygame.init()
         self.fpga_connected = False
         self.font = pygame.font.Font("Game/assets/Gameplay.TTF", 20)
-        self.font_large = pygame.font.Font("Game/assets/Sketch College.TTF", 80)
+        self.font_large = pygame.font.Font("Game/assets/Sketch College.TTF", 85)
         self.FPGA = None
         self.Client = None
         self.initiateFPGA = threading.Thread(target=self.connectFPGA, daemon=True)
@@ -45,7 +44,7 @@ class mainMenu():
         self.fpga_box = pygame.Rect(self.width-110,0,110,70)
         self.fpga_cross  = pygame.image.load("Game/assets/cross.png")
         self.fpga_tick = pygame.image.load("Game/assets/tick.png")
-        self.connect_box = pygame.Rect(200,413,210,50)
+        self.connect_box = pygame.Rect(214,413,210,50)
         self.name_box = pygame.Rect(self.box_x+10,274,self.box_width,50) #Shan: this is where you need to move "Enter username" to
         self.name_box_border = pygame.Rect(self.box_x+10,274,self.box_width+1,50)
         self.name_box_secondary_border = pygame.Rect(self.box_x,265,self.box_width+20,68)
@@ -84,11 +83,11 @@ class mainMenu():
         self.gifTracker = 0
         self.mouse_pos  = pygame.mouse.get_pos()
         self.username_box = GameUI.Textbox("Enter Username") #creating self.username_box object for the IP
-        self.username_box.rect.center = (self.box_x+100,300) #position of self.username_box on screen
+        self.username_box.rect.center = (self.box_x+167,300) #position of self.username_box on screen
         self.ip_selected = False
         self.ip_port_box = GameUI.Textbox("Enter IP: Port") #creating self.ip:port object for the IP
         self.ip_port_selected = False
-        self.ip_port_box.rect.center = (self.box_x+100,377) #position of self.username_box on screen
+        self.ip_port_box.rect.center = (self.box_x+170,379) #position of self.username_box on screen
 
 
         for i in range(120):
@@ -168,11 +167,11 @@ class mainMenu():
 
             #FONTS:
             title = self.font_large.render('Skribblnios', True, self.black)
-            title_rect = title.get_rect(center=(self.width/2,80))
+            title_rect = title.get_rect(center=(self.width/2,140))
             self.display.blit(title,title_rect)
 
             connect = self.font.render('Connect', True, self.black)
-            connect_rect = connect.get_rect(center=(200+100,413+25))
+            connect_rect = connect.get_rect(center=(220+100,413+25))
             self.display.blit(connect,connect_rect)
             
             self.gifTracker += 1
@@ -246,6 +245,7 @@ class mainMenu():
                 #Check if FPGA connected every 2.5 sec
                 time.sleep(2.5)
                 self.FPGA = skribblfpga.SkribblNIOS(self)
+                self.FPGA.send("I 0 0") #Send connected signal to FPGA
                 self.fpga_connected = True
                 return
             except Exception as e:
@@ -253,9 +253,9 @@ class mainMenu():
         return
 
     def instantiateGame(self, username, ip):
-        username = "test"
-        #ip = "26.168.146.5:9999"
-        ip ="34.230.47.14:9999"
+        #username = "test"
+        ip = "26.168.146.5:9999"
+        #ip ="34.230.47.14:9999"
         if len(username) == 0:
             print("Enter a username!")
             return
@@ -277,17 +277,14 @@ class mainMenu():
             
         #Instantiate game and hook FPGA
         self.isActive = False
-        self.Game = GameUI.Game(username, self.FPGA, self.Client)
+        self.Game = GameUI.Game(username, self.FPGA, self.Client, self.avatar)
         self.Client.setGame(self.Game)
         if self.fpga_connected:
             self.FPGA.setGame(self.Game)
             self.FPGA.start()
         self.Client.setGame(self.Game)
         self.fpga_connected = True
-        timer_thread = threading.Thread(target = self.Game.timer,daemon=True)
-        timer_thread.start()   
-        self.Game.wait_screen(self.avatar)#round_start()
-         
+        self.Game.wait_screen()#round_start()
         return
 
 if __name__ == "__main__":
