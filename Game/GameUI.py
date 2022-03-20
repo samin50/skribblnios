@@ -54,6 +54,10 @@ class Game():
         self.pointer = pygame.image.load("Game/assets/cursor.png")
         self.pointer_pos =(359, 190)
 
+        self.words = []
+        self.word_choice = []
+        self.word = ""
+
         self.score = 0
         #self.pointer.convert()
         #self.pointerRect = self.pointer.get_rect()
@@ -117,6 +121,9 @@ class Game():
 
         #self.reset_button = pygame.transform.scale(pygame.image.load("Game/assets/reset.png"),(self.reset_size))
         self.reset_button = pygame.image.load("Game/assets/reset.png")
+
+  
+
 #avatars:
         self.avatar = 7
         self.avatar_list = [
@@ -141,6 +148,36 @@ class Game():
         self.window_pos = (360,160)
 
 #***METHODS***#
+
+#Words from text file
+    def getword(self):
+        with open('Game/assets/words.txt') as words:
+            self.words = words.read().splitlines()
+
+    #chose_word
+    def choose_word(self):
+        self.words_chosen = []
+        while len(self.words_chosen)<3:
+            word = random.choice(self.words)
+            if word not in self.words_chosen:
+                self.words_chosen.append(word)
+
+    def display_word_choices(self):
+        for i in range(len(self.words_chosen)):
+            word = self.large_font.render(self.words_chosen[i], True, (100,150,255))
+            word_rect = word.get_rect(x =(self.width/2-200)+(i*150),y =(self.height/2+180))
+            self.display.blit(word,word_rect)  
+    
+    def word_collision(self):
+        for i in range(len(self.words_chosen)):
+            word = self.large_font.render(self.words_chosen[i], True, (100,150,255))
+            word_rect = word.get_rect(x =(self.width/2-200)+(i*150),y =(self.height/2+180))
+            mouse  = pygame.mouse.get_pos()
+            for event in pygame.event.get():
+                if word_rect.collidepoint(mouse[0],mouse[1]) and event.type == pygame.MOUSEBUTTONDOWN:
+                    self.word = self.words_chosen[i]
+                    self.round_not_started = False
+
 
 #mousetracker:    
     def mouseTracker(self):
@@ -262,14 +299,17 @@ class Game():
 #lobby screen
 
     def wait_screen(self,avatar):
-        
+        self.getword()
+        self.choose_word()
         self.avatar = avatar
         #pygame.clock.clock
         self.avatar_scale()
         self.load_backgrounds()
         count = 1
         self.display.fill((255,255,255))
+        
         while self.round_not_started:
+            
             pygame.time.Clock().tick(6)
             #self.avatar = random.randint(0,7)
             if count>5:
@@ -291,7 +331,8 @@ class Game():
             avatar = (self.avatar_list[self.avatar]).convert()
             avatar.set_alpha(80)
             self.display.blit(avatar,(self.width/2-500,self.height/2-130))
-            
+            self.display_word_choices()
+            self.word_collision()
             for event in pygame.event.get():
                 if cont_rect.collidepoint(pygame.mouse.get_pos()) and event.type ==pygame.MOUSEBUTTONDOWN:
                     self.round_not_started = False
