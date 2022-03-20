@@ -2,6 +2,7 @@ import socket
 import threading
 import random
 import urllib.request
+import time
 
 #Client on the server sides that holds their attributes and waits for data
 class ClientData():
@@ -39,6 +40,9 @@ class ClientData():
         #Set player name
         if "!SETNAME" in data:
             self.name = data.split(" ")[1]
+            self.avatar = data.split(" ")[0]
+            #Tell all players about new player
+            self.serverObj.sendData("CLIENTCMD: !SENDPLAYER " + self.name + " " +self.avatar, True, self.name)
             return
         #Disconnect player
         if data == "!DISCONNECT":
@@ -73,8 +77,17 @@ class Server():
         self.listenThread = threading.Thread(target=self.addClients)
         self.listenThread.start()
         self.next_drawer = None
-        
         print(f"Server bind success @{self.address}")
+    
+    def startTimer(self):
+        self.timer_thread = threading.Thread(target = self.roundTimer.timer,daemon=True)
+        self.timer_thread.start() 
+
+    def roundTimer(self):
+        self.sendData("CLIENTCMD: !STARTROUND " , True, self.next_drawer.name)
+        time.sleep(roundLength)
+        self.sendData("CLIENTCMD: !ENDROUND " , True)
+
     
     #Add new clients as they connect
     def addClients(self):
@@ -204,6 +217,9 @@ class Server():
         #     if "!COOORDINATES" in data:
             #     return_xy(self.next_drawer)
             #for when shan and shaheen done fpga and game
+        if "!STARTROUND" in data:
+            self.sendData("CLIENTCMD: !STARTROUND", True, self.next_drawer.name)
+
 
     #Send data
     def sendData(self, data, all=False, playerName=""):
@@ -228,8 +244,8 @@ class Server():
 
 if __name__ == "__main__":
     PORT = 9999
-    #roundLength = int(input("What will be the length of each round in the game? (seconds): "))
-    server = Server(PORT, 1)
+    roundLength = int(input("What will be the length of each round in the game? (seconds): "))
+    server = Server(PORT, roundLength)
 
     
 
