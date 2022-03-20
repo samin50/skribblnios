@@ -621,6 +621,13 @@ class Game():
     
     def resetTracker(self):
         self.drawPoints = [(None, None), (None, None), 0]
+    
+    def clearPlayers(self):
+        self.players = []
+    
+    def updatePlayers(self, playerdata):
+        self.players.append(playerdata)
+
 
 if __name__ == "__main__":
     GameTest = Game("test")

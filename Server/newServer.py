@@ -8,6 +8,7 @@ import time
 class ClientData():
     def __init__(self, conn, addr, server):
         self.name = None
+        self.data = [None, None, 0, 0]
         self.isActive = True
         self.serverProperties = (conn, addr)
         self.serverObj = server
@@ -42,13 +43,17 @@ class ClientData():
             self.name = data.split(" ")[1]
             self.avatar = data.split(" ")[0]
             #Tell all players about new player
-            self.serverObj.sendData("CLIENTCMD: !SENDPLAYER " + self.name + " " +self.avatar, True, self.name)
+            self.data = [self.name, int(self.avatar), 0, 0]
+            self.serverObj.updatePlayers()
+            #self.serverObj.sendData("CLIENTCMD: !SENDPLAYER " + self.name + " " +self.avatar, True, self.name)
             return
         #Disconnect player
         if data == "!DISCONNECT":
             self.isActive = False #Disable player
             self.serverObj.processServerSide("SERVERCMD: !DISCONNECT " + str(self.name))
             return
+    def getData(self):
+        return self.data
 
     def sendClientData(self, data):
         self.serverProperties[0].send(str.encode(f"Server response: {data}\n"))
@@ -86,8 +91,20 @@ class Server():
 
     def roundTimer(self):
         self.sendData("CLIENTCMD: !STARTROUND " , True, self.next_drawer.name)
-        time.sleep(roundLength)
+        time.sleep(self.roundLength)
         self.sendData("CLIENTCMD: !ENDROUND " , True)
+    
+    def updatePlayers(self):
+        self.sendData("CLIENTCMD: !CLEARPLAYERS " , True)
+        self.updatePlayers = self.sortPlayers(self.updatePlayers)
+        for player in self.updatePlayers:
+            self.sendData(f"CLIENTCMD: !UPDATEPLAYERS {str(player)}" , True)
+    
+    def sortPlayers(players):
+        players.sort(key=lambda list: list[2], reverse=True)
+        for i in range(len(players)):
+            players[i][3] = i+1
+        return players
 
     
     #Add new clients as they connect
@@ -151,6 +168,7 @@ class Server():
                         player.sendClientData("Server: You have been disconnected.\n")
                     except:
                         print(player.name + " was forcibly disconnected on their side.")
+                    self.updatePlayers()
                     player.isActive = False
                     self.clientList.remove(player)
                     # If the current drawer leaves, select a new one
@@ -163,6 +181,8 @@ class Server():
         if "!BROADCAST" in data:
             message = data.split("!BROADCAST ")[1]
             name = message.split(": ")[0]
+            if self.currentWord in message:
+                self.sendData(f"!BROADCAST SERVER: Player {name} guessed the word!", True)
             self.sendData(data, True, name)
             return
 
@@ -199,21 +219,6 @@ class Server():
                     print(f"Server: Disconnected Player {playerNameToRemove}")
                     break
             return
-
-        #select the 3 words at the start of each round
-        if "!WORDSELECT" in data:
-            f = "football,snake,waves,beach,knee,airplane,flag,car,eyes,octopus,robot,king,skateboard,window,banana,tree,elephant,door,key,bridge,bow,fork,sun,hippo,woman,pen,mickeymouse,fire,spider,kite,rain,computer,corn,star,cat,motorcycle,pizza,butterfly,cherry,love,cake,tennis,cannon,teapot,sunglasses,drink,happy,table,notebook,jupiter,letter,boot,crown,starfish,tyre,doughnut,pipe,apple pie,shark,chair,hole,ping pong,tower,cigarette,anvil,ramp,fish,forehead,sailing,hair,positive,apple,golf,bicycle,clock,drip,lightning,trousers,signal,music,laptop,mouse,arrow,backpack,lightbulb,headphones,pickaxe,sword,pause,beard,bikini,ice cream,duck,swimming pool,shin pads,sausage dog,paper clip,chicken wing,gym,flashlight"
-            Dictionary = f.split(",")
-            word1 = random.choice(Dictionary) 
-            self.sendData(word1, True) 
-            word2 = random.choice(Dictionary)
-            while word2 == word1:
-                word2 = random.choice(Dictionary) 
-            self.sendData(word2, True)
-            word3 = random.choice(Dictionary)
-            while (word3 == word1) or (word3 == word2):
-                word3 = random.choice(Dictionary) 
-            self.sendData(word3, True)
 
         #     if "!COOORDINATES" in data:
             #     return_xy(self.next_drawer)

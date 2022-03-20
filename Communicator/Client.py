@@ -119,9 +119,12 @@ class Client():
                 self.sendGame("startRound()")
             if "!ENDROUND" in data:
                 self.sendGame("wait_screen()")
-            if "!SENDPLAYER" in data:
-                playerdata = data.split("!SENDPLAYER ")[1]
-                self.sendGame(f"addPlayer({playerdata[0]}, {playerdata[1]})")
+            if "!CLEARPLAYERS" in data:
+                self.sendGame("clearPlayers()")
+            if "!UPDATEPLAYERS" in data:
+                playerdata = data.split("!UPDATEPLAYERS ")
+                self.sendGame(f"updatePlayers({playerdata})")
+
 
         #if data == "!COORDINATES":
         #       None
