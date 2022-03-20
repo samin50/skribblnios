@@ -228,15 +228,18 @@ class Game():
 
             if word0_rect.collidepoint(mouse[0],mouse[1]) and event.type == pygame.MOUSEBUTTONDOWN:
                 self.word = self.words_chosen[0]
-                self.round_not_started = False
+                if self.Client is None:
+                    self.startRound()
                 self.sendServer("SERVERCMD: !STARTROUND " + self.word)
             if word1_rect.collidepoint(mouse[0],mouse[1]) and event.type == pygame.MOUSEBUTTONDOWN:
                 self.word = self.words_chosen[1]
-                self.round_not_started = False
+                if self.Client is None:
+                    self.startRound()
                 self.sendServer("SERVERCMD: !STARTROUND " + self.word)
             if word2_rect.collidepoint(mouse[0],mouse[1]) and event.type == pygame.MOUSEBUTTONDOWN:
                 self.word = self.words_chosen[2]
-                self.round_not_started = False
+                if self.Client is None:
+                    self.startRound()
                 self.sendServer("SERVERCMD: !STARTROUND " + self.word)
                 '''for event in self.events:
                     if event.type == pygame.MOUSEBUTTONDOWN:
@@ -245,7 +248,6 @@ class Game():
                         self.sendServer("SERVERCMD: !STARTROUND " + self.word)'''
             if event.type == pygame.QUIT:
                 pygame.quit()
-            #
 
 #mousetracker:    
     def mouseTracker(self):
@@ -365,9 +367,8 @@ class Game():
 #lobby screen
 
     def startRound(self):
-        self.round_start()
-        self.run = True
         self.round_not_started = False
+        self.round_start()
         
     
     def endRound(self):
@@ -601,70 +602,73 @@ class Game():
 
 
     def round_start(self):
-        self.time = self.time_limit
-        self.run = True
-        self.redraw_window()
-        #pygame.mixer.music.play(-1)
-        self.background=pygame.transform.scale(self.background,(self.width,self.height))
-        #self.display.blit(self.lobby_background[0],(0,0))
-        self.display.blit(self.background,(0,0))
-        
-#switches:
-        self.switch_img_scale()
-        #self. display.blit(self.off_switch[0],(0,0))
-        self.reset_canvas(True)
-        #pygame.draw.rect(self.display,(255,255,255),(self.canvas))
-        
-        chat_thread = threading.Thread(target=self.typing, daemon=True) #daemon thread so it will terminate when master thread quits
-        chat_thread.start() #starts a new thread for the chat window
-        
-        #start_new_thread(self.typing,(self.display,)) old threading function - outdated
-        #Mouse thread 
-        #self.mouseThread = threading.Thread(target=self.mouseTracker, daemon=True)
-        #self.mouseThread.start()
-        self.renderSwitch()
-        while self.run:
-            self.display_timer()
-
-            pygame.draw.rect(self.display,self.brush_colour,(30,self.height-67,30,60)) #pallet preview
-            pygame.draw.rect(self.display,(0,0,0),(30,self.height-67,30,60),2)
-            #pygame.draw.circle(self.display, self.brush_colour,(30,30), 30, 15)
-            #pygame.draw.circle(self.display, (0,0,0),(30,30), 15, 2)
-            #pygame.draw.circle(self.display, (0,0,0),(30,30), 30, 2)
-            self.events = pygame.event.get()
+        try:
+            self.time = self.time_limit
+            self.run = True
+            self.redraw_window()
+            #pygame.mixer.music.play(-1)
+            self.background=pygame.transform.scale(self.background,(self.width,self.height))
+            #self.display.blit(self.lobby_background[0],(0,0))
+            self.display.blit(self.background,(0,0))
             
-            self.mouseTracker()
-            self.frame_counter+=1
-            if (self.frame_counter % self.fps): #counts number of seconds player is drawing using the frame rate of the game
-                self.draw_timer+=1
-            if self.draw_timer == 1:
-                self.music_change()
-            self.clock.tick(self.fps)
-            #self.switch_update()
+    #switches:
+            self.switch_img_scale()
+            #self. display.blit(self.off_switch[0],(0,0))
+            self.reset_canvas(True)
+            #pygame.draw.rect(self.display,(255,255,255),(self.canvas))
+            
+            chat_thread = threading.Thread(target=self.typing, daemon=True) #daemon thread so it will terminate when master thread quits
+            chat_thread.start() #starts a new thread for the chat window
+            
+            #start_new_thread(self.typing,(self.display,)) old threading function - outdated
+            #Mouse thread 
+            #self.mouseThread = threading.Thread(target=self.mouseTracker, daemon=True)
+            #self.mouseThread.start()
+            self.renderSwitch()
+            while self.run:
+                self.display_timer()
 
-            #self.random_draw()
-            #if (((self.centre[0]-self.canvas_width/2)<xy[0]>(self.centre[0]+self.canvas_width/2)) or ((self.centre[1]-self.canvas_height/2)<xy[1]>(self.centre[1]+self.canvas_height/2))):
+                pygame.draw.rect(self.display,self.brush_colour,(30,self.height-67,30,60)) #pallet preview
+                pygame.draw.rect(self.display,(0,0,0),(30,self.height-67,30,60),2)
+                #pygame.draw.circle(self.display, self.brush_colour,(30,30), 30, 15)
+                #pygame.draw.circle(self.display, (0,0,0),(30,30), 15, 2)
+                #pygame.draw.circle(self.display, (0,0,0),(30,30), 30, 2)
+                self.events = pygame.event.get()
+                
+                self.mouseTracker()
+                self.frame_counter+=1
+                if (self.frame_counter % self.fps): #counts number of seconds player is drawing using the frame rate of the game
+                    self.draw_timer+=1
+                if self.draw_timer == 1:
+                    self.music_change()
+                self.clock.tick(self.fps)
+                #self.switch_update()
 
-             # returns true if mouse is being held down which enables draw
+                #self.random_draw()
+                #if (((self.centre[0]-self.canvas_width/2)<xy[0]>(self.centre[0]+self.canvas_width/2)) or ((self.centre[1]-self.canvas_height/2)<xy[1]>(self.centre[1]+self.canvas_height/2))):
+
+                # returns true if mouse is being held down which enables draw
 
 
 
-            #self.display.blit(self.canvas)
-            #pygame.draw(self.display, (255,255,255), canvas)
-            pygame.display.update()
+                #self.display.blit(self.canvas)
+                #pygame.draw(self.display, (255,255,255), canvas)
+                pygame.display.update()
 
-            for event in self.events:
-                if event.type == pygame.QUIT:
-                    self.run = False
-                    pygame.quit()
-                #Mouse usage only
-                if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_SPACE:
-                        self.resetTracker()
-                        self.draw_blit = True
-                if event.type == pygame.KEYUP:
-                    self.sendServer("SERVERCMD: !RESETTRACKER", True)
-                    self.draw_blit = False
+                for event in self.events:
+                    if event.type == pygame.QUIT:
+                        self.run = False
+                        pygame.quit()
+                    #Mouse usage only
+                    if event.type == pygame.KEYDOWN:
+                        if event.key == pygame.K_SPACE:
+                            self.resetTracker()
+                            self.draw_blit = True
+                    if event.type == pygame.KEYUP:
+                        self.sendServer("SERVERCMD: !RESETTRACKER", True)
+                        self.draw_blit = False
+        except Exception as e:
+            print(e)
                     
 
     def load_sprites(self):
