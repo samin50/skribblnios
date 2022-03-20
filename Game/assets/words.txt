@@ -132,7 +132,6 @@ Paris
 Beach
 Mountains
 Hawaii
-Mount Rushmore
 USA
 Hospital
 Attic
@@ -181,7 +180,6 @@ Leprechaun
 Harry Potter
 Shrek
 Yoshi
-Queen Elizabeth
 Skip
 Burp
 Cook
