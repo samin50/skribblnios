@@ -121,7 +121,7 @@ class Client():
                 return
             if "!FINROUND" in data:
                 print("ROUND Ended")
-                self.sendGame("wait_screen()")
+                self.sendGame("endRound()")
                 return
             if "!CLEARPLAYERS" in data:
                 self.sendGame("clearPlayers()")

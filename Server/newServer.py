@@ -231,7 +231,8 @@ class Server():
         if "!STARTROUND " in data:
             self.currentWord = data.split("!STARTROUND ")[1]
             print("Word set to: " + self.currentWord)
-            self.sendData("CLIENTCMD: !STARTROUND", True, self.next_drawer.name)
+            self.sendData("CLIENTCMD: !STARTROUND", True)
+            #True, self.next_drawer.name)
             self.startTimer()
 
 
