@@ -118,7 +118,7 @@ class Client():
             if "!STARTROUND" in data:
                 self.sendGame("startRound()")
             if "!ENDROUND" in data:
-                self.sendGame("wait_screen()")
+                self.sendGame("endRound()")
             if "!CLEARPLAYERS" in data:
                 self.sendGame("clearPlayers()")
             if "!UPDATEPLAYERS" in data:
@@ -131,7 +131,10 @@ class Client():
     def sendGame(self, code):
         if self.Game is None:
             return
-        exec("self.Game." + code)
+        try:
+            exec("self.Game." + code)
+        except Exception as e:
+            print(e)
 
     def isDrawing(self):
         return self.isDrawer

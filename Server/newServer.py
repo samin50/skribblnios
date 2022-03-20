@@ -40,8 +40,11 @@ class ClientData():
             return
         #Set player name
         if "!SETNAME" in data:
-            self.name = data.split(" ")[1]
-            self.avatar = data.split(" ")[0]
+            print(data)
+            data = data.split("!SETNAME ")[1]
+            data = data.split(" ")
+            self.name = data[0]
+            self.avatar = data[1]
             #Tell all players about new player
             self.data = [self.name, int(self.avatar), 0, 0]
             self.serverObj.updatePlayers()
@@ -69,6 +72,7 @@ class Server():
         self.server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.server.settimeout(3600)
         self.isActive = True
+        self.players = []
         try:
             self.address = urllib.request.urlopen('https://ident.me').read().decode('utf-8')
             self.server.bind((self.address, PORT))
@@ -86,21 +90,21 @@ class Server():
         print(f"Server bind success @{self.address}")
     
     def startTimer(self):
-        self.timer_thread = threading.Thread(target = self.roundTimer.timer,daemon=True)
+        self.timer_thread = threading.Thread(target=self.roundTimer,daemon=True)
         self.timer_thread.start() 
 
     def roundTimer(self):
-        self.sendData("CLIENTCMD: !STARTROUND " , True, self.next_drawer.name)
+        self.sendData("CLIENTCMD: !STARTROUND " , True)
         time.sleep(self.roundLength)
         self.sendData("CLIENTCMD: !ENDROUND " , True)
     
     def updatePlayers(self):
         self.sendData("CLIENTCMD: !CLEARPLAYERS " , True)
-        self.updatePlayers = self.sortPlayers(self.updatePlayers)
-        for player in self.updatePlayers:
+        self.players = self.sortPlayers(self.players)
+        for player in self.players:
             self.sendData(f"CLIENTCMD: !UPDATEPLAYERS {str(player)}" , True)
     
-    def sortPlayers(players):
+    def sortPlayers(self, players):
         players.sort(key=lambda list: list[2], reverse=True)
         for i in range(len(players)):
             players[i][3] = i+1
@@ -168,7 +172,6 @@ class Server():
                         player.sendClientData("Server: You have been disconnected.\n")
                     except:
                         print(player.name + " was forcibly disconnected on their side.")
-                    self.updatePlayers()
                     player.isActive = False
                     self.clientList.remove(player)
                     # If the current drawer leaves, select a new one
@@ -176,6 +179,7 @@ class Server():
                         self.processServerSide("SERVERCMD: !DRAWERSELECT")
                     print(f"Server: Disconnected Player {playerNameToRemove}")
                     break
+                self.updatePlayers()
                 return
         #Chat function
         if "!BROADCAST" in data:

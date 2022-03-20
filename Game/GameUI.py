@@ -37,7 +37,7 @@ class Game():
     def __init__(self,username, FPGAinstance=None, clientInstance=None, avatar=0):
         pygame.init()
         #Username, avatar, score, position
-        self.players = [[username, avatar, 0, 0], ["twat", 3, 53, 0]]
+        self.players = [[username, avatar, 0, 0]]
         self.font = pygame.font.Font("Game/assets/Gameplay.TTF", 12)
         self.large_font =  pygame.font.Font("Game/assets/Gameplay.TTF", 16)
         self.paint_font = pygame.font.Font("Game/assets/paint.TTF", 35)
@@ -229,12 +229,15 @@ class Game():
             if word0_rect.collidepoint(mouse[0],mouse[1]) and event.type == pygame.MOUSEBUTTONDOWN:
                 self.word = self.words_chosen[0]
                 self.round_not_started = False
+                self.sendServer("SERVERCMD: !STARTROUND " + self.word)
             if word1_rect.collidepoint(mouse[0],mouse[1]) and event.type == pygame.MOUSEBUTTONDOWN:
                 self.word = self.words_chosen[1]
                 self.round_not_started = False
+                self.sendServer("SERVERCMD: !STARTROUND " + self.word)
             if word2_rect.collidepoint(mouse[0],mouse[1]) and event.type == pygame.MOUSEBUTTONDOWN:
                 self.word = self.words_chosen[2]
                 self.round_not_started = False
+                self.sendServer("SERVERCMD: !STARTROUND " + self.word)
                 '''for event in self.events:
                     if event.type == pygame.MOUSEBUTTONDOWN:
                         self.word = self.words_chosen[index]
@@ -360,8 +363,16 @@ class Game():
             self.display.blit(self.off_switch[9],(9*70+100,self.height-5-self.switch_size[1])) 
 
 #lobby screen
+
     def startRound(self):
+        self.run = True
         self.round_not_started = False
+        self.round_start()
+    
+    def endRound(self):
+        self.run = False
+        self.round_not_started = True
+        self.wait_screen()
 
     def wait_screen(self):
         self.events = pygame.event.get()
@@ -396,7 +407,8 @@ class Game():
                     
             self.screen.blit(self.display, (0, 0))
             pygame.display.update()
-        self.round_start()
+        if self.Client is None:
+            self.startRound()
 
 # lobby screen background
     def load_backgrounds(self):
@@ -588,7 +600,6 @@ class Game():
 
     def round_start(self):
         self.time = self.time_limit
-        self.run = True
         self.redraw_window()
         #pygame.mixer.music.play(-1)
         self.background=pygame.transform.scale(self.background,(self.width,self.height))
@@ -678,5 +689,5 @@ class Game():
 
 if __name__ == "__main__":
     GameTest = Game("test")
-    GameTest.wait_screen()
-    #GameTest.round_start()
+    #GameTest.wait_screen()
+    GameTest.endRound()
