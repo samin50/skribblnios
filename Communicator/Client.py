@@ -116,9 +116,10 @@ class Client():
             if "!CLEAR" in data:
                 self.sendGame("reset_canvas(True)")
             if "!STARTROUND" in data:
-                self.sendGame("startRound()")
+                self.sendGame("round_start()")
             if "!ENDROUND" in data:
-                self.sendGame("endRound()")
+                print("ROUND Ended")
+                self.sendGame("wait_screen()")
             if "!CLEARPLAYERS" in data:
                 self.sendGame("clearPlayers()")
             if "!UPDATEPLAYERS" in data:

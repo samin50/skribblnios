@@ -46,7 +46,7 @@ class Game():
         self.username = username
         self.sendServer("!SETNAME " + username + " " + str(avatar), False)
         self.drawPoints = [(None, None), (None, None), 0]
-        pygame.init()
+        #pygame.init()
         self.run = False
         self.round_not_started = True
         self.round_end = False
@@ -365,16 +365,18 @@ class Game():
 #lobby screen
 
     def startRound(self):
+        self.round_start()
         self.run = True
         self.round_not_started = False
-        self.round_start()
+        
     
     def endRound(self):
+        self.wait_screen()
         self.run = False
         self.round_not_started = True
-        self.wait_screen()
 
     def wait_screen(self):
+        self.round_not_started = True
         self.events = pygame.event.get()
         self.getword()
         self.choose_word()
@@ -600,6 +602,7 @@ class Game():
 
     def round_start(self):
         self.time = self.time_limit
+        self.run = True
         self.redraw_window()
         #pygame.mixer.music.play(-1)
         self.background=pygame.transform.scale(self.background,(self.width,self.height))
@@ -690,4 +693,4 @@ class Game():
 if __name__ == "__main__":
     GameTest = Game("test")
     #GameTest.wait_screen()
-    GameTest.endRound()
+    GameTest.wait_screen()
