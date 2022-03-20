@@ -24,7 +24,6 @@ class Client():
         #Begin listening for data
         self.listenThread = threading.Thread(target=self.listenData, daemon=True)
         self.listenThread.start()
-        self.sendServer("!SETNAME " + name, False)
     
     def sendServer(self, data, requiresDrawer=False):
         #Can only send commands if drawer or for special commands like broadcast
@@ -116,6 +115,13 @@ class Client():
             #When drawer presses clear
             if "!CLEAR" in data:
                 self.sendGame("reset_canvas(True)")
+            if "!STARTROUND" in data:
+                self.sendGame("startRound()")
+            if "!ENDROUND" in data:
+                self.sendGame("wait_screen()")
+            if "!SENDPLAYER" in data:
+                playerdata = data.split("!SENDPLAYER ")[1]
+                self.sendGame(f"addPlayer({playerdata[0]}, {playerdata[1]})")
 
         #if data == "!COORDINATES":
         #       None

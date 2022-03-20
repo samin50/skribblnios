@@ -277,17 +277,14 @@ class mainMenu():
             
         #Instantiate game and hook FPGA
         self.isActive = False
-        self.Game = GameUI.Game(username, self.FPGA, self.Client)
+        self.Game = GameUI.Game(username, self.FPGA, self.Client, self.avatar)
         self.Client.setGame(self.Game)
         if self.fpga_connected:
             self.FPGA.setGame(self.Game)
             self.FPGA.start()
         self.Client.setGame(self.Game)
         self.fpga_connected = True
-        timer_thread = threading.Thread(target = self.Game.timer,daemon=True)
-        timer_thread.start()   
-        self.Game.wait_screen(self.avatar)#round_start()
-         
+        self.Game.wait_screen()#round_start()
         return
 
 if __name__ == "__main__":
