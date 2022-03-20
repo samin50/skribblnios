@@ -126,8 +126,10 @@ class Client():
             if "!CLEARPLAYERS" in data:
                 self.sendGame("clearPlayers()")
             if "!UPDATEPLAYERS" in data:
-                playerdata = data.split("!UPDATEPLAYERS ")
-                self.sendGame(f"updatePlayers({playerdata})")
+                playerdata = data.split("!UPDATEPLAYERS ")[1]
+                codeStr = f"updatePlayers({playerdata})"
+                print(codeStr)
+                self.sendGame(codeStr)
 
 
         #if data == "!COORDINATES":
