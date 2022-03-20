@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <EnsembleReport name="NIOSSystem" kind="system" version="18.0" fabric="QSYS">
  <!-- Format version 18.0 614 (Future versions may contain additional information.) -->
- <!-- 2022.03.04.02:13:51 -->
+ <!-- 2022.03.11.18:30:37 -->
  <!-- A collection of modules and connections -->
  <parameter name="clockCrossingAdapter">
   <type>com.altera.sopcmodel.ensemble.EClockAdapter</type>
@@ -53,7 +53,7 @@
  </parameter>
  <parameter name="generationId">
   <type>int</type>
-  <value>1646359958</value>
+  <value>1647023291</value>
   <derived>false</derived>
   <enabled>true</enabled>
   <visible>true</visible>
@@ -21603,7 +21603,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="IRQ_MAP">
    <type>java.lang.String</type>
-   <value>0:1,1:2,2:0</value>
+   <value>0:2,1:0,2:1</value>
    <derived>false</derived>
    <enabled>true</enabled>
    <visible>true</visible>
@@ -25760,5 +25760,5 @@ parameters are a RESULT of the module parameters. -->
   <version>18.0</version>
  </plugin>
  <reportVersion>18.0 614</reportVersion>
- <uniqueIdentifier>00FF1E62BBCC0000017F52B37266</uniqueIdentifier>
+ <uniqueIdentifier>00FF1E62BBCC0000017F7A3D3BC5</uniqueIdentifier>
 </EnsembleReport>

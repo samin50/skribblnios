@@ -3,25 +3,16 @@ import intel_jtag_uart
 
 class SkribblNIOS():
     #Instantiate only once
-    def __init__(self):
-        self.Connected = False
-        try:
-            self.UART = intel_jtag_uart.intel_jtag_uart()
-        except Exception as e:
-            self.Connected = True
-            print(e)
-            exit(0)
+    def __init__(self, gameInstance=None):
+        self.gameInstance = gameInstance
+        self.UART = intel_jtag_uart.intel_jtag_uart()
         self.isActive = False
-        self.gameInstance = None
         self.sendThread = None
         self.recieveThread = None
 
     def setGame(self, game):
         self.gameInstance = game
         return
-    
-    def isConnected(self):
-        return self.Connected
     
     #Will be used to change the parameters that is sent to the draw function
     def changeParams(self):
@@ -33,20 +24,36 @@ class SkribblNIOS():
             self.isActive = False
             return
         self.isActive = True
-        self.sendThread = threading.Thread(target=self.getXY)
+        self.sendThread = threading.Thread(target=self.getXY, daemon=True)
         self.sendThread.start()
         return
 
     #Dont use, handled by start
     def getXY(self):
         while self.isActive:
-            XYData = self.UART.read().decode('utf-8')
-            if self.gameInstance is None:
-                if len(XYData) > 0:
-                    print(XYData)
-            else:
+            try:
+                Data = self.UART.read().decode('utf-8')
+            except:
+                print("Error, connection lost to FPGA.")
+                continue
+            if len(Data) > 0:
                 #Use parameters here
-                self.gameInstance.Draw(XYData) #Game drawing function
+                if self.gameInstance is not None:
+                    try: #Sometimes all data from FPGA is not recieved, causing errors
+                        commandParam = Data.split()
+                        if commandParam[0] == 'C':
+                            self.gameInstance.draw_check(int(commandParam[1]), -int(commandParam[2]), True) #Game drawing function
+                        elif commandParam[0] == 'S':
+                            self.gameInstance.switch_update(commandParam[1])
+                        elif commandParam[0] == 'B':
+                            if commandParam[1] == "1":
+                                self.gameInstance.size_update(True)
+                            elif commandParam[1] == "2":
+                                self.gameInstance.size_update(False)
+                    except:
+                        None
+                else:
+                    print(Data)
         return
 
     #Used to update data on the FPGA, unless KILL is sent

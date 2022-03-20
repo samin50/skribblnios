@@ -1,9 +1,12 @@
 __pycache__
+tempCodeRunnerFile.py
 .vscode
+.DS_STORE
 FPGA/*
-FPGA/db
+FPGA/db/*
 !*.py
 !*.sopinfo
+!*.sof
 !*.qsys
 !*.vscode
 !*.c

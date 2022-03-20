@@ -1,10 +1,10 @@
-Analysis & Synthesis Status : Successful - Fri Mar 04 02:15:02 2022
+Analysis & Synthesis Status : Successful - Fri Mar 11 18:32:44 2022
 Quartus Prime Version : 18.0.0 Build 614 04/24/2018 SJ Lite Edition
 Revision Name : skribblnios
 Top-level Entity Name : DE10_LITE_Golden_Top
 Family : MAX 10
-Total logic elements : 5,022
-    Total combinational functions : 3,999
+Total logic elements : 5,023
+    Total combinational functions : 4,000
     Dedicated logic registers : 3,071
 Total registers : 3071
 Total pins : 185

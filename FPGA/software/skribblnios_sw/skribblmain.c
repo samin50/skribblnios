@@ -11,22 +11,23 @@
 #include <fcntl.h>
 
 //Time Import
-#include "sys/alt_timestamp.h"
+#include "sys/alt_alarm.h"
+#include "sys/times.h"
+#include "alt_types.h"
 
-
+//Accelerometer setup and filters
+#define FILTER_TAP_NUM 5000
 #define SAMPLING_TIME 3
-#define INTERVALSECOND 100000000
-#define BUFFERSIZE 50
-
-//Accelerometer setup
-alt_32 x_read;
-alt_32 y_read;
-alt_32 z_read;
+#define DEMEAN_DEPTH 8
+alt_32 x_read; //Usually not needed
+alt_32 y_read; //Pitch
+alt_32 z_read; //Yaw
 alt_up_accelerometer_spi_dev * acc_dev;
+#define PI 3.14159
 
 //Convert letters - will be upside down
 alt_u8 convertDisplay(char digit) {
-	switch(digit) {
+	switch (digit) {
 	case '0':
 		return 0b11000000;
 	case '1':
@@ -57,6 +58,12 @@ alt_u8 convertDisplay(char digit) {
 		return 0b10000001;
 	case 'r':
 		return 0b10111101; //0b11110001 Capital
+	case 'h':
+		return 0b10001001;
+	case 'e':
+		return 0b10110000;
+	case 'l':
+		return 0b11111000;
 	default:
 		return 0b11111111;
 	}
@@ -65,124 +72,256 @@ alt_u8 convertDisplay(char digit) {
 void writeScore(char* scoreStr) {
 	IOWR_ALTERA_AVALON_PIO_DATA(HEX0_BASE, convertDisplay(scoreStr[0]));
 	IOWR_ALTERA_AVALON_PIO_DATA(HEX1_BASE, convertDisplay(scoreStr[1]));
-	switch (strlen(scoreStr)){
+	switch (strlen(scoreStr)) {
 	case 3:
 		IOWR_ALTERA_AVALON_PIO_DATA(HEX2_BASE, convertDisplay('.'));
 		IOWR_ALTERA_AVALON_PIO_DATA(HEX3_BASE, convertDisplay('.'));
 		IOWR_ALTERA_AVALON_PIO_DATA(HEX4_BASE, convertDisplay('.'));
 		IOWR_ALTERA_AVALON_PIO_DATA(HEX5_BASE, convertDisplay(scoreStr[2]));
+		break;
 	case 4:
 		IOWR_ALTERA_AVALON_PIO_DATA(HEX2_BASE, convertDisplay('.'));
 		IOWR_ALTERA_AVALON_PIO_DATA(HEX3_BASE, convertDisplay('.'));
 		IOWR_ALTERA_AVALON_PIO_DATA(HEX4_BASE, convertDisplay(scoreStr[2]));
 		IOWR_ALTERA_AVALON_PIO_DATA(HEX5_BASE, convertDisplay(scoreStr[3]));
+		break;
 	case 5:
 		IOWR_ALTERA_AVALON_PIO_DATA(HEX2_BASE, convertDisplay('.'));
 		IOWR_ALTERA_AVALON_PIO_DATA(HEX3_BASE, convertDisplay(scoreStr[2]));
 		IOWR_ALTERA_AVALON_PIO_DATA(HEX4_BASE, convertDisplay(scoreStr[3]));
 		IOWR_ALTERA_AVALON_PIO_DATA(HEX5_BASE, convertDisplay(scoreStr[4]));
+		break;
 	case 6:
 		IOWR_ALTERA_AVALON_PIO_DATA(HEX2_BASE, convertDisplay(scoreStr[2]));
 		IOWR_ALTERA_AVALON_PIO_DATA(HEX3_BASE, convertDisplay(scoreStr[3]));
 		IOWR_ALTERA_AVALON_PIO_DATA(HEX4_BASE, convertDisplay(scoreStr[4]));
 		IOWR_ALTERA_AVALON_PIO_DATA(HEX5_BASE, convertDisplay(scoreStr[5]));
+
 	}
 	return;
 }
 
-
-
 //Write to leds
 void ledWrite(unsigned int led_pattern) {
-    IOWR(LED_BASE, 0, led_pattern);
+	IOWR(LED_BASE, 0, led_pattern);
 }
 
-//Function that halts till certain data is received
-char* waitForData(FILE* fp, char* compare1, char* compare2) {
-	char* waitIn[BUFFERSIZE];
-	while ((strcmp(waitIn, compare1) != 0) && (strcmp(waitIn, compare2) != 0 )) {
-		read(fp, &waitIn, BUFFERSIZE);
+void waitForCommand(FILE* fp, char mode, char mode2, char *command, int *arg1,
+		int *arg2) {
+	while ((*command != mode) && (*command != mode2)) {
+		fscanf(fp, "%c %d %d", command, arg1, arg2);
 	}
-	printf("BREAK");
-	if ((strcmp(waitIn, compare1)) != 0) {
-		return compare1;
+}
+
+//Filtering/accelerometer converter functions
+//Moving average filter
+void movingAverage(alt_32 x_read, alt_32 y_read, alt_32 z_read, alt_32* xNew,
+		alt_32* yNew, alt_32* zNew, alt_32* filterMemX, alt_32* filterMemY,
+		alt_32* filterMemZ, int* nTapPtr, alt_32* xTotal, alt_32* yTotal, alt_32* zTotal) {
+	//Running totals
+	*xTotal += x_read;
+	*yTotal += y_read;
+	*zTotal += z_read;
+	if (filterMemX[*nTapPtr] != 0) {
+		*xTotal -= filterMemX[*nTapPtr];
+		*yTotal -= filterMemY[*nTapPtr];
+		*zTotal -= filterMemZ[*nTapPtr];
+	}
+	//Append new values
+	filterMemX[*nTapPtr] = x_read;
+	filterMemY[*nTapPtr] = y_read;
+	filterMemZ[*nTapPtr] = z_read;
+	(*nTapPtr)++;
+	if(*nTapPtr == FILTER_TAP_NUM-1) {
+			*nTapPtr = 0;
+		}
+	//Divide by appropriate amount
+	if ((filterMemX[FILTER_TAP_NUM-1] != 0) && (filterMemY[FILTER_TAP_NUM-1] != 0) && (filterMemZ[FILTER_TAP_NUM-1] != 0)) {
+		*xNew = *xTotal/FILTER_TAP_NUM;
+		*yNew = *yTotal/FILTER_TAP_NUM;
+		*zNew = *zTotal/FILTER_TAP_NUM;
 	} else {
-		return compare2;
+		*xNew = *xTotal/ *nTapPtr+1;
+		*yNew = *yTotal/ *nTapPtr+1;
+		*zNew = *zTotal/ *nTapPtr+1;
 	}
+}
+/*N tap filter
+int sign(long x) { //Determine sign of a number
+    return (x > 0) - (x < 0);
+}
+
+void nTapFilter(alt_32 x_read, alt_32 y_read, alt_32 z_read, alt_32* xNew,
+		alt_32* yNew, alt_32* zNew, alt_32* filterMemX, alt_32* filterMemY,
+		alt_32* filterMemZ, int* nTapPtr) {
+	if(* nTapPtr == 0) {
+		* nTapPtr = FILTER_TAP_NUM;
+	}
+	(* nTapPtr)--;
+	filterMemX[* nTapPtr] = x_read;
+	filterMemY[* nTapPtr] = y_read;
+	filterMemY[* nTapPtr] = z_read;
+	int i;
+	//64 bit numbers
+	long long runningSumX = 0;
+	long long runningSumY = 0;
+	long long runningSumZ = 0;
+	//Filtering
+	int placeholderPointer = *nTapPtr;
+	for(i = 0; i < FILTER_TAP_NUM; i++) { //Calculate running sum
+		runningSumX += filterMemX[placeholderPointer - i] * filter_taps[i];
+		runningSumY += filterMemY[placeholderPointer - i] * filter_taps[i];
+		runningSumZ += filterMemZ[placeholderPointer - i] * filter_taps[i];
+		if((placeholderPointer-i) == 0) { //Wrap back around
+			placeholderPointer = FILTER_TAP_NUM+i-1;
+		}
+	}
+	*xNew = (abs(runningSumX) >> SHIFT_AMOUNT) * sign(runningSumX);
+	*yNew = (abs(runningSumY) >> SHIFT_AMOUNT) * sign(runningSumY);
+	*zNew = (abs(runningSumZ) >> SHIFT_AMOUNT) * sign(runningSumZ);
+}
+*/
+//works by removing the mean of previous samples from the current sample to acheive filtering effects
+void demeanValues(alt_32 y_read, alt_32 z_read, alt_32* yNew, alt_32* zNew,
+		int* sampleArrayY, int* sampleArrayZ, int* arrPointer) {
+	int runningSumY = 0;
+	int runningSumZ = 0;
+	int i;
+	//Overwrite previous values
+	sampleArrayY[*arrPointer] = y_read;
+	sampleArrayZ[*arrPointer] = z_read;
+	//Array pointer
+	(*arrPointer)++;
+	if (*arrPointer == DEMEAN_DEPTH) {
+		*arrPointer = 0;
+	}
+	//Calculate running sum
+	for (i = 0; i < DEMEAN_DEPTH; i++) {
+		if (sampleArrayY[i] == 0) {
+			break;
+		}
+		runningSumY += sampleArrayY[i];
+		runningSumZ += sampleArrayZ[i];
+	}
+	*yNew = y_read - (runningSumY / (i));
+	*zNew = z_read - (runningSumZ / (i));
+}
+//Calculates Euler angles (rotation control)
+void eulerAngles(double x_read, double y_read, double z_read, alt_32* xNew,
+		alt_32* yNew, alt_32* zNew) {
+	//Convert to degrees
+	double x2 = x_read * x_read;
+	double y2 = y_read * y_read;
+	double z2 = z_read * z_read;
+	*xNew = (180 * atan(y_read / sqrt(x2 + z2))) / PI; //Roll
+	*yNew = (180 * atan(x_read / sqrt(y2 + z2))) / PI; //Pitch
+	*zNew = z_read;
 }
 
 //Function that runs during a round
-void roundLoop(FILE* fp) {
-	char* timeRatio[BUFFERSIZE];
-	int ratio = 0;
-	alt_timestamp_start();
-	alt_32 startTime = alt_timestamp();
-	alt_32 stopTime;
+void roundLoop(FILE* fp, int roundLength) {
+	//filter parameters
+	int arrPointer = 0;
+	int nTapPtr = 0;
+	int sampleArrayY[DEMEAN_DEPTH] = { 0 };
+	int sampleArrayZ[DEMEAN_DEPTH] = { 0 };
+	alt_32 filterMemX[FILTER_TAP_NUM] = { 0 };
+	alt_32 filterMemY[FILTER_TAP_NUM] = { 0 };
+	alt_32 filterMemZ[FILTER_TAP_NUM] = { 0 };
+	alt_32 xNew, yNew, zNew;
+	alt_32 xTotal = 0;
+	alt_32 yTotal = 0;
+	alt_32 zTotal = 0;
+	//Setup
+	clock_t startRoundTime = alt_nticks();
+	clock_t stopTime, t_freq;
+	int timeRatio = 0;
+	//Inputs on board
+	int buttonIn = 3; //Buttons are active low
+	int switchIn = 0;
+	int tempButtonIn, tempSwitchIn;
 	//While time is not up
-	while (strcmp(timeRatio, "100") != 0) {
-		//If received a time ratio
-		if(read(fp, &timeRatio, 1) > 0) {
-			ratio = atoi(timeRatio);
-			if (ratio < 10) {
-				ledWrite(0b1);
-			} else if (ratio < 20) {
-				ledWrite(0b11);
-			} else if (ratio < 30) {
-				ledWrite(0b111);
-			} else if (ratio < 40) {
-				ledWrite(0b1111);
-			} else if (ratio < 50) {
-				ledWrite(0b11111);
-			} else if (ratio < 60) {
-				ledWrite(0b111111);
-			} else if (ratio < 70) {
-				ledWrite(0b1111111);
-			} else if (ratio < 80) {
-				ledWrite(0b11111111);
-			} else if (ratio < 90) {
-				ledWrite(0b111111111);
-			}
+	while (timeRatio < 100) {
+		stopTime = alt_nticks();
+		t_freq = alt_ticks_per_second();
+		//Calculate ratio of time elapsed
+		timeRatio = (((stopTime - startRoundTime) / t_freq) * 100)
+				/ roundLength;
+		if (timeRatio < 10) {
+			ledWrite(0b1);
+		} else if (timeRatio < 20) {
+			ledWrite(0b11);
+		} else if (timeRatio < 30) {
+			ledWrite(0b111);
+		} else if (timeRatio < 40) {
+			ledWrite(0b1111);
+		} else if (timeRatio < 50) {
+			ledWrite(0b11111);
+		} else if (timeRatio < 60) {
+			ledWrite(0b111111);
+		} else if (timeRatio < 70) {
+			ledWrite(0b1111111);
+		} else if (timeRatio < 80) {
+			ledWrite(0b11111111);
+		} else if (timeRatio < 90) {
+			ledWrite(0b111111111);
+		} else {
+			ledWrite(0b1111111111);
 		}
 		//Send  accelerometer and input values
-		//Obtain values at a certain frequency
-		/*
-		stopTime = alt_timestamp();
-		//Frequency of accelerometer is 2^SAMPLING_TIME Hz, with 6, 64Hz
-		if ((stopTime-startTime) > (INTERVALSECOND >> SAMPLING_TIME-1)) {
-			alt_up_accelerometer_spi_read_x_axis(acc_dev, & x_read);
-			alt_up_accelerometer_spi_read_y_axis(acc_dev, & y_read);
-			alt_up_accelerometer_spi_read_z_axis(acc_dev, & z_read);
-			printf("%d %d %d\n", x_read, y_read, z_read);
-			startTime = alt_timestamp();
-
-		}
-		*/
+		alt_up_accelerometer_spi_read_x_axis(acc_dev, &x_read);
+		alt_up_accelerometer_spi_read_y_axis(acc_dev, &y_read);
+		alt_up_accelerometer_spi_read_z_axis(acc_dev, &z_read);
+		//Filter values
+		movingAverage(x_read, y_read, z_read, &xNew, &yNew, &zNew, filterMemX, filterMemY, filterMemZ, &nTapPtr, &xTotal, &yTotal, &zTotal);
+		//nTapFilter(x_read, y_read, z_read, &xNew, &yNew, &zNew, filterMemX, filterMemY, filterMemZ, &nTapPtr);
+		//demeanValues(y_read, z_read, &newY, &newZ, sampleArrayY, sampleArrayZ, &arrPointer); //Demean filter
+		x_read = xNew;
+		y_read = yNew;
+		z_read = zNew;
+		eulerAngles(x_read, y_read, z_read, &xNew, &yNew, &zNew); //Get angles of rotation
+		printf("C %d %d\n", xNew, yNew); //Roll and pitch -> x and y
+		tempButtonIn = IORD_ALTERA_AVALON_PIO_DATA(BUTTON_BASE);
+		tempSwitchIn = IORD_ALTERA_AVALON_PIO_DATA(SWITCH_BASE);
+		printf("B %d\n", tempButtonIn);
+		printf("S %d\n", tempSwitchIn);
 	}
 }
 
-int main () {
+int main() {
 	acc_dev = alt_up_accelerometer_spi_open_dev("/dev/accelerometer_spi");
 	if (acc_dev == NULL) {
 		// if return 1, check if the spi ip name is "accelerometer_spi"
 		return 1;
 	}
-	char* dataIn[BUFFERSIZE];
-	FILE* fp = open("/dev/jtag_uart", O_RDWR|O_NONBLOCK|O_NOCTTY|O_SYNC);
-	writeScore("start");
-	ledWrite(0b1111111111);
+	//Declare variables for accepting commands/data
+	char commandChar = 0;
+	int roundLength, arg1, arg2;
+	char* scoreStr[6];
+	writeScore("......");
+	FILE* fp = fopen("/dev/jtag_uart", "r+");
 	//Wait for start
-	strcpy(dataIn, waitForData(fp, "STARTGAME", "STARTGAME"));
+	writeScore("hell0.");
+	ledWrite(0b0000000000);
+	waitForCommand(fp, 'I', 'I', &commandChar, &arg1, &arg2);
+	writeScore("start.");
+	ledWrite(0b1111111111);
+	//waitForCommand(fp, 'S', 'S', &commandChar, &arg1, &arg2);
+	roundLength = arg1;		//Length of round will be stored into arg1
 	writeScore("------");
 	//Wait for round start
-	strcpy(dataIn, waitForData(fp, "STARTROUND", "STARTROUND"));
+	//waitForCommand(fp, 'R', 'R', &commandChar, &arg1, &arg2);
 	fclose(fp);
-
-	//MAIN LOOP - Terminate loop when game end
-	while (strcmp(dataIn, "ENDGAME") != 0) {
-		fp = open("/dev/jtag_uart", O_RDWR|O_NONBLOCK|O_NOCTTY|O_SYNC);
-		roundLoop(fp);
-		strcpy(dataIn, waitForData(fp, "STARTROUND", "ENDGAME"));
+	//MAIN LOOP - Terminate loop when game end - command E
+	while (commandChar != 'E') {
+		sprintf(scoreStr, "%d-%d", arg1, arg2); //Build score str
+		writeScore(scoreStr);
+		fp = fopen("/dev/jtag_uart", "r+");
+		roundLoop(fp, -1);
+		commandChar = 'F';
+		//waitForCommand(fp, 'R', 'E', &commandChar, &arg1, &arg2);
 		fclose(fp);
 	}
+	ledWrite(0b0);
 	return 0;
 }

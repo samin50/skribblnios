@@ -20,6 +20,10 @@
 							<tool id="altera.tool.gnu.archiver.mingw.102506027" name="Nios II GCC Archiver" superClass="altera.tool.gnu.archiver.mingw"/>
 							<tool id="altera.tool.gnu.c.linker.mingw.1584902236" name="Nios II GCC C Linker" superClass="altera.tool.gnu.c.linker.mingw"/>
 							<tool id="altera.tool.gnu.assembler.mingw.1422064900" name="Nios II GCC Assembler" superClass="altera.tool.gnu.assembler.mingw">
+								<option id="gnu.both.asm.option.include.paths.297921681" name="Include paths (-I)" superClass="gnu.both.asm.option.include.paths" valueType="includePath">
+									<listOptionValue builtIn="false" value="&quot;C:\intelFPGA_lite\18.0\nios2eds\bin\gnu\H-x86_64-mingw32\lib\gcc\nios2-elf\5.3.0&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;C:\intelFPGA_lite\18.0\nios2eds\bin\gnu\nios2-elf\include&quot;"/>
+								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.686591445" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
 							</tool>
 						</toolChain>
@@ -36,7 +40,9 @@
 					<extension id="org.eclipse.cdt.core.GCCErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
 				</extensions>
 			</storageModule>
-			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
+			<storageModule moduleId="org.eclipse.cdt.core.externalSettings">
+				<externalSettings containerId="skribblnios_sw_bsp;" factoryId="org.eclipse.cdt.core.cfg.export.settings.sipplier"/>
+			</storageModule>
 		</cconfiguration>
 	</storageModule>
 	<storageModule moduleId="cdtBuildSystem" version="4.0.0">
@@ -80,4 +86,10 @@
 			</target>
 		</buildTargets>
 	</storageModule>
+	<storageModule moduleId="refreshScope" versionNumber="2">
+		<configuration configurationName="Nios II">
+			<resource resourceType="PROJECT" workspacePath="/skribblnios_sw"/>
+		</configuration>
+	</storageModule>
+	<storageModule moduleId="org.eclipse.cdt.internal.ui.text.commentOwnerProjectMappings"/>
 </cproject>
