@@ -505,7 +505,7 @@ class Game():
         for i in range (len(self.received_msgs)):
             #pygame.display.blit
             text_surface = self.font.render(self.received_msgs[i],False,(0, 0, 0))
-            self.display.blit(text_surface, dest=(self.width-300,100+(30*i)))
+            self.display.blit(text_surface, dest=(self.width-400,100+(30*i)))
             #textbox = Textbox(self.received_msgs[i])
             #textbox.rect.center = (self.width-170,100+(30*i))
             #self.display.blit(textbox.message, textbox.rect)
