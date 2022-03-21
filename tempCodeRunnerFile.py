@@ -1,1 +1,2 @@
-l
+
+        self.isActive = False

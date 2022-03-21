@@ -68,6 +68,8 @@ class Server():
     def __init__(self, PORT, roundLength):
         self.roundLength = roundLength
         self.timeStr = f"CLIENTCMD: !SETTIME {self.roundLength}"
+        self.welcomeMessage = f"Welcome to the server!"
+        self.setFirstCmd = f"CLIENTCMD: !SET1STDRAWER "
         self.server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.server.settimeout(3600)
         self.isActive = True
@@ -137,12 +139,12 @@ class Server():
                 Player = ClientData(conn, addr, self)
                 
                 self.clientList.append(Player)
-                conn.send(b"Welcome to the server!\n")
+                conn.send(str.encode(self.welcomeMessage, 'utf-8'))
                 conn.send(str.encode(self.timeStr, 'utf-8'))
                 print("New Player Joined!\n")
                 if(len(self.clientList) == 1 ):
                     self.next_drawer = self.clientList[0]
-                    conn.send(b'CLIENTCMD: !SET1STDRAWER')  #set first drawer
+                    conn.send(str.encode(self.setFirstCmd, 'utf-8'))  #set first drawer
             
                 
             except Exception as e:

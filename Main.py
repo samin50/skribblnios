@@ -254,8 +254,9 @@ class mainMenu():
 
     def instantiateGame(self, username, ip):
         #username = "test"
-        ip = "26.168.146.5:9999"
-        #ip ="34.230.47.14:9999"
+        #ip = "26.168.146.5:9999"
+        ip ="34.230.47.14:9999"
+        #ip = "2a0c:5bc0:40:2e32:fd2c:d947:fa8b:4426"
         if len(username) == 0:
             print("Enter a username!")
             return
@@ -268,10 +269,13 @@ class mainMenu():
             print("Will use mouse")
             #return
         #Attempt to connect to server
-        connectionData = ip.split(":")
+        ip = ip.split(":")
+        ipaddr =  ":".join(ip[:-1])
+        port = ip[-1]
+        print(ipaddr, port)
         username = username.strip(" ") #No spaces allowed in username
         try:
-            self.Client = Client.Client(username, connectionData[0], int(connectionData[1]))
+            self.Client = Client.Client(username, ipaddr, int(port))
         except Exception as e:
             print("Unable to connect to server, check IP or if server is running.")
             return
