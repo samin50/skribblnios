@@ -1850,3 +1850,87 @@ Info: Building ../skribblnios_sw_bsp/
 C:/intelFPGA_lite/18.0/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../skribblnios_sw_bsp/
 [BSP build complete]
 [skribblnios_sw build complete]
+10:40:10 **** Incremental Build of configuration Nios II for project skribblnios_sw_bsp ****
+make all 
+[BSP build complete]
+10:40:11 **** Build of configuration Nios II for project skribblnios_sw ****
+make all 
+Info: Building ../skribblnios_sw_bsp/
+C:/intelFPGA_lite/18.0/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../skribblnios_sw_bsp/
+[BSP build complete]
+[skribblnios_sw build complete]
+10:40:13 **** Incremental Build of configuration Nios II for project skribblnios_sw_bsp ****
+make all 
+[BSP build complete]
+10:40:14 **** Incremental Build of configuration Nios II for project skribblnios_sw_bsp ****
+make all 
+[BSP build complete]
+10:40:15 **** Incremental Build of configuration Nios II for project skribblnios_sw ****
+make all 
+Info: Building ../skribblnios_sw_bsp/
+C:/intelFPGA_lite/18.0/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../skribblnios_sw_bsp/
+[BSP build complete]
+[skribblnios_sw build complete]
+14:25:28 **** Incremental Build of configuration Nios II for project skribblnios_sw_bsp ****
+make all 
+[BSP build complete]
+14:25:31 **** Build of configuration Nios II for project skribblnios_sw ****
+make all 
+Info: Building ../skribblnios_sw_bsp/
+C:/intelFPGA_lite/18.0/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../skribblnios_sw_bsp/
+[BSP build complete]
+[skribblnios_sw build complete]
+14:25:34 **** Incremental Build of configuration Nios II for project skribblnios_sw_bsp ****
+make all 
+[BSP build complete]
+14:25:35 **** Incremental Build of configuration Nios II for project skribblnios_sw_bsp ****
+make all 
+[BSP build complete]
+14:25:37 **** Incremental Build of configuration Nios II for project skribblnios_sw ****
+make all 
+Info: Building ../skribblnios_sw_bsp/
+C:/intelFPGA_lite/18.0/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../skribblnios_sw_bsp/
+[BSP build complete]
+[skribblnios_sw build complete]
+14:38:16 **** Incremental Build of configuration Nios II for project skribblnios_sw_bsp ****
+make all 
+[BSP build complete]
+14:38:18 **** Build of configuration Nios II for project skribblnios_sw ****
+make all 
+Info: Building ../skribblnios_sw_bsp/
+C:/intelFPGA_lite/18.0/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../skribblnios_sw_bsp/
+[BSP build complete]
+[skribblnios_sw build complete]
+14:38:20 **** Incremental Build of configuration Nios II for project skribblnios_sw_bsp ****
+make all 
+[BSP build complete]
+14:38:22 **** Incremental Build of configuration Nios II for project skribblnios_sw_bsp ****
+make all 
+[BSP build complete]
+14:38:24 **** Incremental Build of configuration Nios II for project skribblnios_sw ****
+make all 
+Info: Building ../skribblnios_sw_bsp/
+C:/intelFPGA_lite/18.0/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../skribblnios_sw_bsp/
+[BSP build complete]
+[skribblnios_sw build complete]
+14:44:06 **** Incremental Build of configuration Nios II for project skribblnios_sw_bsp ****
+make all 
+[BSP build complete]
+14:44:08 **** Build of configuration Nios II for project skribblnios_sw ****
+make all 
+Info: Building ../skribblnios_sw_bsp/
+C:/intelFPGA_lite/18.0/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../skribblnios_sw_bsp/
+[BSP build complete]
+[skribblnios_sw build complete]
+14:44:11 **** Incremental Build of configuration Nios II for project skribblnios_sw_bsp ****
+make all 
+[BSP build complete]
+14:44:13 **** Incremental Build of configuration Nios II for project skribblnios_sw_bsp ****
+make all 
+[BSP build complete]
+14:44:14 **** Incremental Build of configuration Nios II for project skribblnios_sw ****
+make all 
+Info: Building ../skribblnios_sw_bsp/
+C:/intelFPGA_lite/18.0/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../skribblnios_sw_bsp/
+[BSP build complete]
+[skribblnios_sw build complete]
