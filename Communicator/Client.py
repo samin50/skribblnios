@@ -14,11 +14,7 @@ class Client():
         self.server.settimeout(600)
         self.isDrawer = False
         self.isActive = True
-        try:
-            self.server.connect((ip, port))
-        except:
-            print("Unable to connect to server, check IP or if server is running.")
-            return
+        self.server.connect((ip, port))
         self.isActive = True
 
         #Begin listening for data
@@ -43,6 +39,7 @@ class Client():
            
     
     def setGame(self, game):
+        print("gameset")
         self.Game = game
 
     
@@ -69,10 +66,12 @@ class Client():
     #listening to the server
     def processData(self, data):
         #Chat messages
+        print("recieved" + data)
         if "!BROADCAST" in data:
             message = data.split("!BROADCAST ")[1]
             codeStr = "addOtherMessages('" + message[:-1] + "')"
             self.sendGame(codeStr)
+            return
         if("CLIENTCMD: " in data):
             data = data.split("CLIENTCMD: ")[1]
             #First drawer
@@ -113,11 +112,9 @@ class Client():
                 self.sendGame("reset_canvas(True)")
                 return
             if "!STARTROUND" in data:
-                print("ROUND started")
                 self.sendGame("startRound()")
                 return
             if "!FINROUND" in data:
-                print("ROUND Ended")
                 self.sendGame("endRound()")
                 return
             if "!CLEARPLAYERS" in data:
@@ -128,6 +125,9 @@ class Client():
                 codeStr = f"updatePlayers({playerdata.strip()})"
                 print(codeStr)
                 self.sendGame(codeStr)
+                return
+            if "!SETTIME" in data:
+                self.time = int(data.split("!SETTIME ")[1])
                 return
 
 

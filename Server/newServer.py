@@ -67,6 +67,7 @@ class ClientData():
 class Server():
     def __init__(self, PORT, roundLength):
         self.roundLength = roundLength
+        self.timeStr = f"CLIENTCMD: !SETTIME {self.roundLength}"
         self.server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.server.settimeout(3600)
         self.isActive = True
@@ -92,9 +93,7 @@ class Server():
         self.timer_thread.start() 
 
     def roundTimer(self):
-        self.sendData("CLIENTCMD: !STARTROUND " , True)
         time.sleep(self.roundLength)
-        print("round ended")
         self.sendData("CLIENTCMD: !FINROUND " , True)
     
     def addPlayer(self, name, avatar):
@@ -133,6 +132,7 @@ class Server():
                 
                 self.clientList.append(Player)
                 conn.send(b"Welcome to the server!\n")
+                conn.send(str.encode(self.timeStr, 'utf-8'))
                 print("New Player Joined!\n")
                 if(len(self.clientList) == 1 ):
                     self.next_drawer = self.clientList[0]
@@ -185,8 +185,8 @@ class Server():
                     except:
                         print(player.name + " was forcibly disconnected on their side.")
                     player.isActive = False
-                    self.removePlayer(player.name)
                     self.clientList.remove(player)
+                    self.removePlayer(player.name)
                     # If the current drawer leaves, select a new one
                     if (player == self.next_drawer) and (len(self.clientList) > 0):
                         self.processServerSide("SERVERCMD: !DRAWERSELECT")

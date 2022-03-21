@@ -16,7 +16,7 @@
 #include "alt_types.h"
 
 //Accelerometer setup and filters
-#define FILTER_TAP_NUM 5000
+#define FILTER_TAP_NUM 2500
 #define SAMPLING_TIME 3
 #define DEMEAN_DEPTH 8
 alt_32 x_read; //Usually not needed
@@ -248,25 +248,25 @@ void roundLoop(FILE* fp, int roundLength) {
 		timeRatio = (((stopTime - startRoundTime) / t_freq) * 100)
 				/ roundLength;
 		if (timeRatio < 10) {
-			ledWrite(0b1);
+			ledWrite(0b0);
 		} else if (timeRatio < 20) {
-			ledWrite(0b11);
+			ledWrite(0b1);
 		} else if (timeRatio < 30) {
-			ledWrite(0b111);
+			ledWrite(0b11);
 		} else if (timeRatio < 40) {
-			ledWrite(0b1111);
+			ledWrite(0b111);
 		} else if (timeRatio < 50) {
-			ledWrite(0b11111);
+			ledWrite(0b1111);
 		} else if (timeRatio < 60) {
-			ledWrite(0b111111);
+			ledWrite(0b11111);
 		} else if (timeRatio < 70) {
-			ledWrite(0b1111111);
+			ledWrite(0b111111);
 		} else if (timeRatio < 80) {
-			ledWrite(0b11111111);
+			ledWrite(0b1111111);
 		} else if (timeRatio < 90) {
-			ledWrite(0b111111111);
+			ledWrite(0b11111111);
 		} else {
-			ledWrite(0b1111111111);
+			ledWrite(0b111111111);
 		}
 		//Send  accelerometer and input values
 		alt_up_accelerometer_spi_read_x_axis(acc_dev, &x_read);
@@ -317,9 +317,10 @@ int main() {
 		sprintf(scoreStr, "%d-%d", arg1, arg2); //Build score str
 		writeScore(scoreStr);
 		fp = fopen("/dev/jtag_uart", "r+");
-		roundLoop(fp, -1);
+		roundLoop(fp, roundLength);
 		commandChar = 'F';
-		//waitForCommand(fp, 'R', 'E', &commandChar, &arg1, &arg2);
+		ledWrite(0b1111111111);
+		waitForCommand(fp, 'R', 'E', &commandChar, &arg1, &arg2);
 		fclose(fp);
 	}
 	ledWrite(0b0);

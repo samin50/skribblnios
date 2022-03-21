@@ -232,16 +232,19 @@ class Game():
                 if self.Client is None:
                     self.startRound()
                 self.sendServer("SERVERCMD: !STARTROUND " + self.word)
+                return
             if word1_rect.collidepoint(mouse[0],mouse[1]) and event.type == pygame.MOUSEBUTTONDOWN:
                 self.word = self.words_chosen[1]
                 if self.Client is None:
                     self.startRound()
                 self.sendServer("SERVERCMD: !STARTROUND " + self.word)
+                return
             if word2_rect.collidepoint(mouse[0],mouse[1]) and event.type == pygame.MOUSEBUTTONDOWN:
                 self.word = self.words_chosen[2]
                 if self.Client is None:
                     self.startRound()
                 self.sendServer("SERVERCMD: !STARTROUND " + self.word)
+                return
                 '''for event in self.events:
                     if event.type == pygame.MOUSEBUTTONDOWN:
                         self.word = self.words_chosen[index]
@@ -557,6 +560,7 @@ class Game():
     
     def startRound(self):
         self.round_not_started = False
+        self.sendFPGA(f"R 0 0")
         self.resetTracker()
         self.reset_canvas(True)
 
@@ -624,6 +628,8 @@ class Game():
         #Mouse thread 
         #self.mouseThread = threading.Thread(target=self.mouseTracker, daemon=True)
         #self.mouseThread.start()
+        if self.Client is not None:
+            self.sendFPGA(f"S {self.Client.time} 0")
         self.renderSwitch()
         while self.run:
             self.display_timer()
@@ -679,6 +685,7 @@ class Game():
     def sendServer(self, data, requiresDrawer=False):
         if self.Client is None:
             return
+        print("sending +" + data)
         self.Client.sendServer(data, requiresDrawer)
     
     def sendFPGA(self, data):

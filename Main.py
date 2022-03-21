@@ -270,11 +270,14 @@ class mainMenu():
         #Attempt to connect to server
         connectionData = ip.split(":")
         username = username.strip(" ") #No spaces allowed in username
-        self.Client = Client.Client(username, connectionData[0], int(connectionData[1]))
-        #Instantiate game and hook FPGA
+        try:
+            self.Client = Client.Client(username, connectionData[0], int(connectionData[1]))
+        except Exception as e:
+            print("Unable to connect to server, check IP or if server is running.")
+            return
+        #Instantiate game and hook FPGA and client
         self.isActive = False
         self.Game = GameUI.Game(username, self.FPGA, self.Client, self.avatar)
-        self.Client.setGame(self.Game)
         if self.fpga_connected:
             self.FPGA.setGame(self.Game)
             self.FPGA.start()
