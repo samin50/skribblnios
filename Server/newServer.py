@@ -109,6 +109,11 @@ class Server():
     def addPlayer(self, name, avatar):
         self.players.append([name, avatar, 0, 0])
         self.updatePlayers()
+        self.sendData("CLIENTCMD: !DRAWERSELECT " + name, True)
+        for i in self.clientList:
+            if i.name == name:
+                self.next_drawer = i
+                break
     
     def updatePlayers(self):
         print("UPDATE PLAYERS")

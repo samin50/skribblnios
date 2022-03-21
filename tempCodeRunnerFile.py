@@ -1,2 +1,2 @@
 
-        self.isActive = False
+            return
