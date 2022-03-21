@@ -68,13 +68,15 @@ class Server():
     def __init__(self, PORT, roundLength):
         self.roundLength = roundLength
         self.timeStr = f"CLIENTCMD: !SETTIME {self.roundLength}"
+        self.welcomeMessage = f"Welcome to the server!"
+        self.setFirstCmd = f"CLIENTCMD: !SET1STDRAWER "
         self.server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.server.settimeout(3600)
         self.isActive = True
         self.players = []
         try:
             self.address = urllib.request.urlopen('https://ident.me').read().decode('utf-8')
-            self.server.bind((self.address, PORT))
+            self.server.bind(("0.0.0.0", PORT))
         except Exception as e:
             print(e)
             print(f"Failed to bind to public IP: {self.address}, will now try binding to local IP.")
@@ -107,6 +109,11 @@ class Server():
     def addPlayer(self, name, avatar):
         self.players.append([name, avatar, 0, 0])
         self.updatePlayers()
+        self.sendData("CLIENTCMD: !DRAWERSELECT " + name, True)
+        for i in self.clientList:
+            if i.name == name:
+                self.next_drawer = i
+                break
     
     def updatePlayers(self):
         print("UPDATE PLAYERS")
@@ -137,12 +144,12 @@ class Server():
                 Player = ClientData(conn, addr, self)
                 
                 self.clientList.append(Player)
-                conn.send(b"Welcome to the server!\n")
+                conn.send(str.encode(self.welcomeMessage, 'utf-8'))
                 conn.send(str.encode(self.timeStr, 'utf-8'))
                 print("New Player Joined!\n")
                 if(len(self.clientList) == 1 ):
                     self.next_drawer = self.clientList[0]
-                    conn.send(b'CLIENTCMD: !SET1STDRAWER')  #set first drawer
+                    conn.send(str.encode(self.setFirstCmd, 'utf-8'))  #set first drawer
             
                 
             except Exception as e:
