@@ -76,7 +76,7 @@ class Server():
         self.players = []
         try:
             self.address = urllib.request.urlopen('https://ident.me').read().decode('utf-8')
-            self.server.bind((self.address, PORT))
+            self.server.bind(("0.0.0.0", PORT))
         except Exception as e:
             print(e)
             print(f"Failed to bind to public IP: {self.address}, will now try binding to local IP.")
