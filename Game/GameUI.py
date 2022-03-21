@@ -369,7 +369,7 @@ class Game():
 #lobby screen
 
     def wait_screen(self):
-        self.events = pygame.event.get()
+        #self.events = pygame.event.get()
         self.getword()
         self.choose_word()
         #pygame.clock.clock
@@ -377,16 +377,16 @@ class Game():
         self.waitdisplay.fill((255,255,255))
         while self.round_not_started:
             pygame.time.Clock().tick(6)
+            #pygame.event.get()
             if count>5:
                 count = 0
             else:
                 count += 1
             self.waitdisplay.blit(self.lobby_background[count],(0,0))
             #start_rect  = pygame.Rect(200,413,210,50)
-            pygame.draw.rect(self.waitdisplay,(0,0,0),(self.width/2-75,self.height-100,150,40),2)
             for i in range(len(self.players)):
                 username = self.large_font.render(self.players[i][0], True, (255,255,255))
-                avatar = (self.avatar_list[self.players[i][1]]).convert()
+                avatar = (self.avatar_list[self.players[i][1]])
                 score = self.large_font.render("Score: "+str(self.players[i][2]), True, (255,255,255))
                 self.waitdisplay.blit(avatar,((self.width/2-500)+i*200,self.height/2-130))
                 self.waitdisplay.blit(username,((self.width/2-500)+i*200,self.height/2+20))
@@ -394,7 +394,8 @@ class Game():
             if self.Client is not None:
                 if self.Client.isDrawing():
                     self.display_word_choices()
-                    
+                else:
+                    pygame.event.get()
             else:
                 self.display_word_choices()
             self.screen.blit(self.waitdisplay, (0,0))
@@ -432,7 +433,7 @@ class Game():
         if reset_rect.collidepoint(mouse_pos):
             for event in self.events:
                 if event.type == pygame.MOUSEBUTTONDOWN:
-                        self.sendServer("!SERVERCMD: !CLEAR", True)
+                        self.sendServer("!SERVERCMD: !CLEARSCREEN", True)
                         self.reset_canvas(True)
 
         switch_rect = self.off_switch[0].get_rect()
@@ -556,7 +557,8 @@ class Game():
     
     def startRound(self):
         self.round_not_started = False
-        self.reset_canvas()
+        self.resetTracker()
+        self.reset_canvas(True)
 
     def draw_check(self, x, y, useFPGA=False):
         #self.pointer_update(x,y)
@@ -689,9 +691,11 @@ class Game():
     
     def clearPlayers(self):
         self.players = []
+        print("CLEARED PLAYERS")
     
     def updatePlayers(self, playerdata):
         self.players.append(playerdata)
+        print(self.players)
 
 
 if __name__ == "__main__":

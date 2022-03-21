@@ -49,28 +49,19 @@ class Client():
             
     #Always wait for data
     def listenData(self):
-        i = 0
-        j = 0 
         while self.isActive:
-            
-            i+=1
             try:
                 #Causes issues on disconnect from other players as will be waiting for data
-                data = self.server.recv(64).decode('utf-8')
-                j+=1
+                data = self.server.recv(128).decode('utf-8')
                 if len(data) > 0:
-                    self.processData(data)  #If connection fails
-            except Exception as e:
+                    self.processData(data)  
+            except Exception as e: #If connection fails
                 print(e)
                 self.isActive = False
                 print("Error in connection to server, connection lost.")
                 input()
-         
-            if(i+j == 10000):
-                 self.isActive = False
-                 print("you have now disconnected from the server")
-                 
         return
+        
     def setGame(self, game):
         self.Game = game
         return
@@ -88,6 +79,7 @@ class Client():
             if "!SET1STDRAWER" in data:
                 self.isDrawer = True
                 print("Set player to current drawer")
+                return
             #Subsequent drawers
             if "!DRAWERSELECT" in data:
                 name = data.split("!DRAWERSELECT ")[1]
@@ -96,25 +88,30 @@ class Client():
                     self.isDrawer = True
                 else:
                     self.isDrawer = False
+                return
             #Switches
             if "!SETSWITCH" in data:
                 switches = data.split("!SETSWITCH ")[1]
                 codeStr = f"switch_update({switches}, True)"
                 self.sendGame(codeStr)
+                return
             #Drawing
             if "!DRW" in data:
                 coords = data.split("!DRW ")[1]
                 coords = coords.split()
                 codeStr = f"draw({coords[0]}, {coords[1]}, True)"
                 self.sendGame(codeStr)
+                return
             else:
                 print(f"Client: RECEIVED CLIENT COMMAND FROM SERVER: {data}")
             #When drawer lets go of space
             if "!RESETTRACKER" in data:
                 self.sendGame("resetTracker()")
+                return
             #When drawer presses clear
-            if "!CLEAR" in data:
+            if "!CLEARSCREEN" in data:
                 self.sendGame("reset_canvas(True)")
+                return
             if "!STARTROUND" in data:
                 print("ROUND started")
                 self.sendGame("startRound()")
@@ -125,11 +122,13 @@ class Client():
                 return
             if "!CLEARPLAYERS" in data:
                 self.sendGame("clearPlayers()")
+                return
             if "!UPDATEPLAYERS" in data:
                 playerdata = data.split("!UPDATEPLAYERS ")[1]
-                codeStr = f"updatePlayers({playerdata})"
+                codeStr = f"updatePlayers({playerdata.strip()})"
                 print(codeStr)
                 self.sendGame(codeStr)
+                return
 
 
         #if data == "!COORDINATES":

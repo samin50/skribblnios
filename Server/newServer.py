@@ -19,7 +19,7 @@ class ClientData():
     def listenData(self):
         while self.isActive:
             try:
-                data = self.serverProperties[0].recv(64).decode('utf-8')
+                data = self.serverProperties[0].recv(128).decode('utf-8')
             #If player disconnects
             except ConnectionResetError:
                 self.isActive = False
@@ -40,11 +40,10 @@ class ClientData():
             return
         #Set player name
         if "!SETNAME" in data:
-            print(data)
             data = data.split("!SETNAME ")[1]
             data = data.split(" ")
             self.name = data[0]
-            self.avatar = data[1]
+            self.avatar = int(data[1])
             #Tell all players about new player
             self.serverObj.addPlayer(self.name, self.avatar)
             #self.serverObj.sendData("CLIENTCMD: !SENDPLAYER " + self.name + " " +self.avatar, True, self.name)
@@ -99,15 +98,24 @@ class Server():
         self.sendData("CLIENTCMD: !FINROUND " , True)
     
     def addPlayer(self, name, avatar):
-        self.players.append([name, int(avatar), 0, 0])
+        self.players.append([name, avatar, 0, 0])
         self.updatePlayers()
     
     def updatePlayers(self):
+        print("UPDATE PLAYERS")
         self.sendData("CLIENTCMD: !CLEARPLAYERS " , True)
         self.players = self.sortPlayers(self.players)
-        print(self.players)
-        for player in self.players:
-            self.sendData(f"CLIENTCMD: !UPDATEPLAYERS {str(player)}" , True)
+        for playerdata in self.players:
+            for player in self.clientList:
+                print(playerdata)
+                player.send(f"CLIENTCMD: !UPDATEPLAYERS {str(playerdata)}")
+    
+    def removePlayer(self, name):
+        for index in range(len(self.players)):
+            if self.players[index][0] == name:
+                break
+        del self.players[index]
+        self.updatePlayers()
     
     def sortPlayers(self, players):
         players.sort(key=lambda list: list[2], reverse=True)
@@ -162,11 +170,10 @@ class Server():
         if "!RESETTRACKER" in data:
             self.sendData("CLIENTCMD: !RESETTRACKER", True, self.next_drawer.name)
 
-        if "!CLEAR" in data:
-            self.sendData("CLIENTCMD: !CLEAR", True, self.next_drawer.name)
+        if "!CLEARSCREEN" in data:
+            self.sendData("CLIENTCMD: !CLEARSCREEN", True, self.next_drawer.name)
         #Broadcast to all players
         #universal server commands
-       
 
         if "!DISCONNECT" in data:
             #Remove player from list based on name
@@ -178,8 +185,8 @@ class Server():
                     except:
                         print(player.name + " was forcibly disconnected on their side.")
                     player.isActive = False
+                    self.removePlayer(player.name)
                     self.clientList.remove(player)
-                    self.updatePlayers()
                     # If the current drawer leaves, select a new one
                     if (player == self.next_drawer) and (len(self.clientList) > 0):
                         self.processServerSide("SERVERCMD: !DRAWERSELECT")
@@ -241,7 +248,7 @@ class Server():
 
 
     #Send data
-    def sendData(self, data, all=False, playerName=""):
+    def sendData(self, data, all=False, playerName=None):
         if all == False:
             for player in self.clientList:
                 if player.name == playerName:
@@ -249,6 +256,7 @@ class Server():
         else:
             for player in self.clientList:
                 #Ignore the player that did the broadcast if specified
+                #print(player, player.name)
                 if player.name != playerName:
                     player.send(f"{data}")
     

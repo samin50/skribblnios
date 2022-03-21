@@ -269,6 +269,7 @@ class mainMenu():
             #return
         #Attempt to connect to server
         connectionData = ip.split(":")
+        username = username.strip(" ") #No spaces allowed in username
         self.Client = Client.Client(username, connectionData[0], int(connectionData[1]))
         #Instantiate game and hook FPGA
         self.isActive = False
