@@ -187,7 +187,6 @@ class Server():
                     player.isActive = False
                     self.removePlayer(player.name)
                     self.clientList.remove(player)
-                    self.updatePlayers()
                     # If the current drawer leaves, select a new one
                     if (player == self.next_drawer) and (len(self.clientList) > 0):
                         self.processServerSide("SERVERCMD: !DRAWERSELECT")
