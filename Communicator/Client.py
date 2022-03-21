@@ -66,7 +66,6 @@ class Client():
     #listening to the server
     def processData(self, data):
         #Chat messages
-        print("recieved" + data)
         if "!BROADCAST" in data:
             message = data.split("!BROADCAST ")[1]
             codeStr = "addOtherMessages('" + message[:-1] + "')"
@@ -112,7 +111,9 @@ class Client():
                 self.sendGame("reset_canvas(True)")
                 return
             if "!STARTROUND" in data:
-                self.sendGame("startRound()")
+                word = data.split("!STARTROUND ")[1]
+                codeStr = f"startRound('{str(word).strip()}')"
+                self.sendGame(codeStr)
                 return
             if "!FINROUND" in data:
                 self.sendGame("endRound()")
@@ -129,6 +130,17 @@ class Client():
             if "!SETTIME" in data:
                 self.time = int(data.split("!SETTIME ")[1])
                 return
+            if "!ROUNDTIME" in data:
+                roundtime = float(data.split("!ROUNDTIME ")[1])
+                self.sendGame(f"word_reveal({roundtime})")
+                return
+            if "!SETBRUSHSIZE" in data:
+                size = data.split("!SETBRUSHSIZE ")[1]
+                codeStr = f"setBrush({size})"
+                self.sendGame(codeStr)
+                return
+
+            
 
 
         #if data == "!COORDINATES":

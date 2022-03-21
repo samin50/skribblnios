@@ -93,8 +93,16 @@ class Server():
         self.timer_thread.start() 
 
     def roundTimer(self):
-        time.sleep(self.roundLength)
+        self.startTime = time.time()
+        self.sendData("CLIENTCMD: !ROUNDTIME 0" , True, self.next_drawer.name)
+        time.sleep(self.roundLength*0.2)
+        self.sendData("CLIENTCMD: !ROUNDTIME 0.2" , True, self.next_drawer.name)
+        time.sleep(self.roundLength*0.4)
+        self.sendData("CLIENTCMD: !ROUNDTIME 0.6" , True, self.next_drawer.name)
+        time.sleep(self.roundLength*0.4)
         self.sendData("CLIENTCMD: !FINROUND " , True)
+        self.processServerSide("SERVERCMD: !DRAWERSELECT")
+        self.updatePlayers()
     
     def addPlayer(self, name, avatar):
         self.players.append([name, avatar, 0, 0])
@@ -105,9 +113,7 @@ class Server():
         self.sendData("CLIENTCMD: !CLEARPLAYERS " , True)
         self.players = self.sortPlayers(self.players)
         for playerdata in self.players:
-            for player in self.clientList:
-                print(playerdata)
-                player.send(f"CLIENTCMD: !UPDATEPLAYERS {str(playerdata)}")
+            self.sendData(f"CLIENTCMD: !UPDATEPLAYERS {str(playerdata)}", True)
     
     def removePlayer(self, name):
         for index in range(len(self.players)):
@@ -195,10 +201,21 @@ class Server():
                 return
         #Chat function
         if "!BROADCAST" in data:
-            message = data.split("!BROADCAST ")[1]
-            name = message.split(": ")[0]
-            if self.currentWord in message:
-                self.sendData(f"!BROADCAST SERVER: Player {name} guessed the word!", True)
+            data = data.split("!BROADCAST ")[1]
+            message = data.split(": ")[1]
+            name = data.split(": ")[0]
+            if self.currentWord.upper().strip() == message.upper().strip():
+                if name.upper().strip() == self.next_drawer.name.upper().strip():
+                     self.sendData("!BROADCAST SERVER: NO CHEATING!", True)
+                     return
+                else:
+                    self.sendData(f"!BROADCAST SERVER: Player {name} guessed the word!", True)
+                    end = time.time()
+                    timeratio = ((end-self.startTime)/self.roundLength)
+                    score = self.calculate_score(timeratio)
+                    self.updateScore(name, score)
+                    self.updateScore(self.next_drawer.name, int(score*0.2))
+                    return
             self.sendData(data, True, name)
             return
 
@@ -207,14 +224,21 @@ class Server():
             switches = data.split("!SETSWITCH ")[1]
             self.sendData("CLIENTCMD: !SETSWITCH " + switches, True, self.next_drawer.name)
 
+        if "!SETBRUSHSIZE" in data:
+            brush = data.split("!SETBRUSHSIZE ")[1]
+            self.sendData("CLIENTCMD: !SETBRUSHSIZE " + brush, True, self.next_drawer.name)
         #choose who is drawing 
         if "!DRAWERSELECT" in data:
+            if len(self.clientList) == 0:
+                print("No connected players to choose drawer from.")
+                return
             temp = random.choice(self.clientList)
             while temp == self.next_drawer:
                 temp = random.choice(self.clientList)
             self.next_drawer = temp
             #if self.next_drawer.name 
-            whosdrawing = ("CLIENTCMD: !DRAWERSELECT " + self.next_drawer.name)
+            whosdrawing = "CLIENTCMD: !DRAWERSELECT " + self.next_drawer.name
+            print("change drawer")
             self.sendData(whosdrawing, True)
             return   
 
@@ -242,10 +266,19 @@ class Server():
         if "!STARTROUND " in data:
             self.currentWord = data.split("!STARTROUND ")[1]
             print("Word set to: " + self.currentWord)
-            self.sendData("CLIENTCMD: !STARTROUND", True)
+            self.sendData("CLIENTCMD: !STARTROUND " + self.currentWord, True)
             #True, self.next_drawer.name)
             self.startTimer()
-
+    
+    def calculate_score(self,TimeRatio):
+        score = (1-TimeRatio)*(100)*(len(self.currentWord)/10)
+        return int(score)
+    
+    def updateScore(self, name, score):
+        temp = self.players
+        for player in range(len(temp)):
+            if temp[player][0] == name:
+                self.players[player][2] += score
 
     #Send data
     def sendData(self, data, all=False, playerName=None):

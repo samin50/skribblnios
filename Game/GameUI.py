@@ -40,6 +40,8 @@ class Game():
         self.players = [[username, avatar, 0, 0]]
         self.font = pygame.font.Font("Game/assets/Gameplay.TTF", 12)
         self.large_font =  pygame.font.Font("Game/assets/Gameplay.TTF", 16)
+        self.larger_font = pygame.font.Font("Game/assets/Gameplay.TTF", 22)
+        self.largest_font = pygame.font.Font("Game/assets/Gameplay.TTF", 30)
         self.paint_font = pygame.font.Font("Game/assets/paint.TTF", 35)
         self.FPGA = FPGAinstance
         self.Client = clientInstance
@@ -62,8 +64,11 @@ class Game():
         self.words = []
         self.word_choice = []
         self.word = ""
+        self.wordtoguessarray = []
+        self.usedIndexes = []
 
         self.score = 0
+        self.rank = 0
         #self.pointer.convert()
         #self.pointerRect = self.pointer.get_rect()
         #self.pointer_img = pygame.image.load("Game/assets/cursor.png")
@@ -163,34 +168,47 @@ class Game():
     def cursor(self):
         self.screen.blit(self.display, (0, 0))
 
-#***METHODS***#
+#***METHODS**#
+    
+    def show_word(self):
+        if self.Client is not None:
+            if self.Client.isDrawing():
+                disp_word = self.largest_font.render(self.word, True, (00,00,00))
+                disp_word_rect = disp_word.get_rect(x=self.width/2-100,y=35)
+                pygame.draw.rect(self.display,(255,255,255),disp_word_rect)
+                self.display.blit(disp_word,(self.width/2-100,35))
+        else:
+            disp_word = self.largest_font.render(self.word, True, (00,00,00))
+            disp_word_rect = disp_word.get_rect(x=self.width/2-100,y=35)
+            pygame.draw.rect(self.display,(255,255,255),disp_word_rect)
+            self.display.blit(disp_word,(self.width/2-100,35))
 
+#slowly reveals word
     def word_reveal(self,timeratio):
-        timeratio = 0.3  #will receive value
-        space = self.word(" ")
-
+        return
         wordlength = len(self.word)
-        wordtoguessarray = ['_']
-        for x in range(wordlength-1):
-            wordtoguessarray.insert(1,'_')
-        if space != -1:
-            wordtoguessarray[space] = " "
+        for x in range(wordlength):
+            if self.word[x] == ' ':
+                self.wordtoguessarray[x] = ' '
 
-        if timeratio == 0.45:
+        if timeratio == 0.2:
             y = random.randint(0,wordlength-1)
-            while y == space:
+            while y not in self.usedIndexes:
                 y = random.randint(0,wordlength-1)
-            z = self.word[y]
-            wordtoguessarray[y] = z
+            self.wordtoguessarray[y] = self.word[y]
+            self.usedIndexes.append(y)
 
-
-        if timeratio == 0.7 and wordlength > 3 :
-            w = random.randint(0,wordlength-1)
-            while w == y or w == space:
-                w = random.randint(0,wordlength-1)
-            z = self.word[w]
-            wordtoguessarray[w] = z
-
+        if timeratio == 0.6 and wordlength > 3 :
+            y = random.randint(0,wordlength-1)
+            while y not in self.usedIndexes:
+                y = random.randint(0,wordlength-1)
+            self.wordtoguessarray[y] = self.word[y]
+            self.usedIndexes.append(y)
+        word = ''.join(self.wordtoguessarray)
+        word_font = self.larger_font.render(word, True, (0,0,0))
+        disp_word_rect = word_font.get_rect(x=self.width/2-100,y=35)
+        pygame.draw.rect(self.display,(255,255,255),disp_word_rect)
+        self.display.blit(word_font,disp_word_rect)
 
 #Words from text file
     def getword(self):
@@ -291,13 +309,20 @@ class Game():
 #update brush size
 
     def size_update(self, is_increasing):
+        if self.Client is not None:
+            if not self.Client.isDrawing():
+                return
         print("Brush size:", self.brush_size)
         if is_increasing:
             self.brush_size+=2
         else:
             if self.brush_size>=3: 
                 self.brush_size-=2
-        print("New size:", self.brush_size)
+        self.sendServer("SERVERCMD: !SETBRUSHSIZE " + self.brush_size, True)
+    
+    def setBrush(self, size):
+        self.brush_size = size
+
 
 #scaling avatars:
     def avatar_scale(self):
@@ -494,7 +519,6 @@ class Game():
         return textbox'''
 #adding messages to list  
     def addOtherMessages(self, text):
-        print("added message")
         self.received_msgs.append(text)
 
 #typing
@@ -558,9 +582,12 @@ class Game():
     def endRound(self):
         self.round_not_started = True
     
-    def startRound(self):
+    def startRound(self, word="Test"):
         self.round_not_started = False
-        self.sendFPGA(f"R 0 0")
+        self.word = word
+        self.wordtoguessarray = ['_'] * len(self.word)
+        self.usedIndexes = []
+        self.sendFPGA(f"R {self.rank} {self.score}")
         self.resetTracker()
         self.reset_canvas(True)
 
@@ -652,6 +679,7 @@ class Game():
             if self.draw_timer == 1:
                 self.music_change()
             self.clock.tick(self.fps)
+            self.show_word()
             #self.switch_update()
 
             #self.random_draw()
@@ -697,11 +725,13 @@ class Game():
     
     def clearPlayers(self):
         self.players = []
-        print("CLEARED PLAYERS")
     
     def updatePlayers(self, playerdata):
-        self.players.append(playerdata)
-        print(self.players)
+        if playerdata not in self.players:
+            self.players.append(playerdata)
+        if playerdata[0] == self.username:
+            self.score = playerdata[2]
+            self.rank = playerdata[3]
 
 
 if __name__ == "__main__":
