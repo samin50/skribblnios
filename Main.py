@@ -280,7 +280,7 @@ class mainMenu():
             self.FPGA.start()
         self.Client.setGame(self.Game)
         self.fpga_connected = True
-        self.Game.wait_screen()#round_start()
+        self.Game.round_start()
         return
 
 if __name__ == "__main__":

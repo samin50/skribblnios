@@ -113,6 +113,7 @@ class Client():
                 self.sendGame("reset_canvas(True)")
                 return
             if "!STARTROUND" in data:
+                print("ROUND started")
                 self.sendGame("startRound()")
                 return
             if "!FINROUND" in data:
@@ -135,7 +136,10 @@ class Client():
     def sendGame(self, code):
         if self.Game is None:
             return
-        exec("self.Game." + code)
+        try:
+            exec("self.Game." + code)
+        except Exception as e:
+            print(e)
 
     def isDrawing(self):
         return self.isDrawer
