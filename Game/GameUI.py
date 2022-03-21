@@ -682,12 +682,7 @@ class Game():
                 if event.type == pygame.KEYUP:
                     self.sendServer("SERVERCMD: !RESETTRACKER", True)
                     self.draw_blit = False
-            if self.Client != None:
                 
-                    
-
-    def load_sprites(self):
-        None
     
     def sendServer(self, data, requiresDrawer=False):
         if self.Client is None:
