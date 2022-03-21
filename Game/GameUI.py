@@ -168,9 +168,10 @@ class Game():
 #***METHODS***#
     
     def show_word(self):
-        if self.Client.isDrawing():
-            disp_word = self.largest_font.render(self.word, True, (00,00,00))
-            self.display.blit(disp_word,(self.width/2-100,35))
+        if self.Client!=None:
+            if self.Client.isDrawing():
+                disp_word = self.largest_font.render(self.word, True, (00,00,00))
+                self.display.blit(disp_word,(self.width/2-100,35))
 
     def calculate_score(self,TimeRatio):
         score = (1-TimeRatio)*(100)*(len(self.word)/10)
@@ -657,6 +658,8 @@ class Game():
             if self.draw_timer == 1:
                 self.music_change()
             self.clock.tick(self.fps)
+
+            self.show_word()
             #self.switch_update()
 
             #self.random_draw()
