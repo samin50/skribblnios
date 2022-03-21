@@ -306,11 +306,11 @@ int main() {
 	waitForCommand(fp, 'I', 'I', &commandChar, &arg1, &arg2);
 	writeScore("start.");
 	ledWrite(0b1111111111);
-	//waitForCommand(fp, 'S', 'S', &commandChar, &arg1, &arg2);
+	waitForCommand(fp, 'S', 'S', &commandChar, &arg1, &arg2);
 	roundLength = arg1;		//Length of round will be stored into arg1
 	writeScore("------");
 	//Wait for round start
-	//waitForCommand(fp, 'R', 'R', &commandChar, &arg1, &arg2);
+	waitForCommand(fp, 'R', 'R', &commandChar, &arg1, &arg2);
 	fclose(fp);
 	//MAIN LOOP - Terminate loop when game end - command E
 	while (commandChar != 'E') {

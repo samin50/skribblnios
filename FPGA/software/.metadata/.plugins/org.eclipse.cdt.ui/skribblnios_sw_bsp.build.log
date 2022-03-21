@@ -1,6 +1,6 @@
-16:48:38 **** Incremental Build of configuration Nios II for project skribblnios_sw_bsp ****
+03:16:05 **** Incremental Build of configuration Nios II for project skribblnios_sw_bsp ****
 make all 
 [BSP build complete]
 
-16:48:39 Build Finished (took 808ms)
+03:16:06 Build Finished (took 949ms)
 
