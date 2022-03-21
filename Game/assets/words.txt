@@ -132,7 +132,6 @@ Paris
 Beach
 Mountains
 Hawaii
-Mount Rushmore
 USA
 Hospital
 Attic
@@ -164,7 +163,6 @@ Mailman
 Superman
 Justin Beiber
 Cowboy 
-Alexander Hamilton
 Robin Hood
 Vampire
 Pirate
@@ -175,13 +173,11 @@ Baby Yoda
 Pilgrim
 Cinderella
 Baker
-Abe Lincoln
 Thief
 Leprechaun
 Harry Potter
 Shrek
 Yoshi
-Queen Elizabeth
 Skip
 Burp
 Cook
