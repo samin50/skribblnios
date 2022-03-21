@@ -166,7 +166,7 @@ class Game():
     def cursor(self):
         self.screen.blit(self.display, (0, 0))
 
-#***METHODS***#
+#***METHODS**#
     
     def show_word(self):
         if self.Client!=None:
