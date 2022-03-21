@@ -411,10 +411,6 @@ class Game():
                 count += 1
             self.waitdisplay.blit(self.lobby_background[count],(0,0))
             #start_rect  = pygame.Rect(200,413,210,50)
-<<<<<<< HEAD
-=======
-            #pygame.draw.rect(self.waitdisplay,(0,0,0),(self.width/2-75,self.height-100,150,40),2)
->>>>>>> clientgame
             for i in range(len(self.players)):
                 username = self.large_font.render(self.players[i][0], True, (255,255,255))
                 avatar = (self.avatar_list[self.players[i][1]])
