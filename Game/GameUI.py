@@ -168,8 +168,13 @@ class Game():
 #***METHODS***#
     
     def show_word(self):
-        disp_word = self.largest_font.render(self.word, True, (00,00,00))
-        self.display.blit(disp_word,(self.width/2-100,35))
+        if self.Client.isDrawing():
+            disp_word = self.largest_font.render(self.word, True, (00,00,00))
+            self.display.blit(disp_word,(self.width/2-100,35))
+
+    def calculate_score(self,TimeRatio):
+        score = (1-TimeRatio)*(100)*(len(self.word)/10)
+        return int(score)
 
     def word_reveal(self,timeratio):
         timeratio = 0.3  #will receive value
@@ -215,8 +220,8 @@ class Game():
         for i in range(len(self.words_chosen)):
             self.events = pygame.event.get()
             #print(self.words_chosen)
-            word = self.large_font.render(self.words_chosen[i], True, (100,150,255))
-            word_rect = word.get_rect(x =(self.width/2-200)+(i*150),y =(self.height/2+180))
+            word = self.larger_font.render(self.words_chosen[i], True, (100,150,255))
+            word_rect = word.get_rect(x =(self.width/2-350)+(i*250),y =(self.height/2+180))
             self.waitdisplay.blit(word,word_rect)  
             self.word_collision(word,word_rect,i)
     
@@ -678,8 +683,7 @@ class Game():
                     self.sendServer("SERVERCMD: !RESETTRACKER", True)
                     self.draw_blit = False
             if self.Client != None:
-                if self.Client.isDrawing():
-                    self.show_word()
+                
                     
 
     def load_sprites(self):
