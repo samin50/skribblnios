@@ -40,6 +40,8 @@ class Game():
         self.players = [[username, avatar, 0, 0]]
         self.font = pygame.font.Font("Game/assets/Gameplay.TTF", 12)
         self.large_font =  pygame.font.Font("Game/assets/Gameplay.TTF", 16)
+        self.larger_font = pygame.font.Font("Game/assets/Gameplay.TTF", 22)
+        self.largest_font = pygame.font.Font("Game/assets/Gameplay.TTF", 30)
         self.paint_font = pygame.font.Font("Game/assets/paint.TTF", 35)
         self.FPGA = FPGAinstance
         self.Client = clientInstance
@@ -93,6 +95,7 @@ class Game():
         self.draw_timer = 0
         self.frame_counter = 0
 
+        self.wordtoguessarray = [] *len(self.word)
 #colours:
         self.colour_list = {"black": (0, 0, 0), "white": (255, 255, 255)}
         self.colours= [[0,0,0],[0,0,0],[0,0,0]] # 3-bit binary value representing colour switch state
@@ -164,32 +167,57 @@ class Game():
         self.screen.blit(self.display, (0, 0))
 
 #***METHODS***#
+    
+    def show_word(self):
+        if self.Client!=None:
+            if self.Client.isDrawing():
+                disp_word = self.largest_font.render(self.word, True, (00,00,00))
+                disp_word_rect = disp_word.get_rect(x=self.width/2-100,y=35)
+                pygame.draw.rect(self.display,(255,255,255),disp_word_rect)
+                self.display.blit(disp_word,(self.width/2-100,35))
+            else:
+                self.disp_word_reveal()
 
+    def calculate_score(self,TimeRatio):
+        score = (1-TimeRatio)*(100)*(len(self.word)/10)
+        return int(score)
+
+#slowly reveals word
     def word_reveal(self,timeratio):
-        timeratio = 0.3  #will receive value
-        space = self.word(" ")
-
+        space = 0
         wordlength = len(self.word)
-        wordtoguessarray = ['_']
+        self.wordtoguessarray = ['_']
         for x in range(wordlength-1):
-            wordtoguessarray.insert(1,'_')
+            self.wordtoguessarray.insert(1,'_')
         if space != -1:
-            wordtoguessarray[space] = " "
+            self.wordtoguessarray[space] = " "
 
-        if timeratio == 0.45:
+        if timeratio == 0.2:
             y = random.randint(0,wordlength-1)
             while y == space:
                 y = random.randint(0,wordlength-1)
             z = self.word[y]
-            wordtoguessarray[y] = z
-
-
-        if timeratio == 0.7 and wordlength > 3 :
+            self.wordtoguessarray[y] = z
+        y = random.randint(0,wordlength-1)
+        if timeratio == 0.6 and wordlength > 3 :
+            y = random.randint(0,wordlength-1)
+            while y == space:
+                y = random.randint(0,wordlength-1)
+            z = self.word[y]
             w = random.randint(0,wordlength-1)
+            self.wordtoguessarray[y] = z
             while w == y or w == space:
                 w = random.randint(0,wordlength-1)
             z = self.word[w]
-            wordtoguessarray[w] = z
+            self.wordtoguessarray[w] = z
+
+    def disp_word_reveal(self):
+        word = ''.join(self.wordtoguessarray)
+        print(word)
+        word_font = self.larger_font.render(word, True, (0,0,0))
+        disp_word_rect = word_font.get_rect(x=self.width/2-100,y=35)
+        pygame.draw.rect(self.display,(255,255,255),disp_word_rect)
+        self.display.blit(word_font,disp_word_rect)
 
 
 #Words from text file
@@ -209,19 +237,19 @@ class Game():
         for i in range(len(self.words_chosen)):
             self.events = pygame.event.get()
             #print(self.words_chosen)
-            word = self.large_font.render(self.words_chosen[i], True, (100,150,255))
-            word_rect = word.get_rect(x =(self.width/2-200)+(i*150),y =(self.height/2+180))
+            word = self.larger_font.render(self.words_chosen[i], True, (100,150,255))
+            word_rect = word.get_rect(x =(self.width/2-350)+(i*250),y =(self.height/2+180))
             self.waitdisplay.blit(word,word_rect)  
             self.word_collision(word,word_rect,i)
     
     def word_collision(self,word,word_rect,index):
 
         word0 = self.large_font.render(self.words_chosen[0], True, (100,150,255))
-        word0_rect = word.get_rect(x =(self.width/2-200)+(0*150),y =(self.height/2+180))
-        word1 = self.large_font.render(self.words_chosen[1], True, (100,150,255))
-        word1_rect = word.get_rect(x =(self.width/2-200)+(1*150),y =(self.height/2+180))
-        word2 = self.large_font.render(self.words_chosen[2], True, (100,150,255))
-        word2_rect = word.get_rect(x =(self.width/2-200)+(2*150),y =(self.height/2+180))
+        word0_rect = word.get_rect(x =(self.width/2-350)+(0*250),y =(self.height/2+180))
+        #word1 = self.large_font.render(self.words_chosen[1], True, (100,150,255))
+        word1_rect = word.get_rect(x =(self.width/2-350)+(1*250),y =(self.height/2+180))
+        #word2 = self.large_font.render(self.words_chosen[2], True, (100,150,255))
+        word2_rect = word.get_rect(x =(self.width/2-350)+(2*250),y =(self.height/2+180))
 
         mouse  = pygame.mouse.get_pos()
         #pygame.draw.rect(self.display,(255,255,255),word_rect)
@@ -374,7 +402,6 @@ class Game():
         self.choose_word()
         #pygame.clock.clock
         count = 1
-        self.waitdisplay.fill((255,255,255))
         while self.round_not_started:
             pygame.time.Clock().tick(6)
             #pygame.event.get()
@@ -384,6 +411,10 @@ class Game():
                 count += 1
             self.waitdisplay.blit(self.lobby_background[count],(0,0))
             #start_rect  = pygame.Rect(200,413,210,50)
+<<<<<<< HEAD
+=======
+            #pygame.draw.rect(self.waitdisplay,(0,0,0),(self.width/2-75,self.height-100,150,40),2)
+>>>>>>> clientgame
             for i in range(len(self.players)):
                 username = self.large_font.render(self.players[i][0], True, (255,255,255))
                 avatar = (self.avatar_list[self.players[i][1]])
@@ -477,7 +508,7 @@ class Game():
         for i in range (len(self.received_msgs)):
             #pygame.display.blit
             text_surface = self.font.render(self.received_msgs[i],False,(0, 0, 0))
-            self.display.blit(text_surface, dest=(self.width-300,100+(30*i)))
+            self.display.blit(text_surface, dest=(self.width-390,100+(30*i)))
             #textbox = Textbox(self.received_msgs[i])
             #textbox.rect.center = (self.width-170,100+(30*i))
             #self.display.blit(textbox.message, textbox.rect)
@@ -610,6 +641,7 @@ class Game():
         self.background=pygame.transform.scale(self.background,(self.width,self.height))
         #self.display.blit(self.lobby_background[0],(0,0))
         self.display.blit(self.background,(0,0))
+        self.wordtoguessarray = ["_"] *len(self.word)
         
 #switches:
         self.switch_img_scale()
@@ -627,7 +659,9 @@ class Game():
         self.renderSwitch()
         while self.run:
             self.display_timer()
-            pygame.display.update()
+            #pygame.display.update()
+            
+
 
             pygame.draw.rect(self.display,self.brush_colour,(30,self.height-67,30,60)) #pallet preview
             pygame.draw.rect(self.display,(0,0,0),(30,self.height-67,30,60),2)
@@ -646,6 +680,8 @@ class Game():
             if self.draw_timer == 1:
                 self.music_change()
             self.clock.tick(self.fps)
+
+            self.show_word()
             #self.switch_update()
 
             #self.random_draw()
@@ -671,10 +707,7 @@ class Game():
                 if event.type == pygame.KEYUP:
                     self.sendServer("SERVERCMD: !RESETTRACKER", True)
                     self.draw_blit = False
-                    
-
-    def load_sprites(self):
-        None
+                
     
     def sendServer(self, data, requiresDrawer=False):
         if self.Client is None:
