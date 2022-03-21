@@ -228,11 +228,11 @@ class Game():
     def word_collision(self,word,word_rect,index):
 
         word0 = self.large_font.render(self.words_chosen[0], True, (100,150,255))
-        word0_rect = word.get_rect(x =(self.width/2-200)+(0*150),y =(self.height/2+180))
-        word1 = self.large_font.render(self.words_chosen[1], True, (100,150,255))
-        word1_rect = word.get_rect(x =(self.width/2-200)+(1*150),y =(self.height/2+180))
-        word2 = self.large_font.render(self.words_chosen[2], True, (100,150,255))
-        word2_rect = word.get_rect(x =(self.width/2-200)+(2*150),y =(self.height/2+180))
+        word0_rect = word.get_rect(x =(self.width/2-350)+(0*250),y =(self.height/2+180))
+        #word1 = self.large_font.render(self.words_chosen[1], True, (100,150,255))
+        word1_rect = word.get_rect(x =(self.width/2-350)+(1*250),y =(self.height/2+180))
+        #word2 = self.large_font.render(self.words_chosen[2], True, (100,150,255))
+        word2_rect = word.get_rect(x =(self.width/2-350)+(2*250),y =(self.height/2+180))
 
         mouse  = pygame.mouse.get_pos()
         #pygame.draw.rect(self.display,(255,255,255),word_rect)
