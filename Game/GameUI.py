@@ -40,6 +40,8 @@ class Game():
         self.players = [[username, avatar, 0, 0]]
         self.font = pygame.font.Font("Game/assets/Gameplay.TTF", 12)
         self.large_font =  pygame.font.Font("Game/assets/Gameplay.TTF", 16)
+        self.larger_font = pygame.font.Font("Game/assets/Gameplay.TTF", 22)
+        self.largest_font = pygame.font.Font("Game/assets/Gameplay.TTF", 30)
         self.paint_font = pygame.font.Font("Game/assets/paint.TTF", 35)
         self.FPGA = FPGAinstance
         self.Client = clientInstance
@@ -164,6 +166,10 @@ class Game():
         self.screen.blit(self.display, (0, 0))
 
 #***METHODS***#
+    
+    def show_word(self):
+        disp_word = self.largest_font.render(self.word, True, (00,00,00))
+        self.display.blit(disp_word,(self.width/2-100,35))
 
     def word_reveal(self,timeratio):
         timeratio = 0.3  #will receive value
@@ -476,7 +482,7 @@ class Game():
         for i in range (len(self.received_msgs)):
             #pygame.display.blit
             text_surface = self.font.render(self.received_msgs[i],False,(0, 0, 0))
-            self.display.blit(text_surface, dest=(self.width-300,100+(30*i)))
+            self.display.blit(text_surface, dest=(self.width-390,100+(30*i)))
             #textbox = Textbox(self.received_msgs[i])
             #textbox.rect.center = (self.width-170,100+(30*i))
             #self.display.blit(textbox.message, textbox.rect)
@@ -625,7 +631,9 @@ class Game():
         self.renderSwitch()
         while self.run:
             self.display_timer()
-            pygame.display.update()
+            #pygame.display.update()
+            
+
 
             pygame.draw.rect(self.display,self.brush_colour,(30,self.height-67,30,60)) #pallet preview
             pygame.draw.rect(self.display,(0,0,0),(30,self.height-67,30,60),2)
@@ -669,6 +677,9 @@ class Game():
                 if event.type == pygame.KEYUP:
                     self.sendServer("SERVERCMD: !RESETTRACKER", True)
                     self.draw_blit = False
+            if self.Client != None:
+                if self.Client.isDrawing():
+                    self.show_word()
                     
 
     def load_sprites(self):
