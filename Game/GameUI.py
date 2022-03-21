@@ -95,6 +95,7 @@ class Game():
         self.draw_timer = 0
         self.frame_counter = 0
 
+        self.wordtoguessarray = [] *len(self.word)
 #colours:
         self.colour_list = {"black": (0, 0, 0), "white": (255, 255, 255)}
         self.colours= [[0,0,0],[0,0,0],[0,0,0]] # 3-bit binary value representing colour switch state
@@ -171,37 +172,52 @@ class Game():
         if self.Client!=None:
             if self.Client.isDrawing():
                 disp_word = self.largest_font.render(self.word, True, (00,00,00))
+                disp_word_rect = disp_word.get_rect(x=self.width/2-100,y=35)
+                pygame.draw.rect(self.display,(255,255,255),disp_word_rect)
                 self.display.blit(disp_word,(self.width/2-100,35))
+            else:
+                self.disp_word_reveal()
 
     def calculate_score(self,TimeRatio):
         score = (1-TimeRatio)*(100)*(len(self.word)/10)
         return int(score)
 
+#slowly reveals word
     def word_reveal(self,timeratio):
-        timeratio = 0.3  #will receive value
-        space = self.word(" ")
-
+        space = 0
         wordlength = len(self.word)
-        wordtoguessarray = ['_']
+        self.wordtoguessarray = ['_']
         for x in range(wordlength-1):
-            wordtoguessarray.insert(1,'_')
+            self.wordtoguessarray.insert(1,'_')
         if space != -1:
-            wordtoguessarray[space] = " "
+            self.wordtoguessarray[space] = " "
 
-        if timeratio == 0.45:
+        if timeratio == 0.2:
             y = random.randint(0,wordlength-1)
             while y == space:
                 y = random.randint(0,wordlength-1)
             z = self.word[y]
-            wordtoguessarray[y] = z
-
-
-        if timeratio == 0.7 and wordlength > 3 :
+            self.wordtoguessarray[y] = z
+        y = random.randint(0,wordlength-1)
+        if timeratio == 0.6 and wordlength > 3 :
+            y = random.randint(0,wordlength-1)
+            while y == space:
+                y = random.randint(0,wordlength-1)
+            z = self.word[y]
             w = random.randint(0,wordlength-1)
+            self.wordtoguessarray[y] = z
             while w == y or w == space:
                 w = random.randint(0,wordlength-1)
             z = self.word[w]
-            wordtoguessarray[w] = z
+            self.wordtoguessarray[w] = z
+
+    def disp_word_reveal(self):
+        word = ''.join(self.wordtoguessarray)
+        print(word)
+        word_font = self.larger_font.render(word, True, (0,0,0))
+        disp_word_rect = word_font.get_rect(x=self.width/2-100,y=35)
+        pygame.draw.rect(self.display,(255,255,255),disp_word_rect)
+        self.display.blit(word_font,disp_word_rect)
 
 
 #Words from text file
@@ -386,7 +402,6 @@ class Game():
         self.choose_word()
         #pygame.clock.clock
         count = 1
-        self.waitdisplay.fill((255,255,255))
         while self.round_not_started:
             pygame.time.Clock().tick(6)
             if count>5:
@@ -395,10 +410,10 @@ class Game():
                 count += 1
             self.waitdisplay.blit(self.lobby_background[count],(0,0))
             #start_rect  = pygame.Rect(200,413,210,50)
-            pygame.draw.rect(self.waitdisplay,(0,0,0),(self.width/2-75,self.height-100,150,40),2)
+            #pygame.draw.rect(self.waitdisplay,(0,0,0),(self.width/2-75,self.height-100,150,40),2)
             for i in range(len(self.players)):
                 username = self.large_font.render(self.players[i][0], True, (255,255,255))
-                avatar = (self.avatar_list[self.players[i][1]]).convert()
+                avatar = (self.avatar_list[self.players[i][1]])
                 score = self.large_font.render("Score: "+str(self.players[i][2]), True, (255,255,255))
                 self.waitdisplay.blit(avatar,((self.width/2-500)+i*200,self.height/2-130))
                 self.waitdisplay.blit(username,((self.width/2-500)+i*200,self.height/2+20))
@@ -620,6 +635,7 @@ class Game():
         self.background=pygame.transform.scale(self.background,(self.width,self.height))
         #self.display.blit(self.lobby_background[0],(0,0))
         self.display.blit(self.background,(0,0))
+        self.wordtoguessarray = ["_"] *len(self.word)
         
 #switches:
         self.switch_img_scale()
