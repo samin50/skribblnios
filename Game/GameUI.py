@@ -685,7 +685,6 @@ class Game():
     def sendServer(self, data, requiresDrawer=False):
         if self.Client is None:
             return
-        print("sending +" + data)
         self.Client.sendServer(data, requiresDrawer)
     
     def sendFPGA(self, data):
