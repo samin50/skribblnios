@@ -1934,3 +1934,132 @@ Info: Building ../skribblnios_sw_bsp/
 C:/intelFPGA_lite/18.0/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../skribblnios_sw_bsp/
 [BSP build complete]
 [skribblnios_sw build complete]
+15:28:24 **** Incremental Build of configuration Nios II for project skribblnios_sw_bsp ****
+make all 
+Makefile not up to date.
+settings.bsp has been modified since the BSP Makefile was generated.
+
+Generate the BSP to update the Makefile, and then build again.
+
+To generate from Eclipse:
+ 1. Right-click the BSP project.
+ 2. In the Nios II Menu, click Generate BSP.
+
+To generate from the command line:
+ nios2-bsp-generate-files --settings=<settings file> --bsp-dir=<target bsp files directory>
+
+make: *** [makefile] Error 1
+15:28:25 **** Build of configuration Nios II for project skribblnios_sw ****
+make all 
+Info: Building ../skribblnios_sw_bsp/
+C:/intelFPGA_lite/18.0/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../skribblnios_sw_bsp/
+Makefile not up to date.
+settings.bsp has been modified since the BSP Makefile was generated.
+
+Generate the BSP to update the Makefile, and then build again.
+
+To generate from Eclipse:
+ 1. Right-click the BSP project.
+ 2. In the Nios II Menu, click Generate BSP.
+
+To generate from the command line:
+ nios2-bsp-generate-files --settings=<settings file> --bsp-dir=<target bsp files directory>
+
+make[1]: *** [makefile] Error 1
+make: *** [../skribblnios_sw_bsp/-recurs-make-lib] Error 2
+15:28:27 **** Incremental Build of configuration Nios II for project skribblnios_sw_bsp ****
+make all 
+Makefile not up to date.
+settings.bsp has been modified since the BSP Makefile was generated.
+
+Generate the BSP to update the Makefile, and then build again.
+
+To generate from Eclipse:
+ 1. Right-click the BSP project.
+ 2. In the Nios II Menu, click Generate BSP.
+
+To generate from the command line:
+ nios2-bsp-generate-files --settings=<settings file> --bsp-dir=<target bsp files directory>
+
+make: *** [makefile] Error 1
+15:28:28 **** Incremental Build of configuration Nios II for project skribblnios_sw_bsp ****
+make all 
+Makefile not up to date.
+settings.bsp has been modified since the BSP Makefile was generated.
+
+Generate the BSP to update the Makefile, and then build again.
+
+To generate from Eclipse:
+ 1. Right-click the BSP project.
+ 2. In the Nios II Menu, click Generate BSP.
+
+To generate from the command line:
+ nios2-bsp-generate-files --settings=<settings file> --bsp-dir=<target bsp files directory>
+
+make: *** [makefile] Error 1
+15:28:29 **** Incremental Build of configuration Nios II for project skribblnios_sw ****
+make all 
+Info: Building ../skribblnios_sw_bsp/
+C:/intelFPGA_lite/18.0/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../skribblnios_sw_bsp/
+Makefile not up to date.
+settings.bsp has been modified since the BSP Makefile was generated.
+
+Generate the BSP to update the Makefile, and then build again.
+
+To generate from Eclipse:
+ 1. Right-click the BSP project.
+ 2. In the Nios II Menu, click Generate BSP.
+
+To generate from the command line:
+ nios2-bsp-generate-files --settings=<settings file> --bsp-dir=<target bsp files directory>
+
+make[1]: *** [makefile] Error 1
+make: *** [../skribblnios_sw_bsp/-recurs-make-lib] Error 2
+15:28:48 **** Incremental Build of configuration Nios II for project skribblnios_sw_bsp ****
+make all 
+[BSP build complete]
+15:28:49 **** Build of configuration Nios II for project skribblnios_sw ****
+make all 
+Command canceled
+15:28:54 **** Incremental Build of configuration Nios II for project skribblnios_sw_bsp ****
+make all 
+[BSP build complete]
+15:28:55 **** Build of configuration Nios II for project skribblnios_sw ****
+make all 
+Info: Building ../skribblnios_sw_bsp/
+C:/intelFPGA_lite/18.0/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../skribblnios_sw_bsp/
+[BSP build complete]
+[skribblnios_sw build complete]
+15:28:56 **** Incremental Build of configuration Nios II for project skribblnios_sw_bsp ****
+make all 
+[BSP build complete]
+15:28:57 **** Incremental Build of configuration Nios II for project skribblnios_sw_bsp ****
+make all 
+[BSP build complete]
+15:28:58 **** Incremental Build of configuration Nios II for project skribblnios_sw ****
+make all 
+Info: Building ../skribblnios_sw_bsp/
+C:/intelFPGA_lite/18.0/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../skribblnios_sw_bsp/
+[BSP build complete]
+[skribblnios_sw build complete]
+01:57:47 **** Incremental Build of configuration Nios II for project skribblnios_sw_bsp ****
+make all 
+[BSP build complete]
+01:57:48 **** Build of configuration Nios II for project skribblnios_sw ****
+make all 
+Info: Building ../skribblnios_sw_bsp/
+C:/intelFPGA_lite/18.0/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../skribblnios_sw_bsp/
+[BSP build complete]
+[skribblnios_sw build complete]
+01:57:50 **** Incremental Build of configuration Nios II for project skribblnios_sw_bsp ****
+make all 
+[BSP build complete]
+01:57:51 **** Incremental Build of configuration Nios II for project skribblnios_sw_bsp ****
+make all 
+[BSP build complete]
+01:57:52 **** Incremental Build of configuration Nios II for project skribblnios_sw ****
+make all 
+Info: Building ../skribblnios_sw_bsp/
+C:/intelFPGA_lite/18.0/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../skribblnios_sw_bsp/
+[BSP build complete]
+[skribblnios_sw build complete]

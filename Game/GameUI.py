@@ -65,7 +65,8 @@ class Game():
         self.word_choice = []
         self.word = ""
         self.wordtoguessarray = []
-        self.usedIndexes = []
+        self.usedIndex = []
+        
 
         self.score = 0
         self.rank = 0
@@ -171,17 +172,22 @@ class Game():
 #***METHODS**#
     
     def show_word(self):
+        #disp_word = self.largest_font.render((()*len(self.word)), True, (00,00,00))
+        #disp_word_rect = pygame.rect(x=self.width/2-100,y=35)
+        word_box =pygame.Rect(0,0,self.canvas_width,50)
+        word_box.center = (self.width/2.6,50)
+        pygame.draw.rect(self.display,(136, 194, 246),word_box)
         if self.Client is not None:
             if self.Client.isDrawing():
                 disp_word = self.largest_font.render(self.word, True, (00,00,00))
                 disp_word_rect = disp_word.get_rect(x=self.width/2-100,y=35)
                 pygame.draw.rect(self.display,(255,255,255),disp_word_rect)
                 self.display.blit(disp_word,(self.width/2-100,35))
-        else:
-            disp_word = self.largest_font.render(self.word, True, (00,00,00))
-            disp_word_rect = disp_word.get_rect(x=self.width/2-100,y=35)
-            pygame.draw.rect(self.display,(255,255,255),disp_word_rect)
-            self.display.blit(disp_word,(self.width/2-100,35))
+            else:
+                disp_word = self.largest_font.render((("_")*len(self.word)), True, (00,00,00))
+                disp_word_rect = disp_word.get_rect(x=self.width/2-100,y=35)
+                pygame.draw.rect(self.display,(255,255,255),disp_word_rect)
+                self.display.blit(disp_word,(self.width/2-100,35))
 
 #slowly reveals word
     def word_reveal(self,timeratio):
@@ -193,17 +199,22 @@ class Game():
 
         if timeratio == 0.2:
             y = random.randint(0,wordlength-1)
-            while y not in self.usedIndexes:
+            while (y in self.usedIndex) | (y == x):
                 y = random.randint(0,wordlength-1)
+            if y not in self.usedIndex:
+                self.usedIndex.append(y)
+            
             self.wordtoguessarray[y] = self.word[y]
-            self.usedIndexes.append(y)
 
         if timeratio == 0.6 and wordlength > 3 :
             y = random.randint(0,wordlength-1)
-            while y not in self.usedIndexes:
+            while (y in self.usedIndex) | (y == x):
                 y = random.randint(0,wordlength-1)
+            if y not in self.usedIndex:
+                self.usedIndex.append(y)
+            
             self.wordtoguessarray[y] = self.word[y]
-            self.usedIndexes.append(y)
+            self.usedIndex.append(y)
         word = ''.join(self.wordtoguessarray)
         word_font = self.larger_font.render(word, True, (0,0,0))
         disp_word_rect = word_font.get_rect(x=self.width/2-100,y=35)
@@ -300,7 +311,7 @@ class Game():
 #Display timer
     def display_timer(self):
         self.display.blit(self.timer_img,(8,10))
-        timer_disp = self.paint_font.render(str(self.time),True,(255,255,255))
+        timer_disp = self.paint_font.render(str(self.brush_size),True,(255,255,255))
         self.display.blit(timer_disp,(37,60))
         #timer_rect = pygame.Rect(10,10,100,100)
         #pygame.draw.rect(self.display,(random.randint(0,255),0,0),timer_rect)
@@ -505,7 +516,7 @@ class Game():
         for i in range (len(self.received_msgs)):
             #pygame.display.blit
             text_surface = self.font.render(self.received_msgs[i],False,(0, 0, 0))
-            self.display.blit(text_surface, dest=(self.width-300,100+(30*i)))
+            self.display.blit(text_surface, dest=(self.width-380,100+(30*i)))
             #textbox = Textbox(self.received_msgs[i])
             #textbox.rect.center = (self.width-170,100+(30*i))
             #self.display.blit(textbox.message, textbox.rect)
@@ -527,7 +538,7 @@ class Game():
         chat_clock = pygame.time.Clock()
         textbox = Textbox("Type to chat")
         textbox.upper_case = False
-        textbox.rect.center = (self.width-260,self.height-100)
+        textbox.rect.center = (self.width-325,self.height-100)
         self.chatbox.center = (self.width/1.18,self.height/2)
         self.redraw_chat(textbox)
         while True:
@@ -564,7 +575,7 @@ class Game():
                             self.received_msgs.append((self.username+":  "+textbox.text))
                             self.sendServer("SERVERCMD: !BROADCAST "+ self.username + ": " + textbox.text)
                             textbox = Textbox("Type to chat")
-                            textbox.rect.center = (self.width-170,self.height-100)
+                            textbox.rect.center = (self.width-325,self.height-100)
                             self.refresh_textbox()
                     if event.type == pygame.QUIT:
                         pygame.quit()
@@ -586,7 +597,7 @@ class Game():
         self.round_not_started = False
         self.word = word
         self.wordtoguessarray = ['_'] * len(self.word)
-        self.usedIndexes = []
+        self.usedIndex = []
         self.sendFPGA(f"R {self.rank} {self.score}")
         self.resetTracker()
         self.reset_canvas(True)
@@ -723,15 +734,25 @@ class Game():
     def resetTracker(self):
         self.drawPoints = [(None, None), (None, None), 0]
     
-    def clearPlayers(self):
-        self.players = []
-    
-    def updatePlayers(self, playerdata):
-        if playerdata not in self.players:
-            self.players.append(playerdata)
-        if playerdata[0] == self.username:
-            self.score = playerdata[2]
-            self.rank = playerdata[3]
+    def updatePlayers(self, name, avatar, score, position):
+        #Add new players
+        playerPresent = False
+        for player in self.players:
+            if player[0] == name:
+                playerPresent = True
+        #Add new players
+        if not playerPresent:
+            self.players.append([name, int(avatar), int(score), int(position)])
+        temp = self.players
+        #update player
+        for player in range(len(temp)):
+            if temp[player][0] == name:
+                self.players[player][2] = int(score)
+                self.players[player][3] = int(position)
+
+        if name == self.username:
+            self.score = score
+            self.rank = position
 
 
 if __name__ == "__main__":

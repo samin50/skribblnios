@@ -12,7 +12,7 @@ class Client():
         self.server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
         self.server.settimeout(600)
-        self.isDrawer = False
+        self.isDrawer = True # Had to set true by default to avoid weird server behaviour
         self.isActive = True
         self.server.connect((ip, port))
         self.isActive = True
@@ -123,7 +123,8 @@ class Client():
                 return
             if "!UPDATEPLAYERS" in data:
                 playerdata = data.split("!UPDATEPLAYERS ")[1]
-                codeStr = f"updatePlayers({playerdata.strip()})"
+                player = playerdata.split(" ")
+                codeStr = f"updatePlayers('{player[0]}', {player[1]}, {player[2]}, {player[3].strip()})"
                 print(codeStr)
                 self.sendGame(codeStr)
                 return

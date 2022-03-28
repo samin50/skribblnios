@@ -74,9 +74,11 @@ class Server():
         self.server.settimeout(3600)
         self.isActive = True
         self.players = []
+        self.firstRound = True
         try:
             self.address = urllib.request.urlopen('https://ident.me').read().decode('utf-8')
-            self.server.bind(("0.0.0.0", PORT))
+            #self.server.bind(("0.0.0.0", PORT))
+            self.server.bind((self.address, PORT))
         except Exception as e:
             print(e)
             print(f"Failed to bind to public IP: {self.address}, will now try binding to local IP.")
@@ -95,6 +97,14 @@ class Server():
         self.timer_thread.start() 
 
     def roundTimer(self):
+        #First round is setup roumd
+        if self.firstRound:
+            self.sendData("CLIENTCMD: !ROUNDTIME 0" , True, self.next_drawer.name)
+            time.sleep(0.1)
+            self.sendData("CLIENTCMD: !FINROUND " , True)
+            self.processServerSide("SERVERCMD: !DRAWERSELECT")
+            self.firstRound = False
+            return
         self.startTime = time.time()
         self.sendData("CLIENTCMD: !ROUNDTIME 0" , True, self.next_drawer.name)
         time.sleep(self.roundLength*0.2)
@@ -103,13 +113,11 @@ class Server():
         self.sendData("CLIENTCMD: !ROUNDTIME 0.6" , True, self.next_drawer.name)
         time.sleep(self.roundLength*0.4)
         self.sendData("CLIENTCMD: !FINROUND " , True)
-        self.processServerSide("SERVERCMD: !DRAWERSELECT")
         self.updatePlayers()
+        self.processServerSide("SERVERCMD: !DRAWERSELECT")
     
     def addPlayer(self, name, avatar):
         self.players.append([name, avatar, 0, 0])
-        self.updatePlayers()
-        self.sendData("CLIENTCMD: !DRAWERSELECT " + name, True)
         for i in self.clientList:
             if i.name == name:
                 self.next_drawer = i
@@ -117,10 +125,13 @@ class Server():
     
     def updatePlayers(self):
         print("UPDATE PLAYERS")
-        self.sendData("CLIENTCMD: !CLEARPLAYERS " , True)
-        self.players = self.sortPlayers(self.players)
+        temp = self.players
+        self.players = self.sortPlayers(temp)
         for playerdata in self.players:
-            self.sendData(f"CLIENTCMD: !UPDATEPLAYERS {str(playerdata)}", True)
+            data = " ".join(str(i) for i in playerdata)
+            print(f"CMD: CLIENTCMD: !UPDATEPLAYERS {data}")
+            self.sendData(f"CLIENTCMD: !UPDATEPLAYERS {data}", True)
+            time.sleep(0.1)
     
     def removePlayer(self, name):
         for index in range(len(self.players)):
@@ -147,10 +158,11 @@ class Server():
                 conn.send(str.encode(self.welcomeMessage, 'utf-8'))
                 conn.send(str.encode(self.timeStr, 'utf-8'))
                 print("New Player Joined!\n")
+                """
                 if(len(self.clientList) == 1 ):
                     self.next_drawer = self.clientList[0]
                     conn.send(str.encode(self.setFirstCmd, 'utf-8'))  #set first drawer
-            
+                """
                 
             except Exception as e:
                 print(e)
@@ -245,7 +257,6 @@ class Server():
             self.next_drawer = temp
             #if self.next_drawer.name 
             whosdrawing = "CLIENTCMD: !DRAWERSELECT " + self.next_drawer.name
-            print("change drawer")
             self.sendData(whosdrawing, True)
             return   
 
@@ -275,6 +286,7 @@ class Server():
             print("Word set to: " + self.currentWord)
             self.sendData("CLIENTCMD: !STARTROUND " + self.currentWord, True)
             #True, self.next_drawer.name)
+            #self.updatePlayers()
             self.startTimer()
     
     def calculate_score(self,TimeRatio):
@@ -285,7 +297,7 @@ class Server():
         temp = self.players
         for player in range(len(temp)):
             if temp[player][0] == name:
-                self.players[player][2] += score
+                self.players[player][2] += int(score)
 
     #Send data
     def sendData(self, data, all=False, playerName=None):
